@@ -2,7 +2,7 @@ from platform import platform
 import pymongo
 
 
-class MongoVisitor:
+class MongoDatabase:
     
     def __init__(self):
         return

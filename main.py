@@ -1,8 +1,9 @@
 from flask      import Flask, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
-from _Database  import MongoVisitor
+from _Database  import MongoDatabase
 from _TableData import TableData
 from _ExcelVisitor import ExcelVisitor
 from _JsonVisitor  import JSON
+from _Redis import RedisCache
 import sys
 import uuid
 import hashlib
@@ -30,6 +31,7 @@ def hash_id(filename, hash_method=None):
     return c.hexdigest()
 
 if __name__ == "__main__":
+
     config={
         "tb_name" : "2020年二季度.xlsx",
         "db_host" : 'localhost',
@@ -49,13 +51,23 @@ if __name__ == "__main__":
     tableData = TableData(tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table)
     tableDict = tableData.to_dict()
 
+    # Try save variable into redis
+    r = RedisCache()
+    r.start()
+    r.save(hash_id(config["tb_name"]), tableData)
+    temp_redisLoad = r.load(hash_id(config["tb_name"]))
+    JSON.save(temp_redisLoad, JSON.PATH+"temp.json")
+    
+    sys.exit(0)
+
     # Store to database
-    db = MongoVisitor()
+    db = MongoDatabase()
     db.start(host=config['db_host'], port=config['db_port'], name=config['db_name'],clear=True)
     db.insert(collection=config['collection_name'], data=tableDict, _id=hash_id(config["tb_name"]))
-    temp = db.extract(collection=config['collection_name'],_id=hash_id(config["tb_name"]))
-    JSON.save(temp, JSON.PATH+"temp.json")
+    temp_mongoLoad = db.extract(collection=config['collection_name'],_id=hash_id(config["tb_name"]))
+    JSON.save(temp_mongoLoad, JSON.PATH+"temp.json")
     db.close()
 
     sys.exit(0)    
+
     app.run(host='0.0.0.0', port=5000, debug=True)
