@@ -1,24 +1,27 @@
-import datetime
-
 class TableData:
     """
     Usage:
         tbname = "2020年二季度"
         titles = ["行号","项目号","子账户","账户名","分账户","账户名","受理人","金额"]
         rows   = [["733101","213123","A","XXXX","A1","XXXX","小S",None],
-                ["733121","123123","A","XXXX","A1","XXXX","小B","321"],
-                ["733131","123123","B","YYYY","B1","YYYY 1",None,"123"],
-                ["733141","123123","B","YYYY",None,None,None,"123"],
-                ["733151","1231231","B","YYYY","B3","YYYY 3","小B",None]]
-
-        tb_data = TableData(tb_name= tbname, titles=titles, rows=rows)
+                  ["733121","123123","A","XXXX","A1","XXXX","小B","321"],
+                  ["733131","123123","B","YYYY","B1","YYYY 1",None,"123"],
+                  ["733141","123123","B","YYYY",None,None,None,"123"],
+                  ["733151","1231231","B","YYYY","B3","YYYY 3","小B",None]]
+        operators = [[None, None],
+                     [小明, 2020.02.11-23:32:10],
+                     [小花, 2020.03.12-23:32:10],
+                     [小百, 2020.04.13-23:32:10],
+                     [None, None]]
+        tb_data = TableData(tb_name= tbname, titles=titles, rows=rows, operators=operators)
     """
 
     tb_name  = None
     titles   = None
     rows     = []
 
-    def __init__(self, tb_name, titles, rows):
+
+    def __init__(self, tb_name, titles, rows, operators=None):
         """
         tb_name :   the file name here should be transferred into hashed prior to 
                     loggining into the database
@@ -31,7 +34,8 @@ class TableData:
         self.tb_name    = tb_name   
         self.titles     = titles   
         self.rows       = rows
-        self.operators  = [{"name":None, "time":None} for _ in range(len(rows))]
+        if(operators is not None): self.operators  = operators
+        else: self.operators  = [{"name":None, "time":None} for _ in range(len(rows))]
 
         # 检查每行的数据数量和表头属性数量相同
         for row in rows:
@@ -46,12 +50,12 @@ class TableData:
 
     def to_dict(self):
         """
-        为转化成JSON文件作准备, 转化后的数据类似如下
+        将该类转化为字段, 为入库/存储为JSON文件作准备, 转化后的数据类似如下
         transformed_dict = {
             "name": "2020年二季度"
             "titles" : ["行号","项目号","子账户","账户名","分账户","账户名","受理人","金额"],
-            "rows"   : {
-                "data" :    [
+            "data"   : {
+                "rows" :    [
                                 ["733101","213123","A","XXXX","A1","XXXX","小S",None],
                                 ["733121","123123","A","XXXX","A1","XXXX","小B","321"],
                                 ["733131","123123","B","YYYY","B1","YYYY 1",None,"123"],
@@ -70,9 +74,9 @@ class TableData:
         """
         table_dict = {}
         table_dict["name"]             = self.tb_name
-        table_dict["rows"]             = {"data":[], "operator":[]}
-        table_dict["rows"]["data"]     = self.rows
-        table_dict["rows"]["operator"] = self.operators
+        table_dict["data"]             = {"rows":[], "operator":[]}
+        table_dict["data"]["rows"]     = self.rows
+        table_dict["data"]["operator"] = self.operators
         return table_dict
 
 

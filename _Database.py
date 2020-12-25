@@ -2,7 +2,7 @@ from platform import platform
 import pymongo
 
 
-class Class_MongoDB:
+class MongoVisitor:
     
     def __init__(self):
         return
@@ -69,3 +69,8 @@ class Class_MongoDB:
             else: collection.update_one({"_id":_id}, {"$set":data})
             
         return
+
+    def extract(self, collection, _id):
+        collection  = self.database[collection] 
+        if(collection.count_documents({"_id":_id}) == 0): raise(f"Document specified does not exist. \n Document of _id={_id}")
+        else: return collection.find_one({"_id":_id})
