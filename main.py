@@ -9,12 +9,11 @@ import datetime
 # Custom modules
 from pymongo.periodic_executor import _on_executor_deleted
 from werkzeug import utils
-from _Database  import MongoDatabase
+from _Database  import MongoDatabase, Config
 from _TableData import TableData
 from _ExcelVisitor import ExcelVisitor
 from _JsonVisitor  import JSON
 from _Redis import RedisCache
-from _Config import Config
 
 # Flask modules
 from flask      import Flask, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
@@ -75,6 +74,7 @@ def demo_1():
         - Using _Database to save and read from mongo database
         - Using _Redis to save custom object to database (Failed)
     """
+    config=Config(tb_name="2020年二季度.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name="2020第二季度")
     config={
         "tb_name" : "2020年二季度.xlsx",
         "db_host" : 'localhost',
@@ -117,6 +117,7 @@ def demo_2():
         - Reading from .xlxs file and export to html
         - Flask app (when undesire to run, comment the route decorator)
     """
+    config=Config(tb_name="2020年二季度.xlsx")
     config={
         "tb_name" : "2020年二季度.xlsx",
     }
@@ -246,8 +247,8 @@ def upload_file():
             # 保存文件, 从文件读取内容, 并保存到数据库
             f.save(f'./src/temp/{f_name}') # 临时保存文件
             if(save_xlsx): f.save(f'./src/excel/{f_name}') 
-            # config = Config(f_name=f_name, collection_name=f_name.split('.')[0])
 
+            config= Config(f_name=f_name, collection_name=f_name.split('.')[0])
             config={
                 "tb_name" : f_name,
                 "db_host" : 'localhost',
@@ -255,6 +256,7 @@ def upload_file():
                 "db_name" : "账户统计",
                 "collection_name" : f_name.split('.')[0],
             }
+
             # Read from Excel file 
             tb_name = config["tb_name"]
             excelReader = ExcelVisitor(f'./src/temp/{f_name}')
@@ -285,6 +287,7 @@ def upload_file():
 
 @app.route('/clear', methods=["POST"])
 def clear_db_table():
+    config=Config()
     config={
         "db_host" : 'localhost',
         "db_port" : 27017,
@@ -300,6 +303,7 @@ def clear_db_table():
 
 @app.route('/clear_all', methods=["POST"])
 def clear_database():
+    config=Config()
     config={
         "db_host" : 'localhost',
         "db_port" : 27017,
