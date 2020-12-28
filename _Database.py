@@ -73,3 +73,9 @@ class MongoDatabase:
         collection  = self.database[collection] 
         if(collection.count_documents({"_id":_id}) == 0): raise(f"Document specified does not exist. \n Document of _id={_id}")
         else: return collection.find_one({"_id":_id})
+
+
+    def drop(self, collection):
+        self.database.drop_collection(collection)
+        return 
+

@@ -210,10 +210,6 @@ def index():
             <form action="{url_for('initialize')}" method="post">
                 <input type="submit" value="退出登录">
             </form>
-
-            <form action="{url_for('initialize')}" method="post">
-                <input type="submit" value="退出登录">
-            </form>
             """
         
 
@@ -228,6 +224,9 @@ def index():
 
 @app.route('/file', methods=["POST"])
 def upload_file():
+    save_json = False
+    save_xlsx = False
+
     if request.method == "POST":
         # 提取文件名, 若需要使用 save（）方法保存文件 
         f = request.files.get("stuff_file")
@@ -251,7 +250,8 @@ def upload_file():
             titles      = excelReader.get_titles()
             info_table  = excelReader.get_infoTable()
             oper_table  = excelReader.get_operTable()
-            # os.remove(f'./src/excel/{f_name}')# 如果想读取后删除文件
+            if(not save_xlsx):
+                os.remove(f'./src/excel/{f_name}')# 如果想读取后删除文件
 
             # Store to custom class format 
             tableData = TableData(tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table)
@@ -262,7 +262,8 @@ def upload_file():
             db.start(host=config['db_host'], port=config['db_port'], name=config['db_name'],clear=False)
             db.insert(collection=config['collection_name'], data=tableDict, _id=hash_id(config["tb_name"]))
             temp_mongoLoad = db.extract(collection=config['collection_name'],_id=hash_id(config["tb_name"]))
-            JSON.save(temp_mongoLoad, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
+            if(save_json): 
+                JSON.save(temp_mongoLoad, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
             db.close()
 
             return render_template("upload.html", message=f"成功上传文件, 文件名: {f_name}")
@@ -273,7 +274,18 @@ def upload_file():
 
 @app.route('/clear', methods=["POST"])
 def clear_db_table():
-    return render_template("clear.html", message=f"操作失败: 此功能暂未实现")
+    config={
+        "db_host" : 'localhost',
+        "db_port" : 27017,
+        "db_name" : "账户统计",
+    }
+    table_name = request.form['table_name']
+    table_name = table_name.split('.')[0] # 去除xlsx文件后缀
+    db = MongoDatabase()
+    db.start(host=config['db_host'], port=config['db_port'], name=config['db_name'],clear=False)
+    db.drop(collection = table_name)
+    db.close()
+    return render_template("clear.html", message=f"操作成功: 已清除集合[ {table_name} ]")
 
 @app.route('/clear_all', methods=["POST"])
 def clear_database():
