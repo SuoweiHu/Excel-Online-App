@@ -18,7 +18,7 @@ class ExcelVisitor:
         if(sheet_name is None): sheet_name=(self.workbook.sheetnames)[0]
         self.worksheet = self.workbook[sheet_name]
     
-    def close(path):
+    def close(self, path):
         self.workbook.save(path)
 
     def read_row(self, row):
@@ -135,7 +135,7 @@ class ExcelVisitor:
 
         # Remove first row (which is where the title row is)
         # and set threshold depth to be the same as the info table
-        return oper_table[1:num_info_rows] 
+        return oper_table[1:num_info_rows+1] 
 
 
 
