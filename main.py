@@ -1,10 +1,4 @@
-from flask      import Flask, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
-from pymongo.periodic_executor import _on_executor_deleted
-from _Database  import MongoDatabase
-from _TableData import TableData
-from _ExcelVisitor import ExcelVisitor
-from _JsonVisitor  import JSON
-from _Redis import RedisCache
+# Some built-int modules
 import os
 import sys
 import uuid
@@ -12,9 +6,30 @@ import hashlib
 import pprint
 import datetime
 
+# Custom modules
+from pymongo.periodic_executor import _on_executor_deleted
+from werkzeug import utils
+from _Database  import MongoDatabase
+from _TableData import TableData
+from _ExcelVisitor import ExcelVisitor
+from _JsonVisitor  import JSON
+from _Redis import RedisCache
+from _Config import Config
+
+# Flask modules
+from flask      import Flask, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
+
+# =============================================
+# =============================================
+# Flask Application's instance
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SAJHDKSAKJDHKJASHKJDKASDD'  
 # app.config['MAXs_CONTENT_LENGTH'] = 5 * 1024 * 1024
+
+# =============================================
+# =============================================
+# helper functions
 
 def gen_dateTime_str():
     now = datetime.datetime.now()
@@ -47,6 +62,10 @@ def hash_id(filename, hash_method=None):
     elif(hash_method == "SHA1"):    c = hashlib.sha1(filename.encode("utf-8"))
     else:                           c = hashlib.sha256(filename.encode("utf-8"))
     return c.hexdigest()
+
+# =============================================
+# =============================================
+# demo functions
 
 def demo_1():
     """
@@ -91,8 +110,6 @@ def demo_1():
 
     return
 
-# =============================================
-
 # @app.route('/table')
 def demo_2():
     """
@@ -119,20 +136,9 @@ def demo_2():
     # Return html string
     return htmlString
 
-@app.route('/upload', methods=["GET"])
-def upload():
-    # User form upload
-    form_dict = dict(request.args)
-
-    # Extract Operator Info
-    operator = {}
-    operator["name"] = form_dict["operator_name"]
-    operator["time"] = gen_dateTime_str()   # Use the actual upload time instead
-    # operator["time"] = form_dict["operator_time"]
-
-    return "STUFF: " + str(request_dict)
-
 # =============================================
+# =============================================
+# flask router: main page
 
 @app.route('/', methods=["POST","GET"])
 def initialize():
@@ -158,7 +164,7 @@ def index():
                 账户名:      
                 <input type="text" name="operator_name" id=""><br>
                 &nbsp;密码:&nbsp;&nbsp;&nbsp; 
-                <input type="text" name="operator_pass" id=""><br>
+                <input type="password" name="operator_pass" id=""><br>
                 <br>
                 <input type="submit" value="提交">
             </form>
@@ -221,6 +227,8 @@ def index():
         )
 
 # =============================================
+# =============================================
+# flask router: table processes
 
 @app.route('/file', methods=["POST"])
 def upload_file():
@@ -236,9 +244,12 @@ def upload_file():
             return render_template("upload.html", message=f"上传文件失败, 错误: 文件名后缀为{f_name.split('.')[1]} (需要为xlsx)")
         else: 
             # 保存文件, 从文件读取内容, 并保存到数据库
-            f.save(f'./src/excel/{f_name}')
+            f.save(f'./src/temp/{f_name}') # 临时保存文件
+            if(save_xlsx): f.save(f'./src/excel/{f_name}') 
+            # config = Config(f_name=f_name, collection_name=f_name.split('.')[0])
+
             config={
-                "tb_name" : f_name,     # 注意这里的文件名是带后缀的
+                "tb_name" : f_name,
                 "db_host" : 'localhost',
                 "db_port" : 27017,
                 "db_name" : "账户统计",
@@ -246,12 +257,12 @@ def upload_file():
             }
             # Read from Excel file 
             tb_name = config["tb_name"]
-            excelReader = ExcelVisitor(ExcelVisitor.PATH+tb_name)
+            excelReader = ExcelVisitor(f'./src/temp/{f_name}')
             titles      = excelReader.get_titles()
             info_table  = excelReader.get_infoTable()
             oper_table  = excelReader.get_operTable()
-            if(not save_xlsx):
-                os.remove(f'./src/excel/{f_name}')# 如果想读取后删除文件
+            os.remove(f'./src/temp/{f_name}')# 读取后删除文件
+            
 
             # Store to custom class format 
             tableData = TableData(tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table)
@@ -260,8 +271,8 @@ def upload_file():
             # Store to database
             db = MongoDatabase()
             db.start(host=config['db_host'], port=config['db_port'], name=config['db_name'],clear=False)
-            db.insert(collection=config['collection_name'], data=tableDict, _id=hash_id(config["tb_name"]))
-            temp_mongoLoad = db.extract(collection=config['collection_name'],_id=hash_id(config["tb_name"]))
+            db.insert(collection=config['collection_name'], data=tableDict, _id=hash_id(config['tb_name']))
+            temp_mongoLoad = db.extract(collection=config['collection_name'],_id=hash_id(config['tb_name']))
             if(save_json): 
                 JSON.save(temp_mongoLoad, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
             db.close()
@@ -304,7 +315,7 @@ def login():
     name = request.form["operator_name"]
     password = request.form["operator_pass"]
     # check_login = check_account_match(name, password) 
-    check_login = ('admin' in name)
+    check_login = ('admin' in name) and ('admin' in password)
 
     # 缺少检测登陆成功的机制
     if(check_login):
@@ -351,9 +362,24 @@ def table():
     # Return html string rendered by template
     return render_template('table.html', table_info=htmlString, operator_name=operator_str, operator_time=datetime_str)
 
+@app.route('/upload', methods=["POST"])
+def upload():
+    # User form upload
+    form_dict = dict(request.form)
+
+    # Extract Operator Info
+    operator = {}
+    operator["name"] = form_dict["operator_name"]
+    operator["time"] = gen_dateTime_str()   # Use the actual upload time instead
+    # operator["time"] = form_dict["operator_time"]
+
+    return "STUFF: " + str(request_dict)
+
+# =============================================
+# =============================================
+# booter functions
 
 def main():
-    print(gen_dateTime_str())
     app.run(host='0.0.0.0', port=5000, debug=True)
     return
 
