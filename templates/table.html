@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Online</title>
+</head>
+<body>
+    <div>
+        <h2>表单数据</h2>
+        {{table_info | safe}}
+    </div>
+    <br><hr>
+    <div>
+        <h2>操作员</h2>
+        名字: &nbsp <input type="text" name="operator_name" required value={{operator_name | safe}}> <br>
+        时间: &nbsp <input type="text" name="operator_time" required value={{operator_time | safe}}> <br>
+        <br>
+        <input type="submit" value="提交更改 (不可撤回)">
+    </div>
+</body>
+</html>

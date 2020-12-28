@@ -310,6 +310,7 @@ def login():
     if(check_login):
         session['login_state'] = True
         session['operator'] = name
+        session['operator_name'] = name
         return render_template("login.html", message=f"登陆成功: 用户名为[{name}]")
     else: 
         return render_template("login.html", message="登陆失败: 账号或密码不匹配")
@@ -337,8 +338,18 @@ def table():
     jsonDict   = tableData.to_dict_json2html(show_operator=True)
     htmlString = tableData.to_html(json_dict=jsonDict,show_operator=True)
 
-    # Return html string
-    return htmlString
+    # Add form info into string 
+    now = datetime.datetime.now()
+    day = now.date()
+    time = now.time()
+    day_str = day.__format__('%Y/%m/%d')
+    time_str = time.strftime('%H:%M:%S')
+    datetime_str = day_str+ " " + time_str
+    print(datetime_str)
+    operator_str = session["operator_name"]
+
+    # Return html string rendered by template
+    return render_template('table.html', table_info=htmlString, operator_name=operator_str, operator_time=datetime_str)
 
 
 def main():

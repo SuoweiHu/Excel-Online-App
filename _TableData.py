@@ -60,7 +60,7 @@ class TableData:
                         Row: ({len(row)})\n\t {row}
                         """)
         else:
-            print(json)
+            # print(json)
             self.tb_name   = json["name"]
             self.titles    = json["titles"]
             self.rows      = json["data"]["rows"]
@@ -265,20 +265,20 @@ class TableData:
         time_str = time.strftime('%H:%M:%S')
         datetime_str = f"{day_str} {time_str}"
 
-        html_string = """
-            <form action="/upload" method="get">
-            <h2>表单数据</h2>""" + \
-            html_string + \
-            """<br><hr>"""
+        # html_string = """
+        #     <form action="/upload" method="get">
+        #     <h2>表单数据</h2>""" + \
+        #     html_string + \
+        #     """<br><hr>"""
 
-        html_string += f"""
-            <h2>操作员</h2>
-            名字: &nbsp <input type="text" name="operator_name" required> <br>
-            时间: &nbsp <input type="text" name="operator_time" required value="{datetime_str}"> <br>
-            <br>
-            <input type="submit" value="Submit">
-            """
-        html_string += """</form>""" 
+        # html_string += f"""
+        #     <h2>操作员</h2>
+        #     名字: &nbsp <input type="text" name="operator_name" required> <br>
+        #     时间: &nbsp <input type="text" name="operator_time" required value="{datetime_str}"> <br>
+        #     <br>
+        #     <input type="submit" value="Submit">
+        #     """
+        # html_string += """</form>""" 
 
         return html_string
 
