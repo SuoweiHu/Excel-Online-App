@@ -552,10 +552,10 @@ def table(option):
         replace_dict = {
             "@@@@@@@@@@@@["   : """<form action="/table/clear" method="post"><input type="hidden" name="table_name" value='""",
             "@@@@@@@@["       : """<form action="/table/clear" method="post"><input type="hidden" name="table_name" value='""",
-            "@@@@["           : """<form action="/table/""",
+            "@@@@["           : """<form action='/table/""",
             " ]############"  : """'><input type="submit" value="删除表单" disabled></form>""",
             " ]########"      : """'><input type="submit" value="删除表单"></form>""",
-            " ]####"          : """'method="get"><input type="submit" value="更改表单"></form>""",
+            " ]####"          : """' method="get"><input type="submit" value="更改表单"></form>""",
         }
         for replace_tuple in replace_dict.items():
             table_html_str = table_html_str.replace(replace_tuple[0], replace_tuple[1])
