@@ -27,6 +27,46 @@ class TableData:
     rows     = []
     operators = []
 
+    # def DEPRECATED__init__(self, tb_name=None, titles=None, rows=None, operators=None, json=None):
+        #     """
+        #     tb_name :   the file name here should be transferred into hashed prior to 
+        #                 loggining into the database
+        #     titles:     the titles of the table, should match with the max size of strings 
+        #                 within a single row
+        #     rows:       existing data of data rows, expecting a 2 dimentioanl array here, 
+        #                 alike [[1,None,3], [None,3,4], [4,5,6]]. Where each sublist corresponds 
+        #                 a row, and the sequence of data matches with the sequence of titles
+        #     """
+        #     if(json is None):
+        #         self.tb_name    = tb_name   
+        #         self.titles     = titles   
+        #         self.rows       = rows
+        #         if(operators is not None): 
+        #             temp_operator = []
+        #             for operator in operators:
+        #                 if(not len(operator) == 2): operator = [None, None]
+        #                 temp_operator.append(operator)
+        #             self.operators  = temp_operator
+        #         else: 
+        #             self.operators  = [{"name":None, "time":None} for _ in range(len(rows))]
+
+        #         # 检查每行的数据数量和表头属性数量相同
+        #         for row in rows:
+        #             if not (len(row)==len(titles)): 
+        #                 raise(f"""
+        #                     Number of row entries does not macth with the number of titles.\n 
+        #                     (Notice that row can include None, e.g. [1,2,None,3,\'小明\'])  \n
+        #                     Title: ({len(titles)})\n\t {titles}
+        #                     Row: ({len(row)})\n\t {row}
+        #                     """)
+        #     else:
+        #         # print(json)
+        #         self.tb_name   = json["name"]
+        #         self.titles    = json["titles"]
+        #         self.rows      = json["data"]["rows"]
+        #         self.operators = json["data"]["operator"]
+
+        #     return
     def __init__(self, tb_name=None, titles=None, rows=None, operators=None, json=None):
         """
         tb_name :   the file name here should be transferred into hashed prior to 
@@ -36,6 +76,17 @@ class TableData:
         rows:       existing data of data rows, expecting a 2 dimentioanl array here, 
                     alike [[1,None,3], [None,3,4], [4,5,6]]. Where each sublist corresponds 
                     a row, and the sequence of data matches with the sequence of titles
+
+        input json file datastructure:
+            {
+                "name" : "2020第一季度.xlxs",
+                "data" : [
+                    {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                    {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                    {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                    {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                ]
+            }
         """
         if(json is None):
             self.tb_name    = tb_name   
@@ -61,43 +112,99 @@ class TableData:
                         """)
         else:
             # print(json)
+
+            # Extract table name
             self.tb_name   = json["name"]
-            self.titles    = json["titles"]
-            self.rows      = json["data"]["rows"]
-            self.operators = json["data"]["operator"]
+            table_data = json["data"]
+
+            # Extract titles
+            titles = []
+            first_row = table_data[0]
+            for x in first_row.items():
+                titles.append(x[0])
+            titles = titles[:-2]    # remove operator columns * 2
+            self.titles    = titles
+
+            # Extract data
+            table_rows = []
+            table_operators = []
+            for row in table_data:
+                temp_row  = []
+                temp_oper = []
+                for i in range(len(titles)):
+                    cell_title = titles[i] 
+                    cell_data = row[cell_title]
+                    temp_row.append(cell_data)
+                temp_oper.append(row['操作员'])
+                temp_oper.append(row['操作时间'])
+
+                table_rows.append(temp_row)
+                table_operators.append(temp_oper)
+                
+            self.rows      = table_rows
+            self.operators = table_operators
 
         return
 
+    # def DEPRECATED_to_dict(self):
+        # """
+        # 将该类转化为字段, 为入库/存储为JSON文件作准备, 转化后的数据类似如下
+        # transformed_dict = {
+        #     "name": "2020年二季度"
+        #     "titles" : ["行号","项目号","子账户","账户名","分账户","账户名","受理人","金额"],
+        #     "data"   : {
+        #         "rows" :    [
+        #                         ["733101","213123","A","XXXX","A1","XXXX","小S",None],
+        #                         ["733121","123123","A","XXXX","A1","XXXX","小B","321"],
+        #                         ["733131","123123","B","YYYY","B1","YYYY 1",None,"123"],
+        #                         ["733141","123123","B","YYYY",None,None,None,"123"],
+        #                         ["733151","1231231","B","YYYY","B3","YYYY 3","小B",None]
+        #                     ],
+        #         "operator" :[
+        #                         {"name":"张三", "time":"2020.02.11 - 11:00:21"},
+        #                         {"name":"李四", "time":"2020.02.11 - 11:00:21"},
+        #                         {"name":"李四", "time":"2020.02.11 - 11:00:21"},
+        #                         {"name":"王五", "time":"2020.02.11 - 11:00:21"},
+        #                         {"name":"张三", "time":"2020.02.11 - 11:00:21"},
+        #                     ]
+        #     }
+        # }
+        # """
+        # table_dict = {}
+        # table_dict["name"]             = self.tb_name
+        # table_dict["titles"]           = self.titles
+        # table_dict["data"]             = {"rows":[], "operator":[]}
+        # table_dict["data"]["rows"]     = self.rows
+        # table_dict["data"]["operator"] = self.operators
+        # return table_dict   
     def to_dict(self):
         """
         将该类转化为字段, 为入库/存储为JSON文件作准备, 转化后的数据类似如下
-        transformed_dict = {
-            "name": "2020年二季度"
-            "titles" : ["行号","项目号","子账户","账户名","分账户","账户名","受理人","金额"],
-            "data"   : {
-                "rows" :    [
-                                ["733101","213123","A","XXXX","A1","XXXX","小S",None],
-                                ["733121","123123","A","XXXX","A1","XXXX","小B","321"],
-                                ["733131","123123","B","YYYY","B1","YYYY 1",None,"123"],
-                                ["733141","123123","B","YYYY",None,None,None,"123"],
-                                ["733151","1231231","B","YYYY","B3","YYYY 3","小B",None]
-                            ],
-                "operator" :[
-                                {"name":"张三", "time":"2020.02.11 - 11:00:21"},
-                                {"name":"李四", "time":"2020.02.11 - 11:00:21"},
-                                {"name":"李四", "time":"2020.02.11 - 11:00:21"},
-                                {"name":"王五", "time":"2020.02.11 - 11:00:21"},
-                                {"name":"张三", "time":"2020.02.11 - 11:00:21"},
-                            ]
-            }
+        {
+            "name" : "2020第一季度.xlxs",
+            "data" : [
+                {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+            ]
         }
         """
         table_dict = {}
-        table_dict["name"]             = self.tb_name
-        table_dict["titles"]           = self.titles
-        table_dict["data"]             = {"rows":[], "operator":[]}
-        table_dict["data"]["rows"]     = self.rows
-        table_dict["data"]["operator"] = self.operators
+        table_dict["name"] = self.tb_name
+        table_dict["data"] = []
+        for i in range(len(self.rows)):
+            row_dict = {}
+            operator = self.operators[i]
+            data_row = self.rows[i]
+            for j in range(len(self.titles)):  # insert row normal data (除了操作员意外的数据)
+                cell_title = self.titles[j]
+                cell_data = data_row[j]
+                row_dict[cell_title] = cell_data
+            row_dict["操作员"] = operator[0]
+            row_dict["操作时间"] = operator[1]  # insert operator data
+            table_dict["data"].append(row_dict)
+
         return table_dict   
 
     def to_dict_json2html(self, show_operator=True, replace_noneWithInput=True):
@@ -113,6 +220,7 @@ class TableData:
         }
         """
         tb_name     = self.tb_name
+        tb_name     = tb_name.replace(".xlsx", "") 
         titles      = self.titles
         rows        = self.rows
         operators   = self.operators
@@ -265,41 +373,20 @@ class TableData:
         time_str = time.strftime('%H:%M:%S')
         datetime_str = f"{day_str} {time_str}"
 
-        # html_string = """
-        #     <form action="/upload" method="get">
-        #     <h2>表单数据</h2>""" + \
-        #     html_string + \
-        #     """<br><hr>"""
+        # 添加标题,结尾,提交按钮等信息
+            # html_string = """
+            #     <form action="/upload" method="get">
+            #     <h2>表单数据</h2>""" + \
+            #     html_string + \
+            #     """<br><hr>"""
 
-        # html_string += f"""
-        #     <h2>操作员</h2>
-        #     名字: &nbsp <input type="text" name="operator_name" required> <br>
-        #     时间: &nbsp <input type="text" name="operator_time" required value="{datetime_str}"> <br>
-        #     <br>
-        #     <input type="submit" value="Submit">
-        #     """
-        # html_string += """</form>""" 
+            # html_string += f"""
+            #     <h2>操作员</h2>
+            #     名字: &nbsp <input type="text" name="operator_name" required> <br>
+            #     时间: &nbsp <input type="text" name="operator_time" required value="{datetime_str}"> <br>
+            #     <br>
+            #     <input type="submit" value="Submit">
+            #     """
+            # html_string += """</form>""" 
 
         return html_string
-
-
-# tb_name  = "2020年二季度.xlsx"
-# data_1_listForRows = {
-    #     "titles" : ["行号","项目号","子账户","账户名","分账户","账户名","受理人","金额"],
-    #     "rows"   : {
-    #         "data" :    [
-    #                         {"行号":"733101", "项目号":"213123", "子账户":"A", "账户名":"XXXX", "分账户":"A1", "账户名":"XXXX",  "受理人":"小S", "金额": None},
-    #                         {"行号":"733121", "项目号":"123123", "子账户":"A", "账户名":"XXXX", "分账户":"A1", "账户名":"XXXX",  "受理人":"小B", "金额":"321"},
-    #                         {"行号":"733131", "项目号":"123123", "子账户":"B", "账户名":"YYYY", "分账户":"B1", "账户名":"YYYY 1","受理人":None, "金额":"123"},
-    #                         {"行号":"733141", "项目号":"123123", "子账户":"B", "账户名":"YYYY", "分账户":None, "账户名":None,    "受理人":None, "金额":"123"},
-    #                         {"行号":"733151", "项目号":"1231231","子账户":"B", "账户名":"YYYY", "分账户":"B3", "账户名":"YYYY 3","受理人":"小B", "金额": None}
-    #                     ],
-    #         "operator" :[
-    #                         {"name":"张三", "time":"2020.02.11 - 11:00:21"},
-    #                         {"name":"李四", "time":"2020.02.11 - 11:00:21"},
-    #                         {"name":"李四", "time":"2020.02.11 - 11:00:21"},
-    #                         {"name":"王五", "time":"2020.02.11 - 11:00:21"},
-    #                         {"name":"张三", "time":"2020.02.11 - 11:00:21"},
-    #                     ]
-    #     }
-    # }

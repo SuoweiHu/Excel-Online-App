@@ -1,15 +1,15 @@
-from platform import platform
 import pymongo
+import json
 
 
-class Config:
+class DB_Config:
 
     def __init__(self, tb_name=None, db_host=None, db_port=None, db_name=None, collection_name=None):
         # Default Values for config
         self.tb_name = ''           #'2020年二季度.xlsx'
         self.db_host = 'localhost'
         self.db_port = 27017
-        self.db_name = '账户统计'
+        self.db_name = "账户统计"
         self.collection_name = ''   #'2020第二季度'  
 
         # Custom Valus for config
@@ -26,10 +26,17 @@ class MongoDatabase:
     def __init__(self):
         return
 
-    def start(self, host, port, name, clear=False, ptn=False):
+    def start(self, host=None, port=None, name=None, clear=False, ptn=False):
+
+        # Use default configuration if not given
+        default_config=DB_Config()
+        if(host is None): host=default_config.db_host
+        if(port is None): port=default_config.db_port
+        if(name is None): name=default_config.db_name
+
         # create client instance and connect to database
         self.client = pymongo.MongoClient(host, port)
-        self.database = self.client[name]
+        self.database = self.client[str(name)]
 
         if(clear):
             collection_names = self.database.list_collection_names()
@@ -89,13 +96,26 @@ class MongoDatabase:
             
         return
 
+    def drop(self, collection):
+        self.database.drop_collection(collection)
+        return 
+
     def extract(self, collection, _id):
         collection  = self.database[collection] 
         if(collection.count_documents({"_id":_id}) == 0): raise(f"Document specified does not exist. \n Document of _id={_id}")
         else: return collection.find_one({"_id":_id})
 
+    def list_collections(self, database=None):
 
-    def drop(self, collection):
-        self.database.drop_collection(collection)
-        return 
+        # Advanced Version
+        # db = self.database
+        # client = self.client
+        # d = dict((db, [collection for collection in client[db].collection_names()])
+        #      for db in client.database_names())
+        # if(database is None): return json.dumps(d)
+        # else: return d[database]
 
+        # Simple version
+        db = self.database
+        names = db.list_collection_names()
+        return names

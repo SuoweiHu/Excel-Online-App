@@ -1,24 +1,26 @@
 # Some built-int modules
+import json
 import os
 import sys
-import uuid
-import hashlib
 import pprint
 import datetime
+import random
 
 # Custom modules
-from pymongo.periodic_executor import _on_executor_deleted
-from werkzeug import utils
-from _Database  import MongoDatabase, Config
+from _Database  import MongoDatabase, DB_Config
 from _TableData import TableData
 from _ExcelVisitor import ExcelVisitor
 from _JsonVisitor  import JSON
 from _Redis import RedisCache
+from _Database_Utils import Database_Utils
+from _Hash_Utils import hash_id
 
-# Flask modules
-from flask      import Flask, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
+# Imported libraries
+from pymongo.periodic_executor import _on_executor_deleted
+from werkzeug import utils
+from json2html import json2html
+from flask      import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
 
-# =============================================
 # =============================================
 # Flask Application's instance
 
@@ -26,7 +28,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SAJHDKSAKJDHKJASHKJDKASDD'  
 # app.config['MAXs_CONTENT_LENGTH'] = 5 * 1024 * 1024
 
-# =============================================
 # =============================================
 # helper functions
 
@@ -45,27 +46,22 @@ def gen_dateTime_str():
 
     return f"{day_str} {time_str}"
 
-def hash_id(filename, hash_method=None):
-    """
-    Generate unique _id in the collection for a given file name 
-    filename :: string
-    hash_method :: None | "MD5" | "SHA1"
-    """
-    # # Using uuid method
-    # if(hash_method == "MD5"):     return uuid.uuid3(b_filename)
-    # elif(hash_method == "SHA1"):  return uuid.uuid5(b_filename)
-    # else:                         return uuid.uuid(b_filename)
+def gen_operInfo_tup():
+    # Add form info into string 
+    now = datetime.datetime.now()
+    day = now.date()
+    time = now.time()
+    day_str = day.__format__('%Y/%m/%d')
+    time_str = time.strftime('%H:%M:%S')
+    datetime_str = day_str+ " " + time_str
+    # print(datetime_str)
+    operator_str = session["operator_name"]
+    return (operator_str, datetime_str)
 
-    # Using hashlib method 
-    if(hash_method == "MD5"):       c = hashlib.md5(filename.encode("utf-8"))
-    elif(hash_method == "SHA1"):    c = hashlib.sha1(filename.encode("utf-8"))
-    else:                           c = hashlib.sha256(filename.encode("utf-8"))
-    return c.hexdigest()
-
-# =============================================
 # =============================================
 # demo functions
 
+# 2020.12.25
 def demo_1():
     """
     Demo of following:
@@ -74,7 +70,7 @@ def demo_1():
         - Using _Database to save and read from mongo database
         - Using _Redis to save custom object to database (Failed)
     """
-    config=Config(tb_name="2020年二季度.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name="2020第二季度")
+    config=DB_Config(tb_name="2020年二季度.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name="2020第二季度")
     # config={
     #     "tb_name" : "2020年二季度.xlsx",
     #     "db_host" : 'localhost',
@@ -102,7 +98,7 @@ def demo_1():
 
     # Store to database
     db = MongoDatabase()
-    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=True)
+    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
     db.insert(collection=config.collection_name, data=tableDict, _id=hash_id(config.tb_name))
     temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
     JSON.save(temp_mongoLoad, JSON.PATH+"temp.json")
@@ -110,6 +106,7 @@ def demo_1():
 
     return
 
+# 2020.12.28
 # @app.route('/table')
 def demo_2():
     """
@@ -117,7 +114,7 @@ def demo_2():
         - Reading from .xlxs file and export to html
         - Flask app (when undesire to run, comment the route decorator)
     """
-    config=Config(tb_name="2020年二季度.xlsx")
+    config=DB_Config(tb_name="2020年二季度.xlsx")
     # config={
     #     "tb_name" : "2020年二季度.xlsx",
     # }
@@ -137,6 +134,102 @@ def demo_2():
     # Return html string
     return htmlString
 
+# 2020.12.29
+def demo_3():
+    """
+    调整数据结构从
+        {
+            "name": "2020年二季度"
+            "titles" : ["行号","项目号","子账户","账户名","分账户","账户名","受理人","金额"],
+            "data"   : {
+                "rows" :    [
+                                ["733101","213123","A","XXXX","A1","XXXX","小S",None],
+                                ["733121","123123","A","XXXX","A1","XXXX","小B","321"],
+                                ["733131","123123","B","YYYY","B1","YYYY 1",None,"123"],
+                                ["733141","123123","B","YYYY",None,None,None,"123"],
+                                ["733151","1231231","B","YYYY","B3","YYYY 3","小B",None]
+                            ],
+                "operator" :[
+                                {"name":"张三", "time":"2020.02.11 - 11:00:21"},
+                                {"name":"李四", "time":"2020.02.11 - 11:00:21"},
+                                {"name":"李四", "time":"2020.02.11 - 11:00:21"},
+                                {"name":"王五", "time":"2020.02.11 - 11:00:21"},
+                                {"name":"张三", "time":"2020.02.11 - 11:00:21"},
+                            ]
+        }
+    到成为
+        {
+            "name" : "2020第一季度.xlxs",
+            "data" : [
+                {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+            ]
+        }
+    """
+    config=DB_Config(tb_name="2020年二季度.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name="2020年二季度")
+
+    # Read from Excel file 
+    tb_name     = config.tb_name
+    excelReader = ExcelVisitor(ExcelVisitor.PATH+tb_name)
+    titles      = excelReader.get_titles()
+    info_table  = excelReader.get_infoTable()
+    oper_table  = excelReader.get_operTable()
+
+    # Store to custom class format 
+    tableData = TableData(tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table)
+    tableDict = tableData.to_dict()
+
+    # CHECK READ  
+    if(False): 
+        pprint.pprint(tableData.tb_name, indent=4)
+        print("="*30)
+        pprint.pprint(tableData.titles, indent=4)
+        print("="*30)
+        pprint.pprint(tableData.rows, indent=4)
+        print("="*30)
+        pprint.pprint(tableData.operators, indent=4)
+        print("="*30)
+        pprint.pprint(tableDict, indent=4)
+
+    # Store to database
+    db = MongoDatabase()
+    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+    db.insert(collection=config.collection_name, data=tableDict, _id=hash_id(config.tb_name))
+    temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+    # JSON.save(temp_mongoLoad, JSON.PATH+"temp.json")
+    db.close()
+
+    # Store to custom class format 
+    tableData = TableData(json=temp_mongoLoad)
+    tableDict = tableData.to_dict()
+
+    # CHECK READLoad
+    if(False):
+        pprint.pprint(tableData.tb_name, indent=4)
+        print("="*30)
+        pprint.pprint(tableData.titles, indent=4)
+        print("="*30)
+        pprint.pprint(tableData.rows, indent=4)
+        print("="*30)
+        pprint.pprint(tableData.operators, indent=4)
+        print("="*30)
+        pprint.pprint(tableDict, indent=4)
+    
+    # Complted rows
+    c_comRow = Database_Utils.count_completedRows(config=config)
+    c_allRow = Database_Utils.count_allRows(config=config)
+    compltion_percentage = Database_Utils.get_completionPercentage(tb_name="2020年二季度")
+    print("="*30)
+    print(f"For the table of: {config.tb_name}")
+    print(f"Number of completed rows: {c_comRow} / {c_allRow}")
+    print(f"Completion percentages: {compltion_percentage}")
+    print("="*30)
+
+    return 
+
+
 # =============================================
 # =============================================
 # flask router: main page
@@ -145,11 +238,18 @@ def demo_2():
 def initialize():
     session['login_state'] = False
     session['operator']    = None
+    session['operator_name'] = None
+    session['previous_page'] = None
     return redirect(url_for('index'))
 
 @app.route('/redirect', methods=["POST","GET"])
 def redirect_to_index():
-    return redirect(url_for('index'))
+    if(session['previous_page'] is None):
+        return redirect(url_for('index'))
+    else:
+        prev_page = session['previous_page']
+        session['previous_page'] = None
+        return redirect(prev_page)
 
 @app.route('/index')
 def index():
@@ -248,7 +348,7 @@ def upload_file():
             f.save(f'./src/temp/{f_name}') # 临时保存文件
             if(save_xlsx): f.save(f'./src/excel/{f_name}') 
 
-            config= Config(tb_name=f_name, collection_name=f_name.split('.')[0])
+            config= DB_Config(tb_name=f_name, collection_name=f_name.split('.')[0])
             # config={
             #     "tb_name" : f_name,
             #     "db_host" : 'localhost',
@@ -287,13 +387,15 @@ def upload_file():
 
 @app.route('/clear', methods=["POST"])
 def clear_db_table():
-    config=Config()
+    config=DB_Config()
     # config={
     #     "db_host" : 'localhost',
     #     "db_port" : 27017,
     #     "db_name" : "账户统计",
     # }
+
     table_name = request.form['table_name']
+    table_name = table_name.replace(' ', '')
     table_name = table_name.split('.')[0] # 去除xlsx文件后缀
     db = MongoDatabase()
     db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
@@ -303,14 +405,14 @@ def clear_db_table():
 
 @app.route('/clear_all', methods=["POST"])
 def clear_database():
-    config=Config()
+    config=DB_Config()
     # config={
     #     "db_host" : 'localhost',
     #     "db_port" : 27017,
     #     "db_name" : "账户统计",
     # }
     db = MongoDatabase()
-    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=True)
+    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
     db.close()
     return render_template("clear.html", message=f"操作成功: 数据库中所有集合已被清除")
 
@@ -330,9 +432,9 @@ def login():
     else: 
         return render_template("login.html", message="登陆失败: 账号或密码不匹配")
 
-@app.route('/table', methods=["POST"])
-def table():
-    config= Config()
+# @app.route('/table', methods=["POST"])
+def DEPRECATED_table():
+    config= DB_Config()
     # config={
     #     "tb_name" : "",# 注意这里的文件名是带xlsx后缀的
     #     "db_host" : 'localhost',
@@ -361,7 +463,7 @@ def table():
     day_str = day.__format__('%Y/%m/%d')
     time_str = time.strftime('%H:%M:%S')
     datetime_str = day_str+ " " + time_str
-    print(datetime_str)
+    # print(datetime_str)
     operator_str = session["operator_name"]
 
     # Return html string rendered by template
@@ -379,6 +481,142 @@ def upload():
     # operator["time"] = form_dict["operator_time"]
 
     return "STUFF: " + str(request_dict)
+
+
+# @app.route('/table_all')
+def table_all():
+    # Retain colleciton names from database
+    db = MongoDatabase()
+    db.start()
+    collection_names = db.list_collections()
+    db.close()
+    
+    # Format the colleciton names into json dict
+    title = "表格名称"
+    completion_title = "完成度 (%)"
+    row_completed_title = "已完成行数"
+    row_notComplt_title = "未完成行数"
+    button_title = ""         # Usually empty string like ""
+    button_placeholder_front = "@@@@" # @@@@@@@@@@@@@@@@@@@@'
+    button_placeholder_back  = "####" # ####################'
+
+    # Append to json dict
+    json_collections= []
+    for col_name in collection_names: 
+        temp_dict = {}
+        temp_dict[title] = col_name
+        
+        # TODO: Get completion percentages from the database 
+        # (通过行的最后几行是否完成来校验行是否为完成状态)
+        # completion_percent = GetCompletionPercentage(col_name = col_name)
+        config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
+        count_row_completed   = Database_Utils.count_completedRows(config=config)
+        count_row_uncompleted = Database_Utils.count_allRows(config=config) - count_row_completed
+        completion_percent = Database_Utils.get_completionPercentage(config=config)
+
+        temp_dict[row_completed_title] = str(count_row_completed)
+        temp_dict[row_notComplt_title] = str(count_row_uncompleted)
+        temp_dict[completion_title] = str(completion_percent)
+
+        # 按钮
+        button_stringBefReplacement = ""
+        # Will be repalced with 更改表单 button
+        button_stringBefReplacement += button_placeholder_front * 1 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 1
+        # Will be repalced with 删除表单 button (*3 will be repalced with option of disabled)
+        if(count_row_completed == 0): button_stringBefReplacement += button_placeholder_front * 2 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 2
+        else: button_stringBefReplacement += button_placeholder_front * 3 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 3
+        temp_dict[button_title] = button_stringBefReplacement
+        
+        json_collections.append(temp_dict)
+
+    # 通过完成度给表格排序
+    get_percentage = lambda i:i[completion_title]
+    json_collections = sorted(json_collections, key=get_percentage)
+
+    # Using json2html to convert into table
+    html_table_string = json2html.convert(json = json_collections)
+    return html_table_string
+
+@app.route('/table/<string:option>', methods=["GET", "POST"])
+def table(option):
+    # # 检测登陆状态
+    # if(session['operator'] is None) and (session['operator_name'] is None):
+    #     return render_template('please_login.html')
+
+    # 如果option为all: 跳转到用户选择表格界面
+    if(option == 'all') or (option == 'ALL'):
+        # return redirect(url_for('table_all'))
+
+        # Process for table part 
+        table_html_str = table_all()
+        replace_dict = {
+            "@@@@@@@@@@@@["   : """<form action="/table/clear" method="post"><input type="hidden" name="table_name" value='""",
+            "@@@@@@@@["       : """<form action="/table/clear" method="post"><input type="hidden" name="table_name" value='""",
+            "@@@@["           : """<form action="/table/""",
+            " ]############"  : """'><input type="submit" value="删除表单" disabled></form>""",
+            " ]########"      : """'><input type="submit" value="删除表单"></form>""",
+            " ]####"          : """'method="get"><input type="submit" value="更改表单"></form>""",
+        }
+        for replace_tuple in replace_dict.items():
+            table_html_str = table_html_str.replace(replace_tuple[0], replace_tuple[1])
+
+        # Process for operator part 
+        operator_infos = gen_operInfo_tup()
+        operator_name  = operator_infos[0]
+        operator_date  = operator_infos[1].split(' ')[0]
+        operator_time  = operator_infos[1].split(' ')[1]
+
+        return render_template('table_all.html', \
+            table_info = table_html_str, \
+            operator_name=operator_name, \
+            operator_date=operator_date, \
+            operator_time=operator_time)
+
+
+    elif(option=='clear') or (option=="CLEAR"):
+        config=DB_Config()
+        table_name = request.form['table_name']
+        table_name = table_name.replace(' ', '')
+        table_name = table_name.split('.')[0] # 去除xlsx文件后缀
+        db = MongoDatabase()
+        db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+        db.drop(collection = table_name)
+        db.close()
+        return render_template("clear_table.html", message=f"操作成功: 已清除集合[ {table_name} ]")
+
+
+    # 如果options为表格名: 用户选择行/预览界面
+    else:
+        option = option.replace(" ", "")
+        config= DB_Config()
+        config.tb_name = option # 如果Option不为all/clear那么就是表名
+        config.collection_name = (config.tb_name).split('.')[0]
+
+        # Read from Database
+        db = MongoDatabase()
+        db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+        temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+        db.close()
+
+        # Convert the result to html format for printing
+        tableData  = TableData(json=temp_mongoLoad)
+        jsonDict   = tableData.to_dict_json2html(show_operator=True)
+        htmlString = tableData.to_html(json_dict=jsonDict,show_operator=True)
+
+        # Add form info into string 
+        now = datetime.datetime.now()
+        day = now.date()
+        time = now.time()
+        day_str = day.__format__('%Y/%m/%d')
+        time_str = time.strftime('%H:%M:%S')
+        datetime_str = day_str+ " " + time_str
+        print(datetime_str)
+        operator_str = session["operator_name"]
+
+        # Return html string rendered by template
+        return render_template('table.html', table_info=htmlString, operator_name=operator_str, operator_time=datetime_str)
+
+
 
 # =============================================
 # =============================================
