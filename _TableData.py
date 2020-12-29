@@ -27,6 +27,9 @@ class TableData:
     rows     = []
     operators = []
 
+    # ==============================
+    # Store/ Restore from json format (For database)
+
     # def DEPRECATED__init__(self, tb_name=None, titles=None, rows=None, operators=None, json=None):
         #     """
         #     tb_name :   the file name here should be transferred into hashed prior to 
@@ -146,7 +149,7 @@ class TableData:
 
         return
 
-    # def DEPRECATED_to_dict(self):
+    # def DEPRECATED_toJson(self):
         # """
         # 将该类转化为字段, 为入库/存储为JSON文件作准备, 转化后的数据类似如下
         # transformed_dict = {
@@ -177,7 +180,7 @@ class TableData:
         # table_dict["data"]["rows"]     = self.rows
         # table_dict["data"]["operator"] = self.operators
         # return table_dict   
-    def to_dict(self):
+    def toJson(self):
         """
         将该类转化为字段, 为入库/存储为JSON文件作准备, 转化后的数据类似如下
         {
@@ -207,7 +210,10 @@ class TableData:
 
         return table_dict   
 
-    def to_dict_json2html(self, show_operator=True, replace_noneWithInput=True):
+    # ==============================
+    # Transform to html form (For flask application)
+
+    def tableEdit_toJson(self, show_operator=True, replace_noneWithInput=True):
         """
         将该类转化为字段, 为入库/存储为JSON文件作准备, 转化后的数据类似如下
         transformed_dict = {
@@ -267,7 +273,7 @@ class TableData:
         rtn_dict = {tb_name:rtn_list}
         return rtn_dict
 
-    def to_html(self, json_dict=None, show_operator = True, replace_noneWithInput=True):
+    def tableEdit_toHtml(self, json_dict=None, show_operator = True, replace_noneWithInput=True):
         """
         convert the table data into representational language, for instance
         <table border="1">
@@ -352,7 +358,7 @@ class TableData:
         """ 
         # Convert the json dict into human readable table in html
         if(json_dict is None): 
-            json_dict = self.to_dict_json2html(show_operator=show_operator)
+            json_dict = self.tableEdit_toJson(show_operator=show_operator)
         html_string = json2html.convert(json = json_dict)
 
         # Process the table such that none becomes form
@@ -390,3 +396,5 @@ class TableData:
             # html_string += """</form>""" 
 
         return html_string
+
+    

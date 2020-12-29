@@ -88,7 +88,7 @@ def demo_1():
 
     # Store to custom class format 
     tableData = TableData(tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table)
-    tableDict = tableData.to_dict()
+    tableDict = tableData.toJson()
 
     # # Try save variable into redis
     # r = RedisCache()
@@ -128,8 +128,8 @@ def demo_2():
 
     # Convert the result to html format for printing
     tableData  = TableData(tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table)
-    jsonDict   = tableData.to_dict_json2html(show_operator=True)
-    htmlString = tableData.to_html(json_dict=jsonDict,show_operator=True)
+    jsonDict   = tableData.tableEdit_toJson(show_operator=True)
+    htmlString = tableData.tableEdit_toHtml(json_dict=jsonDict,show_operator=True)
 
     # Return html string
     return htmlString
@@ -179,7 +179,7 @@ def demo_3():
 
     # Store to custom class format 
     tableData = TableData(tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table)
-    tableDict = tableData.to_dict()
+    tableDict = tableData.toJson()
 
     # CHECK READ  
     if(False): 
@@ -203,7 +203,7 @@ def demo_3():
 
     # Store to custom class format 
     tableData = TableData(json=temp_mongoLoad)
-    tableDict = tableData.to_dict()
+    tableDict = tableData.toJson()
 
     # CHECK READLoad
     if(False):
@@ -256,11 +256,9 @@ def index():
     if(not session['login_state']==True):
         fileUpload_section = "请登录, 以访问数据库 ... ..."
         insert_section = "请登录, 以访问数据库 ... ..."
-        delete_section = "请登录, 以访问数据库 ... ..."
+        # delete_section = "请登录, 以访问数据库 ... ..."
         login_section  = """
-            登陆以获得更多权限
-            <br>
-            <br>
+            登陆以获得更多权限<br><br>
             <form action="/login" method="post">
                 账户名:      
                 <input type="text" name="operator_name" id=""><br>
@@ -278,42 +276,58 @@ def index():
             </form>
             """
         insert_section = """
-            <!---查看特定表单-->
-            <form action="/table" method="post">
-                更改/查看特定表单:
-                <select name="table_name" id="table_name">
-                    <option value="2020年一季度.xlsx">2020年一季度.xlsx</option>
-                    <option value="2020年二季度.xlsx">2020年二季度.xlsx</option>
-                    <option value="2020年三季度.xlsx">2020年三季度.xlsx</option>
-                    <option value="2020年四季度.xlsx">2020年四季度.xlsx</option>
-                </select>
-                <input type="submit" value="确认">
+            <!---查看所有表单-->
+            <form action="/table/all" method="post">
+                <input type="submit" value="更改/查看 已有表单">
             </form>
             <br>
             """
-        delete_section = """
-            <!---清除特定表单-->
-            <form action="/clear" method="post">
-                清除特定表单:
-                <select name="table_name" id="table_name">
-                    <option value="2020年一季度.xlsx">2020年一季度.xlsx</option>
-                    <option value="2020年二季度.xlsx">2020年二季度.xlsx</option>
-                    <option value="2020年三季度.xlsx">2020年三季度.xlsx</option>
-                    <option value="2020年四季度.xlsx">2020年四季度.xlsx</option>
-                </select>
-                <input type="submit" value="确认">
-            </form>
-            <br>
+        # Add operator info 
+        operator_infos = gen_operInfo_tup()
+        operator_name  = operator_infos[0]
+        operator_date  = operator_infos[1].split(' ')[0]
+        operator_time  = operator_infos[1].split(' ')[1]
 
-            <!-- 清除所有内容 -->
-            <form action="/clear_all" method="post">
-                清除所有表单: 
-                <input type="submit" value="清除数据库内 所有集合">
-            </form>
-            """
+        # insert_section = """
+            # <!---查看特定表单-->
+            # <form action="/table" method="post">
+            #     更改/查看特定表单:
+            #     <select name="table_name" id="table_name">
+            #         <option value="2020年一季度.xlsx">2020年一季度.xlsx</option>
+            #         <option value="2020年二季度.xlsx">2020年二季度.xlsx</option>
+            #         <option value="2020年三季度.xlsx">2020年三季度.xlsx</option>
+            #         <option value="2020年四季度.xlsx">2020年四季度.xlsx</option>
+            #     </select>
+            #     <input type="submit" value="确认">
+            # </form>
+            # <br>
+            # """
+        # delete_section = """
+            # <!---清除特定表单-->
+            # <form action="/clear" method="post">
+            #     清除特定表单:
+            #     <select name="table_name" id="table_name">
+            #         <option value="2020年一季度.xlsx">2020年一季度.xlsx</option>
+            #         <option value="2020年二季度.xlsx">2020年二季度.xlsx</option>
+            #         <option value="2020年三季度.xlsx">2020年三季度.xlsx</option>
+            #         <option value="2020年四季度.xlsx">2020年四季度.xlsx</option>
+            #     </select>
+            #     <input type="submit" value="确认">
+            # </form>
+            # <br>
+
+            # <!-- 清除所有内容 -->
+            # <form action="/clear_all" method="post">
+            #     清除所有表单: 
+            #     <input type="submit" value="清除数据库内 所有集合">
+            # </form>
+            # """
         login_section = f"""
-            --- 已登录 ---
-            <br><br>
+            已登陆<br><br>
+            名字: &nbsp <input type="text" name="operator_name" required readonly value={operator_name}> <br>
+            日期: &nbsp <input type="time" name="operator_date" required readonly value={operator_date}> <br>
+            时间: &nbsp <input type="time" name="operator_time" required readonly value={operator_time}> <br>
+            <br>
             <form action="{url_for('initialize')}" method="post">
                 <input type="submit" value="退出登录">
             </form>
@@ -323,13 +337,12 @@ def index():
     return render_template('index.html', \
         fileUpload_section = fileUpload_section, \
         insert_section = insert_section, \
-        delete_section = delete_section, \
         login_section  = login_section, 
         )
 
 # =============================================
 # =============================================
-# flask router: table processes
+# flask router: main menu
 
 @app.route('/file', methods=["POST"])
 def upload_file():
@@ -342,7 +355,7 @@ def upload_file():
         f_name = f.filename
         if('xlsx' not in f_name):
             # 检查文件类型是否正确
-            return render_template("upload.html", message=f"上传文件失败, 错误: 文件名后缀为{f_name.split('.')[1]} (需要为xlsx)")
+            return render_template("upload.html", message=f"上传文件失败, 错误: 文件名为{f_name} (需要为后缀是xlsx的文件)")
         else: 
             # 保存文件, 从文件读取内容, 并保存到数据库
             f.save(f'./src/temp/{f_name}') # 临时保存文件
@@ -368,7 +381,7 @@ def upload_file():
 
             # Store to custom class format 
             tableData = TableData(tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table)
-            tableDict = tableData.to_dict()
+            tableDict = tableData.toJson()
 
             # Store to database
             db = MongoDatabase()
@@ -384,37 +397,6 @@ def upload_file():
     # 未知上传方法 (GET及其他)
     else:
             return render_template("upload.html", message=f"上传文件失败, 错误: 位置上传方法 (需要为POST)")
-
-@app.route('/clear', methods=["POST"])
-def clear_db_table():
-    config=DB_Config()
-    # config={
-    #     "db_host" : 'localhost',
-    #     "db_port" : 27017,
-    #     "db_name" : "账户统计",
-    # }
-
-    table_name = request.form['table_name']
-    table_name = table_name.replace(' ', '')
-    table_name = table_name.split('.')[0] # 去除xlsx文件后缀
-    db = MongoDatabase()
-    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-    db.drop(collection = table_name)
-    db.close()
-    return render_template("clear.html", message=f"操作成功: 已清除集合[ {table_name} ]")
-
-@app.route('/clear_all', methods=["POST"])
-def clear_database():
-    config=DB_Config()
-    # config={
-    #     "db_host" : 'localhost',
-    #     "db_port" : 27017,
-    #     "db_name" : "账户统计",
-    # }
-    db = MongoDatabase()
-    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-    db.close()
-    return render_template("clear.html", message=f"操作成功: 数据库中所有集合已被清除")
 
 @app.route('/login', methods=["POST"])
 def login():
@@ -432,43 +414,6 @@ def login():
     else: 
         return render_template("login.html", message="登陆失败: 账号或密码不匹配")
 
-# @app.route('/table', methods=["POST"])
-def DEPRECATED_table():
-    config= DB_Config()
-    # config={
-    #     "tb_name" : "",# 注意这里的文件名是带xlsx后缀的
-    #     "db_host" : 'localhost',
-    #     "db_port" : 27017,
-    #     "db_name" : "账户统计",
-    #     "collection_name" : "",# 这里则 不带xlsx后缀
-    # }
-    config.tb_name = request.form['table_name']
-    config.collection_name = (config.tb_name).split('.')[0]
-
-    # Read from Database
-    db = MongoDatabase()
-    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-    temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
-    db.close()
-
-    # Convert the result to html format for printing
-    tableData  = TableData(json=temp_mongoLoad)
-    jsonDict   = tableData.to_dict_json2html(show_operator=True)
-    htmlString = tableData.to_html(json_dict=jsonDict,show_operator=True)
-
-    # Add form info into string 
-    now = datetime.datetime.now()
-    day = now.date()
-    time = now.time()
-    day_str = day.__format__('%Y/%m/%d')
-    time_str = time.strftime('%H:%M:%S')
-    datetime_str = day_str+ " " + time_str
-    # print(datetime_str)
-    operator_str = session["operator_name"]
-
-    # Return html string rendered by template
-    return render_template('table.html', table_info=htmlString, operator_name=operator_str, operator_time=datetime_str)
-
 @app.route('/upload', methods=["POST"])
 def upload():
     # User form upload
@@ -483,6 +428,10 @@ def upload():
     return "STUFF: " + str(request_dict)
 
 
+# =============================================
+# =============================================
+# flask router: table operation
+
 # @app.route('/table_all')
 def table_all():
     # Retain colleciton names from database
@@ -496,9 +445,9 @@ def table_all():
     completion_title = "完成度 (%)"
     row_completed_title = "已完成行数"
     row_notComplt_title = "未完成行数"
-    button_title = ""         # Usually empty string like ""
-    button_placeholder_front = "@@@@" # @@@@@@@@@@@@@@@@@@@@'
-    button_placeholder_back  = "####" # ####################'
+    button_title = "操作"                # Usually empty string like ""
+    button_placeholder_front = "@@@@"   # @@@@@@@@@@@@@@@@@@@@'
+    button_placeholder_back  = "####"   # ####################'
 
     # Append to json dict
     json_collections= []
@@ -535,7 +484,137 @@ def table_all():
 
     # Using json2html to convert into table
     html_table_string = json2html.convert(json = json_collections)
-    return html_table_string
+    replace_dict = {
+        "@@@@@@@@@@@@["   : """<form action="/table/clear" method="post"><input type="hidden" name="table_name" value='""",
+        "@@@@@@@@["       : """<form action="/table/clear" method="post"><input type="hidden" name="table_name" value='""",
+        "@@@@["           : """<form action='/table/""",
+        " ]############"  : """'><input type="submit" value="删除表单" disabled></form>""",
+        " ]########"      : """'><input type="submit" value="删除表单"></form>""",
+        " ]####"          : """' method="get"><input type="submit" value="更改表单"></form>""",
+    }
+    for replace_tuple in replace_dict.items():
+        html_table_string = html_table_string.replace(replace_tuple[0], replace_tuple[1])
+
+    # Add operator info 
+    operator_infos = gen_operInfo_tup()
+    operator_name  = operator_infos[0]
+    operator_date  = operator_infos[1].split(' ')[0]
+    operator_time  = operator_infos[1].split(' ')[1]
+
+    # Render with tempalte
+    # return html_table_string
+    return render_template('table_all.html', \
+        table_info = html_table_string, \
+        operator_name=operator_name, \
+        operator_date=operator_date, \
+        operator_time=operator_time)
+
+# @app.route('/clear', methods=["POST"])
+# def DEPRECATED_clear_db_table():
+    # config=DB_Config()
+    # # config={
+    # #     "db_host" : 'localhost',
+    # #     "db_port" : 27017,
+    # #     "db_name" : "账户统计",
+    # # }
+
+    # table_name = request.form['table_name']
+    # table_name = table_name.replace(' ', '')
+    # table_name = table_name.split('.')[0] # 去除xlsx文件后缀
+    # db = MongoDatabase()
+    # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+    # db.drop(collection = table_name)
+    # db.close()
+    # return render_template("clear.html", message=f"操作成功: 已清除集合[ {table_name} ]")
+
+# @app.route('/clear_all', methods=["POST"])
+# def DEPRECATED_clear_database():
+    # config=DB_Config()
+    # # config={
+    # #     "db_host" : 'localhost',
+    # #     "db_port" : 27017,
+    # #     "db_name" : "账户统计",
+    # # }
+    # db = MongoDatabase()
+    # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+    # db.close()
+    # return render_template("clear.html", message=f"操作成功: 数据库中所有集合已被清除")
+
+# @app.route('/table_clear')
+def table_clear():
+    config=DB_Config()
+    table_name = request.form['table_name']
+    table_name = table_name.replace(' ', '')
+    table_name = table_name.split('.')[0] # 去除xlsx文件后缀
+    db = MongoDatabase()
+    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+    db.drop(collection = table_name)
+    db.close()
+    return render_template("clear_table.html", message=f"操作成功: 已清除集合[ {table_name} ]")
+
+# @app.route('/table', methods=["POST"])
+# def DEPRECATED_table():
+    # config= DB_Config()
+    # # config={
+    # #     "tb_name" : "",# 注意这里的文件名是带xlsx后缀的
+    # #     "db_host" : 'localhost',
+    # #     "db_port" : 27017,
+    # #     "db_name" : "账户统计",
+    # #     "collection_name" : "",# 这里则 不带xlsx后缀
+    # # }
+    # config.tb_name = request.form['table_name']
+    # config.collection_name = (config.tb_name).split('.')[0]
+
+    # # Read from Database
+    # db = MongoDatabase()
+    # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+    # temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+    # db.close()
+
+    # # Convert the result to html format for printing
+    # tableData  = TableData(json=temp_mongoLoad)
+    # jsonDict   = tableData.tableEdit_toJson(show_operator=True)
+    # htmlString = tableData.tableEdit_toHtml(json_dict=jsonDict,show_operator=True)
+
+    # # Add form info into string 
+    # now = datetime.datetime.now()
+    # day = now.date()
+    # time = now.time()
+    # day_str = day.__format__('%Y/%m/%d')
+    # time_str = time.strftime('%H:%M:%S')
+    # datetime_str = day_str+ " " + time_str
+    # # print(datetime_str)
+    # operator_str = session["operator_name"]
+
+    # # Return html string rendered by template
+    # return render_template('table.html', table_info=htmlString, operator_name=operator_str, operator_time=datetime_str)
+
+# @app.route('/table_show')
+def table_show(table_name):
+    table_name = table_name.replace(" ", "")    # Remove empty spaces
+    config= DB_Config()                         # 使用默认数据库设置
+    config.tb_name = table_name                 # 如果Option不为all/clear那么就是表名
+    config.collection_name = (config.tb_name).split('.')[0]
+
+    # Read from Database
+    db = MongoDatabase()
+    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+    temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+    db.close()
+
+    # Convert the result to html format for printing
+    tableData  = TableData(json=temp_mongoLoad)
+    jsonDict   = tableData.tableEdit_toJson(show_operator=True)
+    htmlString = tableData.tableEdit_toHtml(json_dict=jsonDict,show_operator=True)
+
+    # Add operator info 
+    operator_infos = gen_operInfo_tup()
+    operator_name  = operator_infos[0]
+    operator_date  = operator_infos[1].split(' ')[0]
+    operator_time  = operator_infos[1].split(' ')[1]
+
+    # Return html string rendered by template
+    return render_template('table.html', table_info=htmlString, operator_name=operator_name, operator_date=operator_date, operator_time=operator_time)
 
 @app.route('/table/<string:option>', methods=["GET", "POST"])
 def table(option):
@@ -545,78 +624,16 @@ def table(option):
 
     # 如果option为all: 跳转到用户选择表格界面
     if(option == 'all') or (option == 'ALL'):
-        # return redirect(url_for('table_all'))
+        return table_all()
 
-        # Process for table part 
-        table_html_str = table_all()
-        replace_dict = {
-            "@@@@@@@@@@@@["   : """<form action="/table/clear" method="post"><input type="hidden" name="table_name" value='""",
-            "@@@@@@@@["       : """<form action="/table/clear" method="post"><input type="hidden" name="table_name" value='""",
-            "@@@@["           : """<form action='/table/""",
-            " ]############"  : """'><input type="submit" value="删除表单" disabled></form>""",
-            " ]########"      : """'><input type="submit" value="删除表单"></form>""",
-            " ]####"          : """' method="get"><input type="submit" value="更改表单"></form>""",
-        }
-        for replace_tuple in replace_dict.items():
-            table_html_str = table_html_str.replace(replace_tuple[0], replace_tuple[1])
-
-        # Process for operator part 
-        operator_infos = gen_operInfo_tup()
-        operator_name  = operator_infos[0]
-        operator_date  = operator_infos[1].split(' ')[0]
-        operator_time  = operator_infos[1].split(' ')[1]
-
-        return render_template('table_all.html', \
-            table_info = table_html_str, \
-            operator_name=operator_name, \
-            operator_date=operator_date, \
-            operator_time=operator_time)
-
-
+    # 如果option为clear: 清除特定表单的数据
     elif(option=='clear') or (option=="CLEAR"):
-        config=DB_Config()
-        table_name = request.form['table_name']
-        table_name = table_name.replace(' ', '')
-        table_name = table_name.split('.')[0] # 去除xlsx文件后缀
-        db = MongoDatabase()
-        db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-        db.drop(collection = table_name)
-        db.close()
-        return render_template("clear_table.html", message=f"操作成功: 已清除集合[ {table_name} ]")
-
+        return table_clear()
 
     # 如果options为表格名: 用户选择行/预览界面
     else:
-        option = option.replace(" ", "")
-        config= DB_Config()
-        config.tb_name = option # 如果Option不为all/clear那么就是表名
-        config.collection_name = (config.tb_name).split('.')[0]
-
-        # Read from Database
-        db = MongoDatabase()
-        db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-        temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
-        db.close()
-
-        # Convert the result to html format for printing
-        tableData  = TableData(json=temp_mongoLoad)
-        jsonDict   = tableData.to_dict_json2html(show_operator=True)
-        htmlString = tableData.to_html(json_dict=jsonDict,show_operator=True)
-
-        # Add form info into string 
-        now = datetime.datetime.now()
-        day = now.date()
-        time = now.time()
-        day_str = day.__format__('%Y/%m/%d')
-        time_str = time.strftime('%H:%M:%S')
-        datetime_str = day_str+ " " + time_str
-        print(datetime_str)
-        operator_str = session["operator_name"]
-
-        # Return html string rendered by template
-        return render_template('table.html', table_info=htmlString, operator_name=operator_str, operator_time=datetime_str)
-
-
+        return table_show(option) # 如果Option不为all/clear那么就是表名
+        
 
 # =============================================
 # =============================================
