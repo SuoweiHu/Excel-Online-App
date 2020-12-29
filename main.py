@@ -234,7 +234,6 @@ def demo_3():
 
 
 # =============================================
-# =============================================
 # flask router: main page
 
 @app.route('/', methods=["POST","GET"])
@@ -344,7 +343,6 @@ def index():
         )
 
 # =============================================
-# =============================================
 # flask router: main menu
 
 @app.route('/file', methods=["POST"])
@@ -432,7 +430,6 @@ def upload():
 
 
 # =============================================
-# =============================================
 # flask router: table operation
 
 # @app.route('/table_all')
@@ -481,6 +478,9 @@ def table_all():
         
         json_collections.append(temp_dict)
 
+    if len(json_collections) == 0:
+        json_collections = [{title: "数据库为空 !", row_completed_title:"", row_notComplt_title:"", completion_title:"", button_title:""}]
+
     # 通过完成度给表格排序
     get_percentage = lambda i:i[completion_title]
     json_collections = sorted(json_collections, key=get_percentage)
@@ -488,12 +488,12 @@ def table_all():
     # Using json2html to convert into table
     html_table_string = json2html.convert(json = json_collections)
     replace_dict = {
-        "@@@@@@@@@@@@["   : """<form action="/table/clear" method="post"><input type="hidden" name="table_name" value='""",
-        "@@@@@@@@["       : """<form action="/table/clear" method="post"><input type="hidden" name="table_name" value='""",
-        "@@@@["           : """<form action='/table/""",
-        " ]############"  : """'><input type="submit" value="删除表单" disabled></form>""",
-        " ]########"      : """'><input type="submit" value="删除表单"></form>""",
-        " ]####"          : """' method="get"><input type="submit" value="更改表单"></form>""",
+        "@@@@@@@@@@@@["   : """<form action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
+        "@@@@@@@@["       : """<form action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
+        "@@@@["           : """<form action='/table/show' method="get"><input type="hidden" name="table_name" value='""",
+        " ]############"  : """'><input type="submit" value="删除表单(已填" disabled></form>""",
+        " ]########"      : """'><input type="submit" value="删除表单(未填"></form>""",
+        " ]####"          : """'><input type="submit" value="展示/更改表单"></form>""",
     }
     for replace_tuple in replace_dict.items():
         html_table_string = html_table_string.replace(replace_tuple[0], replace_tuple[1])
@@ -546,7 +546,7 @@ def table_all():
 # @app.route('/table_clear')
 def table_clear():
     config=DB_Config()
-    table_name = request.form['table_name']
+    table_name = request.args.get('table_name')
     table_name = table_name.replace(' ', '')
     table_name = table_name.split('.')[0] # 去除xlsx文件后缀
     db = MongoDatabase()
@@ -593,10 +593,10 @@ def table_clear():
     # return render_template('table.html', table_info=htmlString, operator_name=operator_str, operator_time=datetime_str)
 
 # @app.route('/table_show')
-def table_show(table_name):
+def table_show(table_name,show_rows_of_keys):
     table_name = table_name.replace(" ", "")    # Remove empty spaces
     config= DB_Config()                         # 使用默认数据库设置
-    config.tb_name = table_name                 # 如果Option不为all/clear那么就是表名
+    config.tb_name = table_name                 # 表名字
     config.collection_name = (config.tb_name).split('.')[0]
 
     # Read from Database
@@ -607,7 +607,33 @@ def table_show(table_name):
 
     # Convert the result to html format for printing
     tableData  = TableData(json=temp_mongoLoad)
-    htmlString = tableData.tableShow_toHtml(row_of_key=None, show_operator=False)
+    htmlString = tableData.tableShow_toHtml(rows_of_keys=show_rows_of_keys, show_operator=False)
+
+    # Add operator info 
+    operator_infos = gen_operInfo_tup()
+    operator_name  = operator_infos[0]
+    operator_date  = operator_infos[1].split(' ')[0]
+    operator_time  = operator_infos[1].split(' ')[1]
+
+    # Return html string rendered by template
+    return render_template('table.html', table_info=htmlString, operator_name=operator_name, operator_date=operator_date, operator_time=operator_time)
+
+# @.app.route('/table_edit')
+def table_edit(table_name,edit_row_key):
+    table_name = table_name.replace(" ", "")    # Remove empty spaces
+    config= DB_Config()                         # 使用默认数据库设置
+    config.tb_name = table_name                 # 表名字
+    config.collection_name = (config.tb_name).split('.')[0]
+
+    # Read from Database
+    db = MongoDatabase()
+    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+    temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+    db.close()
+
+    # Convert the result to html format for printing
+    tableData  = TableData(json=temp_mongoLoad)
+    htmlString = tableData.tableEdit_toHtml(row_of_key=edit_row_key, show_operator=False)
 
     # Add operator info 
     operator_infos = gen_operInfo_tup()
@@ -625,21 +651,37 @@ def table(option):
     #     return render_template('please_login.html')
 
     # 如果option为all: 跳转到用户选择表格界面
-    if(option == 'all') or (option == 'ALL'):
+    if(option=='all'):
         return table_all()
 
     # 如果option为clear: 清除特定表单的数据
-    elif(option=='clear') or (option=="CLEAR"):
+    elif(option=='clear'):
         return table_clear()
 
     # 如果options为表格名: 用户选择行/预览界面
-    else:
-        return table_show(option) # 如果Option不为all/clear那么就是表名
+    elif(option=='show'):
+        # 提取表名
+        tb_name = request.args.get('table_name')
+
+        # 提取用户允许访问的行
+        op_name = session["operator_name"]
+        # op_rows = GET_OPERATOR_S_ALLOWED_ROWS() #TODO:Implemnt this 
+        # op_rows = None # When none it is admin by deafult 
+        op_rows = [733101, 733121]
+
+        return table_show(table_name=tb_name, show_rows_of_keys=op_rows) 
+
+    # 如果options为表格名: 用户选择行/预览界面
+    elif(option=='edit'):
+        # 提取表名 / 行号
+        tb_name = request.args.get('table_name')
+        row_id  = request.args.get('row_id')
+        return table_edit(table_name=tb_name, edit_row_key=row_id)
+        # return f"Not yet implmented, reuqests: {tb_name} + {row_id}"
         
 
 # =============================================
-# =============================================
-# booter functions
+# main
 
 def main():
 
