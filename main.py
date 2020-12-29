@@ -70,7 +70,7 @@ def demo_1():
         - Using _Database to save and read from mongo database
         - Using _Redis to save custom object to database (Failed)
     """
-    config=DB_Config(tb_name="2020年二季度.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name="2020第二季度")
+    config=DB_Config(tb_name="2020年二季度 copy.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name="2020年二季度 copy")
     # config={
     #     "tb_name" : "2020年二季度.xlsx",
     #     "db_host" : 'localhost',
@@ -89,6 +89,7 @@ def demo_1():
     # Store to custom class format 
     tableData = TableData(tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table)
     tableDict = tableData.toJson()
+    # print(tableDict)
 
     # # Try save variable into redis
     # r = RedisCache()
@@ -103,7 +104,9 @@ def demo_1():
     temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
     JSON.save(temp_mongoLoad, JSON.PATH+"temp.json")
     db.close()
-
+    
+    read_tableData = TableData(json=temp_mongoLoad)
+    # print(read_tableData.rows)
     return
 
 # 2020.12.28
@@ -465,7 +468,7 @@ def table_all():
 
         temp_dict[row_completed_title] = str(count_row_completed)
         temp_dict[row_notComplt_title] = str(count_row_uncompleted)
-        temp_dict[completion_title] = str(completion_percent)
+        temp_dict[completion_title]    = completion_percent
 
         # 按钮
         button_stringBefReplacement = ""
@@ -604,8 +607,7 @@ def table_show(table_name):
 
     # Convert the result to html format for printing
     tableData  = TableData(json=temp_mongoLoad)
-    jsonDict   = tableData.tableEdit_toJson(show_operator=True)
-    htmlString = tableData.tableEdit_toHtml(json_dict=jsonDict,show_operator=True)
+    htmlString = tableData.tableShow_toHtml(row_of_key=None, show_operator=False)
 
     # Add operator info 
     operator_infos = gen_operInfo_tup()
@@ -640,6 +642,7 @@ def table(option):
 # booter functions
 
 def main():
+
     app.run(host='0.0.0.0', port=5000, debug=True)
     return
 

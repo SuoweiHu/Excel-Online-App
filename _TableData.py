@@ -70,6 +70,84 @@ class TableData:
         #         self.operators = json["data"]["operator"]
 
         #     return
+    # def DEPRECATED__init__(self, tb_name=None, titles=None, rows=None, operators=None, json=None):
+        # """
+        # tb_name :   the file name here should be transferred into hashed prior to 
+        #             loggining into the database
+        # titles:     the titles of the table, should match with the max size of strings 
+        #             within a single row
+        # rows:       existing data of data rows, expecting a 2 dimentioanl array here, 
+        #             alike [[1,None,3], [None,3,4], [4,5,6]]. Where each sublist corresponds 
+        #             a row, and the sequence of data matches with the sequence of titles
+
+        # input json file datastructure:
+        #     {
+        #         "name" : "2020第一季度.xlxs",
+        #         "data" : [
+        #             {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+        #             {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+        #             {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+        #             {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+        #         ]
+        #     }
+        # """
+        # if(json is None):
+        #     self.tb_name    = tb_name   
+        #     self.titles     = titles   
+        #     self.rows       = rows
+        #     if(operators is not None): 
+        #         temp_operator = []
+        #         for operator in operators:
+        #             if(not len(operator) == 2): operator = [None, None]
+        #             temp_operator.append(operator)
+        #         self.operators  = temp_operator
+        #     else: 
+        #         self.operators  = [{"name":None, "time":None} for _ in range(len(rows))]
+
+        #     # 检查每行的数据数量和表头属性数量相同
+        #     for row in rows:
+        #         if not (len(row)==len(titles)): 
+        #             raise(f"""
+        #                 Number of row entries does not macth with the number of titles.\n 
+        #                 (Notice that row can include None, e.g. [1,2,None,3,\'小明\'])  \n
+        #                 Title: ({len(titles)})\n\t {titles}
+        #                 Row: ({len(row)})\n\t {row}
+        #                 """)
+        # else:
+        #     # print(json)
+
+        #     # Extract table name
+        #     self.tb_name   = json["name"]
+        #     table_data = json["data"]
+
+        #     # Extract titles
+        #     titles = []
+        #     first_row = table_data[0]
+        #     for x in first_row.items():
+        #         titles.append(x[0])
+        #     titles = titles[:-2]    # remove operator columns * 2
+        #     self.titles    = titles
+
+        #     # Extract data
+        #     table_rows = []
+        #     table_operators = []
+        #     for row in table_data:
+        #         temp_row  = []
+        #         temp_oper = []
+        #         for i in range(len(titles)):
+        #             cell_title = titles[i] 
+        #             cell_data = row[cell_title]
+        #             temp_row.append(cell_data)
+        #         temp_oper.append(row['操作员'])
+        #         temp_oper.append(row['操作时间'])
+
+        #         table_rows.append(temp_row)
+        #         table_operators.append(temp_oper)
+                
+        #     self.rows      = table_rows
+        #     self.operators = table_operators
+
+        # return
     def __init__(self, tb_name=None, titles=None, rows=None, operators=None, json=None):
         """
         tb_name :   the file name here should be transferred into hashed prior to 
@@ -118,7 +196,10 @@ class TableData:
 
             # Extract table name
             self.tb_name   = json["name"]
-            table_data = json["data"]
+            temp_rows      = json["data"]
+            table_data     = []
+            for row in temp_rows.items():
+                table_data.append(row[1])
 
             # Extract titles
             titles = []
@@ -180,22 +261,51 @@ class TableData:
         # table_dict["data"]["rows"]     = self.rows
         # table_dict["data"]["operator"] = self.operators
         # return table_dict   
-    def toJson(self):
+    # def DEPRECATED_toJson(self):
+        # """
+        # 将该类转化为字段, 为入库/存储为JSON文件作准备, 转化后的数据类似如下
+        # {
+        #     "name" : "2020第一季度.xlxs",
+        #     "data" : [
+        #         {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+        #         {"行号" : 123124, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+        #         {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+        #         {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+        #     ]
+        # }
+        # """
+        # table_dict = {}
+        # table_dict["name"] = self.tb_name
+        # table_dict["data"] = []
+        # for i in range(len(self.rows)):
+        #     row_dict = {}
+        #     operator = self.operators[i]
+        #     data_row = self.rows[i]
+        #     for j in range(len(self.titles)):  # insert row normal data (除了操作员意外的数据)
+        #         cell_title = self.titles[j]
+        #         cell_data = data_row[j]
+        #         row_dict[cell_title] = cell_data
+        #     row_dict["操作员"] = operator[0]
+        #     row_dict["操作时间"] = operator[1]  # insert operator data
+        #     table_dict["data"].append(row_dict)
+
+        # return table_dict   
+    def toJson(self, key="行号"):
         """
         将该类转化为字段, 为入库/存储为JSON文件作准备, 转化后的数据类似如下
         {
             "name" : "2020第一季度.xlxs",
-            "data" : [
-                {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
-                {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
-                {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
-                {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
-            ]
+            "data" : {
+                123123: {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                123124: {"行号" : 123124, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                123125: {"行号" : 123125, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+                123126: {"行号" : 123126, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+            }
         }
         """
         table_dict = {}
         table_dict["name"] = self.tb_name
-        table_dict["data"] = []
+        table_dict["data"] = {}
         for i in range(len(self.rows)):
             row_dict = {}
             operator = self.operators[i]
@@ -206,10 +316,9 @@ class TableData:
                 row_dict[cell_title] = cell_data
             row_dict["操作员"] = operator[0]
             row_dict["操作时间"] = operator[1]  # insert operator data
-            table_dict["data"].append(row_dict)
+            table_dict["data"][row_dict[key]] = row_dict
 
         return table_dict   
-
     # ==============================
     # Transform to html form (For flask application)
 
@@ -272,7 +381,6 @@ class TableData:
 
         rtn_dict = {tb_name:rtn_list}
         return rtn_dict
-
     def tableEdit_toHtml(self, json_dict=None, show_operator = True, replace_noneWithInput=True):
         """
         convert the table data into representational language, for instance
@@ -394,6 +502,79 @@ class TableData:
             #     <input type="submit" value="Submit">
             #     """
             # html_string += """</form>""" 
+
+        return html_string
+
+    def tableShow_toJson(self, row_of_key=None, key="行号", show_operator=False):
+        tb_name     = self.tb_name
+        tb_name     = tb_name.replace(".xlsx", "") 
+        titles      = self.titles
+        rows        = self.rows
+        operators   = self.operators
+        key = self.titles.index(key) 
+
+        # -----------------------------------------------
+        # 如果row_of_key没有入参, 那就默认是管理员, 展示所有表格
+        if(row_of_key is None):
+            row_of_key = []
+            for row in self.rows:
+                row_of_key.append(row[key])
+
+        # -----------------------------------------------
+        # 根据权限, 仅加入允许展示的行 (key in row_of_key)
+        rtn_list = []
+        for i in range(len(rows)):
+            cur_row = rows[i]
+
+            # -------------------
+            # 如果有权限读取...
+            if(cur_row[key] in row_of_key): 
+                cur_operator = operators[i]
+                temp_dict = {}
+
+                # Information columns' placehpolder
+                for j in range(len(titles)):
+                    temp_dict[titles[j]] = ""
+
+                # Operator
+                if(show_operator):
+                    # temp_dict[" "]       = " "    # Spacing
+                    temp_dict["操作员"]   = cur_operator[0]
+                    temp_dict["时间"]     = cur_operator[1]
+                    if(temp_dict["操作员"] is None): temp_dict["操作员"]   = ""
+                    if(temp_dict["时间"]   is None): temp_dict["时间"]    = ""
+
+                # Information columns
+                for j in range(len(titles)):
+                    # temp_dict[titles[j]] = cur_row[j]
+                    temp_val = cur_row[j]
+                    # 处理数据可能缺省的部分
+                    if(temp_val is None):
+                        temp_dict[titles[j]] = ""
+                    else: 
+                        temp_dict[titles[j]] = temp_val
+
+                # 添加可替代值
+                temp_dict["操作"] = f"@@@@[{cur_row[key]}]####"
+                # Append to existing list
+                rtn_list.append(temp_dict)
+            # -------------------
+        # -----------------------------------------------
+        rtn_dict = {tb_name:rtn_list}
+        return rtn_dict
+    def tableShow_toHtml(self, row_of_key=None, show_operator = True):
+        json_dict = self.tableShow_toJson(row_of_key=row_of_key,show_operator=show_operator)
+        html_string = json2html.convert(json = json_dict)
+
+        # # # Process the table such that none becomes form
+        # replace_dict = {
+        #     "@@@@[" : "<input type=\"text\" name=\"",
+        #     "]####" : "\">",
+        #  }
+        # if(replace_noneWithInput):
+        #     for replace_tuple in replace_dict.items():
+        #         html_string = html_string.replace(replace_tuple[0], replace_tuple[1])
+        #         # html_string.replace(replace_tuple[0], replace_tuple[1])
 
         return html_string
 
