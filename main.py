@@ -326,7 +326,7 @@ def login():
         session['login_state'] = True
         session['operator'] = name
         session['operator_name'] = name
-        return render_template("login.html", message=f"登陆成功: 用户名为[{name}]")
+        return render_template("login.html", message=f"登陆成功: 用户名为[ {name} ]")
     else: 
         return render_template("login.html", message="登陆失败: 账号或密码不匹配")
 
