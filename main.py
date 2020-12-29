@@ -75,16 +75,16 @@ def demo_1():
         - Using _Redis to save custom object to database (Failed)
     """
     config=Config(tb_name="2020年二季度.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name="2020第二季度")
-    config={
-        "tb_name" : "2020年二季度.xlsx",
-        "db_host" : 'localhost',
-        "db_port" : 27017,
-        "db_name" : "账户统计",
-        "collection_name" : "2020第二季度",
-    }
+    # config={
+    #     "tb_name" : "2020年二季度.xlsx",
+    #     "db_host" : 'localhost',
+    #     "db_port" : 27017,
+    #     "db_name" : "账户统计",
+    #     "collection_name" : "2020第二季度",
+    # }
 
     # Read from Excel file 
-    tb_name = config["tb_name"]
+    tb_name     = config.tb_name
     excelReader = ExcelVisitor(ExcelVisitor.PATH+tb_name)
     titles      = excelReader.get_titles()
     info_table  = excelReader.get_infoTable()
@@ -96,15 +96,15 @@ def demo_1():
 
     # # Try save variable into redis
     # r = RedisCache()
-    # r.save(hash_id(config["tb_name"]), tableData)
-    # temp_redisLoad = r.load(hash_id(config["tb_name"]))
+    # r.save(hash_id(config.tb_name), tableData)
+    # temp_redisLoad = r.load(hash_id(config.tb_name))
     # JSON.save(temp_redisLoad, JSON.PATH+"temp.json")
 
     # Store to database
     db = MongoDatabase()
-    db.start(host=config['db_host'], port=config['db_port'], name=config['db_name'],clear=True)
-    db.insert(collection=config['collection_name'], data=tableDict, _id=hash_id(config["tb_name"]))
-    temp_mongoLoad = db.extract(collection=config['collection_name'],_id=hash_id(config["tb_name"]))
+    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=True)
+    db.insert(collection=config.collection_name, data=tableDict, _id=hash_id(config.tb_name))
+    temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
     JSON.save(temp_mongoLoad, JSON.PATH+"temp.json")
     db.close()
 
@@ -118,12 +118,12 @@ def demo_2():
         - Flask app (when undesire to run, comment the route decorator)
     """
     config=Config(tb_name="2020年二季度.xlsx")
-    config={
-        "tb_name" : "2020年二季度.xlsx",
-    }
+    # config={
+    #     "tb_name" : "2020年二季度.xlsx",
+    # }
 
     # Read from Excel file 
-    tb_name = config["tb_name"]
+    tb_name = config.tb_name
     excelReader = ExcelVisitor(ExcelVisitor.PATH+tb_name)
     titles      = excelReader.get_titles()
     info_table  = excelReader.get_infoTable()
@@ -248,17 +248,17 @@ def upload_file():
             f.save(f'./src/temp/{f_name}') # 临时保存文件
             if(save_xlsx): f.save(f'./src/excel/{f_name}') 
 
-            config= Config(f_name=f_name, collection_name=f_name.split('.')[0])
-            config={
-                "tb_name" : f_name,
-                "db_host" : 'localhost',
-                "db_port" : 27017,
-                "db_name" : "账户统计",
-                "collection_name" : f_name.split('.')[0],
-            }
+            config= Config(tb_name=f_name, collection_name=f_name.split('.')[0])
+            # config={
+            #     "tb_name" : f_name,
+            #     "db_host" : 'localhost',
+            #     "db_port" : 27017,
+            #     "db_name" : "账户统计",
+            #     "collection_name" : f_name.split('.')[0],
+            # }
 
             # Read from Excel file 
-            tb_name = config["tb_name"]
+            tb_name = config.tb_name
             excelReader = ExcelVisitor(f'./src/temp/{f_name}')
             titles      = excelReader.get_titles()
             info_table  = excelReader.get_infoTable()
@@ -272,9 +272,9 @@ def upload_file():
 
             # Store to database
             db = MongoDatabase()
-            db.start(host=config['db_host'], port=config['db_port'], name=config['db_name'],clear=False)
-            db.insert(collection=config['collection_name'], data=tableDict, _id=hash_id(config['tb_name']))
-            temp_mongoLoad = db.extract(collection=config['collection_name'],_id=hash_id(config['tb_name']))
+            db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+            db.insert(collection=config.collection_name, data=tableDict, _id=hash_id(config.tb_name))
+            temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
             if(save_json): 
                 JSON.save(temp_mongoLoad, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
             db.close()
@@ -288,15 +288,15 @@ def upload_file():
 @app.route('/clear', methods=["POST"])
 def clear_db_table():
     config=Config()
-    config={
-        "db_host" : 'localhost',
-        "db_port" : 27017,
-        "db_name" : "账户统计",
-    }
+    # config={
+    #     "db_host" : 'localhost',
+    #     "db_port" : 27017,
+    #     "db_name" : "账户统计",
+    # }
     table_name = request.form['table_name']
     table_name = table_name.split('.')[0] # 去除xlsx文件后缀
     db = MongoDatabase()
-    db.start(host=config['db_host'], port=config['db_port'], name=config['db_name'],clear=False)
+    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
     db.drop(collection = table_name)
     db.close()
     return render_template("clear.html", message=f"操作成功: 已清除集合[ {table_name} ]")
@@ -304,13 +304,13 @@ def clear_db_table():
 @app.route('/clear_all', methods=["POST"])
 def clear_database():
     config=Config()
-    config={
-        "db_host" : 'localhost',
-        "db_port" : 27017,
-        "db_name" : "账户统计",
-    }
+    # config={
+    #     "db_host" : 'localhost',
+    #     "db_port" : 27017,
+    #     "db_name" : "账户统计",
+    # }
     db = MongoDatabase()
-    db.start(host=config['db_host'], port=config['db_port'], name=config['db_name'],clear=True)
+    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=True)
     db.close()
     return render_template("clear.html", message=f"操作成功: 数据库中所有集合已被清除")
 
@@ -332,20 +332,21 @@ def login():
 
 @app.route('/table', methods=["POST"])
 def table():
-    config={
-        "tb_name" : "",# 注意这里的文件名是带xlsx后缀的
-        "db_host" : 'localhost',
-        "db_port" : 27017,
-        "db_name" : "账户统计",
-        "collection_name" : "",# 这里则 不带xlsx后缀
-    }
-    config["tb_name"] = request.form['table_name']
-    config["collection_name"] = (config["tb_name"]).split('.')[0]
+    config= Config()
+    # config={
+    #     "tb_name" : "",# 注意这里的文件名是带xlsx后缀的
+    #     "db_host" : 'localhost',
+    #     "db_port" : 27017,
+    #     "db_name" : "账户统计",
+    #     "collection_name" : "",# 这里则 不带xlsx后缀
+    # }
+    config.tb_name = request.form['table_name']
+    config.collection_name = (config.tb_name).split('.')[0]
 
     # Read from Database
     db = MongoDatabase()
-    db.start(host=config['db_host'], port=config['db_port'], name=config['db_name'],clear=False)
-    temp_mongoLoad = db.extract(collection=config['collection_name'],_id=hash_id(config["tb_name"]))
+    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+    temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
     db.close()
 
     # Convert the result to html format for printing
