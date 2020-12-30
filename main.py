@@ -232,6 +232,21 @@ def demo_3():
 
     return 
 
+# 2020.12.30
+def demo_4():
+    # Stuff about account login 
+    user_rows = {
+        'admin' : {'password': 'admin', 'rows':[1,2,3,4,5]},
+        'user1' : {'password': 'user1', 'rows':[1,2]},
+        'user2' : {'password': 'user2', 'rows':[3,4]}
+    }
+    Database_Utils.add_authorization(user_rows=user_rows)
+    temp_pass = Database_Utils.get_password(user_name='admin')
+    temp_auth = Database_Utils.get_authorizedRows(user_name='admin')
+
+    print(f"Password is {temp_pass}")
+    print(f"Allowed to changed rows{temp_auth}")
+    return
 
 # =============================================
 # flask router: main page
@@ -684,6 +699,8 @@ def table(option):
 # main
 
 def main():
+    
+
     app.run(host='0.0.0.0', port=5000, debug=True)
     return
 

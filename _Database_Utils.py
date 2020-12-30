@@ -1,4 +1,5 @@
 
+from flask.config import Config
 from _Database import MongoDatabase, DB_Config
 from _TableData import TableData
 from _Hash_Utils import hash_id
@@ -44,7 +45,6 @@ class Database_Utils:
         return count 
 
     def get_completionPercentage(tb_name=None, config=None):
-        
         if(tb_name is not None) and (config is None):
             config = DB_Config()
             config.collection_name = tb_name.split('.')[0]
@@ -55,9 +55,40 @@ class Database_Utils:
         else:
             raise("No input given (one of the tb_name, config must be filled)")
 
-
         c_comRow = Database_Utils.count_completedRows(config=config)
         c_allRow = Database_Utils.count_allRows(config=config)
 
         return round(c_comRow/c_allRow * 100, 1)
+    
+    def add_authorization(user_rows, col_name="账户", doc_id=0):
+        # user_rows = 
+        # {
+        #   'admin' : {'password': 'admin', 'rows':[1,2,3,4,5]},
+        #   'user1' : {'password': 'user1', 'rows':[1,2]},
+        #   'user2' : {'password': 'user2', 'rows':[3,4]},
+        #     ....  :      ....     ....      ....
+        # }
+        config = DB_Config()
+        db = MongoDatabase()
+        db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+        db.insert(collection=col_name, data=user_rows, _id=doc_id)
+        db.close()
+
+    def get_password(user_name, col_name="账户", doc_id=0):
+        user_dict = Database_Utils.get_allAuthorization(col_name=col_name, doc_id=doc_id)
+        return user_dict[user_name]['password']
+
+    def get_allAuthorization(col_name="账户", doc_id=0):
+        config = DB_Config()
+        db = MongoDatabase()
+        db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+        temp_userData = db.extract(collection=col_name, _id=doc_id)
+        db.close()
+        del temp_userData['_id']
+        return temp_userData
+
+    def get_authorizedRows(user_name, col_name="账户", doc_id=0):
+        user_dict = Database_Utils.get_allAuthorization(col_name=col_name, doc_id=doc_id)
+        return user_dict[user_name]['rows']
+
 
