@@ -515,9 +515,9 @@ def table_all():
         "@@@@@@@@@@@@["   : """<form action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
         "@@@@@@@@["       : """<form action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
         "@@@@["           : """<form action='/table/show' method="get"><input type="hidden" name="table_name" value='""",
-        " ]############"  : """'><input class="layui-btn layui-btn-disabled layui-btn-xs" type="submit" value="删除表单(已填" disabled></form>""",
-        " ]########"      : """'><input class="layui-btn layui-btn-primary layui-btn-xs" type="submit" value="删除表单(未填"></form>""",
-        " ]####"          : """'><input class="layui-btn layui-btn-xs" type="submit" value="展示/更改表单"></form>""",
+        " ]############"  : """'><input class="layui-btn layui-btn-disabled " type="submit" value="删除表单-已填" disabled></form>       """,
+        " ]########"      : """'><input class="layui-btn layui-btn-primary " type="submit"  value="删除表单-未填"></form>                 """,
+        " ]####"          : """'><input class="layui-btn layui-btn-primary " type="submit"  value="查看/更改表单"></form>                 """,
     }
     for replace_tuple in replace_dict.items():
         html_table_string = html_table_string.replace(replace_tuple[0], replace_tuple[1])
@@ -675,8 +675,8 @@ def table_submit(table_name,row_id):
     titles      = Database_Utils.get_tableTitles(tb_name=table_name)
     origin_dict = Database_Utils.load_table(tb_name=table_name)
     for title in titles:
-        origin_dict['data'][row_id][title] = request.form.get(title)
-    origin_dict['data'][row_id]['行号'] = row_id
+        if(request.form.get(title) is not None):
+            origin_dict['data'][row_id][title] = request.form.get(title)
     origin_dict['data'][row_id]['操作员']   = session['operator_name']
     origin_dict['data'][row_id]['操作时间'] = gen_dateTime_str()
 

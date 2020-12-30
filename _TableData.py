@@ -394,8 +394,8 @@ class TableData:
         replace_dict = {
             "@@@@@@@@[" : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
             "@@@@["     : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
-            "]########" : f"""'><input type="submit" disabled value="已经编辑"></form>""",
-            "]####"     : f"""'><input type="submit" value="编辑该行"></form>""",
+            "]########" : f"""'><input class="layui-btn layui-btn-disabled layui-btn-xs" type="submit" disabled value="已经编辑"></form>""",
+            "]####"     : f"""'><input class="layui-btn layui-btn-primary layui-btn-xs" type="submit" value="编辑此行"></form>""",
          }
         for replace_tuple in replace_dict.items():html_string = html_string.replace(replace_tuple[0], replace_tuple[1])
         return html_string
@@ -642,9 +642,9 @@ class TableData:
 
         # # Process the table such that none becomes form
         replace_dict = {
-            "@@@@@@@@[" : """<input type="text" name='""",
+            "@@@@@@@@[" : """<input type="text" required placeholder="不能缺省" autocomplete="off" class="layui-input" name='""",
             "]########" : """'> """,
-            "@@@@"      : f"""<input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='{row_of_key}'><input type="submit" value="提交更改">""",
+            "@@@@"      : f"""<input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='{row_of_key}'><input  class="layui-btn layui-btn-normal" type="submit" value="提交更改">""",
          }
         for replace_tuple in replace_dict.items():html_string = html_string.replace(replace_tuple[0], replace_tuple[1])
 
