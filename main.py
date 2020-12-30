@@ -17,8 +17,8 @@ from _Hash_Utils import hash_id
 
 # Imported libraries
 from pymongo.periodic_executor import _on_executor_deleted
-from werkzeug import utils
-from json2html import json2html
+from werkzeug   import utils
+from json2html  import json2html
 from flask      import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
 
 # =============================================
@@ -57,6 +57,19 @@ def gen_operInfo_tup():
     # print(datetime_str)
     operator_str = session["operator_name"]
     return (operator_str, datetime_str)
+
+def mock_assignAuthorization():
+    # Stuff about account login 
+    user_rows = {
+        'admin' : {'password': 'admin', 'rows':[733101,733121,733131,733141,733151,733165,733177,733189,733201,733213,733225]},
+        'user1' : {'password': 'user1', 'rows':[733101]},
+        'user2' : {'password': 'user2', 'rows':[733121]},
+        'user3' : {'password': 'user3', 'rows':[733131]},
+        'user4' : {'password': 'user4', 'rows':[733141]},
+        'user5' : {'password': 'user5', 'rows':[733151]},
+    }
+    Database_Utils.add_authorization(user_rows=user_rows)
+    return
 
 # =============================================
 # demo functions
@@ -477,47 +490,65 @@ def table_all():
         temp_dict = {}
         temp_dict[title] = col_name
         
-        # TODO: Get completion percentages from the database 
-        # (通过行的最后几行是否完成来校验行是否为完成状态)
-        # completion_percent = GetCompletionPercentage(col_name = col_name)
-        config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
-        count_row_completed   = Database_Utils.count_completedRows(config=config)
-        count_row_uncompleted = Database_Utils.count_allRows(config=config) - count_row_completed
-        completion_percent = Database_Utils.get_completionPercentage(config=config)
-
-        temp_dict[row_completed_title] = str(count_row_completed)
-        temp_dict[row_notComplt_title] = str(count_row_uncompleted)
-        temp_dict[completion_title]    = completion_percent
-
-        # 按钮
-        button_stringBefReplacement = ""
-        # Will be repalced with 更改表单 button
-        button_stringBefReplacement += button_placeholder_front * 1 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 1
-        # Will be repalced with 删除表单 button (*3 will be repalced with option of disabled)
+        # 如果是超级用户
         if(session["operator_name"] == 'admin'):
+            # (通过行的最后几行是否完成来校验行是否为完成状态)
+            config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
+            count_row_completed   = Database_Utils.count_completedRows(config=config)
+            count_row_uncompleted = Database_Utils.count_allRows(config=config) - count_row_completed
+            completion_percent = Database_Utils.get_completionPercentage(config=config)
+
+            temp_dict[row_completed_title] = str(count_row_completed)
+            temp_dict[row_notComplt_title] = str(count_row_uncompleted)
+            temp_dict[completion_title]    = completion_percent
+
+            # 按钮
+            button_stringBefReplacement = ""
+            # Will be repalced with 更改表单 button
+            button_stringBefReplacement += button_placeholder_front * 1 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 1
+            # Will be repalced with 删除表单 button (*3 will be repalced with option of disabled)
             if(count_row_completed == 0): button_stringBefReplacement += button_placeholder_front * 2 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 2
             else: button_stringBefReplacement += button_placeholder_front * 3 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 3
-        temp_dict[button_title] = button_stringBefReplacement
+            temp_dict[button_title] = button_stringBefReplacement
+
+        # 如果是普通用户
+        else:
+            config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
+            rows_complete_state = Database_Utils.check_rowCompleted(config=config, row_ids=Database_Utils.get_authorizedRows(session['operator_name']))
+            temp_dict["完成状态"] = "已完成" if rows_complete_state else "未完成"
+            # 按钮
+            button_stringBefReplacement = ""
+            # Will be repalced with 更改表单 button
+            if(not rows_complete_state):
+                button_stringBefReplacement += button_placeholder_front * 1 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 1
+                temp_dict[button_title] = button_stringBefReplacement
+            else:
+                button_stringBefReplacement += button_placeholder_front * 4 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 4
+                temp_dict[button_title] = button_stringBefReplacement
+
         json_collections.append(temp_dict)
 
     if len(json_collections) == 0:
         json_collections = [{title: "数据库为空 !", row_completed_title:"", row_notComplt_title:"", completion_title:"", button_title:""}]
 
-    # 通过完成度给表格排序
-    get_percentage = lambda i:i[completion_title]
-    json_collections = sorted(json_collections, key=get_percentage)
+    if(session["operator_name"] == 'admin'):
+        # 通过完成度给表格排序
+        get_percentage = lambda i:i[completion_title]
+        json_collections = sorted(json_collections, key=get_percentage)
 
     # Using json2html to convert into table
     html_table_string = json2html.convert(json = json_collections)
     html_table_string = html_table_string.replace("""<table border="1">""", """<table class="layui-table">""")
 
     replace_dict = {
-        "@@@@@@@@@@@@["   : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
-        "@@@@@@@@["       : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
-        "@@@@["           : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name" value='""",
-        " ]############"  : """'><input class="layui-btn layui-btn-disabled " type="submit"  value="删除表单(已填写)" disabled></form>       """,
-        " ]########"      : """'><input class="layui-btn layui-btn-danger "   type="submit"  value="删除表单"></form>                 """,
-        " ]####"          : """'><input class="layui-btn layui-btn-primary "  type="submit"  value="查看 / 更改表单"></form>                 """,
+        "@@@@@@@@@@@@@@@@["     : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name" value='""",
+        "@@@@@@@@@@@@["         : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
+        "@@@@@@@@["             : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
+        "@@@@["                 : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name" value='""",
+        " ]################"    : """'><input class="layui-btn"  type="submit"  value="查看已完成表单"></form>         """,
+        " ]############"        : """'><input class="layui-btn layui-btn-disabled " type="submit"  value="删除表单(已填写)" disabled></form>       """,
+        " ]########"            : """'><input class="layui-btn layui-btn-danger "   type="submit"  value="删除表单"></form>                 """,
+        " ]####"                : """'><input class="layui-btn layui-btn-primary "  type="submit"  value="查看 / 填写表单"></form>                 """,
     }
     for replace_tuple in replace_dict.items():
         html_table_string = html_table_string.replace(replace_tuple[0], replace_tuple[1])
@@ -727,7 +758,7 @@ def table(option):
 # main
 
 def main():
-
+    mock_assignAuthorization()
     app.run(host='0.0.0.0', port=5000, debug=True)
     return
 

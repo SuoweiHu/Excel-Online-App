@@ -60,6 +60,18 @@ class Database_Utils:
 
         return round(c_comRow/c_allRow * 100, 1)
     
+    def check_rowCompleted(config, row_ids):
+        db = MongoDatabase()
+        db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+        temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+        db.close()
+        for row_id in row_ids:
+            row_id = str(row_id)
+            if(row_id in temp_mongoLoad['data'].keys()):
+                if (temp_mongoLoad['data'][row_id]["操作员"] is None):
+                    return False
+        return True
+
     # ================================
 
     def get_tableTitles(tb_name):
