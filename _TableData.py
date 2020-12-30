@@ -394,8 +394,8 @@ class TableData:
         replace_dict = {
             "@@@@@@@@[" : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
             "@@@@["     : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
-            "]########" : f"""'><input class="layui-btn layui-btn-disabled layui-btn-xs" type="submit" disabled value="已经编辑"></form>""",
-            "]####"     : f"""'><input class="layui-btn layui-btn-primary layui-btn-xs" type="submit" value="编辑此行"></form>""",
+            "]########" : f"""'><input class="layui-btn layui-btn-disabled layui-btn-sm" style="margin-left:0%;" type="submit" disabled value="已经编辑"></form>""",
+            "]####"     : f"""'><input class="layui-btn layui-btn-primary layui-btn-sm"  style="margin-left:0%;" type="submit" value="编辑此行"></form>""",
          }
         for replace_tuple in replace_dict.items():html_string = html_string.replace(replace_tuple[0], replace_tuple[1])
         return html_string

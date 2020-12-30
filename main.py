@@ -512,12 +512,12 @@ def table_all():
     html_table_string = html_table_string.replace("""<table border="1">""", """<table class="layui-table">""")
 
     replace_dict = {
-        "@@@@@@@@@@@@["   : """<form action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
-        "@@@@@@@@["       : """<form action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
-        "@@@@["           : """<form action='/table/show' method="get"><input type="hidden" name="table_name" value='""",
-        " ]############"  : """'><input class="layui-btn layui-btn-disabled " type="submit" value="删除表单-已填" disabled></form>       """,
-        " ]########"      : """'><input class="layui-btn layui-btn-primary " type="submit"  value="删除表单-未填"></form>                 """,
-        " ]####"          : """'><input class="layui-btn layui-btn-primary " type="submit"  value="查看/更改表单"></form>                 """,
+        "@@@@@@@@@@@@["   : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
+        "@@@@@@@@["       : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
+        "@@@@["           : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name" value='""",
+        " ]############"  : """'><input class="layui-btn layui-btn-disabled " type="submit"  value="删除表单(已填写)" disabled></form>       """,
+        " ]########"      : """'><input class="layui-btn layui-btn-danger "   type="submit"  value="删除表单"></form>                 """,
+        " ]####"          : """'><input class="layui-btn layui-btn-primary "  type="submit"  value="查看 / 更改表单"></form>                 """,
     }
     for replace_tuple in replace_dict.items():
         html_table_string = html_table_string.replace(replace_tuple[0], replace_tuple[1])
