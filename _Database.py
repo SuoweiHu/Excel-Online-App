@@ -118,4 +118,5 @@ class MongoDatabase:
         # Simple version
         db = self.database
         names = db.list_collection_names()
+        names.remove("账户")
         return names

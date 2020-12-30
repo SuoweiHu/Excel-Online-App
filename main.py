@@ -236,9 +236,17 @@ def demo_3():
 def demo_4():
     # Stuff about account login 
     user_rows = {
-        'admin' : {'password': 'admin', 'rows':[1,2,3,4,5]},
-        'user1' : {'password': 'user1', 'rows':[1,2]},
-        'user2' : {'password': 'user2', 'rows':[3,4]}
+        'admin' : {'password': 'admin', 'rows':[733101,733121,733131,733141,733151,733165,733177,733189,733201,733213,733225]},
+        'user0' : {'password': 'user0', 'rows':[]},
+        'user1' : {'password': 'user1', 'rows':[733101]},
+        'user2' : {'password': 'user2', 'rows':[733121,733131]},
+        'user3' : {'password': 'user3', 'rows':[733141,733151,733165]},
+        'user4' : {'password': 'user4', 'rows':[]},
+        'user5' : {'password': 'user5', 'rows':[]},
+        'user6' : {'password': 'user6', 'rows':[]},
+        'user7' : {'password': 'user7', 'rows':[]},
+        'user8' : {'password': 'user8', 'rows':[]},
+        'user9' : {'password': 'user9', 'rows':[]},
     }
     Database_Utils.add_authorization(user_rows=user_rows)
     temp_pass = Database_Utils.get_password(user_name='admin')
@@ -419,7 +427,9 @@ def login():
     name = request.form["operator_name"]
     password = request.form["operator_pass"]
     # check_login = check_account_match(name, password) 
-    check_login = ('admin' in name) and ('admin' in password)
+    # check_login = ('admin' in name) and ('admin' in password)
+    db_password = Database_Utils.get_password(name)
+    check_login = (db_password is not None) and (password == db_password)
 
     # 缺少检测登陆成功的机制
     if(check_login):
@@ -487,10 +497,10 @@ def table_all():
         # Will be repalced with 更改表单 button
         button_stringBefReplacement += button_placeholder_front * 1 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 1
         # Will be repalced with 删除表单 button (*3 will be repalced with option of disabled)
-        if(count_row_completed == 0): button_stringBefReplacement += button_placeholder_front * 2 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 2
-        else: button_stringBefReplacement += button_placeholder_front * 3 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 3
+        if(session["operator_name"] == 'admin'):
+            if(count_row_completed == 0): button_stringBefReplacement += button_placeholder_front * 2 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 2
+            else: button_stringBefReplacement += button_placeholder_front * 3 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 3
         temp_dict[button_title] = button_stringBefReplacement
-        
         json_collections.append(temp_dict)
 
     if len(json_collections) == 0:
@@ -622,7 +632,8 @@ def table_show(table_name,show_rows_of_keys):
 
     # Convert the result to html format for printing
     tableData  = TableData(json=temp_mongoLoad)
-    htmlString = tableData.tableShow_toHtml(rows_of_keys=show_rows_of_keys, show_operator=False)
+    htmlString = tableData.tableShow_toHtml(rows_of_keys=show_rows_of_keys,\
+         show_operator=True if(session['operator_name']=='admin') else False)
 
     # Add operator info 
     operator_infos = gen_operInfo_tup()
@@ -659,11 +670,27 @@ def table_edit(table_name,edit_row_key):
     # Return html string rendered by template
     return render_template('table.html', table_info=htmlString, operator_name=operator_name, operator_date=operator_date, operator_time=operator_time)
 
+# @app.route('/table_submit')
+def table_submit(table_name,row_id):
+    # Upload the updated data to mongodb database
+    titles      = Database_Utils.get_tableTitles(tb_name=table_name)
+    origin_dict = Database_Utils.load_table(tb_name=table_name)
+    for title in titles:
+        origin_dict['data'][row_id][title] = request.form.get(title)
+    origin_dict['data'][row_id]['行号'] = row_id
+    origin_dict['data'][row_id]['操作员']   = session['operator_name']
+    origin_dict['data'][row_id]['操作时间'] = gen_dateTime_str()
+
+    # pprint.pprint(origin_dict['data'][row_id], indent=4)
+    Database_Utils.save_table(tb_name=table_name, data=origin_dict)
+
+    return render_template('table_submit.html', table_name=table_name)
+
 @app.route('/table/<string:option>', methods=["GET", "POST"])
 def table(option):
-    # # 检测登陆状态
-    # if(session['operator'] is None) and (session['operator_name'] is None):
-    #     return render_template('please_login.html')
+    # 检测登陆状态
+    if(session['operator'] is None) and (session['operator_name'] is None):
+        return render_template('please_login.html')
 
     # 如果option为all: 跳转到用户选择表格界面
     if(option=='all'):
@@ -673,33 +700,34 @@ def table(option):
     elif(option=='clear'):
         return table_clear()
 
-    # 如果options为表格名: 用户选择行/预览界面
+    # 如果options为show: 用户选择(多)行/预览界面
     elif(option=='show'):
         # 提取表名
         tb_name = request.args.get('table_name')
 
         # 提取用户允许访问的行
         op_name = session["operator_name"]
-        # op_rows = GET_OPERATOR_S_ALLOWED_ROWS() #TODO:Implemnt this 
-        # op_rows = None # When none it is admin by deafult 
-        op_rows = [733101, 733121]
+        op_rows = Database_Utils.get_authorizedRows(user_name=op_name)
 
         return table_show(table_name=tb_name, show_rows_of_keys=op_rows) 
 
-    # 如果options为表格名: 用户选择行/预览界面
+    # 如果options为表格名: 用户编辑行界面
     elif(option=='edit'):
         # 提取表名 / 行号
         tb_name = request.args.get('table_name')
         row_id  = request.args.get('row_id')
         return table_edit(table_name=tb_name, edit_row_key=row_id)
-        # return f"Not yet implmented, reuqests: {tb_name} + {row_id}"
-        
+    
+    # 如果option为submit: 提交数据然后返回show界面 (POST)
+    elif(option=='submit'):
+        table_name  = request.form.get('table_name')
+        row_id      = request.form.get('row_id')
+        return table_submit(table_name=table_name, row_id=row_id)
 
 # =============================================
 # main
 
 def main():
-    
 
     app.run(host='0.0.0.0', port=5000, debug=True)
     return
