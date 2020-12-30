@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <!-- ====================================================== -->
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -15,17 +15,29 @@
     <div style="padding: 20px; background-color: #ffffff;">
         <!-- ============================================================================ -->
         <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
-            <legend>表格数据</legend>
-            <div style="margin-left: 20px;">
+            <legend>上传模版/空表</legend>
+            <div>
                 <br>
-                {{table_info | safe}}
+                <form action="/file" method="post" enctype="multipart/form-data" style="margin-left: 20px;">
+                    <input type="file" name="stuff_file"  id=""><br><br>
+                    <input type="submit" class="layui-btn"value="上传文件">
+                </form>
+                <br>
+
+            </div>
+        </fieldset>
+        <!-- ============================================================================ -->
+        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+            <legend>更改/查看表格</legend>
+            <div>
+                <br>
+                <form action="/table/all" method="post" style="margin-left: 20px;">
+                    <input type="submit" class="layui-btn" value="打开表格">
+                </form>
                 <br>
             </div>
-            <form action="/index" method="get" style="margin-left: 20px;">
-                <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo1">返回主页</button>
-            </form>
-            <br>
         </fieldset>
+
         <!-- ============================================================================ -->
         <br><br><hr>
         <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
@@ -60,6 +72,6 @@
         </fieldset>
         <!-- ============================================================================ -->
     </div>
-
+    <!-- <script src="{{ url_for('static', filename='/layui/dist/layui.js') }}" charset="utf-8"></script> -->
 </body>
 </html>

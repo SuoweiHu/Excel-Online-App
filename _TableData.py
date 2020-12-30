@@ -390,6 +390,7 @@ class TableData:
     def tableShow_toHtml(self, rows_of_keys, show_operator = True):
         json_dict = self.tableShow_toJson(rows_of_keys=rows_of_keys,show_operator=show_operator)
         html_string = json2html.convert(json = json_dict)
+        html_string = html_string.replace("""<table border="1">""", """<table class="layui-table">""")
         replace_dict = {
             "@@@@@@@@[" : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
             "@@@@["     : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
@@ -637,6 +638,7 @@ class TableData:
     def tableEdit_toHtml(self, row_of_key=None, show_operator = True):
         json_dict = self.tableEdit_toJson(row_of_key=row_of_key,show_operator=show_operator)
         html_string = json2html.convert(json = json_dict)
+        html_string = html_string.replace("""<table border="1">""", """<table class="layui-table">""")
 
         # # Process the table such that none becomes form
         replace_dict = {

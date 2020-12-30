@@ -278,40 +278,43 @@ def redirect_to_index():
 
 @app.route('/index')
 def index():
-    if(not session['login_state']==True):
-        fileUpload_section = "请登录, 以访问数据库 ... ..."
-        insert_section = "请登录, 以访问数据库 ... ..."
+    if(not session['login_state']):
+        # fileUpload_section = f"<br>{'&nbsp;'*3}请登录, 以访问数据库 ... ... <br><br>"
+        # insert_section     = f"<br>{'&nbsp;'*3}请登录, 以访问数据库 ... ... <br><br>"
         # delete_section = "请登录, 以访问数据库 ... ..."
-        login_section  = """
-            登陆以获得更多权限<br><br>
-            <form action="/login" method="post">
-                账户名:      
-                <input type="text" name="operator_name" id=""><br>
-                &nbsp;密码:&nbsp;&nbsp;&nbsp; 
-                <input type="password" name="operator_pass" id=""><br>
-                <br>
-                <input type="submit" value="提交">
-            </form>
-            """
+        # login_section  = """
+            # 登陆以获得更多权限<br><br>
+            # <form action="/login" method="post">
+            #     账户名:      
+            #     <input type="text" name="operator_name" id=""><br>
+            #     &nbsp;密码:&nbsp;&nbsp;&nbsp; 
+            #     <input type="password" name="operator_pass" id=""><br>
+            #     <br>
+            #     <input type="submit" value="提交">
+            # </form>
+            # """
+
+        return render_template('index_logged_out.html')
     else:
-        fileUpload_section = """
-            <form action="/file" method="post" enctype="multipart/form-data">
-                <input type="file" name="stuff_file"  id=""><br><br>
-                <input type="submit" value="--- 上传 ---">
-            </form>
-            """
-        insert_section = """
-            <!---查看所有表单-->
-            <form action="/table/all" method="post">
-                <input type="submit" value="更改/查看 已有表单">
-            </form>
-            <br>
-            """
-        # Add operator info 
-        operator_infos = gen_operInfo_tup()
-        operator_name  = operator_infos[0]
-        operator_date  = operator_infos[1].split(' ')[0]
-        operator_time  = operator_infos[1].split(' ')[1]
+        # fileUpload_section = """
+            # <form action="/file" method="post" enctype="multipart/form-data">
+            #     <input type="file" name="stuff_file"  id=""><br><br>
+            #     <input type="submit" value="--- 上传 ---">
+            # </form>
+            # """
+        # insert_section = """
+            # <!---查看所有表单-->
+            # <form action="/table/all" method="post">
+            #     <input type="submit" value="更改/查看 已有表单">
+            # </form>
+            # <br>
+            # """
+
+        return render_template('index_logged_in.html', \
+            operator_name = gen_operInfo_tup()[0], \
+            operator_time = gen_operInfo_tup()[1].split(' ')[0], \
+            operator_date = gen_operInfo_tup()[1].split(' ')[1], \
+        )
 
         # insert_section = """
             # <!---查看特定表单-->
@@ -347,23 +350,17 @@ def index():
             #     <input type="submit" value="清除数据库内 所有集合">
             # </form>
             # """
-        login_section = f"""
-            已登陆<br><br>
-            名字: &nbsp <input type="text" name="operator_name" required readonly value={operator_name}> <br>
-            日期: &nbsp <input type="time" name="operator_date" required readonly value={operator_date}> <br>
-            时间: &nbsp <input type="time" name="operator_time" required readonly value={operator_time}> <br>
-            <br>
-            <form action="{url_for('initialize')}" method="post">
-                <input type="submit" value="退出登录">
-            </form>
-            """
+        # login_section = f"""
+            # 已登陆<br><br>
+            # 名字: &nbsp <input type="text" name="operator_name" required readonly value={operator_name}> <br>
+            # 日期: &nbsp <input type="time" name="operator_date" required readonly value={operator_date}> <br>
+            # 时间: &nbsp <input type="time" name="operator_time" required readonly value={operator_time}> <br>
+            # <br>
+            # <form action="{url_for('initialize')}" method="post">
+            #     <input type="submit" value="退出登录">
+            # </form>
+            # """
         
-
-    return render_template('index.html', \
-        fileUpload_section = fileUpload_section, \
-        insert_section = insert_section, \
-        login_section  = login_section, 
-        )
 
 # =============================================
 # flask router: main menu
@@ -379,7 +376,7 @@ def upload_file():
         f_name = f.filename
         if('xlsx' not in f_name):
             # 检查文件类型是否正确
-            return render_template("upload.html", message=f"上传文件失败, 错误: 文件名为{f_name} (需要为后缀是xlsx的文件)")
+            return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 文件名为{f_name} (需要为后缀是xlsx的文件)")
         else: 
             # 保存文件, 从文件读取内容, 并保存到数据库
             f.save(f'./src/temp/{f_name}') # 临时保存文件
@@ -416,11 +413,11 @@ def upload_file():
                 JSON.save(temp_mongoLoad, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
             db.close()
 
-            return render_template("upload.html", message=f"成功上传文件, 文件名: {f_name}")
+            return render_template("redirect_fileUploaded.html", message=f"成功上传文件, 文件名: {f_name}")
 
     # 未知上传方法 (GET及其他)
     else:
-            return render_template("upload.html", message=f"上传文件失败, 错误: 位置上传方法 (需要为POST)")
+            return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 位置上传方法 (需要为POST)")
 
 @app.route('/login', methods=["POST"])
 def login():
@@ -436,9 +433,9 @@ def login():
         session['login_state'] = True
         session['operator'] = name
         session['operator_name'] = name
-        return render_template("login.html", message=f"登陆成功: 用户名为[ {name} ]")
+        return render_template("redirect_login.html", message=f"登陆成功: 用户名为[ {name} ]")
     else: 
-        return render_template("login.html", message="登陆失败: 账号或密码不匹配")
+        return render_template("redirect_login.html", message="登陆失败: 账号或密码不匹配")
 
 @app.route('/upload', methods=["POST"])
 def upload():
@@ -512,13 +509,15 @@ def table_all():
 
     # Using json2html to convert into table
     html_table_string = json2html.convert(json = json_collections)
+    html_table_string = html_table_string.replace("""<table border="1">""", """<table class="layui-table">""")
+
     replace_dict = {
         "@@@@@@@@@@@@["   : """<form action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
         "@@@@@@@@["       : """<form action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
         "@@@@["           : """<form action='/table/show' method="get"><input type="hidden" name="table_name" value='""",
-        " ]############"  : """'><input type="submit" value="删除表单(已填" disabled></form>""",
-        " ]########"      : """'><input type="submit" value="删除表单(未填"></form>""",
-        " ]####"          : """'><input type="submit" value="展示/更改表单"></form>""",
+        " ]############"  : """'><input class="layui-btn layui-btn-disabled layui-btn-xs" type="submit" value="删除表单(已填" disabled></form>""",
+        " ]########"      : """'><input class="layui-btn layui-btn-primary layui-btn-xs" type="submit" value="删除表单(未填"></form>""",
+        " ]####"          : """'><input class="layui-btn layui-btn-xs" type="submit" value="展示/更改表单"></form>""",
     }
     for replace_tuple in replace_dict.items():
         html_table_string = html_table_string.replace(replace_tuple[0], replace_tuple[1])
@@ -553,7 +552,7 @@ def table_all():
     # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
     # db.drop(collection = table_name)
     # db.close()
-    # return render_template("clear.html", message=f"操作成功: 已清除集合[ {table_name} ]")
+    # return render_template("redirect_clearAllTable.html", message=f"操作成功: 已清除集合[ {table_name} ]")
 
 # @app.route('/clear_all', methods=["POST"])
 # def DEPRECATED_clear_database():
@@ -566,7 +565,7 @@ def table_all():
     # db = MongoDatabase()
     # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
     # db.close()
-    # return render_template("clear.html", message=f"操作成功: 数据库中所有集合已被清除")
+    # return render_template("redirect_clearAllTable.html", message=f"操作成功: 数据库中所有集合已被清除")
 
 # @app.route('/table_clear')
 def table_clear():
@@ -578,7 +577,7 @@ def table_clear():
     db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
     db.drop(collection = table_name)
     db.close()
-    return render_template("clear_table.html", message=f"操作成功: 已清除集合[ {table_name} ]")
+    return render_template("redirect_tableCleaned.html", message=f"操作成功: 已清除集合[ {table_name} ]")
 
 # @app.route('/table', methods=["POST"])
 # def DEPRECATED_table():
@@ -684,13 +683,13 @@ def table_submit(table_name,row_id):
     # pprint.pprint(origin_dict['data'][row_id], indent=4)
     Database_Utils.save_table(tb_name=table_name, data=origin_dict)
 
-    return render_template('table_submit.html', table_name=table_name)
+    return render_template('redirect_tableSubmitted.html', table_name=table_name)
 
 @app.route('/table/<string:option>', methods=["GET", "POST"])
 def table(option):
     # 检测登陆状态
     if(session['operator'] is None) and (session['operator_name'] is None):
-        return render_template('please_login.html')
+        return render_template('redirect_prompt.html')
 
     # 如果option为all: 跳转到用户选择表格界面
     if(option=='all'):

@@ -2,25 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- ====================================================== -->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/layui/dist/css/layui.css') }}"  media="all">
+    <!-- ====================================================== -->
     <title>Excel Online</title>
 </head>
 <body>
-    <div>
-        <h2>表单数据</h2>
-        {{table_info | safe}}
-    </div>
-    
-    <br><hr>
-    <div>
-        <h2>操作员</h2>
-        名字: &nbsp <input type="text" name="operator_name" required readonly value={{operator_name | safe}}> <br>
-        日期: &nbsp <input type="time" name="operator_date" required readonly value={{operator_date | safe}}> <br>
-        时间: &nbsp <input type="time" name="operator_time" required readonly value={{operator_time | safe}}> <br>
-        <br>
-        <form action="{{url_for('initialize')}}" method="post">
-            <input type="submit" value="退出登录">
-        </form>
+
+    <div style="padding: 20px; background-color: #ffffff;">
+        <!-- ============================================================================ -->
+        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+            <legend>表格数据</legend>
+            <div style="margin-left: 20px;">
+                <br>
+                {{table_info | safe}}
+                <br>
+            </div>
+            <form action="/table/all" method="get" style="margin-left: 20px;">
+                <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo1">返回全部</button>
+            </form>
+            <br>
+        </fieldset>
+        <!-- ============================================================================ -->
+        <br><br><hr>
+        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+            <legend>操作员</legend>
+            <br>
+            <div>
+                <form class="layui-form layui-form-pane" action="/" method="post" style="margin-left: 20px;">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">账号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="operator_name" readonly lay-verify="required" placeholder="{{operator_name}}" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">已登陆...</div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="operator_pass" readonly lay-verify="required" placeholder="{{operator_date}}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="operator_pass" readonly lay-verify="required" placeholder="{{operator_time}}" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">(将以提交时间为准)</div>
+                    </div>
+                    <button type="submit" class="layui-btn layui-btn-danger" lay-submit="" lay-filter="demo1">退出登录</button>
+                    <br>
+                <br>
+            </div>
+        </fieldset>
+        <!-- ============================================================================ -->
     </div>
 </body>
 </html>
