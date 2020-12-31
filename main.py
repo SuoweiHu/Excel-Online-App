@@ -83,12 +83,12 @@ def demo_1():
         - Using _Database to save and read from mongo database
         - Using _Redis to save custom object to database (Failed)
     """
-    config=DB_Config(tb_name="2020年二季度 copy.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name="2020年二季度 copy")
+    config=DB_Config(tb_name="2020年二季度 copy.xlsx", db_host='localhost', db_port=27017, db_name="ExcelOnline", collection_name="2020年二季度 copy")
     # config={
     #     "tb_name" : "2020年二季度.xlsx",
     #     "db_host" : 'localhost',
     #     "db_port" : 27017,
-    #     "db_name" : "账户统计",
+    #     "db_name" : "ExcelOnline",
     #     "collection_name" : "2020第二季度",
     # }
 
@@ -184,7 +184,7 @@ def demo_3():
             ]
         }
     """
-    config=DB_Config(tb_name="2020年二季度.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name="2020年二季度")
+    config=DB_Config(tb_name="2020年二季度.xlsx", db_host='localhost', db_port=27017, db_name="ExcelOnline", collection_name="2020年二季度")
 
     # Read from Excel file 
     tb_name     = config.tb_name
@@ -400,7 +400,7 @@ def upload_file():
             #     "tb_name" : f_name,
             #     "db_host" : 'localhost',
             #     "db_port" : 27017,
-            #     "db_name" : "账户统计",
+            #     "db_name" : "ExcelOnline",
             #     "collection_name" : f_name.split('.')[0],
             # }
 
@@ -493,7 +493,7 @@ def table_all():
         # 如果是超级用户
         if(session["operator_name"] == 'admin'):
             # (通过行的最后几行是否完成来校验行是否为完成状态)
-            config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
+            config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="ExcelOnline", collection_name=f"{temp_dict[title]}")
             count_row_completed   = Database_Utils.count_completedRows(config=config)
             count_row_uncompleted = Database_Utils.count_allRows(config=config) - count_row_completed
             completion_percent = Database_Utils.get_completionPercentage(config=config)
@@ -513,7 +513,7 @@ def table_all():
 
         # 如果是普通用户
         else:
-            config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
+            config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="ExcelOnline", collection_name=f"{temp_dict[title]}")
             rows_complete_state = Database_Utils.check_rowCompleted(config=config, row_ids=Database_Utils.get_authorizedRows(session['operator_name']))
             temp_dict["完成状态"] = "已完成" if rows_complete_state else "未完成"
             # 按钮
@@ -573,7 +573,7 @@ def table_all():
     # # config={
     # #     "db_host" : 'localhost',
     # #     "db_port" : 27017,
-    # #     "db_name" : "账户统计",
+    # #     "db_name" : "ExcelOnline",
     # # }
 
     # table_name = request.form['table_name']
@@ -591,7 +591,7 @@ def table_all():
     # # config={
     # #     "db_host" : 'localhost',
     # #     "db_port" : 27017,
-    # #     "db_name" : "账户统计",
+    # #     "db_name" : "ExcelOnline",
     # # }
     # db = MongoDatabase()
     # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
@@ -617,7 +617,7 @@ def table_clear():
     # #     "tb_name" : "",# 注意这里的文件名是带xlsx后缀的
     # #     "db_host" : 'localhost',
     # #     "db_port" : 27017,
-    # #     "db_name" : "账户统计",
+    # #     "db_name" : "ExcelOnline",
     # #     "collection_name" : "",# 这里则 不带xlsx后缀
     # # }
     # config.tb_name = request.form['table_name']
