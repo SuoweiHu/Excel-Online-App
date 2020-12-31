@@ -83,12 +83,12 @@ def demo_1():
         - Using _Database to save and read from mongo database
         - Using _Redis to save custom object to database (Failed)
     """
-    config=DB_Config(tb_name="2020年二季度 copy.xlsx", db_host='localhost', db_port=27017, db_name="ExcelOnline", collection_name="2020年二季度 copy")
+    config=DB_Config(tb_name="2020年二季度 copy.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name="2020年二季度 copy")
     # config={
     #     "tb_name" : "2020年二季度.xlsx",
     #     "db_host" : 'localhost',
     #     "db_port" : 27017,
-    #     "db_name" : "ExcelOnline",
+    #     "db_name" : "账户统计",
     #     "collection_name" : "2020第二季度",
     # }
 
@@ -184,7 +184,7 @@ def demo_3():
             ]
         }
     """
-    config=DB_Config(tb_name="2020年二季度.xlsx", db_host='localhost', db_port=27017, db_name="ExcelOnline", collection_name="2020年二季度")
+    config=DB_Config(tb_name="2020年二季度.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name="2020年二季度")
 
     # Read from Excel file 
     tb_name     = config.tb_name
@@ -274,10 +274,11 @@ def demo_4():
 
 @app.route('/', methods=["POST","GET"])
 def initialize():
-    session['login_state'] = False
-    session['operator']    = None
+    session['login_state']   = False
+    session['operator']      = None
     session['operator_name'] = None
     session['previous_page'] = None
+    session['page']          = 0
     return redirect(url_for('index'))
 
 @app.route('/redirect', methods=["POST","GET"])
@@ -308,7 +309,7 @@ def index():
             # """
 
         return render_template('index_logged_out.html')
-    else:
+    elif(session['operator_name'] == "admin"):
         # fileUpload_section = """
             # <form action="/file" method="post" enctype="multipart/form-data">
             #     <input type="file" name="stuff_file"  id=""><br><br>
@@ -321,13 +322,6 @@ def index():
             #     <input type="submit" value="更改/查看 已有表单">
             # </form>
             # <br>
-            # """
-
-        return render_template('index_logged_in.html', \
-            operator_name = gen_operInfo_tup()[0], \
-            operator_time = gen_operInfo_tup()[1].split(' ')[0], \
-            operator_date = gen_operInfo_tup()[1].split(' ')[1], \
-        )
 
         # insert_section = """
             # <!---查看特定表单-->
@@ -374,6 +368,15 @@ def index():
             # </form>
             # """
         
+            # """
+
+        return render_template('index_logged_in.html', \
+            operator_name = gen_operInfo_tup()[0], \
+            operator_time = gen_operInfo_tup()[1].split(' ')[1], \
+            operator_date = gen_operInfo_tup()[1].split(' ')[0], \
+        )
+    else:
+        return redirect('/table/all')
 
 # =============================================
 # flask router: main menu
@@ -400,7 +403,7 @@ def upload_file():
             #     "tb_name" : f_name,
             #     "db_host" : 'localhost',
             #     "db_port" : 27017,
-            #     "db_name" : "ExcelOnline",
+            #     "db_name" : "账户统计",
             #     "collection_name" : f_name.split('.')[0],
             # }
 
@@ -426,7 +429,7 @@ def upload_file():
                 JSON.save(temp_mongoLoad, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
             db.close()
 
-            return render_template("redirect_fileUploaded.html", message=f"成功上传文件, 文件名: {f_name}")
+            return render_template("redirect_fileUploaded.html", message=f"成功上传文件, 文件名: {f_name}", table_name = f_name)
 
     # 未知上传方法 (GET及其他)
     else:
@@ -467,6 +470,12 @@ def upload():
 # =============================================
 # flask router: table operation
 
+@app.route('/table_all_nxtPage')
+def table_all_nxtPage():
+    session['page'] = session['page'] +1
+    return redirect('/table/all')
+    
+
 # @app.route('/table_all')
 def table_all():
     # Retain colleciton names from database
@@ -474,12 +483,18 @@ def table_all():
     db.start()
     collection_names = db.list_collections()
     db.close()
+
+    num_of_sheet_pert_page = 1
+    if(session.get('page') is None):session['page'] = 0
+    # sheet_start = 0 + 
+    # sheet_end   =
+
     
     # Format the colleciton names into json dict
     title = "表格名称"
     completion_title = "完成度 (%)"
-    row_completed_title = "已完成行数"
-    row_notComplt_title = "未完成行数"
+    row_completed_title = "完成-行数"
+    row_allNumRows_title = "全部-行数"
     button_title = "操作"                # Usually empty string like ""
     button_placeholder_front = "@@@@"   # @@@@@@@@@@@@@@@@@@@@'
     button_placeholder_back  = "####"   # ####################'
@@ -493,13 +508,13 @@ def table_all():
         # 如果是超级用户
         if(session["operator_name"] == 'admin'):
             # (通过行的最后几行是否完成来校验行是否为完成状态)
-            config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="ExcelOnline", collection_name=f"{temp_dict[title]}")
+            config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
             count_row_completed   = Database_Utils.count_completedRows(config=config)
             count_row_uncompleted = Database_Utils.count_allRows(config=config) - count_row_completed
             completion_percent = Database_Utils.get_completionPercentage(config=config)
 
             temp_dict[row_completed_title] = str(count_row_completed)
-            temp_dict[row_notComplt_title] = str(count_row_uncompleted)
+            temp_dict[row_allNumRows_title] = str(count_row_uncompleted+count_row_completed)
             temp_dict[completion_title]    = completion_percent
 
             # 按钮
@@ -513,7 +528,7 @@ def table_all():
 
         # 如果是普通用户
         else:
-            config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="ExcelOnline", collection_name=f"{temp_dict[title]}")
+            config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
             rows_complete_state = Database_Utils.check_rowCompleted(config=config, row_ids=Database_Utils.get_authorizedRows(session['operator_name']))
             temp_dict["完成状态"] = "已完成" if rows_complete_state else "未完成"
             # 按钮
@@ -529,7 +544,7 @@ def table_all():
         json_collections.append(temp_dict)
 
     if len(json_collections) == 0:
-        json_collections = [{title: "数据库为空 !", row_completed_title:"", row_notComplt_title:"", completion_title:"", button_title:""}]
+        json_collections = [{title: "数据库为空 !", row_completed_title:"", row_allNumRows_title:"", completion_title:"", button_title:""}]
 
     if(session["operator_name"] == 'admin'):
         # 通过完成度给表格排序
@@ -573,7 +588,7 @@ def table_all():
     # # config={
     # #     "db_host" : 'localhost',
     # #     "db_port" : 27017,
-    # #     "db_name" : "ExcelOnline",
+    # #     "db_name" : "账户统计",
     # # }
 
     # table_name = request.form['table_name']
@@ -591,7 +606,7 @@ def table_all():
     # # config={
     # #     "db_host" : 'localhost',
     # #     "db_port" : 27017,
-    # #     "db_name" : "ExcelOnline",
+    # #     "db_name" : "账户统计",
     # # }
     # db = MongoDatabase()
     # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
@@ -617,7 +632,7 @@ def table_clear():
     # #     "tb_name" : "",# 注意这里的文件名是带xlsx后缀的
     # #     "db_host" : 'localhost',
     # #     "db_port" : 27017,
-    # #     "db_name" : "ExcelOnline",
+    # #     "db_name" : "账户统计",
     # #     "collection_name" : "",# 这里则 不带xlsx后缀
     # # }
     # config.tb_name = request.form['table_name']

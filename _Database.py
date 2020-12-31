@@ -9,7 +9,7 @@ class DB_Config:
         self.tb_name = ''           #'2020年二季度.xlsx'
         self.db_host = 'localhost'
         self.db_port = 27017
-        self.db_name = "ExcelOnline"
+        self.db_name = "账户统计"
         self.collection_name = ''   #'2020第二季度'  
 
         # Custom Valus for config
@@ -118,5 +118,5 @@ class MongoDatabase:
         # Simple version
         db = self.database
         names = db.list_collection_names()
-        names.remove("User")
+        names.remove("账户")
         return names

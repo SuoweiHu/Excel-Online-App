@@ -24,7 +24,9 @@
         </fieldset>
     </div>
     <!-- Auto Re-Direct -->
-    <form action="/redirect" name="form1" method="post"></form>
+    <form action="/table/show" name="form1" method="get">
+        <input type="hidden" name="table_name" value={{table_name}}>
+    </form>
     <script type="text/javascript">setTimeout("form1.submit();",1000);</script>
 </body>
 </html>
