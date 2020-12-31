@@ -364,12 +364,12 @@ def index():
             # 时间: &nbsp <input type="time" name="operator_time" required readonly value={operator_time}> <br>
             # <br>
             # <form action="{url_for('initialize')}" method="post">
-            #     <input type="submit" value="退出登录">
+            #     <input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
             # </form>
             # """
         
             # """
-
+        return redirect('/table/all')
         return render_template('index_logged_in.html', \
             operator_name = gen_operInfo_tup()[0], \
             operator_time = gen_operInfo_tup()[1].split(' ')[1], \
@@ -515,6 +515,7 @@ def table_all():
 
             temp_dict[row_completed_title] = str(count_row_completed)
             temp_dict[row_allNumRows_title] = str(count_row_uncompleted+count_row_completed)
+            # temp_dict["完成/全部行数"] = str(count_row_completed) + " / " + str(count_row_uncompleted+count_row_completed)
             temp_dict[completion_title]    = completion_percent
 
             # 按钮
@@ -560,10 +561,10 @@ def table_all():
         "@@@@@@@@@@@@["         : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
         "@@@@@@@@["             : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
         "@@@@["                 : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name" value='""",
-        " ]################"    : """'><input class="layui-btn"  type="submit"  value="查看已完成表单"></form>         """,
-        " ]############"        : """'><input class="layui-btn layui-btn-disabled " type="submit"  value="删除表单(已填写)" disabled></form>       """,
-        " ]########"            : """'><input class="layui-btn layui-btn-danger "   type="submit"  value="删除表单"></form>                 """,
-        " ]####"                : """'><input class="layui-btn layui-btn-primary "  type="submit"  value="查看 / 填写表单"></form>                 """,
+        " ]################"    : """'><input class="layui-btn"  type="submit"  value="&nbsp;&nbsp;查看已完成表单&nbsp;&nbsp;"></form>         """,
+        " ]############"        : """'><input class="layui-btn layui-btn-disabled " type="submit"  value="&nbsp;删除表单 (已填写)" disabled></form>       """,
+        " ]########"            : """'><input class="layui-btn layui-btn-danger "   type="submit"  value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;删除表单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></form>                 """,
+        " ]####"                : """'><input class="layui-btn layui-btn-primary "  type="submit"  value="&nbsp;&nbsp;查看 / 填写表单&nbsp;&nbsp;"></form>                 """,
     }
     for replace_tuple in replace_dict.items():
         html_table_string = html_table_string.replace(replace_tuple[0], replace_tuple[1])
@@ -660,7 +661,7 @@ def table_clear():
     # operator_str = session["operator_name"]
 
     # # Return html string rendered by template
-    # return render_template('table.html', table_info=htmlString, operator_name=operator_str, operator_time=datetime_str)
+    # return render_template('table_show.html', table_info=htmlString, operator_name=operator_str, operator_time=datetime_str)
 
 # @app.route('/table_show')
 def table_show(table_name,show_rows_of_keys):
@@ -687,7 +688,7 @@ def table_show(table_name,show_rows_of_keys):
     operator_time  = operator_infos[1].split(' ')[1]
 
     # Return html string rendered by template
-    return render_template('table.html', table_info=htmlString, operator_name=operator_name, operator_date=operator_date, operator_time=operator_time)
+    return render_template('table_show.html', table_info=htmlString, operator_name=operator_name, operator_date=operator_date, operator_time=operator_time)
 
 # @.app.route('/table_edit')
 def table_edit(table_name,edit_row_key):
@@ -713,7 +714,7 @@ def table_edit(table_name,edit_row_key):
     operator_time  = operator_infos[1].split(' ')[1]
 
     # Return html string rendered by template
-    return render_template('table.html', table_info=htmlString, operator_name=operator_name, operator_date=operator_date, operator_time=operator_time)
+    return render_template('table_show.html', table_info=htmlString, operator_name=operator_name, operator_date=operator_date, operator_time=operator_time)
 
 # @app.route('/table_submit')
 def table_submit(table_name,row_id):

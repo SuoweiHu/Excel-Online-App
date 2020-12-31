@@ -12,24 +12,22 @@
     <title>Excel Online</title>
 </head>
 <body>
-
     <div style="padding: 20px; background-color: #ffffff;">
+        <form action="/table/all" method="get" style="margin-left: 10px;margin-top: 0px;padding-top: 10px;">
+            <button type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回全部表格 </button>
+        </form>
         <!-- ============================================================================ -->
         <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
             <legend>表格数据</legend>
-            <div style="margin-left: 20px;">
-                <br>
+            <br>
+            <div style="margin-left: 30px; margin-right: 30px;">
                 {{table_info | safe}}
                 <br>
             </div>
-            <form action="/table/all" method="get" style="margin-left: 20px;">
-                <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo1">返回全部</button>
-            </form>
-            <br>
         </fieldset>
         <!-- ============================================================================ -->
-        <br><br><hr>
-        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+        <!-- <br><br><hr> -->
+        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px; margin-left: 0%;margin-right: 50%;width: 48%;">
             <legend>操作员</legend>
             <br>
             <div>
@@ -55,7 +53,7 @@
                         </div>
                         <div class="layui-form-mid layui-word-aux">(将以提交时间为准)</div>
                     </div>
-                    <button type="submit" class="layui-btn layui-btn-danger" lay-submit="" lay-filter="demo1">退出登录</button>
+                   <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     <br>
                 <br>
             </div>

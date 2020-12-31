@@ -14,22 +14,23 @@
 <body>
     <div style="padding: 20px; background-color: #ffffff;">
         <!-- ============================================================================ -->
-        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+        <!-- <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
             <legend>上传模版/空表</legend>
             <div style="padding-left: 20px;">
                 <br>&nbsp;&nbsp;&nbsp;请登录, 以访问数据库 ... ... <br><br>
             </div>
-        </fieldset>
+        </fieldset> -->
         <!-- ============================================================================ -->
-        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+        <!-- <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
             <legend>更改/查看表格</legend>
             <div style="padding-left: 20px;">
                 <br>&nbsp;&nbsp;&nbsp;请登录, 以访问数据库 ... ... <br><br>
             </div>
-        </fieldset>
+        </fieldset> -->
         <!-- ============================================================================ -->
-        <br><br><hr>
-        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+          <!-- <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px; margin-left: 25%;margin-right: 25%;"> -->
+        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 25% ;margin-left: 30%;margin-right: 30%;">
+
             <legend>操作员</legend>
             <div>
                 <!-- {{login_section | safe}} -->
@@ -40,16 +41,16 @@
                         <div class="layui-input-inline">
                             <input type="text" name="operator_name" lay-verify="required" placeholder="username" autocomplete="off" class="layui-input">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">请务必填写用户名</div>
+                        <div class="layui-form-mid layui-word-aux">用户名为必填</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">密码</label>
                         <div class="layui-input-inline">
                             <input type="password" name="operator_pass" lay-verify="required" placeholder="password" autocomplete="off" class="layui-input">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">权限和用户对应</div>
+                        <div class="layui-form-mid layui-word-aux">&nbsp;登陆以开始...</div>
                     </div>
-                    <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="demo1">立即登陆</button>
+                    <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="demo1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;立即登陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                     <button type="" class="layui-btn layui-btn-disabled" disabled>注册</button>
                 </form>
