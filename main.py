@@ -437,7 +437,7 @@ def upload_file():
 
 @app.route('/login', methods=["POST"])
 def login():
-    name = request.form["operator_name"]
+    name    = request.form["operator_name"]
     password = request.form["operator_pass"]
     # check_login = check_account_match(name, password) 
     # check_login = ('admin' in name) and ('admin' in password)

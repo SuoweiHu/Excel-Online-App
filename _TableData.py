@@ -642,7 +642,7 @@ class TableData:
 
         # # Process the table such that none becomes form
         replace_dict = {
-            "@@@@@@@@[" : """<input type="text" required placeholder="---" autocomplete="off" class="layui-input" name='""",
+            "@@@@@@@@[" : """<input type="text" required placeholder="None" autocomplete="off" class="layui-input" name='""",
             "]########" : """'> """,
             "@@@@"      : f"""<input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='{row_of_key}'><input  class="layui-btn layui-btn-normal" type="submit" value="提交更改">""",
          }
