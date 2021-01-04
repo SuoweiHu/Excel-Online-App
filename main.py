@@ -395,6 +395,7 @@ def upload_file():
             return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 文件名为{f_name} (需要为后缀是xlsx的文件)")
         else: 
             # 保存文件, 从文件读取内容, 并保存到数据库
+            f_name = f_name.replace(" ", "_")
             f.save(f'./src/temp/{f_name}') # 临时保存文件
             if(save_xlsx): f.save(f'./src/excel/{f_name}') 
 
@@ -453,29 +454,22 @@ def login():
     else: 
         return render_template("redirect_login.html", message="登陆失败: 账号或密码不匹配")
 
-@app.route('/upload', methods=["POST"])
-def upload():
-    # User form upload
-    form_dict = dict(request.form)
+# @app.route('/upload', methods=["POST"])
+# def DEPERCATED_upload():
+    # # User form upload
+    # form_dict = dict(request.form)
 
-    # Extract Operator Info
-    operator = {}
-    operator["name"] = form_dict["operator_name"]
-    operator["time"] = gen_dateTime_str()   # Use the actual upload time instead
-    # operator["time"] = form_dict["operator_time"]
+    # # Extract Operator Info
+    # operator = {}
+    # operator["name"] = form_dict["operator_name"]
+    # operator["time"] = gen_dateTime_str()   # Use the actual upload time instead
+    # # operator["time"] = form_dict["operator_time"]
 
-    return "STUFF: " + str(request_dict)
+    # return "STUFF: " + str(request_dict)
 
 
 # =============================================
 # flask router: table operation
-
-@app.route('/table_all_nxtPage')
-def table_all_nxtPage():
-    session['page'] = session['page'] +1
-    return redirect('/table/all')
-    
-
 # @app.route('/table_all')
 def table_all():
     # Retain colleciton names from database
@@ -484,11 +478,26 @@ def table_all():
     collection_names = db.list_collections()
     db.close()
 
-    num_of_sheet_pert_page = 1
-    if(session.get('page') is None):session['page'] = 0
+    # Take a fraction of the data and display them
+    page = {}
+    if(request.args.get('curr') is None) or (request.args.get('limit') is None):
+        page['curr']  = 1
+        page['limit'] = 5
+        page['count'] = len(collection_names)
+    else:
+        page['curr']  = int(request.args.get('curr'))
+        page['limit'] = int(request.args.get('limit'))
+        page['count'] = len(collection_names)
+
+    # num_of_sheet_pert_page = 1
+    # if(session.get('page') is None):session['page'] = 0
     # sheet_start = 0 + 
     # sheet_end   =
 
+    # Take only the fraction of sheets to display
+    sheet_indexStart = (page['curr'] - 1) * page['limit']
+    sheet_indexEnd   = sheet_indexStart   + page['limit'] # exclusive of the index
+    if(sheet_indexEnd > len(collection_names)): sheet_indexEnd = len(collection_names)
     
     # Format the colleciton names into json dict
     title = "表格名称"
@@ -521,10 +530,10 @@ def table_all():
             # 按钮
             button_stringBefReplacement = ""
             # Will be repalced with 更改表单 button
-            button_stringBefReplacement += button_placeholder_front * 1 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 1
+            button_stringBefReplacement += button_placeholder_front * 1 + f"[{col_name}.xlsx ]" + button_placeholder_back * 1
             # Will be repalced with 删除表单 button (*3 will be repalced with option of disabled)
             if(count_row_completed == 0): button_stringBefReplacement += button_placeholder_front * 2 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 2
-            else: button_stringBefReplacement += button_placeholder_front * 3 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 3
+            else: button_stringBefReplacement += button_placeholder_front * 3 + f"[{col_name}.xlsx ]" + button_placeholder_back * 3
             temp_dict[button_title] = button_stringBefReplacement
 
         # 如果是普通用户
@@ -536,10 +545,10 @@ def table_all():
             button_stringBefReplacement = ""
             # Will be repalced with 更改表单 button
             if(not rows_complete_state):
-                button_stringBefReplacement += button_placeholder_front * 1 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 1
+                button_stringBefReplacement += button_placeholder_front * 1 + f"[{col_name}.xlsx ]" + button_placeholder_back * 1
                 temp_dict[button_title] = button_stringBefReplacement
             else:
-                button_stringBefReplacement += button_placeholder_front * 4 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 4
+                button_stringBefReplacement += button_placeholder_front * 4 + f"[{col_name}.xlsx ]" + button_placeholder_back * 4
                 temp_dict[button_title] = button_stringBefReplacement
 
         json_collections.append(temp_dict)
@@ -547,20 +556,25 @@ def table_all():
     if len(json_collections) == 0:
         json_collections = [{title: "数据库为空 !", row_completed_title:"", row_allNumRows_title:"", completion_title:"", button_title:""}]
 
+    get_title = lambda i:i[title]
+    json_collections = sorted(json_collections, key=get_title)
     if(session["operator_name"] == 'admin'):
         # 通过完成度给表格排序
         get_percentage = lambda i:i[completion_title]
         json_collections = sorted(json_collections, key=get_percentage)
+
+    # keep only a fraction of data
+    json_collections = json_collections[sheet_indexStart: sheet_indexEnd]
 
     # Using json2html to convert into table
     html_table_string = json2html.convert(json = json_collections)
     html_table_string = html_table_string.replace("""<table border="1">""", """<table class="layui-table">""")
 
     replace_dict = {
-        "@@@@@@@@@@@@@@@@["     : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name" value='""",
+        "@@@@@@@@@@@@@@@@["     : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name"  value='""",
         "@@@@@@@@@@@@["         : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
         "@@@@@@@@["             : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
-        "@@@@["                 : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name" value='""",
+        "@@@@["                 : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name"  value='""",
         " ]################"    : """'><input class="layui-btn"  type="submit"  value="&nbsp;&nbsp;查看已完成表单&nbsp;&nbsp;"></form>         """,
         " ]############"        : """'><input class="layui-btn layui-btn-disabled " type="submit"  value="&nbsp;删除表单 (已填写)" disabled></form>       """,
         " ]########"            : """'><input class="layui-btn layui-btn-danger "   type="submit"  value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;删除表单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></form>                 """,
@@ -579,9 +593,13 @@ def table_all():
     # return html_table_string
     return render_template('table_all.html', \
         table_info = html_table_string, \
-        operator_name=operator_name, \
-        operator_date=operator_date, \
-        operator_time=operator_time)
+        operator_name=operator_name,    \
+        operator_date=operator_date,    \
+        operator_time=operator_time,    \
+        page_curr = page['curr'],       \
+        page_limit = page['limit'],     \
+        page_count = page['count'],     \
+        )
 
 # @app.route('/clear', methods=["POST"])
 # def DEPRECATED_clear_db_table():
@@ -665,10 +683,13 @@ def table_clear():
 
 # @app.route('/table_show')
 def table_show(table_name,show_rows_of_keys):
-    table_name = table_name.replace(" ", "")    # Remove empty spaces
+    # table_name = table_name.replace(" ", "")  # Remove empty spaces
     config= DB_Config()                         # 使用默认数据库设置
     config.tb_name = table_name                 # 表名字
     config.collection_name = (config.tb_name).split('.')[0]
+
+    print(f"|{table_name}|")
+    print(f"|{table_name}|")
 
     # Read from Database
     db = MongoDatabase()
@@ -692,7 +713,7 @@ def table_show(table_name,show_rows_of_keys):
 
 # @.app.route('/table_edit')
 def table_edit(table_name,edit_row_key):
-    table_name = table_name.replace(" ", "")    # Remove empty spaces
+    # table_name = table_name.replace(" ", "")    # Remove empty spaces
     config= DB_Config()                         # 使用默认数据库设置
     config.tb_name = table_name                 # 表名字
     config.collection_name = (config.tb_name).split('.')[0]
@@ -754,7 +775,7 @@ def table(option):
         # 提取用户允许访问的行
         op_name = session["operator_name"]
         op_rows = Database_Utils.get_authorizedRows(user_name=op_name)
-
+        print(tb_name)
         return table_show(table_name=tb_name, show_rows_of_keys=op_rows) 
 
     # 如果options为表格名: 用户编辑行界面

@@ -12,15 +12,22 @@
     <title>Excel Online</title>
 </head>
 <body>
+    
     <div style="padding: 20px; background-color: #ffffff;">
+        <button onclick="check_user_info()" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" style="float: right; display: inline;">已登陆</button>
+        <br>
+        <br>
 
         <!-- ============================================================================ -->
         <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
             <legend>表格数据</legend>
-            <div style="margin-left: 20px;">
+            <div style="margin-left: 30px;">
                 <br>
-                {{table_info | safe}}
+                <div style="margin-right: 30px;">
+                    {{table_info | safe}}
+                </div>
                 <br>
+                <div id="page_component" style="float: right;margin-right: 30px;margin-bottom: 20px;"></div>
             </div>
             <!-- <form action="/index" method="get" style="margin-left: 20px;">
                 <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo1">返回主页</button>
@@ -56,7 +63,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">时间</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="operator_pass" readonly lay-verify="required" placeholder="{{operator_time}}" autocomplete="off" class="layui-input">
+                                <input id="operator_time_display" type="text" name="operator_pass" readonly lay-verify="required" placeholder="{{operator_time}}" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
@@ -73,13 +80,10 @@
                     <form action="/file" method="post" id="file_form" enctype="multipart/form-data" >
                         <br>
                         <input type="file" accept=".xls,.xlsx" name="stuff_file"  id="selectedFile" size="60" style="display: none;">
-                        <input type="button" class="layui-btn layui-btn-primary layui-btn-fluid" style="height: 170px;" value="上传 Excel 文件" onclick="document.getElementById('selectedFile').click();" />
-                        <br>
+                        <input type="button" class="layui-btn layui-btn-primary layui-btn-fluid" style="height: 170px; width: 550px; margin-left: 30px; margin-right: 30px; margin-bottom: 30px;" value="上传 Excel 文件" onclick="document.getElementById('selectedFile').click();" />
                         <br>
                         <!-- <input type="submit" class="layui-btn layui-btn-primary layui-btn-fluid" value="上传文件"> -->
                     </form>
-                    
-                    
                     <br>
                     <br>
                 </div>
@@ -87,6 +91,8 @@
             <!-- ============================================================================ -->
         </span>
     </div>
+    <!-- Layui默认JS -->
+    <script src="{{ url_for('static', filename='/layui/dist/layui.js') }}" charset="utf-8"></script>
 
     <!-- 自动上传文件 -->
     <script>
@@ -95,27 +101,164 @@
         };
     </script>
 
-    <!-- <script src="{{ url_for('static', filename='layui/src/layui.js') }}"></script>
+    <!-- 自动更新时间 -->
     <script>
-        layui.use('upload', function(){
-          var upload = layui.upload;
-           
-          //执行实例
-          var uploadInst = upload.render({
-            elem: '#test1' //绑定元素
-            ,url: '/file' //上传接口
-            ,method: 'post'
-            ,accept: 'file'
-            ,enctype: "multipart/form-data"
-            ,done: function(res){
-              //上传完毕回调
+        var myVar=setInterval(function(){myTimer()},1000);
+        function myTimer(){
+            var d=new Date();
+            var t=d.toLocaleTimeString();
+            document.getElementById("operator_time_display").placeholder=t;
+        }
+    </script>
+
+    <!-- 换页组件 -->
+    <script>
+        layui.use('laypage', function(){
+        var laypage = layui.laypage;
+        laypage.render({
+        elem  : 'page_component',
+        curr  : '{{page_curr}}',
+        limit : '{{page_limit}}', // Number of elements per page 
+        count : '{{page_count}}', // Number of element in totoal (change to dynamic input)
+        jump: function(obj, first){
+            if(!first){
+            var form = document.createElement('form');
+            form.method = 'get';
+            form.action = '/table/all'
+    
+            c_page_element = document.createElement('input');
+            c_page_element.name  = 'curr';
+            c_page_element.value = obj.curr;
+    
+            l_page_element = document.createElement('input');
+            l_page_element.name  = 'limit';
+            l_page_element.value = obj.limit
+    
+            form.appendChild(c_page_element)
+            form.appendChild(l_page_element)
+            document.body.appendChild(form)
+            
+            form.submit()
             }
-            ,error: function(){
-              //请求异常回调
-            }
-          });
-        });
-    </script> -->
+        }
+        })
+    })
+    </script>
+
+    <!-- Layui弹出层JS -->
+    <!-- <script src="{{ url_for('static', filename='/layui/src/lay/all.js') }}"></script> -->
+
+    <!-- 弹出层 -->
+    <script>
+        // layui.use('layer', function(){ //独立版的layer无需执行这一句
+        //     var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+            
+        //     //触发事件
+        //     var active = {
+        //         setTop: function(){
+        //             var that = this; 
+        //             //多窗口模式，层叠置顶
+        //             layer.open({
+        //             type: 2 //此处以iframe举例
+        //             ,title: '当你选择该窗体时，即会在最顶端'
+        //             ,area: ['390px', '260px']
+        //             ,shade: 0
+        //             ,maxmin: true
+        //             ,offset: [ //为了演示，随机坐标
+        //                 Math.random()*($(window).height()-300)
+        //                 ,Math.random()*($(window).width()-390)
+        //             ] 
+        //             ,content: '//layer.layui.com/test/settop.html'
+        //             ,btn: ['继续弹出', '全部关闭'] //只是为了演示
+        //             ,yes: function(){
+        //                 $(that).click(); 
+        //             }
+        //             ,btn2: function(){
+        //                 layer.closeAll();
+        //             }
+                    
+        //             ,zIndex: layer.zIndex //重点1
+        //             ,success: function(layero){
+        //                 layer.setTop(layero); //重点2
+        //             }
+        //             });
+        //         }
+        //         ,confirmTrans: function(){
+        //             //配置一个透明的询问框
+        //             layer.msg('大部分参数都是可以公用的<br>合理搭配，展示不一样的风格', {
+        //             time: 20000, //20s后自动关闭
+        //             btn: ['明白了', '知道了', '哦']
+        //             });
+        //         }
+        //         ,notice: function(){
+        //             //示范一个公告层
+        //             layer.open({
+        //             type: 1
+        //             ,title: false //不显示标题栏
+        //             ,closeBtn: false
+        //             ,area: '300px;'
+        //             ,shade: 0.8
+        //             ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+        //             ,btn: ['火速围观', '残忍拒绝']
+        //             ,btnAlign: 'c'
+        //             ,moveType: 1 //拖拽模式，0或者1
+        //             ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">你知道吗？亲！<br>layer ≠ layui<br><br>layer只是作为Layui的一个弹层模块，由于其用户基数较大，所以常常会有人以为layui是layerui<br><br>layer虽然已被 Layui 收编为内置的弹层模块，但仍然会作为一个独立组件全力维护、升级。<br><br>我们此后的征途是星辰大海 ^_^</div>'
+        //             ,success: function(layero){
+        //                 var btn = layero.find('.layui-layer-btn');
+        //                 btn.find('.layui-layer-btn0').attr({
+        //                 href: 'http://www.layui.com/'
+        //                 ,target: '_blank'
+        //                 });
+        //             }
+        //             });
+        //         }
+        //         ,offset: function(othis){
+        //             var type = othis.data('type')
+        //             ,text = othis.text();
+                    
+        //             layer.open({
+        //             type: 1
+        //             ,offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+        //             ,id: 'layerDemo'+type //防止重复弹出
+        //             ,content: '<div style="padding: 20px 100px;">'+ text +'</div>'
+        //             ,btn: '关闭全部'
+        //             ,btnAlign: 'c' //按钮居中
+        //             ,shade: 0 //不显示遮罩
+        //             ,yes: function(){
+        //                 layer.closeAll();
+        //             }
+        //             });
+        //         }
+        //         };
+                
+        //         $('#layerDemo .layui-btn').on('click', function(){
+        //         var othis = $(this), method = othis.data('method');
+        //         active[method] ? active[method].call(this, othis) : '';
+        //     });
+        // });
+    </script>
+    <script>
+        function check_user_info(){
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                var d=new Date();
+                var account_name = "{{session['operator_name']}}"
+                var account_date = d.toLocaleDateString();
+                var account_time = d.toLocaleTimeString();
+                layer.open({
+                    title   :'用户信息'
+                    ,content:
+                        '账号: &nbsp; &nbsp;' + account_name + '<br>'+
+                        '日期: &nbsp; &nbsp;' + account_date + '<br>'+
+                        '时间: &nbsp; &nbsp;' + account_time + '<br>'
+                    ,btn: ['登出']
+                    ,yes: function(index, layero){
+                        window.location.assign('/')
+                    }
+                }); 
+            });
+        }
+    </script>
 
 </body>
 </html>

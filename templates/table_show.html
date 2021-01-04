@@ -13,9 +13,12 @@
 </head>
 <body>
     <div style="padding: 20px; background-color: #ffffff;">
-        <form action="/table/all" method="get" style="margin-left: 10px;margin-top: 0px;padding-top: 10px;">
-            <button type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回全部表格 </button>
-        </form>
+            <button style="display: inline; float: right;" onclick="check_user_info()" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius">已登陆</button>
+            <form action="/table/all" method="get" style="padding-left: 10px;">
+                <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回全部表格 </button>
+            </form>
+        <br>
+        <br>
         <!-- ============================================================================ -->
         <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
             <legend>表格数据</legend>
@@ -49,7 +52,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="operator_pass" readonly lay-verify="required" placeholder="{{operator_time}}" autocomplete="off" class="layui-input">
+                            <input id="operator_time_display" type="text" name="operator_pass" readonly lay-verify="required" placeholder="{{operator_time}}" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-form-mid layui-word-aux">(将以提交时间为准)</div>
                     </div>
@@ -59,6 +62,40 @@
             </div>
         </fieldset>
         <!-- ============================================================================ -->
+        <!-- Layui默认JS -->
+        <script src="{{ url_for('static', filename='/layui/dist/layui.js') }}" charset="utf-8"></script>
+        <!-- 自动更新时间 -->
+        <script>
+            var myVar=setInterval(function(){myTimer()},1000);
+            function myTimer(){
+                var d=new Date();
+                var t=d.toLocaleTimeString();
+                document.getElementById("operator_time_display").placeholder=t;
+            }
+        </script>
+        <!-- 弹出层 -->
+        <script>
+            function check_user_info(){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    var d=new Date();
+                    var account_name = "{{session['operator_name']}}"
+                    var account_date = d.toLocaleDateString();
+                    var account_time = d.toLocaleTimeString();
+                    layer.open({
+                        title   :'用户信息'
+                        ,content:
+                            '账号: &nbsp; &nbsp;' + account_name + '<br>'+
+                            '日期: &nbsp; &nbsp;' + account_date + '<br>'+
+                            '时间: &nbsp; &nbsp;' + account_time + '<br>'
+                        ,btn: ['登出']
+                        ,yes: function(index, layero){
+                            window.location.assign('/')
+                        }
+                    }); 
+                });
+            }
+        </script>
     </div>
 </body>
 </html>
