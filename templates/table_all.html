@@ -14,8 +14,7 @@
 <body>
     
     <div style="padding: 20px; background-color: #ffffff;">
-        <button onclick="check_user_info()" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" style="float: right; display: inline;">已登陆</button>
-        <br>
+        <button onclick="check_user_info()" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" style="float: right; display: inline;">{{session['operator_name']}}</button>
         <br>
 
         <!-- ============================================================================ -->
@@ -26,8 +25,13 @@
                 <div style="margin-right: 30px;">
                     {{table_info | safe}}
                 </div>
-                <br>
-                <div id="page_component" style="float: right;margin-right: 30px;margin-bottom: 20px;"></div>
+                <span>
+                    <div id="page_component" style="display: inline; float: right; margin-right: 30px;"></div>
+                    <form action="/file" method="post" id="file_form" enctype="multipart/form-data" style="display: inline; float: left; ">
+                        <input type="file" accept=".xls,.xlsx" name="stuff_file"  id="selectedFile" size="60" style="display: none;">
+                        <input style="display: {{file_upload_section}};" type="button" class="layui-btn " value="上传 Excel 文件" onclick="document.getElementById('selectedFile').click();" />
+                    </form>
+                </span>
             </div>
             <!-- <form action="/index" method="get" style="margin-left: 20px;">
                 <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo1">返回主页</button>
@@ -38,7 +42,8 @@
         <!-- ============================================================================ -->
         <!-- <br><br><hr> -->
 
-        <span>
+        <span style="display: none;">
+        <!-- <span> -->
             <!-- ============================================================================ -->
             <!-- <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px; margin-left: 25%;margin-right: 25%;"> -->
             <fieldset class="layui-elem-field site-demo-button" style="display: inline; width: 48%;">
@@ -120,25 +125,30 @@
         curr  : '{{page_curr}}',
         limit : '{{page_limit}}', // Number of elements per page 
         count : '{{page_count}}', // Number of element in totoal (change to dynamic input)
+        layout: ['limit', 'prev', 'page', 'next'],
+        limits: [5,10,20],
+
         jump: function(obj, first){
             if(!first){
-            var form = document.createElement('form');
-            form.method = 'get';
-            form.action = '/table/all'
-    
-            c_page_element = document.createElement('input');
-            c_page_element.name  = 'curr';
-            c_page_element.value = obj.curr;
-    
-            l_page_element = document.createElement('input');
-            l_page_element.name  = 'limit';
-            l_page_element.value = obj.limit
-    
-            form.appendChild(c_page_element)
-            form.appendChild(l_page_element)
-            document.body.appendChild(form)
-            
-            form.submit()
+                var form = document.createElement('form');
+                form.method = 'get';
+                form.action = '/table/all'
+        
+                c_page_element = document.createElement('input');
+                c_page_element.style = 'display:none;'
+                c_page_element.name  = 'curr';
+                c_page_element.value = obj.curr;
+                
+                l_page_element = document.createElement('input');
+                l_page_element.style = 'display:none;'
+                l_page_element.name  = 'limit';
+                l_page_element.value = obj.limit
+        
+                form.appendChild(c_page_element)
+                form.appendChild(l_page_element)
+                document.body.appendChild(form)
+                
+                form.submit()
             }
         }
         })
@@ -250,7 +260,7 @@
                     ,content:
                         '账号: &nbsp; &nbsp;' + account_name + '<br>'+
                         '日期: &nbsp; &nbsp;' + account_date + '<br>'+
-                        '时间: &nbsp; &nbsp;' + account_time + '<br>'
+                        '时间: &nbsp; &nbsp;' + account_time 
                     ,btn: ['登出']
                     ,yes: function(index, layero){
                         window.location.assign('/')

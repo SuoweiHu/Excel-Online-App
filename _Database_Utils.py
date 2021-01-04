@@ -5,6 +5,13 @@ from _TableData import TableData
 from _Hash_Utils import hash_id
 
 class Database_Utils:
+    def list_collections():
+        db = MongoDatabase()
+        db.start()
+        collection_names = db.list_collections()
+        db.close()
+        return collection_names
+
     def count_allRows(config):
         """
         table name is filename with the .xlxs suffix

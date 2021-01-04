@@ -13,7 +13,7 @@
 </head>
 <body>
     <div style="padding: 20px; background-color: #ffffff;">
-            <button style="display: inline; float: right;" onclick="check_user_info()" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius">已登陆</button>
+            <button style="display: inline; float: right;" onclick="check_user_info()" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius">{{session['operator_name']}}</button>
             <form action="/table/all" method="get" style="padding-left: 10px;">
                 <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回全部表格 </button>
             </form>
@@ -30,37 +30,39 @@
         </fieldset>
         <!-- ============================================================================ -->
         <!-- <br><br><hr> -->
-        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px; margin-left: 0%;margin-right: 50%;width: 48%;">
-            <legend>操作员</legend>
-            <br>
-            <div>
-                <form class="layui-form layui-form-pane" action="/" method="post" style="margin-left: 20px;">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">账号</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="operator_name" readonly lay-verify="required" placeholder="{{operator_name}}" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-form-mid layui-word-aux">已登陆...</div>
-
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">日期</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="operator_pass" readonly lay-verify="required" placeholder="{{operator_date}}" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">时间</label>
-                        <div class="layui-input-inline">
-                            <input id="operator_time_display" type="text" name="operator_pass" readonly lay-verify="required" placeholder="{{operator_time}}" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-form-mid layui-word-aux">(将以提交时间为准)</div>
-                    </div>
-                   <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                    <br>
+        <span style="display: none;">
+            <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px; margin-left: 0%;margin-right: 50%;width: 48%;">
+                <legend>操作员</legend>
                 <br>
-            </div>
-        </fieldset>
+                <div>
+                    <form class="layui-form layui-form-pane" action="/" method="post" style="margin-left: 20px;">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="operator_name" readonly lay-verify="required" placeholder="{{operator_name}}" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">已登陆...</div>
+
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="operator_pass" readonly lay-verify="required" placeholder="{{operator_date}}" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">时间</label>
+                            <div class="layui-input-inline">
+                                <input id="operator_time_display" type="text" name="operator_pass" readonly lay-verify="required" placeholder="{{operator_time}}" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">(将以提交时间为准)</div>
+                        </div>
+                    <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        <br>
+                    <br>
+                </div>
+            </fieldset>
+        </span>
         <!-- ============================================================================ -->
         <!-- Layui默认JS -->
         <script src="{{ url_for('static', filename='/layui/dist/layui.js') }}" charset="utf-8"></script>
@@ -87,7 +89,7 @@
                         ,content:
                             '账号: &nbsp; &nbsp;' + account_name + '<br>'+
                             '日期: &nbsp; &nbsp;' + account_date + '<br>'+
-                            '时间: &nbsp; &nbsp;' + account_time + '<br>'
+                            '时间: &nbsp; &nbsp;' + account_time 
                         ,btn: ['登出']
                         ,yes: function(index, layero){
                             window.location.assign('/')

@@ -390,12 +390,17 @@ def upload_file():
         # 提取文件名, 若需要使用 save（）方法保存文件 
         f = request.files.get("stuff_file")
         f_name = f.filename
+        f_name = f_name.replace(" ", "_")
+
         if('xlsx' not in f_name):
             # 检查文件类型是否正确
             return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 文件名为{f_name} (需要为后缀是xlsx的文件)")
+        elif(f_name.split('.')[0] in Database_Utils.list_collections()):
+            # 检查文件是否已经存在
+            return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 文件/集合已经存在", table_name = f_name)
         else: 
             # 保存文件, 从文件读取内容, 并保存到数据库
-            f_name = f_name.replace(" ", "_")
+            
             f.save(f'./src/temp/{f_name}') # 临时保存文件
             if(save_xlsx): f.save(f'./src/excel/{f_name}') 
 
@@ -482,17 +487,12 @@ def table_all():
     page = {}
     if(request.args.get('curr') is None) or (request.args.get('limit') is None):
         page['curr']  = 1
-        page['limit'] = 5
+        page['limit'] = 10
         page['count'] = len(collection_names)
     else:
         page['curr']  = int(request.args.get('curr'))
         page['limit'] = int(request.args.get('limit'))
         page['count'] = len(collection_names)
-
-    # num_of_sheet_pert_page = 1
-    # if(session.get('page') is None):session['page'] = 0
-    # sheet_start = 0 + 
-    # sheet_end   =
 
     # Take only the fraction of sheets to display
     sheet_indexStart = (page['curr'] - 1) * page['limit']
@@ -510,6 +510,7 @@ def table_all():
 
     # Append to json dict
     json_collections= []
+    file_upload_html= "none"
     for col_name in collection_names: 
         temp_dict = {}
         temp_dict[title] = col_name
@@ -575,10 +576,10 @@ def table_all():
         "@@@@@@@@@@@@["         : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
         "@@@@@@@@["             : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
         "@@@@["                 : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name"  value='""",
-        " ]################"    : """'><input class="layui-btn"  type="submit"  value="&nbsp;&nbsp;查看已完成表单&nbsp;&nbsp;"></form>         """,
-        " ]############"        : """'><input class="layui-btn layui-btn-disabled " type="submit"  value="&nbsp;删除表单 (已填写)" disabled></form>       """,
-        " ]########"            : """'><input class="layui-btn layui-btn-danger "   type="submit"  value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;删除表单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></form>                 """,
-        " ]####"                : """'><input class="layui-btn layui-btn-primary "  type="submit"  value="&nbsp;&nbsp;查看 / 填写表单&nbsp;&nbsp;"></form>                 """,
+        " ]################"    : """'><input class="layui-btn layui-btn-sm"  type="submit"  value="&nbsp;&nbsp;查看已完成表单&nbsp;&nbsp;"></form>         """,
+        " ]############"        : """'><input class="layui-btn layui-btn-sm layui-btn-disabled " type="submit"  value="&nbsp;删除表单 (已填写)" disabled></form>       """,
+        " ]########"            : """'><input class="layui-btn layui-btn-sm layui-btn-danger "   type="submit"  value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;删除表单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></form>                 """,
+        " ]####"                : """'><input class="layui-btn layui-btn-sm layui-btn-primary "  type="submit"  value="&nbsp;&nbsp;查看 / 填写表单&nbsp;&nbsp;"></form>                 """,
     }
     for replace_tuple in replace_dict.items():
         html_table_string = html_table_string.replace(replace_tuple[0], replace_tuple[1])
@@ -589,9 +590,14 @@ def table_all():
     operator_date  = operator_infos[1].split(' ')[0]
     operator_time  = operator_infos[1].split(' ')[1]
 
+    if(session['operator_name'] == 'admin'):
+            # 开启文件上传功能
+            file_upload_html = """inline"""
+
     # Render with tempalte
     # return html_table_string
-    return render_template('table_all.html', \
+    return render_template('table_all.html',   \
+        file_upload_section = file_upload_html,\
         table_info = html_table_string, \
         operator_name=operator_name,    \
         operator_date=operator_date,    \
@@ -688,8 +694,8 @@ def table_show(table_name,show_rows_of_keys):
     config.tb_name = table_name                 # 表名字
     config.collection_name = (config.tb_name).split('.')[0]
 
-    print(f"|{table_name}|")
-    print(f"|{table_name}|")
+    # print(f"|{table_name}|")
+    # print(f"|{table_name}|")
 
     # Read from Database
     db = MongoDatabase()

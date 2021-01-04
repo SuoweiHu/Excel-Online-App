@@ -644,7 +644,7 @@ class TableData:
         replace_dict = {
             "@@@@@@@@[" : """<input type="text" required placeholder="None" autocomplete="off" class="layui-input" name='""",
             "]########" : """'> """,
-            "@@@@"      : f"""<input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='{row_of_key}'><input  class="layui-btn layui-btn-normal" type="submit" value="提交更改">""",
+            "@@@@"      : f"""<input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='{row_of_key}'><input  class="layui-btn" type="submit" value="提交更改">""",
          }
         for replace_tuple in replace_dict.items():html_string = html_string.replace(replace_tuple[0], replace_tuple[1])
 
