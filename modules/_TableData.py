@@ -2,6 +2,8 @@ from os import replace
 from json2html import *
 from werkzeug.utils import html
 import datetime
+from ._Hash_Utils import hash_id
+import random
 
 
 class TableData:
@@ -22,9 +24,10 @@ class TableData:
         tb_data = TableData(tb_name= tbname, titles=titles, rows=rows, operators=operators)
     """
 
-    tb_name  = None
-    titles   = None
-    rows     = []
+    tb_name   = None
+    titles    = None
+    ids       = []
+    rows      = []
     operators = []
 
     # ==============================
@@ -148,7 +151,7 @@ class TableData:
         #     self.operators = table_operators
 
         # return
-    def __init__(self, tb_name=None, titles=None, rows=None, operators=None, json=None):
+    def __init__(self, json=None, tb_name=None, titles=None, rows=None, operators=None, ids=None):
         """
         tb_name :   the file name here should be transferred into hashed prior to 
                     loggining into the database
@@ -170,6 +173,7 @@ class TableData:
             }
         """
         if(json is None):
+            self.ids        = ids
             self.tb_name    = tb_name   
             self.titles     = titles   
             self.rows       = rows
@@ -290,35 +294,69 @@ class TableData:
         #     table_dict["data"].append(row_dict)
 
         # return table_dict   
-    def toJson(self, key="行号"):
+    # def DEPRECATED_toJson(self, key="行号"):
+        # """
+        # 将该类转化为字段, 为入库/存储为JSON文件作准备, 转化后的数据类似如下
+        # {
+        #     "name" : "2020第一季度.xlxs",
+        #     "data" : {
+        #         123123: {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+        #         123124: {"行号" : 123124, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+        #         123125: {"行号" : 123125, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+        #         123126: {"行号" : 123126, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
+        #     }
+        # }
+        # """
+        # table_dict = {}
+        # table_dict["name"] = self.tb_name
+        # table_dict["data"] = {}
+        # for i in range(len(self.rows)):
+        #     row_dict = {}
+        #     operator = self.operators[i]
+        #     data_row = self.rows[i]
+        #     for j in range(len(self.titles)):  # insert row normal data (除了操作员意外的数据)
+        #         cell_title = self.titles[j]
+        #         cell_data = data_row[j]
+        #         row_dict[cell_title] = cell_data
+        #     row_dict["操作员"] = operator[0]
+        #     row_dict["操作时间"] = operator[1]  # insert operator data
+        #     table_dict["data"][row_dict[key]] = row_dict
+
+        # return table_dict   
+    
+    def toJson(self):
         """
         将该类转化为字段, 为入库/存储为JSON文件作准备, 转化后的数据类似如下
         {
-            "name" : "2020第一季度.xlxs",
-            "data" : {
-                123123: {"行号" : 123123, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
-                123124: {"行号" : 123124, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
-                123125: {"行号" : 123125, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
-                123126: {"行号" : 123126, “金额” : 111111, "名字" : 22222, "操作员": "胡所未", “操作时间”:“2020-02-02”}
-            }
+            89dsad29jkdashkj8udasiud: { data:{"行号" : 123123, “金额” : 111111, "名字" : 22222},    user:{"操作员": "SomeOne", “操作时间”:“2020-02-02”}}
+            kdashkjad8kdashkad29jkj8: { data:{"行号" : 123124, “金额” : 111111, "名字" : 22222},    user:{"操作员": "SomeOne", “操作时间”:“2020-02-02”}}
+            1231kdashkjad8kdashjkj83: { data:{"行号" : 123125, “金额” : 111111, "名字" : 22222},    user:{"操作员": "SomeOne", “操作时间”:“2020-02-02”}}
+            4kldsakdashkjad8kj82e21d: { data:{"行号" : 123126, “金额” : 111111, "名字" : 22222},    user:{"操作员": "SomeOne", “操作时间”:“2020-02-02”}}
         }
         """
-        table_dict = {}
-        table_dict["name"] = self.tb_name
-        table_dict["data"] = {}
+        rtn_dict = {}
         for i in range(len(self.rows)):
-            row_dict = {}
-            operator = self.operators[i]
+            # 取出每行的ID
+            row_id = self.ids[i]
+
+            # 导入每行的数据(非操作员数据)
+            data_dict = {}
             data_row = self.rows[i]
-            for j in range(len(self.titles)):  # insert row normal data (除了操作员意外的数据)
+            for j in range(len(self.titles)):  
                 cell_title = self.titles[j]
                 cell_data = data_row[j]
-                row_dict[cell_title] = cell_data
-            row_dict["操作员"] = operator[0]
-            row_dict["操作时间"] = operator[1]  # insert operator data
-            table_dict["data"][row_dict[key]] = row_dict
+                data_dict[cell_title] = cell_data
 
-        return table_dict   
+            # 导入每行的操作员信息
+            user_dict = {}
+            operator = self.operators[i]
+            user_dict["name"] = operator[0]
+            user_dict["time"] = operator[1] 
+
+            rtn_dict[row_id] = {'data':data_dict, 'user':user_dict}
+
+        return rtn_dict   
+    
     # ==============================
     # Transform to html form (For flask application)
     def tableShow_toJson(self, rows_of_keys, key="行号", show_operator=False):

@@ -1,7 +1,6 @@
 import pymongo
 import json
 
-
 class DB_Config:
 
     def __init__(self, tb_name=None, db_host=None, db_port=None, db_name=None, collection_name=None):
@@ -101,7 +100,10 @@ class MongoDatabase:
         return 
 
     def extract(self, collection, _id):
-        collection = self.database[collection] 
+        if(collection in self.database.list_collection_names()): print("====" * 200)
+        else: print("----" * 200)
+
+        raise("FUK YOU")
         if(collection.count_documents({"_id":_id}) == 0): raise(f"Document specified does not exist. \n Document of _id={_id}")
         else: return collection.find_one({"_id":_id})
 

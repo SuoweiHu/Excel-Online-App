@@ -187,15 +187,14 @@ def upload_file():
         if('xlsx' not in f_name):
             # 检查文件类型是否正确
             return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 文件名为{f_name} (需要为后缀是xlsx的文件)")
-        elif(f_name.split('.')[0] in Database_Utils.list_collections()):
-            # 检查文件是否已经存在
-            return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 文件/集合已经存在", table_name = f_name)
+        # elif(f_name.split('.')[0] in Database_Utils.list_collections()):
+        #     # 检查文件是否已经存在
+        #     return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 文件/集合已经存在", table_name = f_name)
         else: 
             # 保存文件, 从文件读取内容, 并保存到数据库
             
             f.save(f'./src/temp/{f_name}') # 临时保存文件
             if(save_xlsx): f.save(f'./src/excel/{f_name}') 
-
 
             # Read from Excel file 
             tb_name = f_name
@@ -204,22 +203,13 @@ def upload_file():
             info_table  = excelReader.get_infoTable()
             oper_table  = excelReader.get_operTable()
             os.remove(f'./src/temp/{f_name}')# 读取后删除文件
-            
+            ids_list    = [hash_id(str(random.random())) for i in range(len(info_table))]
 
             # Store to custom class format 
-            tableData = TableData(tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table)
-            tableDict = tableData.toJson()
-
-            # Store to database
-            config= DB_Config(tb_name=f_name, collection_name=f_name.split('.')[0])
-            db = MongoDatabase()
-            db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-            db.insert(collection=config.collection_name, data=tableDict, _id=hash_id(config.tb_name))
-            temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
-            db.close()
-
-            if(save_json): 
-                JSON.save(temp_mongoLoad, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
+            tableData = TableData(tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table, ids=ids_list)
+            tableData_Json = tableData.toJson()
+            if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
+            Database_Utils.upload_table(tb_name.split('.')[0],tableData_Json)
 
             return render_template("redirect_fileUploaded.html", message=f"成功上传文件, 文件名: {f_name}", table_name = f_name)
 
@@ -509,7 +499,7 @@ def table(option):
         op_name = session["operator_name"]
         # op_rows = Database_Utils.get_authorizedRows(user_name=op_name)
         op_rows = Database_Utils.get_rows(op_name)
-        print(tb_name)
+        # print(tb_name)
         return table_show(table_name=tb_name, show_rows_of_keys=op_rows) 
 
     # 如果options为表格名: 用户编辑行界面
