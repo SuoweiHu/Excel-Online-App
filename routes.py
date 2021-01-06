@@ -196,17 +196,9 @@ def upload_file():
             f.save(f'./src/temp/{f_name}') # 临时保存文件
             if(save_xlsx): f.save(f'./src/excel/{f_name}') 
 
-            config= DB_Config(tb_name=f_name, collection_name=f_name.split('.')[0])
-            # config={
-            #     "tb_name" : f_name,
-            #     "db_host" : 'localhost',
-            #     "db_port" : 27017,
-            #     "db_name" : "账户统计",
-            #     "collection_name" : f_name.split('.')[0],
-            # }
 
             # Read from Excel file 
-            tb_name = config.tb_name
+            tb_name = f_name
             excelReader = ExcelVisitor(f'./src/temp/{f_name}')
             titles      = excelReader.get_titles()
             info_table  = excelReader.get_infoTable()
@@ -219,13 +211,15 @@ def upload_file():
             tableDict = tableData.toJson()
 
             # Store to database
+            config= DB_Config(tb_name=f_name, collection_name=f_name.split('.')[0])
             db = MongoDatabase()
             db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
             db.insert(collection=config.collection_name, data=tableDict, _id=hash_id(config.tb_name))
             temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+            db.close()
+
             if(save_json): 
                 JSON.save(temp_mongoLoad, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
-            db.close()
 
             return render_template("redirect_fileUploaded.html", message=f"成功上传文件, 文件名: {f_name}", table_name = f_name)
 

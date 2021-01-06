@@ -85,6 +85,16 @@ class Database_Utils:
 
     # ================================
 
+    def new_table(name, data):
+        config= DB_Config(collection_name=name.split('.')[0])
+        db = MongoDatabase()
+        db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+        db.insert(collection=config.collection_name, data=tableDict, _id=hash_id(config.tb_name))
+        temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+        db.close()
+        
+        return
+
     def get_tableTitles(tb_name):
         config = None
         if(tb_name is not None) and (config is None):
