@@ -392,10 +392,12 @@ class TableData:
         html_string = json2html.convert(json = json_dict)
         html_string = html_string.replace("""<table border="1">""", """<table class="layui-table">""")
         replace_dict = {
-            "@@@@@@@@[" : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
+            # "@@@@@@@@[" : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
+            "@@@@@@@@["     : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
             "@@@@["     : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
-            "]########" : f"""'><input class="layui-btn layui-btn-disabled layui-btn-sm" style="margin-left:0%;" type="submit" disabled value="已经编辑"></form>""",
-            "]####"     : f"""'><input class="layui-btn layui-btn-primary layui-btn-sm"  style="margin-left:0%;" type="submit" value="编辑此行"></form>""",
+            # "]########" : f"""'><input class="layui-btn layui-btn-disabled layui-btn-sm" style="margin-left:0%;" type="submit" disabled value="已经编辑"></form>""",
+            "]########"     : f"""'><input class="layui-btn layui-btn-primary layui-btn-sm"  style="margin-left:0%;" type="submit" value="已经编辑"></form>""",
+            "]####"     : f"""'><input class="layui-btn layui-btn-sm"  style="margin-left:0%;" type="submit" value="编辑此行"></form>""",
          }
         for replace_tuple in replace_dict.items():html_string = html_string.replace(replace_tuple[0], replace_tuple[1])
         return html_string
@@ -620,12 +622,19 @@ class TableData:
                     # temp_dict[titles[j]] = cur_row[j]
                     temp_val = cur_row[j]
                     # 处理数据可能缺省的部分
-                    if(temp_val is None) and not ((titles[j]=="操作员") or (titles[j]=="时间")):
-                        temp_dict[titles[j]] = (f"""@@@@@@@@[{str(titles[j])}]########""")
-                    elif(temp_val is None)   and ((titles[j]=="操作员") or (titles[j]=="时间")):
+                    if(temp_val is None)   and ((titles[j]=="操作员") or (titles[j]=="时间")):
+                        # 如果是操作员行
                         temp_dict[titles[j]] = ""
-                    else: 
+                    elif(titles[j]=="行号"): 
+                        # 如果是索引行
                         temp_dict[titles[j]] = temp_val
+                    elif(temp_val is None) and not ((titles[j]=="操作员") or (titles[j]=="时间")):
+                        # 如果是普通数据行 - 且未经填写
+                        temp_dict[titles[j]] = (f"""@@@@@@@@#@@@@@@@@[{str(titles[j])}]########""")
+                    else: 
+                        # 如果是普通数据行 - 且已经填写
+                        temp_dict[titles[j]] = (f"""@@@@@@@@#{str(temp_val)}@@@@@@@@[{str(titles[j])}]########""")
+                        # temp_dict[titles[j]] = temp_val
 
                 # 添加可替代值
                 temp_dict["操作"] = f"@@@@"
@@ -642,7 +651,9 @@ class TableData:
 
         # # Process the table such that none becomes form
         replace_dict = {
-            "@@@@@@@@[" : """<input type="text" required placeholder="None" autocomplete="off" class="layui-input" name='""",
+            # "@@@@@@@@#" : """<input type="text" required value='""", # 若必须填写
+            "@@@@@@@@#" : """<input type="text" value='""",            # 若非必须填写
+            "@@@@@@@@[" : """' autocomplete="off" class="layui-input" name='""",
             "]########" : """'> """,
             "@@@@"      : f"""<input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='{row_of_key}'><input  class="layui-btn" type="submit" value="提交更改">""",
          }

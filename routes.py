@@ -6,17 +6,17 @@ import pprint
 import datetime
 import random
 
-from _Database  import MongoDatabase, DB_Config
-from _TableData import TableData
-from _ExcelVisitor import ExcelVisitor
-from _JsonVisitor  import JSON
-# from _Redis import RedisCache
-from _Database_Utils import Database_Utils
-from _Hash_Utils import hash_id
-from app import app
+from modules._Database  import MongoDatabase, DB_Config
+from modules._TableData import TableData
+from modules._ExcelVisitor import ExcelVisitor
+from modules._JsonVisitor  import JSON
+# from modules._Redis import RedisCache
+from modules._Database_Utils import Database_Utils
+from modules._Hash_Utils import hash_id
 
 # from pymongo.periodic_executor import _on_executor_deleted
 # from werkzeug   import utils
+from app import app
 from json2html  import json2html
 from flask      import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
 
@@ -242,8 +242,9 @@ def login():
     password = request.form["operator_pass"]
     # check_login = check_account_match(name, password) 
     # check_login = ('admin' in name) and ('admin' in password)
-    db_password = Database_Utils.get_password(name)
-    check_login = (db_password is not None) and (password == db_password)
+    check_login = Database_Utils.check_password(name, password)
+    # db_password = Database_Utils.get_password(name)
+    # check_login = (db_password is not None) and (password == db_password)
 
     # 对比数据库中的密码
     if(check_login):
@@ -325,7 +326,8 @@ def table_all():
         # 如果是普通用户
         else:
             config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
-            rows_complete_state = Database_Utils.check_rowCompleted(config=config, row_ids=Database_Utils.get_authorizedRows(session['operator_name']))
+            # rows_complete_state = Database_Utils.check_rowCompleted(config=config, row_ids=Database_Utils.get_authorizedRows(session['operator_name']))
+            rows_complete_state = Database_Utils.check_rowCompleted(config=config, row_ids=Database_Utils.get_rows(session['operator_name']))
             temp_dict["完成状态"] = "已完成" if rows_complete_state else "未完成"
             # 按钮
             button_stringBefReplacement = ""
@@ -511,7 +513,8 @@ def table(option):
 
         # 提取用户允许访问的行
         op_name = session["operator_name"]
-        op_rows = Database_Utils.get_authorizedRows(user_name=op_name)
+        # op_rows = Database_Utils.get_authorizedRows(user_name=op_name)
+        op_rows = Database_Utils.get_rows(op_name)
         print(tb_name)
         return table_show(table_name=tb_name, show_rows_of_keys=op_rows) 
 

@@ -1,26 +1,13 @@
 # Some built-int modules
-import json
-import os
-import sys
 import pprint
-import datetime
-import random
 
-# Custom modules
-from _Database  import MongoDatabase, DB_Config
-from _TableData import TableData
-from _ExcelVisitor import ExcelVisitor
-from _JsonVisitor  import JSON
-from _Redis import RedisCache
-from _Database_Utils import Database_Utils
-from _Hash_Utils import hash_id
-from app import app
-
-# Imported libraries
-from pymongo.periodic_executor import _on_executor_deleted
-from werkzeug   import utils
-from json2html  import json2html
-from flask      import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
+from modules._Database  import MongoDatabase, DB_Config
+from modules._TableData import TableData
+from modules._ExcelVisitor import ExcelVisitor
+from modules._JsonVisitor  import JSON
+# from modules._Redis import RedisCache
+from modules._Database_Utils import Database_Utils
+from modules._Hash_Utils import hash_id
 
 # =============================================
 # demo functions
@@ -212,10 +199,10 @@ def demo_4():
         'user8' : {'password': 'user8', 'rows':[]},
         'user9' : {'password': 'user9', 'rows':[]},
     }
-    Database_Utils.add_authorization(user_rows=user_rows)
-    temp_pass = Database_Utils.get_password(user_name='admin')
-    temp_auth = Database_Utils.get_authorizedRows(user_name='admin')
+    # Database_Utils.add_authorization(user_rows=user_rows)
+    # temp_pass = Database_Utils.get_password(user_name='admin')
+    # temp_auth = Database_Utils.get_authorizedRows(user_name='admin')
 
-    print(f"Password is {temp_pass}")
-    print(f"Allowed to changed rows{temp_auth}")
+    # print(f"Password is {temp_pass}")
+    # print(f"Allowed to changed rows{temp_auth}")
     return

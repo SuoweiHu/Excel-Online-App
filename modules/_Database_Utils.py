@@ -1,8 +1,12 @@
 
+from flask import config
 from flask.config import Config
-from _Database import MongoDatabase, DB_Config
-from _TableData import TableData
-from _Hash_Utils import hash_id
+from pymongo.mongo_client import MongoClient
+from ._Database import MongoDatabase, DB_Config
+from ._TableData import TableData
+from ._Hash_Utils import hash_id
+
+account_collection_name = "账户"
 
 class Database_Utils:
     def list_collections():
@@ -133,38 +137,112 @@ class Database_Utils:
         return 
 
     # ================================
-
-    def add_authorization(user_rows, col_name="账户", doc_id=0):
-        # user_rows = 
-        # {
-        #   'admin' : {'password': 'admin', 'rows':[1,2,3,4,5]},
-        #   'user1' : {'password': 'user1', 'rows':[1,2]},
-        #   'user2' : {'password': 'user2', 'rows':[3,4]},
-        #     ....  :      ....     ....      ....
-        # }
+    def get_user(name):
         config = DB_Config()
         db = MongoDatabase()
         db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-        db.insert(collection=col_name, data=user_rows, _id=doc_id)
+        _id = hash_id(name)
+        user_dict = db.database[account_collection_name].find_one({'_id':_id})
         db.close()
+        return user_dict
 
-    def get_password(user_name, col_name="账户", doc_id=0):
-        user_dict = Database_Utils.get_allAuthorization(col_name=col_name, doc_id=doc_id)
-        if(user_name not in user_dict.keys()): return None
-        return user_dict[user_name]['password']
+    # def DEPRECATED_add_authorization(user_rows, col_name="账户", doc_id=0):
+        # # user_rows = 
+        # # {
+        # #   'admin' : {'password': 'admin', 'rows':[1,2,3,4,5]},
+        # #   'user1' : {'password': 'user1', 'rows':[1,2]},
+        # #   'user2' : {'password': 'user2', 'rows':[3,4]},
+        # #     ....  :      ....     ....      ....
+        # # }
+        # config = DB_Config()
+        # db = MongoDatabase()
+        # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+        # db.insert(collection=col_name, data=user_rows, _id=doc_id)
+        # db.close()
 
-    def get_allAuthorization(col_name="账户", doc_id=0):
+    def add_user(name, password, rows, privilege='generic'):
         config = DB_Config()
         db = MongoDatabase()
         db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-        temp_userData = db.extract(collection=col_name, _id=doc_id)
-        db.close()
-        del temp_userData['_id']
-        return temp_userData
 
-    def get_authorizedRows(user_name, col_name="账户", doc_id=0):
-        user_dict = Database_Utils.get_allAuthorization(col_name=col_name, doc_id=doc_id)
-        if(user_name not in user_dict.keys()): return None
-        return user_dict[user_name]['rows']
+        # 生成用户唯一的ID
+        _id      = hash_id(name)
+        hash_password = hash_id(password)
+        usr_dict = {'name':name, 'password':hash_password, 'privilege':privilege, 'rows':rows}
+
+        # 如果已经存在用户则抛出错误 (可以后面改) 否则添加用户字典数据
+        if(db.database[account_collection_name].count_documents({'_id':_id}) == 1): 
+            db.insert(collection=account_collection_name, data=usr_dict, _id=_id)
+            # raise(f"The account adding already exists : _id={_id}")
+        else: db.insert(collection=account_collection_name, data=usr_dict, _id=_id)
+
+        db.close()
+        return
+
+    def del_user(name, password):
+        config = DB_Config()
+        db = MongoDatabase()
+        db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+
+        # 生成用户唯一的ID
+        _id      = hash_id(name)
+        hash_password = hash_id(password)
+
+        if(db.database[account_collection_name].count_documents({'_id':_id}) == 0): 
+            db.close()
+            return
+            # raise(f"Your deleting account dont exist")
+        else: 
+            if(Database_Utils.check_password(name, password)):
+                col = db.database[account_collection_name]
+                col.delete_one({'_id' : hash_id(name)})
+                db.close()
+                return 
+
+        db.close()
+        return
+
+
+
+    # def DEPRECATED_get_password(user_name, col_name="账户", doc_id=0):
+        # user_dict = Database_Utils.get_allAuthorization(col_name=col_name, doc_id=doc_id)
+        # if(user_name not in user_dict.keys()): return None
+        # return user_dict[user_name]['password']
+
+
+    def check_password(name, password):
+        """
+        返回true如果密码和数据库中的hash匹配
+        """
+        if((Database_Utils.get_user(name)) is None): return False
+        return (Database_Utils.get_user(name))['password'] == hash_id(password)
+
+    def check_admin(name):
+        """
+        返回true如果用户的privilege字段为admin
+        """
+        return (Database_Utils.get_user(name))['privilege'] == 'admin'
+        
+    # def DEPRECATED_get_allAuthorization(col_name="账户", doc_id=0):
+        # config = DB_Config()
+        # db = MongoDatabase()
+        # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+        # temp_userData = db.extract(collection=col_name, _id=doc_id)
+        # db.close()
+        # del temp_userData['_id']
+        # return temp_userData
+
+    # def DEPRECATED_get_authorizedRows(user_name, col_name="账户", doc_id=0):
+        # user_dict = Database_Utils.get_allAuthorization(col_name=col_name, doc_id=doc_id)
+        # if(user_name not in user_dict.keys()): return None
+        # return user_dict[user_name]['rows']
+
+    def get_rows(name):
+        """
+        返回用户有权限访问的行
+        """
+        return (Database_Utils.get_user(name)['rows'])
+
+
 
 
