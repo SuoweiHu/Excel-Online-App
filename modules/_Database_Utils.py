@@ -1,14 +1,12 @@
 
 from flask import config
 from flask.config import Config
-from pymongo import collation
 from pymongo.mongo_client import MongoClient
 from ._Database import MongoDatabase, DB_Config
 from ._TableData import TableData
 from ._Hash_Utils import hash_id
 
 account_collection_name = "账户"
-table_collection_name   = "表单" 
 
 class Database_Utils:
     def list_collections():
@@ -123,31 +121,20 @@ class Database_Utils:
         return temp_mongoLoad
 
     def save_table(tb_name,data):
-        tb_name = tb_name.split('.')[0] + '.xlsx' #Add suffix of excel file
+        config = None
+        if(tb_name is not None) and (config is None):
+            config = DB_Config()
+            config.collection_name = tb_name.split('.')[0]
+            config.tb_name         = tb_name.split('.')[0] + ".xlsx"
+        elif(config is not None) and (tb_name is None):pass
+        else:raise("No input given (one of the tb_name, config must be filled)")
+
         db = MongoDatabase()
         db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
         # db.drop(collection=config.collection_name)
-        print
-        db.insert(collection=table_collection_name, data=data, _id=hash_id(tb_name))
+        db.insert(collection=config.collection_name, data=data, _id=hash_id(config.tb_name))
         db.close()
-        return
-
-    
-    # def DEPRECATEd_save_table(tb_name, data):
-        # config = None
-        # if(tb_name is not None) and (config is None):
-        #     config = DB_Config()
-        #     config.collection_name = tb_name.split('.')[0]
-        #     config.tb_name         = tb_name.split('.')[0] + ".xlsx"
-        # elif(config is not None) and (tb_name is None):pass
-        # else:raise("No input given (one of the tb_name, config must be filled)")
-
-        # db = MongoDatabase()
-        # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-        # # db.drop(collection=config.collection_name)
-        # db.insert(collection=config.collection_name, data=data, _id=hash_id(config.tb_name))
-        # db.close()
-        # return 
+        return 
 
     # ================================
     def get_user(name):
