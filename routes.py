@@ -520,7 +520,7 @@ def table(option):
 
     # 如果options为表格名: 用户编辑行界面
     elif(option=='edit'):
-        # 提取表名 / 行号
+        # 提取表名 / _id
         tb_name = request.args.get('table_name')
         row_id  = request.args.get('row_id')
         return table_edit(table_name=tb_name, edit_row_key=row_id)
