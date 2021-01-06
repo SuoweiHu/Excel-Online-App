@@ -6,25 +6,21 @@ import pprint
 import datetime
 import random
 
-# Custom modules
 from _Database  import MongoDatabase, DB_Config
 from _TableData import TableData
 from _ExcelVisitor import ExcelVisitor
 from _JsonVisitor  import JSON
-from _Redis import RedisCache
+# from _Redis import RedisCache
 from _Database_Utils import Database_Utils
 from _Hash_Utils import hash_id
 from app import app
 
-# Imported libraries
 # from pymongo.periodic_executor import _on_executor_deleted
 # from werkzeug   import utils
 from json2html  import json2html
 from flask      import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
 
-
 # =============================================
-# helper functions
  
 def gen_dateTime_str():
     now = datetime.datetime.now()
@@ -53,12 +49,13 @@ def gen_operInfo_tup():
     operator_str = session["operator_name"]
     return (operator_str, datetime_str)
 
-
 # =============================================
-# flask router: main page
 
 @app.route('/', methods=["POST","GET"])
 def initialize():
+    """
+    初始化所有信息
+    """
     session['login_state']   = False
     session['operator']      = None
     session['operator_name'] = None
@@ -68,8 +65,10 @@ def initialize():
 
 @app.route('/redirect', methods=["POST","GET"])
 def redirect_to_index():
-    if(session['previous_page'] is None):
-        return redirect(url_for('index'))
+    """
+    跳转到主页面, 或者指定页面
+    """
+    if(session['previous_page'] is None):return redirect(url_for('index'))
     else:
         prev_page = session['previous_page']
         session['previous_page'] = None
@@ -77,7 +76,13 @@ def redirect_to_index():
 
 @app.route('/index')
 def index():
-    if(not session['login_state']):
+    """
+    如果为登陆跳转到登陆页面, 否则进入展示所有表格的页面
+    """
+    if(not session['login_state']):return render_template('index_logged_out.html')
+    else:return redirect('/table/all')
+
+    # if(not session['login_state']):
         # fileUpload_section = f"<br>{'&nbsp;'*3}请登录, 以访问数据库 ... ... <br><br>"
         # insert_section     = f"<br>{'&nbsp;'*3}请登录, 以访问数据库 ... ... <br><br>"
         # delete_section = "请登录, 以访问数据库 ... ..."
@@ -93,81 +98,83 @@ def index():
             # </form>
             # """
 
-        return render_template('index_logged_out.html')
-    elif(session['operator_name'] == "admin"):
-        # fileUpload_section = """
-            # <form action="/file" method="post" enctype="multipart/form-data">
-            #     <input type="file" name="stuff_file"  id=""><br><br>
-            #     <input type="submit" value="--- 上传 ---">
-            # </form>
-            # """
-        # insert_section = """
-            # <!---查看所有表单-->
-            # <form action="/table/all" method="post">
-            #     <input type="submit" value="更改/查看 已有表单">
-            # </form>
-            # <br>
+        # return render_template('index_logged_out.html')
+    # elif(session['operator_name'] == "admin"):
+        # # fileUpload_section = """
+        #     # <form action="/file" method="post" enctype="multipart/form-data">
+        #     #     <input type="file" name="stuff_file"  id=""><br><br>
+        #     #     <input type="submit" value="--- 上传 ---">
+        #     # </form>
+        #     # """
+        # # insert_section = """
+        #     # <!---查看所有表单-->
+        #     # <form action="/table/all" method="post">
+        #     #     <input type="submit" value="更改/查看 已有表单">
+        #     # </form>
+        #     # <br>
 
-        # insert_section = """
-            # <!---查看特定表单-->
-            # <form action="/table" method="post">
-            #     更改/查看特定表单:
-            #     <select name="table_name" id="table_name">
-            #         <option value="2020年一季度.xlsx">2020年一季度.xlsx</option>
-            #         <option value="2020年二季度.xlsx">2020年二季度.xlsx</option>
-            #         <option value="2020年三季度.xlsx">2020年三季度.xlsx</option>
-            #         <option value="2020年四季度.xlsx">2020年四季度.xlsx</option>
-            #     </select>
-            #     <input type="submit" value="确认">
-            # </form>
-            # <br>
-            # """
-        # delete_section = """
-            # <!---清除特定表单-->
-            # <form action="/clear" method="post">
-            #     清除特定表单:
-            #     <select name="table_name" id="table_name">
-            #         <option value="2020年一季度.xlsx">2020年一季度.xlsx</option>
-            #         <option value="2020年二季度.xlsx">2020年二季度.xlsx</option>
-            #         <option value="2020年三季度.xlsx">2020年三季度.xlsx</option>
-            #         <option value="2020年四季度.xlsx">2020年四季度.xlsx</option>
-            #     </select>
-            #     <input type="submit" value="确认">
-            # </form>
-            # <br>
+        # # insert_section = """
+        #     # <!---查看特定表单-->
+        #     # <form action="/table" method="post">
+        #     #     更改/查看特定表单:
+        #     #     <select name="table_name" id="table_name">
+        #     #         <option value="2020年一季度.xlsx">2020年一季度.xlsx</option>
+        #     #         <option value="2020年二季度.xlsx">2020年二季度.xlsx</option>
+        #     #         <option value="2020年三季度.xlsx">2020年三季度.xlsx</option>
+        #     #         <option value="2020年四季度.xlsx">2020年四季度.xlsx</option>
+        #     #     </select>
+        #     #     <input type="submit" value="确认">
+        #     # </form>
+        #     # <br>
+        #     # """
+        # # delete_section = """
+        #     # <!---清除特定表单-->
+        #     # <form action="/clear" method="post">
+        #     #     清除特定表单:
+        #     #     <select name="table_name" id="table_name">
+        #     #         <option value="2020年一季度.xlsx">2020年一季度.xlsx</option>
+        #     #         <option value="2020年二季度.xlsx">2020年二季度.xlsx</option>
+        #     #         <option value="2020年三季度.xlsx">2020年三季度.xlsx</option>
+        #     #         <option value="2020年四季度.xlsx">2020年四季度.xlsx</option>
+        #     #     </select>
+        #     #     <input type="submit" value="确认">
+        #     # </form>
+        #     # <br>
 
-            # <!-- 清除所有内容 -->
-            # <form action="/clear_all" method="post">
-            #     清除所有表单: 
-            #     <input type="submit" value="清除数据库内 所有集合">
-            # </form>
-            # """
-        # login_section = f"""
-            # 已登陆<br><br>
-            # 名字: &nbsp <input type="text" name="operator_name" required readonly value={operator_name}> <br>
-            # 日期: &nbsp <input type="time" name="operator_date" required readonly value={operator_date}> <br>
-            # 时间: &nbsp <input type="time" name="operator_time" required readonly value={operator_time}> <br>
-            # <br>
-            # <form action="{url_for('initialize')}" method="post">
-            #     <input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
-            # </form>
-            # """
+        #     # <!-- 清除所有内容 -->
+        #     # <form action="/clear_all" method="post">
+        #     #     清除所有表单: 
+        #     #     <input type="submit" value="清除数据库内 所有集合">
+        #     # </form>
+        #     # """
+        # # login_section = f"""
+        #     # 已登陆<br><br>
+        #     # 名字: &nbsp <input type="text" name="operator_name" required readonly value={operator_name}> <br>
+        #     # 日期: &nbsp <input type="time" name="operator_date" required readonly value={operator_date}> <br>
+        #     # 时间: &nbsp <input type="time" name="operator_time" required readonly value={operator_time}> <br>
+        #     # <br>
+        #     # <form action="{url_for('initialize')}" method="post">
+        #     #     <input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
+        #     # </form>
+        #     # """
         
-            # """
-        return redirect('/table/all')
-        return render_template('index_logged_in.html', \
-            operator_name = gen_operInfo_tup()[0], \
-            operator_time = gen_operInfo_tup()[1].split(' ')[1], \
-            operator_date = gen_operInfo_tup()[1].split(' ')[0], \
-        )
-    else:
-        return redirect('/table/all')
+        #     # """
+        # return redirect('/table/all')
+        # return render_template('index_logged_in.html', \
+        #     operator_name = gen_operInfo_tup()[0], \
+        #     operator_time = gen_operInfo_tup()[1].split(' ')[1], \
+        #     operator_date = gen_operInfo_tup()[1].split(' ')[0], \
+        # )
+    # else:
+        # return redirect('/table/all')
 
 # =============================================
-# flask router: main menu
 
 @app.route('/file', methods=["POST"])
 def upload_file():
+    """
+    上传文件, 跳转到中介页面显示 “上传成功/失败”, 然后进入该表格的展示页面/ 回到主界面
+    """
     save_json = False
     save_xlsx = False
 
@@ -228,6 +235,9 @@ def upload_file():
 
 @app.route('/login', methods=["POST"])
 def login():
+    """
+    上传登陆账号与密码校验, 返回登陆成功与否信息, 跳转回主界面
+    """
     name    = request.form["operator_name"]
     password = request.form["operator_pass"]
     # check_login = check_account_match(name, password) 
@@ -235,7 +245,7 @@ def login():
     db_password = Database_Utils.get_password(name)
     check_login = (db_password is not None) and (password == db_password)
 
-    # 缺少检测登陆成功的机制
+    # 对比数据库中的密码
     if(check_login):
         session['login_state'] = True
         session['operator'] = name
@@ -244,24 +254,14 @@ def login():
     else: 
         return render_template("redirect_login.html", message="登陆失败: 账号或密码不匹配")
 
-# @app.route('/upload', methods=["POST"])
-# def DEPERCATED_upload():
-    # # User form upload
-    # form_dict = dict(request.form)
-
-    # # Extract Operator Info
-    # operator = {}
-    # operator["name"] = form_dict["operator_name"]
-    # operator["time"] = gen_dateTime_str()   # Use the actual upload time instead
-    # # operator["time"] = form_dict["operator_time"]
-
-    # return "STUFF: " + str(request_dict)
-
-
 # =============================================
-# flask router: table operation
 # @app.route('/table_all')
 def table_all():
+    """
+    展示数据库中所有存在的的列表, 
+        如果是管理员, 则显示表格的完成程度(多少行,百分比)
+        如果是普通用户, 则显示表格的是否完成(有权限填写的行是否全部完成)
+    """
     # Retain colleciton names from database
     db = MongoDatabase()
     db.start()
@@ -301,7 +301,7 @@ def table_all():
         temp_dict[title] = col_name
         
         # 如果是超级用户
-        if(session["operator_name"] == 'admin'):
+        if(session["operator_name"] == 'admin') or (session["operator_name"] == '填报用户'):
             # (通过行的最后几行是否完成来校验行是否为完成状态)
             config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
             count_row_completed   = Database_Utils.count_completedRows(config=config)
@@ -392,39 +392,11 @@ def table_all():
         page_count = page['count'],     \
         )
 
-# @app.route('/clear', methods=["POST"])
-# def DEPRECATED_clear_db_table():
-    # config=DB_Config()
-    # # config={
-    # #     "db_host" : 'localhost',
-    # #     "db_port" : 27017,
-    # #     "db_name" : "账户统计",
-    # # }
-
-    # table_name = request.form['table_name']
-    # table_name = table_name.replace(' ', '')
-    # table_name = table_name.split('.')[0] # 去除xlsx文件后缀
-    # db = MongoDatabase()
-    # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-    # db.drop(collection = table_name)
-    # db.close()
-    # return render_template("redirect_clearAllTable.html", message=f"操作成功: 已清除集合[ {table_name} ]")
-
-# @app.route('/clear_all', methods=["POST"])
-# def DEPRECATED_clear_database():
-    # config=DB_Config()
-    # # config={
-    # #     "db_host" : 'localhost',
-    # #     "db_port" : 27017,
-    # #     "db_name" : "账户统计",
-    # # }
-    # db = MongoDatabase()
-    # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-    # db.close()
-    # return render_template("redirect_clearAllTable.html", message=f"操作成功: 数据库中所有集合已被清除")
-
 # @app.route('/table_clear')
 def table_clear():
+    """
+    删除指定名称的表单
+    """
     config=DB_Config()
     table_name = request.args.get('table_name')
     table_name = table_name.replace(' ', '')
@@ -435,52 +407,14 @@ def table_clear():
     db.close()
     return render_template("redirect_tableCleaned.html", message=f"操作成功: 已清除集合[ {table_name} ]")
 
-# @app.route('/table', methods=["POST"])
-# def DEPRECATED_table():
-    # config= DB_Config()
-    # # config={
-    # #     "tb_name" : "",# 注意这里的文件名是带xlsx后缀的
-    # #     "db_host" : 'localhost',
-    # #     "db_port" : 27017,
-    # #     "db_name" : "账户统计",
-    # #     "collection_name" : "",# 这里则 不带xlsx后缀
-    # # }
-    # config.tb_name = request.form['table_name']
-    # config.collection_name = (config.tb_name).split('.')[0]
-
-    # # Read from Database
-    # db = MongoDatabase()
-    # db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-    # temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
-    # db.close()
-
-    # # Convert the result to html format for printing
-    # tableData  = TableData(json=temp_mongoLoad)
-    # jsonDict   = tableData.tableEdit_toJson(show_operator=True)
-    # htmlString = tableData.tableEdit_toHtml(json_dict=jsonDict,show_operator=True)
-
-    # # Add form info into string 
-    # now = datetime.datetime.now()
-    # day = now.date()
-    # time = now.time()
-    # day_str = day.__format__('%Y/%m/%d')
-    # time_str = time.strftime('%H:%M:%S')
-    # datetime_str = day_str+ " " + time_str
-    # # print(datetime_str)
-    # operator_str = session["operator_name"]
-
-    # # Return html string rendered by template
-    # return render_template('table_show.html', table_info=htmlString, operator_name=operator_str, operator_time=datetime_str)
-
 # @app.route('/table_show')
 def table_show(table_name,show_rows_of_keys):
-    # table_name = table_name.replace(" ", "")  # Remove empty spaces
+    """
+    展示指定名字的表单(根据用户权限展示有限的行)
+    """
     config= DB_Config()                         # 使用默认数据库设置
     config.tb_name = table_name                 # 表名字
     config.collection_name = (config.tb_name).split('.')[0]
-
-    # print(f"|{table_name}|")
-    # print(f"|{table_name}|")
 
     # Read from Database
     db = MongoDatabase()
@@ -504,7 +438,9 @@ def table_show(table_name,show_rows_of_keys):
 
 # @.app.route('/table_edit')
 def table_edit(table_name,edit_row_key):
-    # table_name = table_name.replace(" ", "")    # Remove empty spaces
+    """
+    修改指定表格的指定行(先检查现用户是否有权限更改要求的行)
+    """
     config= DB_Config()                         # 使用默认数据库设置
     config.tb_name = table_name                 # 表名字
     config.collection_name = (config.tb_name).split('.')[0]
@@ -526,10 +462,17 @@ def table_edit(table_name,edit_row_key):
     operator_time  = operator_infos[1].split(' ')[1]
 
     # Return html string rendered by template
-    return render_template('table_show.html', table_info=htmlString, operator_name=operator_name, operator_date=operator_date, operator_time=operator_time)
+    return render_template('table_show.html',\
+        table_info=htmlString,\
+        operator_name=operator_name,\
+        operator_date=operator_date,\
+        operator_time=operator_time)
 
 # @app.route('/table_submit')
 def table_submit(table_name,row_id):
+    """
+    上传用户对于特定表格特定行的修改, 并附上操作时间和用户名信息
+    """
     # Upload the updated data to mongodb database
     titles      = Database_Utils.get_tableTitles(tb_name=table_name)
     origin_dict = Database_Utils.load_table(tb_name=table_name)
@@ -546,7 +489,10 @@ def table_submit(table_name,row_id):
 
 @app.route('/table/<string:option>', methods=["GET", "POST"])
 def table(option):
-    # 检测登陆状态
+    """
+    根据不同的option跳转到不同的填表/展示页面
+    """
+    # 检测登陆状态, 如果为登陆则返回登陆接main
     if(session['operator'] is None) and (session['operator_name'] is None):
         return render_template('redirect_prompt.html')
 

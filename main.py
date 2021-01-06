@@ -22,18 +22,17 @@ from routes import app
 # from json2html  import json2html
 from flask      import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
 
-
-
-
 def mock_assignAuthorization():
     # Stuff about account login 
     user_rows = {
-        'admin' : {'password': 'admin', 'rows':[733101,733121,733131,733141,733151,733165,733177,733189,733201,733213,733225]},
-        'user1' : {'password': 'user1', 'rows':[733101]},
-        'user2' : {'password': 'user2', 'rows':[733121]},
-        'user3' : {'password': 'user3', 'rows':[733131]},
-        'user4' : {'password': 'user4', 'rows':[733141]},
-        'user5' : {'password': 'user5', 'rows':[733151]},
+        '733101' : {'password': '733101', 'rows':[733101]},
+        '733121' : {'password': '733121', 'rows':[733121]},
+        '733131' : {'password': '733131', 'rows':[733131]},
+        '733141' : {'password': '733141', 'rows':[733141]},
+        '733151' : {'password': '733151', 'rows':[733151]},
+        '填报用户' : {'password' : 'tianbaoyonghu',  'rows':[733101]},
+        '上传模板' : {'password' : 'shangchuanmoban','rows':[733101,733121,733131,733141,733151,733165,733177,733189,733201,733213,733225]},
+        # 'admin'   : {'password' : 'admin',          'rows':[733101,733121,733131,733141,733151,733165,733177,733189,733201,733213,733225]},
     }
     Database_Utils.add_authorization(user_rows=user_rows)
     return
