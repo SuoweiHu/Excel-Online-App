@@ -30,7 +30,7 @@ app.config['SECRET_KEY'] = 'SAJHDKSAKJDHKJASHKJDKASDD'
 
 # =============================================
 # helper functions
-
+ 
 def gen_dateTime_str():
     now = datetime.datetime.now()
 
