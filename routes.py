@@ -1,5 +1,7 @@
 # Some built-int modules
 import json
+from logging import log
+import logging
 import os
 import sys
 import pprint
@@ -206,7 +208,7 @@ def upload_file():
             ids_list    = [hash_id(str(random.random())) for i in range(len(info_table))]
 
             # Store to custom class format 
-            tableData = TableData(tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table, ids=ids_list)
+            tableData = TableData(json=None, tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table, ids=ids_list)
             tableData_Json = tableData.toJson()
             if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
             Database_Utils.upload_table(tb_name.split('.')[0],tableData_Json)
@@ -310,8 +312,7 @@ def table_all():
         # 如果是普通用户
         else:
             config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
-            # rows_complete_state = Database_Utils.check_rowCompleted(config=config, row_ids=Database_Utils.get_authorizedRows(session['operator_name']))
-            rows_complete_state = Database_Utils.check_rowCompleted(config=config, row_ids=Database_Utils.get_rows(session['operator_name']))
+            rows_complete_state = Database_Utils.check_rowCompleted(config=config, authorized_banknos=Database_Utils.get_rows(session['operator_name']))
             temp_dict["完成状态"] = "已完成" if rows_complete_state else "未完成"
             # 按钮
             button_stringBefReplacement = ""
@@ -340,7 +341,7 @@ def table_all():
 
     # Using json2html to convert into table
     html_table_string = json2html.convert(json = json_collections)
-    html_table_string = html_table_string.replace("""<table border="1">""", """<table class="layui-table">""")
+    html_table_string = html_table_string.replace("""<table border="1">""", """<table class="layui-table" id="table">""")
 
     replace_dict = {
         "@@@@@@@@@@@@@@@@["     : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name"  value='""",
@@ -379,14 +380,15 @@ def table_all():
         )
 
 # @app.route('/table_clear')
-def table_clear():
+def table_clear(table_name=None):
     """
     删除指定名称的表单
     """
     config=DB_Config()
-    table_name = request.args.get('table_name')
-    table_name = table_name.replace(' ', '')
-    table_name = table_name.split('.')[0] # 去除xlsx文件后缀
+    if(table_name is None):
+        table_name = request.args.get('table_name')
+        table_name = table_name.replace(' ', '')
+        table_name = table_name.split('.')[0] # 去除xlsx文件后缀
     db = MongoDatabase()
     db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
     db.drop(collection = table_name)
@@ -403,13 +405,14 @@ def table_show(table_name,show_rows_of_keys):
     config.collection_name = (config.tb_name).split('.')[0]
 
     # Read from Database
+    table_name = config.collection_name
     db = MongoDatabase()
     db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-    temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+    temp_mongoLoad = db.get_documents(collection=table_name)
     db.close()
 
     # Convert the result to html format for printing
-    tableData  = TableData(json=temp_mongoLoad)
+    tableData  = TableData(json=temp_mongoLoad,tb_name=table_name)
     htmlString = tableData.tableShow_toHtml(rows_of_keys=show_rows_of_keys,\
          show_operator=True if(session['operator_name']=='admin') else False)
 
@@ -423,6 +426,43 @@ def table_show(table_name,show_rows_of_keys):
     return render_template('table_show.html', table_info=htmlString, operator_name=operator_name, operator_date=operator_date, operator_time=operator_time)
 
 # @.app.route('/table_edit')
+def table_edit_all(table_name):
+    """
+    修改指定表格的指定行(先检查现用户是否有权限更改要求的行)
+    """
+    config= DB_Config()                         # 使用默认数据库设置
+    config.tb_name = table_name                 # 表名字
+    config.collection_name = (config.tb_name).split('.')[0]
+
+    # Read from Database
+    table_name = config.collection_name
+    db = MongoDatabase()
+    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+    temp_mongoLoad = db.get_documents(collection=table_name)
+    db.close()
+
+    # Convert the result to html format for printing
+    tableData  = TableData(json=temp_mongoLoad, tb_name=table_name)
+    bank_nos = Database_Utils.get_rows(session['operator_name'])
+    row_ids  = tableData.get_row_id(bank_nos=bank_nos)
+
+    # htmlString = tableData.tableEdit_toHtml(row_of_key=edit_row_key, show_operator=False)
+    htmlString = tableData.tableEdit_toHtml_s(row_of_keys=row_ids, show_operator=False)
+
+    # Add operator info 
+    operator_infos = gen_operInfo_tup()
+    operator_name  = operator_infos[0]
+    operator_date  = operator_infos[1].split(' ')[0]
+    operator_time  = operator_infos[1].split(' ')[1]
+
+    # Return html string rendered by template
+    return render_template('table_show.html',\
+        table_info=htmlString,\
+        operator_name=operator_name,\
+        operator_date=operator_date,\
+        operator_time=operator_time)
+
+# @.app.route('/table_edit')
 def table_edit(table_name,edit_row_key):
     """
     修改指定表格的指定行(先检查现用户是否有权限更改要求的行)
@@ -432,14 +472,19 @@ def table_edit(table_name,edit_row_key):
     config.collection_name = (config.tb_name).split('.')[0]
 
     # Read from Database
+    table_name = config.collection_name
     db = MongoDatabase()
     db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-    temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+    temp_mongoLoad = db.get_documents(collection=table_name)
     db.close()
 
     # Convert the result to html format for printing
-    tableData  = TableData(json=temp_mongoLoad)
+    tableData  = TableData(json=temp_mongoLoad, tb_name=table_name)
+    # bank_nos = Database_Utils.get_rows(session['operator_name'])
+    # row_ids  = tableData.get_row_id(bank_nos=bank_nos)
+
     htmlString = tableData.tableEdit_toHtml(row_of_key=edit_row_key, show_operator=False)
+    # htmlString = tableData.tableEdit_toHtml_s(row_of_keys=row_ids, show_operator=False)
 
     # Add operator info 
     operator_infos = gen_operInfo_tup()
@@ -461,15 +506,22 @@ def table_submit(table_name,row_id):
     """
     # Upload the updated data to mongodb database
     titles      = Database_Utils.get_tableTitles(tb_name=table_name)
-    origin_dict = Database_Utils.load_table(tb_name=table_name)
-    for title in titles:
-        if(request.form.get(title) is not None):
-            origin_dict['data'][row_id][title] = request.form.get(title)
-    origin_dict['data'][row_id]['操作员']   = session['operator_name']
-    origin_dict['data'][row_id]['操作时间'] = gen_dateTime_str()
+    table       = Database_Utils.load_table(tb_name=table_name)
 
-    # pprint.pprint(origin_dict['data'][row_id], indent=4)
-    Database_Utils.save_table(tb_name=table_name, data=origin_dict)
+    row_index  = table.ids.index(row_id)
+    print(table.rows[table.ids.index(row_id)])
+
+    for title in titles:
+        if(request.form.get(title) is not None) and (len(request.form.get(title).replace(' ', '')) != 0):
+            print(request.form.get(title), "YAY")
+            item_index = table.titles.index(title)
+            table.rows[row_index][item_index] = request.form.get(title)
+    table.operators[row_index][0] = session['operator_name']
+    table.operators[row_index][1] = gen_dateTime_str()
+
+    table_clear(table_name=table_name)
+    print(table.rows[table.ids.index(row_id)])
+    Database_Utils.save_table(tb_name=table_name, data=table.toJson())
 
     return render_template('redirect_tableSubmitted.html', table_name=table_name)
 
@@ -508,6 +560,8 @@ def table(option):
         tb_name = request.args.get('table_name')
         row_id  = request.args.get('row_id')
         return table_edit(table_name=tb_name, edit_row_key=row_id)
+
+        # 不通过入参提取表明, 直接显示用户有权限访问的所有表单
     
     # 如果option为submit: 提交数据然后返回show界面 (POST)
     elif(option=='submit'):

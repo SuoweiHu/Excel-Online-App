@@ -1,4 +1,6 @@
 
+import sys
+import pprint
 from flask import config
 from flask.config import Config
 from pymongo.mongo_client import MongoClient
@@ -22,14 +24,16 @@ class Database_Utils:
         for instance "2020年一季度.xlsx"
         """
 
+        table_name =config.collection_name
+
         # Store to database
         db = MongoDatabase()
         db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-        temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+        temp_mongoLoad = db.get_documents(collection=table_name)
         db.close()
 
         # Store to custom type
-        table = TableData(json=temp_mongoLoad)
+        table = TableData(json=temp_mongoLoad, tb_name=table_name)
         return len(table.operators)
         
     def count_completedRows(config):
@@ -41,11 +45,14 @@ class Database_Utils:
         # Store to database
         db = MongoDatabase()
         db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-        temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+        table_name = config.collection_name
+        temp_mongoLoad = db.get_documents(collection=table_name)
         db.close()
 
+
+
         # Store to custom type
-        table = TableData(json=temp_mongoLoad)
+        table = TableData(json=temp_mongoLoad, tb_name=table_name)
         operators = table.operators
 
         count = 0
@@ -71,16 +78,21 @@ class Database_Utils:
 
         return round(c_comRow/c_allRow * 100, 1)
     
-    def check_rowCompleted(config, row_ids):
+    def check_rowCompleted(config, authorized_banknos, key="行号"):
+        table_name = config.collection_name
         db = MongoDatabase()
         db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-        temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+        temp_mongoLoad = db.get_documents(collection=table_name)
         db.close()
-        for row_id in row_ids:
-            row_id = str(row_id)
-            if(row_id in temp_mongoLoad['data'].keys()):
-                if (temp_mongoLoad['data'][row_id]["操作员"] is None):
-                    return False
+        for bankno in authorized_banknos:
+            bankno = str(bankno)
+            table = TableData(json=temp_mongoLoad, tb_name=table_name)
+            bankno_index = table.titles.index(key)
+            for i in range (len(table.rows)):
+                row = table.rows[i]
+                if(row[bankno_index] == bankno):
+                    if(table.operators[i][0] is None):
+                        return False
         return True
 
     # ================================
@@ -94,40 +106,43 @@ class Database_Utils:
         db.close()
         return
 
-    def get_tableTitles(tb_name,tableData_Json):
-        config = None
-        if(tb_name is not None) and (config is None):
-            config = DB_Config()
-            config.collection_name = tb_name.split('.')[0]
-            config.tb_name         = tb_name.split('.')[0] + ".xlsx"
-        elif(config is not None) and (tb_name is None):pass
-        else:raise("No input given (one of the tb_name, config must be filled)")
+    def get_tableTitles(tb_name):
+        # config = None
+        # if(tb_name is not None) and (config is None):
+        #     config = DB_Config()
+        #     config.collection_name = tb_name.split('.')[0]
+        #     config.tb_name         = tb_name.split('.')[0] + ".xlsx"
+        # elif(config is not None) and (tb_name is None):pass
+        # else:raise("No input given (one of the tb_name, config must be filled)")
 
+        table_name = tb_name
+        config = DB_Config(collection_name=tb_name)
         db = MongoDatabase()
         db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-        temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+        temp_mongoLoad = db.get_documents(collection=table_name)
         db.close()
 
-        table = TableData(json=temp_mongoLoad)
+        table = TableData(json=temp_mongoLoad, tb_name=table_name)
         titles = table.titles
-
         return titles
 
     def load_table(tb_name):
-        config = None
-        if(tb_name is not None) and (config is None):
-            config = DB_Config()
-            config.collection_name = tb_name.split('.')[0]
-            config.tb_name         = tb_name.split('.')[0] + ".xlsx"
-        elif(config is not None) and (tb_name is None):pass
-        else:raise("No input given (one of the tb_name, config must be filled)")
+        # if(tb_name is not None) and (config is None):
+        #     config = DB_Config()
+        #     config.collection_name = tb_name.split('.')[0]
+        #     config.tb_name         = tb_name.split('.')[0] + ".xlsx"
+        # elif(config is not None) and (tb_name is None):pass
+        # else:raise("No input given (one of the tb_name, config must be filled)")
 
+        table_name = tb_name
+        config = DB_Config()
         db = MongoDatabase()
         db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-        temp_mongoLoad = db.extract(collection=config.collection_name,_id=hash_id(config.tb_name))
+        temp_mongoLoad = db.get_documents(collection=table_name)
         db.close()
 
-        return temp_mongoLoad
+        table = TableData(json=temp_mongoLoad, tb_name=table_name)
+        return table
 
     def save_table(tb_name,data):
         config = None
@@ -141,7 +156,8 @@ class Database_Utils:
         db = MongoDatabase()
         db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
         # db.drop(collection=config.collection_name)
-        db.insert(collection=config.collection_name, data=data, _id=hash_id(config.tb_name))
+        for row in data.items():
+            db.insert(collection=tb_name, data=row[1], _id=row[0])
         db.close()
         return 
 

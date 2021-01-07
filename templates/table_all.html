@@ -23,7 +23,10 @@
             <div style="margin-left: 30px;">
                 <br>
                 <div style="margin-right: 30px;">
-                    {{table_info | safe}}
+                <!-- <div style="float:left; position:relative; left: 50%;"> -->
+                    <!-- <div style="position:relative; left: -50%;"> -->
+                        {{table_info | safe}}
+                    <!-- </div> -->
                 </div>
                 <span>
                     <div id="page_component" style="display: inline; float: right; margin-right: 30px;"></div>
@@ -115,6 +118,17 @@
             document.getElementById("operator_time_display").placeholder=t;
         }
     </script>
+    <!-- 自动设置表格格式 -->
+    <!-- <script>
+        layui.use('table', function(){
+            var table = layui.table;
+            table.render({
+                elem : '#table'
+                ,url:'/table/all'
+                ,cellMinWidth : 80
+            });
+        });
+    </script> -->
 
     <!-- 换页组件 -->
     <script>

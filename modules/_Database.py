@@ -1,5 +1,8 @@
 import pymongo
 import json
+import sys
+import logging
+logging.basicConfig(level=logging.INFO)
 
 class DB_Config:
 
@@ -100,12 +103,37 @@ class MongoDatabase:
         return 
 
     def extract(self, collection, _id):
-        if(collection in self.database.list_collection_names()): print("====" * 200)
-        else: print("----" * 200)
+        if(collection in self.database.list_collection_names()):  
+            db_collection = self.database[collection]
+            if(db_collection.count_documents({"_id":_id})!= 0):
+                document = db_collection.find_one({"_id":_id})
+                del document["_id"]
+                return document
+            else:
+                raise(f"Document specified does not exist. (Document of _id={_id}")
 
-        raise("FUK YOU")
-        if(collection.count_documents({"_id":_id}) == 0): raise(f"Document specified does not exist. \n Document of _id={_id}")
-        else: return collection.find_one({"_id":_id})
+        else:  
+            raise(f"Collection specified does not exist. (Collection of _name={collection}")
+
+        # raise("FUK YOU")
+        # if(collection.count_documents({"_id":_id}) == 0):
+        # else: return collection.find_one({"_id":_id})
+
+    def get_ids(self, collection):
+        if(collection in self.database.list_collection_names()):  
+            cursor = self.database[collection].find({},{'_id':1}) 
+            return [item['_id'] for item in cursor]
+        else:  
+            raise(f"Collection specified does not exist. (Collection of _name={collection}")
+
+
+    def get_documents(self, collection):
+        document_ids = self.get_ids(collection=collection)
+        rtn_dict = {}
+        for document_id in document_ids:
+            document = self.extract(collection=collection, _id=document_id)
+            rtn_dict[document_id] = document
+        return rtn_dict
 
     def list_collections(self, database=None):
 

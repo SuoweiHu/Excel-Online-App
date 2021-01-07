@@ -1,4 +1,5 @@
 from os import replace
+from pprint import pprint
 from json2html import *
 from werkzeug.utils import html
 import datetime
@@ -151,7 +152,7 @@ class TableData:
         #     self.operators = table_operators
 
         # return
-    def __init__(self, json=None, tb_name=None, titles=None, rows=None, operators=None, ids=None):
+    def __init__(self, json, tb_name, titles=None, rows=None, operators=None, ids=None):
         """
         tb_name :   the file name here should be transferred into hashed prior to 
                     loggining into the database
@@ -172,6 +173,8 @@ class TableData:
                 ]
             }
         """
+        # ============================================
+        # 如果 Json 字典为 None 那么一般入参是从文件读取中来
         if(json is None):
             self.ids        = ids
             self.tb_name    = tb_name   
@@ -195,42 +198,80 @@ class TableData:
                         Title: ({len(titles)})\n\t {titles}
                         Row: ({len(row)})\n\t {row}
                         """)
+        
+        # ============================================
+        # 如果 Json 字典不为 None 一般就是从数据库的读取
         else:
-            # print(json)
+            self.tb_name   = tb_name # 表名
+            self.titles    = []      # 表属性
+            self.ids       = []      # 表行号(_id)
+            self.rows      = []      # 表数据
+            self.operators = []      # 表操作员
+            rows           = list(json.items()) # 表
 
-            # Extract table name
-            self.tb_name   = json["name"]
-            temp_rows      = json["data"]
-            table_data     = []
-            for row in temp_rows.items():
-                table_data.append(row[1])
+            # 读取标题
+            first_row_data = rows[0][1]['data']
+            for item in first_row_data.items():
+                self.titles.append(item[0])
 
-            # Extract titles
-            titles = []
-            first_row = table_data[0]
-            for x in first_row.items():
-                titles.append(x[0])
-            titles = titles[:-2]    # remove operator columns * 2
-            self.titles    = titles
+            # 读取ID
+            for row in rows:
+                _id = row[0]
+                self.ids.append(_id)
 
-            # Extract data
-            table_rows = []
-            table_operators = []
-            for row in table_data:
-                temp_row  = []
-                temp_oper = []
-                for i in range(len(titles)):
-                    cell_title = titles[i] 
-                    cell_data = row[cell_title]
-                    temp_row.append(cell_data)
-                temp_oper.append(row['操作员'])
-                temp_oper.append(row['操作时间'])
+            # 内容, 操作员
+            for row in rows:
+                row = row[1] 
+                # 内容
+                data = row['data']
+                r_data = []
+                for i in range(len(self.titles)):
+                    title  = self.titles[i]
+                    t_data = data[title]
+                    r_data.append(t_data)
+                self.rows.append(r_data)
+                # 操作员
+                user = row['user']
+                self.operators.append([user['name'], user['time']])
 
-                table_rows.append(temp_row)
-                table_operators.append(temp_oper)
-                
-            self.rows      = table_rows
-            self.operators = table_operators
+            # DEPRECATED: 
+                # for row in json:
+                #     id = row['_id']
+                #     data = row['data']
+                #     for items in row:
+                        
+
+                # temp_rows      = json["data"]
+                # table_data     = []
+                # for row in temp_rows.items():
+                #     table_data.append(row[1])
+
+                # # Extract titles
+                # titles = []
+                # first_row = table_data[0]
+                # for x in first_row.items():
+                #     titles.append(x[0])
+                # titles = titles[:-2]    # remove operator columns * 2
+                # self.titles    = titles
+
+                # # Extract data
+                # table_rows = []
+                # table_operators = []
+                # for row in table_data:
+                #     temp_row  = []
+                #     temp_oper = []
+                #     for i in range(len(titles)):
+                #         cell_title = titles[i] 
+                #         cell_data = row[cell_title]
+                #         temp_row.append(cell_data)
+                #     temp_oper.append(row['操作员'])
+                #     temp_oper.append(row['操作时间'])
+
+                #     table_rows.append(temp_row)
+                #     table_operators.append(temp_oper)
+                    
+                # self.rows      = table_rows
+                # self.operators = table_operators
 
         return
 
@@ -415,27 +456,42 @@ class TableData:
 
                 # 添加可替代值
                 if(cur_operator[0] is None) and (cur_operator[1] is None):
-                    temp_dict["操作"] = f"@@@@[{cur_row[key]}]####"
+                    temp_dict["操作"] = f"@@@@[{self.ids[i]}]####"
                 else:
-                    temp_dict["操作"] = f"@@@@@@@@[{cur_row[key]}]########"
+                    temp_dict["操作"] = f"@@@@@@@@[{self.ids[i]}]########"
 
                 # Append to existing list
                 rtn_list.append(temp_dict)
             # -------------------
         # -----------------------------------------------
+        return rtn_list
         rtn_dict = {tb_name:rtn_list}
         return rtn_dict
     def tableShow_toHtml(self, rows_of_keys, show_operator = True):
         json_dict = self.tableShow_toJson(rows_of_keys=rows_of_keys,show_operator=show_operator)
         html_string = json2html.convert(json = json_dict)
-        html_string = html_string.replace("""<table border="1">""", """<table class="layui-table">""")
+
+        # ================================================================================
+        # html_string = html_string.replace("""<table border="1">""", """<table class="layui-table" lay-data="{height:315, page:true}" lay-filter="test">""")
+        # html_string = html_string.replace("""<table border="1">""", """ <table class="layui-table"   lay-data="{height:315, page:true}"> """)
+        html_string = html_string.replace("""<table border="1">""", """ <table lay-filter="table_show"> """)
+        # ================================================================================
+        x = html_string.count("""<th>""")
+        for i in range(x):
+            # html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""+str(random.random())+"""', width:auto}">""", 1)
+            # html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""+str(random.random())+"""', sort:true}">""", 1)
+            if((x-i)==x):  html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(random.random())+  """\', unresize:true, width:80, fixed: \'left\',  align:'center'}">""", 1)
+            elif((x-i)==1):html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(random.random())+  """\', unresize:true, width:95, fixed: \'right\', align:'center'}">""", 1)
+            else:          html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(random.random())+  """', align:'center', unresize:false}">""", 1)
+        # ================================================================================
+
         replace_dict = {
-            # "@@@@@@@@[" : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
+            # "@@@@@@@@["   : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
             "@@@@@@@@["     : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
-            "@@@@["     : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
-            # "]########" : f"""'><input class="layui-btn layui-btn-disabled layui-btn-sm" style="margin-left:0%;" type="submit" disabled value="已经编辑"></form>""",
-            "]########"     : f"""'><input class="layui-btn layui-btn-primary layui-btn-sm"  style="margin-left:0%;" type="submit" value="已经编辑"></form>""",
-            "]####"     : f"""'><input class="layui-btn layui-btn-sm"  style="margin-left:0%;" type="submit" value="编辑此行"></form>""",
+            "@@@@["         : f"""<form action="/table/edit" method="get"><input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
+            # "]########"   : f"""'><input class="layui-btn layui-btn-disabled layui-btn-sm" style="margin-left:0%;" type="submit" disabled value="已经编辑"></form>""",
+            "]########"     : f"""'><input class="layui-btn layui-btn-xs layui-btn-primary"  style="margin-left:0%;" type="submit" value="已经编辑"></form>""",
+            "]####"         : f"""'><input class="layui-btn layui-btn-xs"  style="margin-left:0%;" type="submit" value="编辑此行"></form>""",
          }
         for replace_tuple in replace_dict.items():html_string = html_string.replace(replace_tuple[0], replace_tuple[1])
         return html_string
@@ -635,11 +691,12 @@ class TableData:
         # 根据权限, 仅加入允许展示的行 (key in rows_of_keys)
         rtn_list = []
         for i in range(len(rows)):
-            cur_row = rows[i]
-
+            # print(self.ids[i])
+            # print(row_of_key)
             # -------------------
             # 如果有权限读取...
-            if(cur_row[key] == row_of_key): 
+            if(self.ids[i] == row_of_key): 
+                cur_row = rows[i]
                 cur_operator = operators[i]
                 temp_dict = {}
 
@@ -659,6 +716,7 @@ class TableData:
                 for j in range(len(titles)):
                     # temp_dict[titles[j]] = cur_row[j]
                     temp_val = cur_row[j]
+                    
                     # 处理数据可能缺省的部分
                     if(temp_val is None)   and ((titles[j]=="操作员") or (titles[j]=="时间")):
                         # 如果是操作员行
@@ -675,25 +733,60 @@ class TableData:
                         # temp_dict[titles[j]] = temp_val
 
                 # 添加可替代值
-                temp_dict["操作"] = f"@@@@"
+                temp_dict["操作"] = f"@@@@{self.ids[i]}####"
                 # Append to existing list
                 rtn_list.append(temp_dict)
             # -------------------
         # -----------------------------------------------
+        return rtn_list
         rtn_dict = {tb_name:rtn_list}
         return rtn_dict
+    # def tableEdit_toJson_s(self, row_of_keys=None, key="行号", show_operator=False):
+        # tb_name     = self.tb_name
+        # tb_name     = tb_name.replace(".xlsx", "") 
+        # titles      = self.titles
+        # rows        = self.rows
+        # operators   = self.operators 
+
+        # # -----------------------------------------------
+        # # 根据权限, 仅加入允许展示的行 (key in rows_of_keys)
+        # rtn_list = []
+        # for row_of_key in row_of_keys:
+        #     temp_list = self.tableEdit_toJson(row_of_key=row_of_key, key=key, show_operator=show_operator)
+        #     rtn_list = rtn_list + temp_list[tb_name]
+
+      
+        # rtn_dict = {tb_name:rtn_list}
+        # return rtn_dict
     def tableEdit_toHtml(self, row_of_key=None, show_operator = True):
         json_dict = self.tableEdit_toJson(row_of_key=row_of_key,show_operator=show_operator)
         html_string = json2html.convert(json = json_dict)
-        html_string = html_string.replace("""<table border="1">""", """<table class="layui-table">""")
+
+        # ================================================================================
+        # html_string = html_string.replace("""<table border="1">""", """<table class="layui-table">""")
+        # html_string = html_string.replace("""<table border="1">""", """ <table lay-filter="table_edit"> """)
+        html_string = html_string.replace("""<table border="1">""", """ <table lay-filter="table_edit"> <form action="/table/submit" method="post">""")
+        html_string = html_string.replace("""</table>""", """ </table> </form>""")
+        # ================================================================================
+        x = html_string.count("""<th>""")
+        for i in range(x):
+            # html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""+str(random.random())+"""', width:auto}">""", 1)
+            # html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""+str(random.random())+"""', sort:true}">""", 1)
+            if((x-i)==x):  html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(random.random())+  """\', unresize:true, width:80, fixed: \'left\',  align:'center'}">""", 1)
+            elif((x-i)==1):html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(random.random())+  """\', unresize:true, width:95, fixed: \'right\', align:'center'}">""", 1)
+            else:          html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(random.random())+  """', align:'center', unresize:false}">""", 1)
+
+        # ================================================================================
+
 
         # # Process the table such that none becomes form
         replace_dict = {
-            # "@@@@@@@@#" : """<input type="text" required value='""", # 若必须填写
-            "@@@@@@@@#" : """<input type="text" value='""",            # 若非必须填写
+            # "@@@@@@@@#" : """<input type="text" style="height:26px" required value='""", # 若必须填写
+            "@@@@@@@@#" : """<input type="text" style="height:26px" value='""",            # 若非必须填写
             "@@@@@@@@[" : """' autocomplete="off" class="layui-input" name='""",
             "]########" : """'> """,
-            "@@@@"      : f"""<input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='{row_of_key}'><input  class="layui-btn" type="submit" value="提交更改">""",
+            "@@@@"      : f"""<input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
+            "####"      : """'><input  class="layui-btn layui-btn-xs" type="submit" value="提交更改">"""
          }
         for replace_tuple in replace_dict.items():html_string = html_string.replace(replace_tuple[0], replace_tuple[1])
 
@@ -701,4 +794,36 @@ class TableData:
         html_string = html_string + """</form>"""
         return html_string
 
-    
+    # def tableEdit_toHtml_s(self, row_of_keys=None, show_operator = True):
+        # json_dict = self.tableEdit_toJson_s(row_of_keys=row_of_keys,show_operator=show_operator)
+        # html_string = json2html.convert(json = json_dict)
+        # html_string = html_string.replace("""<table border="1">""", """<table class="layui-table">""")
+
+        # # # Process the table such that none becomes form
+        # replace_dict = {
+        #     # "@@@@@@@@#" : """<input type="text" required value='""", # 若必须填写
+        #     "@@@@@@@@#" : """<input type="text" value='""",            # 若非必须填写
+        #     "@@@@@@@@[" : """' autocomplete="off" class="layui-input" name='""",
+        #     "]########" : """'> """,
+        #     "@@@@"      : f"""<input type="hidden" name="table_name" value='{self.tb_name}'><input type="hidden" name="row_id" value='""",
+        #     "####"      : """'><input  class="layui-btn" type="submit" value="提交更改">"""
+        #  }
+        # for replace_tuple in replace_dict.items():html_string = html_string.replace(replace_tuple[0], replace_tuple[1])
+
+        # html_string = """<form action="/table/submit" method="post">""" + html_string
+        # html_string = html_string + """</form>"""
+        # return html_string
+
+    # ================================
+    def get_row_id(self,bank_nos, key="行号"):
+        """
+        Get input param of a list of bank numbers and return a list of rows 
+        in the table that have {key} equal to the bank number for later access
+        """
+        rtn = []
+        key_index = self.titles.index(key)
+        for bank_no in bank_nos:
+            for i in range(len(self.rows)):
+                if(str(bank_no) == str((self.rows[i])[key_index])):
+                    rtn.append(self.ids[i])
+        return rtn
