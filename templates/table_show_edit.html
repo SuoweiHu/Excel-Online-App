@@ -29,6 +29,11 @@
 </head>
 <body>
     <div style="padding: 20px; background-color: #ffffff;">
+        <form action="/table/all" method="get" style="padding-left: 10px;">
+            <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回全部表格 </button>
+        </form>
+        <br>
+
         <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
             <legend>表格数据</legend>
             <div class="table_mask">
@@ -57,7 +62,7 @@
         //高宽设置
             //--------------------------------------------------
             ,width:  1920
-            ,height: 1000
+            ,height: 950
             
         //分页
             //--------------------------------------------------
@@ -100,7 +105,7 @@
                 // 工具栏按钮
                 // {title:'编辑', fixed: 'right', width:80, align:'center', toolbar: '#cellBar'}
             ]]
-            ,initSort:{field:'_id', type:'desc'}
+            ,initSort:{field:'{{authorization_title}}', type:'asc'}
         });
         
         table.on('edit(table_filter)', function(obj){ 
@@ -115,6 +120,8 @@
             request_dict['table_name'] = '{{table_name}}';
             // var row_id        = request_dict['_id'];
             // delete request_dict['_id']; 
+            obj.data['操作员'] = 'admin'
+
 
             $.ajax({
                 url: request_url,

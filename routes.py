@@ -116,7 +116,6 @@ def export_table(table_name):
     data = []
 
     # 从数据库读取对应表格
-    table_name = 'Madness'
     table_data = Database_Utils.load_table(table_name)
     for i in range(len(table_data.rows)):
         if(table_data.rows[i][authorization_inedx] in authorized_rows):
@@ -145,7 +144,6 @@ def export_table(table_name):
     
     return {"code":code, "msg":msg, "count":count, "data":data}
 
-
 @app.route('/debug/<string:table_name>')
 def debug_function_here_QAQ(table_name):
 
@@ -163,9 +161,6 @@ def debug_function_here_QAQ(table_name):
     # 使用模版渲染表格
     return render_template('table_show_edit.html', column_dict=column_dict, table_name=table_name, \
         authorization_title=column_titles[authorization_inedx], operator_title=TableData.operator_titles)
-
-
-
 
 
 @app.route('/none_here_for_now_try_to_throw_you_off',methods=["POST"])
@@ -187,21 +182,14 @@ def debug_edit_row():
     # print(op_time)
     # print("\n"*2)
 
-
     origi_document = Database_Utils.get_table_row(table_name=table_name, row_id=_id)
-    print("\n"*2)
-    print(origi_document)
     modif_document = origi_document.copy()
     for title,cell_data in origi_document['data'].items():
         modif_document['data'][title] = req_data[title] 
     modif_document['user']['name'] = op_name
     modif_document['user']['time'] = op_time
     Database_Utils.set_table_row(table_name=table_name, row_id=_id, data=modif_document)
-
     origi_document = Database_Utils.get_table_row(table_name=table_name, row_id=_id)
-    print(origi_document)
-    print("\n"*2)
-
 
     return "Good Job"
 
@@ -234,6 +222,8 @@ def table(option):
     # 如果options为show: 用户选择(多)行/预览界面
     elif(option=='show'):
         tb_name = request.args.get('table_name')    # 提取表名
+        tb_name = tb_name.split('.')[0]
+        return redirect(f'/debug/{tb_name}')
         op_name = session["operator_name"]          # session提取用户名
         op_rows = Database_Utils.get_rows(op_name)  # 提取用户允许访问的行
         return table_show(table_name=tb_name, show_rows_of_keys=op_rows, user=op_name) 

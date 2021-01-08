@@ -257,14 +257,14 @@ class Database_Utils:
         row_id:     行uuid, 数据库中对应刚刚集合中的一个文件
         return:     整个文件 (包含其id, 需自行去除)
         """
-
         db_config = DB_Config()
         db = MongoDatabase()
         db.start(host=db_config.db_host, port=db_config.db_port, name=db_config.db_name,clear=False)
-        rtn = db.database[table_name].delete_one({'_id':row_id})
-        rtn = db.database[table_name].insert_one(data)
+        # db.database[table_name].delete_one({'_id':row_id})
+        # db.database[table_name].insert_one(data)
+        db.database[table_name].update_one({'_id':row_id}, {'$set': data})
         db.close()
-        return rtn
+        return 
 
 
         
