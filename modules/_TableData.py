@@ -477,12 +477,17 @@ class TableData:
         html_string = html_string.replace("""<table border="1">""", """ <table lay-filter="table_show"> """)
         # ================================================================================
         x = html_string.count("""<th>""")
+        prev_position = 0
         for i in range(x):
+            from_ = html_string.find("<th>", prev_position)
+            to_   = html_string.find("</th>",from_)
+            prev_position = to_
+            title = html_string[from_+4: to_]
             # html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""+str(random.random())+"""', width:auto}">""", 1)
             # html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""+str(random.random())+"""', sort:true}">""", 1)
-            if((x-i)==x):  html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(random.random())+  """\', unresize:true, width:80, fixed: \'left\',  align:'center'}">""", 1)
-            elif((x-i)==1):html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(random.random())+  """\', unresize:true, width:95, fixed: \'right\', align:'center'}">""", 1)
-            else:          html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(random.random())+  """', align:'center', unresize:false}">""", 1)
+            if((x-i)==x):  html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(title)+  """\', unresize:true, width:80, fixed: \'left\',  align:'center'}">""", 1)
+            elif((x-i)==1):html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(title)+  """\', unresize:true, width:95, fixed: \'right\', align:'center'}">""", 1)
+            else:          html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(title)+  """\', align:'center', unresize:false}">""", 1)
         # ================================================================================
 
         replace_dict = {
@@ -763,20 +768,29 @@ class TableData:
         html_string = json2html.convert(json = json_dict)
 
         # ================================================================================
-        # html_string = html_string.replace("""<table border="1">""", """<table class="layui-table">""")
+        # html_string = html_string.replace("""<table border="1">""", """<table class="layui-table" lay-data="{width:1800}">""")
+        html_string = html_string.replace("""<table border="1">""", """<table class="layui-table" """)
+        # html_string = html_string.replace("""<table border="1">""", """<table class="layui-table" lay-filter="table_edit">""")
+
         # html_string = html_string.replace("""<table border="1">""", """ <table lay-filter="table_edit"> """)
-        html_string = html_string.replace("""<table border="1">""", """ <table lay-filter="table_edit"> <form action="/table/submit" method="post">""")
-        html_string = html_string.replace("""</table>""", """ </table> </form>""")
+        # html_string = html_string.replace("""<table border="1">""", """ <table lay-filter="table_edit"> <form action="/table/submit" method="post">""")
+        # html_string = html_string.replace("""</table>""", """ </table> </form>""")
         # ================================================================================
         x = html_string.count("""<th>""")
+        prev_position = 0
         for i in range(x):
+            from_ = html_string.find("<th>", prev_position)
+            to_   = html_string.find("</th>",from_)
+            prev_position = to_
+            title = html_string[from_+4: to_]
+            
             # html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""+str(random.random())+"""', width:auto}">""", 1)
             # html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""+str(random.random())+"""', sort:true}">""", 1)
-            if((x-i)==x):  html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(random.random())+  """\', unresize:true, width:80, fixed: \'left\',  align:'center'}">""", 1)
-            elif((x-i)==1):html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(random.random())+  """\', unresize:true, width:95, fixed: \'right\', align:'center'}">""", 1)
-            else:          html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(random.random())+  """', align:'center', unresize:false}">""", 1)
-
+            if((x-i)==x):  html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(title)+  """\', unresize:true, width:80, fixed: \'left\',  align:'center'}">""", 1)
+            elif((x-i)==1):html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(title)+  """\', unresize:true, width:95, fixed: \'right\', align:'center'}">""", 1)
+            else:          html_string = html_string.replace("""<th>""", """<th lay-data="{field:'"""  +str(title)+  """\', align:'center', unresize:false, width:250}">""", 1)
         # ================================================================================
+        html_string = html_string.replace("""<td>""", """<td style="width:20px">""", 1)
 
 
         # # Process the table such that none becomes form
