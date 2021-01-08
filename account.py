@@ -1,6 +1,7 @@
 from modules._Database_Utils import Database_Utils
 from modules._Hash_Utils import hash_id
 
+# 添加账号
 def add_account(name, password, rows, privilege='generic'):
     """
     添加账号
@@ -12,6 +13,15 @@ def add_account(name, password, rows, privilege='generic'):
     Database_Utils.add_user(name=name,password=password,rows=rows, privilege=privilege)
     return
 
+# 删除账号
+def del_account(name, password):
+    """
+    删除账号
+    """
+    Database_Utils.del_user(name, password)
+    return
+
+# 添加示范用户
 def add_mockUsers():
     user_rows = [
         {'name':'733101', 'privilege':'generic', 'password': '733101', 'rows':[733101]},
@@ -27,10 +37,4 @@ def add_mockUsers():
         add_account(name=user['name'],password=user['password'],rows=user['rows'],privilege=user['privilege'])
     return
 
-def del_account(name, password):
-    """
-    删除账号
-    """
-    Database_Utils.del_user(name, password)
-    return
 
