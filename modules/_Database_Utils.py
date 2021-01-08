@@ -11,6 +11,8 @@ from ._Hash_Utils import hash_id
 account_collection_name = "账户"
 
 class Database_Utils:
+    # ================================
+
     def list_collections():
         db = MongoDatabase()
         db.start()
@@ -162,6 +164,7 @@ class Database_Utils:
         return 
 
     # ================================
+
     def get_user(name):
         config = DB_Config()
         db = MongoDatabase()
@@ -232,6 +235,39 @@ class Database_Utils:
         """
         return (Database_Utils.get_user(name)['rows'])
 
+    # ================================
+
+    def get_table_row(table_name, row_id):
+        """
+        table_name: 表格名, 数据库中对应一个集合
+        row_id:     行uuid, 数据库中对应刚刚集合中的一个文件
+        return:     整个文件 (包含其id, 需自行去除)
+        """
+
+        db_config = DB_Config()
+        db = MongoDatabase()
+        db.start(host=db_config.db_host, port=db_config.db_port, name=db_config.db_name,clear=False)
+        rtn = db.database[table_name].find_one({'_id':row_id})
+        db.close()
+        return rtn
+
+    def set_table_row(table_name, row_id, data):
+        """
+        table_name: 表格名, 数据库中对应一个集合
+        row_id:     行uuid, 数据库中对应刚刚集合中的一个文件
+        return:     整个文件 (包含其id, 需自行去除)
+        """
+
+        db_config = DB_Config()
+        db = MongoDatabase()
+        db.start(host=db_config.db_host, port=db_config.db_port, name=db_config.db_name,clear=False)
+        rtn = db.database[table_name].delete_one({'_id':row_id})
+        rtn = db.database[table_name].insert_one(data)
+        db.close()
+        return rtn
+
+
+        
 
 
 

@@ -31,6 +31,8 @@ class TableData:
     rows      = []
     operators = []
 
+    operator_titles = ["操作员","时间"]
+
     # ==============================
     # Store/ Restore from json format (For database)
 
