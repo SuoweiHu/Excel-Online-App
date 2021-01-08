@@ -54,8 +54,8 @@ def gen_operInfo_tup():
 
 # =============================================
 
-# @app.route('/table_all')
-def table_all(cur, limit, user):
+# @app.route('/table_main')
+def table_main(cur, limit, user):
     """
     展示数据库中所有存在的的列表, 
         如果是管理员, 则显示表格的完成程度(多少行,百分比)
@@ -180,7 +180,7 @@ def table_all(cur, limit, user):
 
     # Render with tempalte
     # return html_table_string
-    return render_template('table_all.html',   \
+    return render_template('table_main.html',   \
         file_upload_section = file_upload_html,\
         table_info = html_table_string, \
         operator_name=operator_name,    \
@@ -233,7 +233,7 @@ def table_show(table_name,show_rows_of_keys, user):
     return render_template('table_show.html', table_info=htmlString, operator_name=operator_name, operator_date=operator_date, operator_time=operator_time)
 
 # @.app.route('/table_edit')
-def table_edit_all(table_name):
+def table_edit_all(table_name, user):
     """
     修改指定表格的指定行(先检查现用户是否有权限更改要求的行)
     """
