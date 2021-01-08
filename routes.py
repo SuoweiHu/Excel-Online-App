@@ -99,13 +99,14 @@ def upload_file():
 
 
 @app.route('/data/<string:table_name>')
-def export_table(table_name): 
+def export_table_data(table_name): 
     """
     数据接口
     """
     show_operator        = True   # 是否展示操作员信息
     authorization_inedx  = 0      # 用于确认用户权限的列的序号 (这里 0 指的是 ‘行号’ 在标题的第一个位置)
-    authorized_rows      = [733101,733121,733131,733141,733151,733165,733177,733189,733201,733213,733225]
+    # authorized_rows      = [733101,733121,733131,733141,733151,733165,733177,733189,733201,733213,733225]
+    authorized_rows      = Database_Utils.get_rows(session['operator_name'])
     authorized_rows      = [str(i) for i in authorized_rows]
     
 
@@ -145,8 +146,8 @@ def export_table(table_name):
     
     return {"code":code, "msg":msg, "count":count, "data":data}
 
-@app.route('/debug/<string:table_name>')
-def debug_function_here_QAQ(table_name):
+@app.route('/edit/<string:table_name>')
+def edit_specified_table(table_name):
 
     show_operator        = True   # 是否展示操作员信息
     authorization_inedx  = 0      # 用于确认用户权限的列的序号 (这里 0 指的是 ‘行号’ 在标题的第一个位置)
@@ -164,8 +165,8 @@ def debug_function_here_QAQ(table_name):
         authorization_title=column_titles[authorization_inedx], operator_title=TableData.operator_titles)
 
 
-@app.route('/none_here_for_now_try_to_throw_you_off',methods=["POST"])
-def debug_edit_row():
+@app.route('/submit',methods=["POST"])
+def submit_specified_table():
     """
     接受Ajax POST上传请求的路由, 更新数据库中特定集合(对应表格)的特定文件(对应行)
     """
@@ -176,6 +177,7 @@ def debug_edit_row():
     op_name = session['operator_name']
     op_time = gen_dateTime_str()
 
+    # DEBUG LOGGGING 
     debug_string = f""" 
     Saving changes for
       table  = {table_name}
@@ -205,7 +207,7 @@ def debug_edit_row():
     Database_Utils.set_table_row(table_name=table_name, row_id=_id, data=modif_document)
     origi_document = Database_Utils.get_table_row(table_name=table_name, row_id=_id)
 
-    return "Good Job"
+    return "Success !"
 
 
 # =============================================
@@ -237,7 +239,7 @@ def table(option):
     elif(option=='show'):
         tb_name = request.args.get('table_name')    # 提取表名
         tb_name = tb_name.split('.')[0]
-        return redirect(f'/debug/{tb_name}')
+        return redirect(f'/edit/{tb_name}')
         op_name = session["operator_name"]          # session提取用户名
         op_rows = Database_Utils.get_rows(op_name)  # 提取用户允许访问的行
         return table_show(table_name=tb_name, show_rows_of_keys=op_rows, user=op_name) 
@@ -259,7 +261,6 @@ def table(option):
     elif(option=='show_edit'): 
         return
 
-
     else:
-        logging.warn("WARNING, User attempts to access URL with an invalid table option .")
+        app.logging.warn("WARNING, User attempts to access URL with an invalid table option .")
         abort(404)

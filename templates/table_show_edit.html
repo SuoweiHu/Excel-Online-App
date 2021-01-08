@@ -110,17 +110,18 @@
         
         table.on('edit(table_filter)', function(obj){ 
             // 案例
-                // console.log(obj.value); //得到修改后的值
-                // console.log(obj.field); //当前编辑的字段名
-                // console.log(obj.data);  //所在行的所有相关数据  
+                // console.log(obj.value);  //得到修改后的值
+                // console.log(obj.field);  //当前编辑的字段名
+                // console.log(obj.data);   //所在行的所有相关数据  
 
             // 检查更改是否为空
+            var enable_space_check = false  //是否不提交空值
             var modified_value = obj.value;
             while(modified_value.search(' ') != -1){modified_value = modified_value.replace(' ','');}
-            if(modified_value.length != 0){
+            if(modified_value.length != 0 || !enable_space_check){
 
                 // 获得数据
-                const request_url = "/none_here_for_now_try_to_throw_you_off"
+                const request_url = "/submit"
                 var request_dict  = obj.data;
                 request_dict['table_name'] = '{{table_name}}';
                 
