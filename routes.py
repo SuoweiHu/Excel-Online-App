@@ -12,6 +12,7 @@
 # from modules._ExcelVisitor import ExcelVisitor
 # from modules._JsonVisitor  import JSON
 # from modules._Redis import RedisCache
+import flask
 from modules._Database_Utils import Database_Utils
 from modules._Hash_Utils import hash_id
 from routes_table import *
@@ -168,11 +169,24 @@ def debug_edit_row():
     """
     接受Ajax POST上传请求的路由, 更新数据库中特定集合(对应表格)的特定文件(对应行)
     """
+
     _id        = request.form.get('_id')
     table_name = request.form.get('table_name')
     req_data   = dict(request.form)
     op_name = session['operator_name']
     op_time = gen_dateTime_str()
+
+    debug_string = f""" 
+    Saving changes for
+      table  = {table_name}
+      row_id = {_id}
+      data   = {req_data}
+
+    Action performed by
+      user = {op_name}
+      time = {op_time}
+    """
+    app.logger.debug(debug_string)
 
     # print("\n"*2)
     # print(_id)

@@ -233,8 +233,11 @@ class TableData:
                     r_data.append(t_data)
                 self.rows.append(r_data)
                 # 操作员
-                user = row['user']
-                self.operators.append([user['name'], user['time']])
+                if('user' in row.keys()):
+                    user = row['user']
+                    self.operators.append([user['name'], user['time']])
+                else:
+                    self.operators.append([None, None])
 
             # DEPRECATED: 
                 # for row in json:

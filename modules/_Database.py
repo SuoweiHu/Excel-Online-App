@@ -38,7 +38,9 @@ class MongoDatabase:
 
         # create client instance and connect to database
         self.client = pymongo.MongoClient(host, port)
-        self.database = self.client[str(name)]
+        self.database = self.client['admin']
+        self.database.authenticate('admin', 'password') # 登陆数据库认证 (等同于mongo shell 运行 use admin, db.auth(name,pwd))
+        self.database = self.client[str(name)]          # 在认证后用client单独去关联
 
         if(clear):
             collection_names = self.database.list_collection_names()
