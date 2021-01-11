@@ -102,7 +102,10 @@ def table_main(cur, limit, user):
         # 如果是超级用户
         if(user == 'admin') or (user == '填报用户'):
             # (通过行的最后几行是否完成来校验行是否为完成状态)
-            config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
+            config=DB_Config()
+            config.tb_name = f"{temp_dict[title]}.xlsx"
+            config.collection_name = f"{temp_dict[title]}"
+
             count_row_completed   = Database_Utils.count_completedRows(config=config)
             count_row_uncompleted = Database_Utils.count_allRows(config=config) - count_row_completed
             completion_percent = Database_Utils.get_completionPercentage(config=config)
@@ -123,7 +126,10 @@ def table_main(cur, limit, user):
 
         # 如果是普通用户
         else:
-            config=DB_Config(tb_name=f"{temp_dict[title]}.xlsx", db_host='localhost', db_port=27017, db_name="账户统计", collection_name=f"{temp_dict[title]}")
+            config=DB_Config()
+            config.tb_name = f"{temp_dict[title]}.xlsx"
+            config.collection_name = f"{temp_dict[title]}"
+
             rows_complete_state = Database_Utils.check_rowCompleted(config=config, authorized_banknos=Database_Utils.get_rows(user))
             temp_dict["完成状态"] = "已完成" if rows_complete_state else "未完成"
             # 按钮

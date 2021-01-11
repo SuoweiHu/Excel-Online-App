@@ -4,14 +4,16 @@ import sys
 import logging
 logging.basicConfig(level=logging.INFO)
 
+
 class DB_Config:
+    account_collection_name = "#account"
 
     def __init__(self, tb_name=None, db_host=None, db_port=None, db_name=None, collection_name=None):
         # Default Values for config
         self.tb_name = ''           #'2020年二季度.xlsx'
         self.db_host = 'localhost'
         self.db_port = 27017
-        self.db_name = "账户统计"
+        self.db_name = "TableData"
         self.collection_name = ''   #'2020第二季度'  
 
         # Custom Valus for config
@@ -150,5 +152,5 @@ class MongoDatabase:
         # Simple version
         db = self.database
         names = db.list_collection_names()
-        names.remove("账户")
+        names.remove(DB_Config.account_collection_name)
         return names

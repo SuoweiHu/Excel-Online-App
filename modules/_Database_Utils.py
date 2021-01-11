@@ -8,7 +8,7 @@ from ._Database import MongoDatabase, DB_Config
 from ._TableData import TableData
 from ._Hash_Utils import hash_id
 
-account_collection_name = "账户"
+account_collection_name = DB_Config.account_collection_name
 
 class Database_Utils:
     # ================================
