@@ -100,7 +100,8 @@ def table_main(cur, limit, user):
         temp_dict[title] = col_name
         
         # 如果是超级用户
-        if(user == 'admin') or (user == '填报用户'):
+        # if(user == 'admin') or (user == '填报用户'):
+        if(Database_Utils.check_admin(user)):
             # (通过行的最后几行是否完成来校验行是否为完成状态)
             config=DB_Config()
             config.tb_name = f"{temp_dict[title]}.xlsx"
@@ -149,7 +150,9 @@ def table_main(cur, limit, user):
 
     get_title = lambda i:i[title]
     json_collections = sorted(json_collections, key=get_title)
-    if(user == 'admin'):
+
+    # if(user == 'admin'):
+    if(Database_Utils.check_admin(user)):
         # 通过完成度给表格排序
         get_percentage = lambda i:i[completion_title]
         json_collections = sorted(json_collections, key=get_percentage)
@@ -180,7 +183,8 @@ def table_main(cur, limit, user):
     operator_date  = operator_infos[1].split(' ')[0]
     operator_time  = operator_infos[1].split(' ')[1]
 
-    if(user == 'admin'):
+    # if(user == 'admin'):
+    if(Database_Utils.check_admin(user)):
             # 开启文件上传功能
             file_upload_html = """inline"""
 
@@ -227,7 +231,8 @@ def table_show(table_name,show_rows_of_keys, user):
     # Convert the result to html format for printing
     tableData  = TableData(json=temp_mongoLoad,tb_name=table_name)
     htmlString = tableData.tableShow_toHtml(rows_of_keys=show_rows_of_keys,\
-         show_operator=True if(user=='admin') else False)
+        #  show_operator=True if(user == 'admin') else False)
+         show_operator=True if(Database_Utils.check_admin(user)) else False)
 
     # Add operator info 
     operator_infos = gen_operInfo_tup()
