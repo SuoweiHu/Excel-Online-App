@@ -29,9 +29,9 @@ def add_mockUsers():
         {'name':'733131',       'privilege':'generic',     'password': '733131',            'rows':[733131]},
         {'name':'733141',       'privilege':'generic',     'password': '733141',            'rows':[733141]},
         {'name':'733151',       'privilege':'generic',     'password': '733151',            'rows':[733151]},
-        {'name':'admin' ,       'privilege':'admin',       'password': 'admin',             'rows':[733101,733121,733131,733141,733151,733165,733177,733189,733201,733213,733225,733171,733101,733111,733121,733131,733141,733151,733161,733171,733181,733191]},
+        {'name':'admin' ,       'privilege':'admin',       'password': 'admin',             'rows':[]},
         {'name':'填报用户',      'privilege':'generic',     'password':'tianbaoyonghu',       'rows':[733101]},
-        {'name':'上传模板',      'privilege':'admin',       'password':'shangchuanmoban',     'rows':[733101,733121,733131,733141,733151,733165,733177,733189,733201,733213,733225,733171,733101,733111,733121,733131,733141,733151,733161,733171,733181,733191]},
+        {'name':'上传模板',      'privilege':'admin',       'password':'shangchuanmoban',     'rows':[]},
     ]
     for user in user_rows:
         add_account(name=user['name'],password=user['password'],rows=user['rows'],privilege=user['privilege'])

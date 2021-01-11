@@ -11,9 +11,10 @@
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <!-- 居中的样式设置 -->
     <style type="text/css">
-        .table_mask {
+        /* .table_mask {
             position: relative;
-            height: 1080px;}
+            height: 1080px;
+            }
         .table_center{
             position: absolute;
             top: 50%;
@@ -21,6 +22,18 @@
             transform: translate(-50%, -50%);
             width: 1920px;
             height: 1000px;
+        } */
+        .table_mask {
+            position: relative;
+            height: 85vh;
+            }
+        .table_center{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1920px;
+            height: 82vh;
         }
     </style>
     <!-- ====================================================== -->
@@ -34,14 +47,12 @@
         </form>
         <br>
 
-        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
-            <legend>表格数据</legend>
+        <fieldset class="layui-elem-field " style="margin-top: 30px; ">
+            <legend>表格: {{table_name}}</legend>
             <div class="table_mask">
-                <div class="table_center">
+                <div class="table_center" style="width:95%;">
                     <!-- 以上为居中设置 -->
-
-                    <table id="table_present" lay-filter="table_filter"></table>
-
+                    <table id="table_present" lay-filter="table_filter" ></table>
                     <!-- 以下为居中设置 -->
                 </div>
             </div>
@@ -61,8 +72,9 @@
         
         //高宽设置
             //--------------------------------------------------
-            ,width:  1920
-            ,height: 950
+            // ,width:  1920
+            // ,height: 950
+            ,height : window.innerHeight*0.8
             
         //分页
             //--------------------------------------------------
