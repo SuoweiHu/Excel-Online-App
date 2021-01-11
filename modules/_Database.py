@@ -51,12 +51,12 @@ class MongoDatabase:
                 collection_ = self.database[collection_name]
                 collection_.drop()
                 
-        if(ptn):
-            print()
-            print(f"\t* MongoDB:")
-            print(f"\t* Client connecting to http://{host}:{port}/")
-            print(f"\t* Clear DB mode: {'on' if clear else 'off'}")
-            print()
+        # if(ptn):
+        #     print()
+        #     print(f"\t* MongoDB:")
+        #     print(f"\t* Client connecting to http://{host}:{port}/")
+        #     print(f"\t* Clear DB mode: {'on' if clear else 'off'}")
+        #     print()
 
         return 
 
@@ -70,12 +70,12 @@ class MongoDatabase:
 
         self.client.close()
 
-        if(ptn):
-            print()
-            print(f"\t* MongoDB:")
-            print(f"\t* Stopped connection on http://{self.host}:{self.port}/")
-            print(f"\t* Clear DB mode: {'on' if clear else 'off'}")
-            print()
+        # if(ptn):
+        #     print()
+        #     print(f"\t* MongoDB:")
+        #     print(f"\t* Stopped connection on http://{self.host}:{self.port}/")
+        #     print(f"\t* Clear DB mode: {'on' if clear else 'off'}")
+        #     print()
 
         return 
 

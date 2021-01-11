@@ -97,7 +97,6 @@ def upload_file():
         return render_template("redirect_fileUploaded.html",\
             message=f"上传文件失败, 错误: 位置上传方法 (需要为POST)")
 
-
 @app.route('/data/<string:table_name>')
 def export_table_data(table_name): 
     """
@@ -120,7 +119,7 @@ def export_table_data(table_name):
     # 从数据库读取对应表格
     table_data = Database_Utils.load_table(table_name)
     for i in range(len(table_data.rows)):
-        if(table_data.rows[i][authorization_inedx] in authorized_rows):
+        if(table_data.rows[i][authorization_inedx] in authorized_rows) or (Database_Utils.check_admin(session['operator_name'])):
             temp = {}
 
             # UUID

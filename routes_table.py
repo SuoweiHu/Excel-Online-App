@@ -84,13 +84,13 @@ def table_main(cur, limit, user):
     if(sheet_indexEnd > len(collection_names)): sheet_indexEnd = len(collection_names)
     
     # Format the colleciton names into json dict
-    title = "表格名称"
-    completion_title = "完成度 (%)"
-    row_completed_title = "完成-行数"
-    row_allNumRows_title = "全部-行数"
-    button_title = "操作"                # Usually empty string like ""
-    button_placeholder_front = "@@@@"   # @@@@@@@@@@@@@@@@@@@@'
-    button_placeholder_back  = "####"   # ####################'
+    title                       = "表格名称"
+    completion_title            = "完成度 (%)"
+    row_completed_title         = "完成-行数"
+    row_allNumRows_title        = "全部-行数"
+    button_title                = "操作"                 # Usually empty string like ""
+    button_placeholder_front    = "@@@@"                # @@@@@@@@@@@@@@@@@@@@'
+    button_placeholder_back     = "####"                # ####################'
 
     # Append to json dict
     json_collections= []

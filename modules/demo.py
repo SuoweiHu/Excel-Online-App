@@ -136,16 +136,16 @@ def demo_3():
     tableDict = tableData.toJson()
 
     # CHECK READ  
-    if(False): 
-        pprint.pprint(tableData.tb_name, indent=4)
-        print("="*30)
-        pprint.pprint(tableData.titles, indent=4)
-        print("="*30)
-        pprint.pprint(tableData.rows, indent=4)
-        print("="*30)
-        pprint.pprint(tableData.operators, indent=4)
-        print("="*30)
-        pprint.pprint(tableDict, indent=4)
+    # if(False): 
+    #     pprint.pprint(tableData.tb_name, indent=4)
+    #     print("="*30)
+    #     pprint.pprint(tableData.titles, indent=4)
+    #     print("="*30)
+    #     pprint.pprint(tableData.rows, indent=4)
+    #     print("="*30)
+    #     pprint.pprint(tableData.operators, indent=4)
+    #     print("="*30)
+    #     pprint.pprint(tableDict, indent=4)
 
     # Store to database
     db = MongoDatabase()
@@ -160,26 +160,28 @@ def demo_3():
     tableDict = tableData.toJson()
 
     # CHECK READLoad
-    if(False):
-        pprint.pprint(tableData.tb_name, indent=4)
-        print("="*30)
-        pprint.pprint(tableData.titles, indent=4)
-        print("="*30)
-        pprint.pprint(tableData.rows, indent=4)
-        print("="*30)
-        pprint.pprint(tableData.operators, indent=4)
-        print("="*30)
-        pprint.pprint(tableDict, indent=4)
+    # if(False):
+    #     pprint.pprint(tableData.tb_name, indent=4)
+    #     print("="*30)
+    #     pprint.pprint(tableData.titles, indent=4)
+    #     print("="*30)
+    #     pprint.pprint(tableData.rows, indent=4)
+    #     print("="*30)
+    #     pprint.pprint(tableData.operators, indent=4)
+    #     print("="*30)
+    #     pprint.pprint(tableDict, indent=4)
     
     # Complted rows
     c_comRow = Database_Utils.count_completedRows(config=config)
     c_allRow = Database_Utils.count_allRows(config=config)
     compltion_percentage = Database_Utils.get_completionPercentage(tb_name="2020年二季度")
-    print("="*30)
-    print(f"For the table of: {config.tb_name}")
-    print(f"Number of completed rows: {c_comRow} / {c_allRow}")
-    print(f"Completion percentages: {compltion_percentage}")
-    print("="*30)
+
+    
+    # print("="*30)
+    # print(f"For the table of: {config.tb_name}")
+    # print(f"Number of completed rows: {c_comRow} / {c_allRow}")
+    # print(f"Completion percentages: {compltion_percentage}")
+    # print("="*30)
 
     return 
 

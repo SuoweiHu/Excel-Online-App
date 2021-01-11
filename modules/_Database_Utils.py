@@ -57,12 +57,15 @@ class Database_Utils:
 
         count = 0
         for row, operator in zip(table.rows, table.operators):
-            if(operator[0] is not None) and (operator[1] is not None):
-                cell_all_complted = True
-                for cell in row: 
+            # if(operator[0] is not None) and (operator[1] is not None):
+            cell_all_complted = True
+            for cell in row: 
+                if(not cell_all_complted):break
+                if(cell is None): cell_all_complted = False
+                else:
                     while(' ' in cell): cell = cell.replace(' ', '')
-                    if(cell is None) or (len(cell) == 0): cell_all_complted = False
-                if(cell_all_complted): count += 1
+                    if(len(cell) == 0): cell_all_complted = False
+            if(cell_all_complted): count += 1
 
         return count 
 
@@ -107,17 +110,20 @@ class Database_Utils:
                 if(row[bankno_index] == bankno):
                     count_all += 1 
 
-                    # 如果还没有用户填过那就肯定未完成这行
-                    if(table.operators[i][0] is None):
-                        count_uncompleted += 1
+                    # # 如果还没有用户填过那就肯定未完成这行
+                    # if(table.operators[i][0] is None):
+                    #     count_uncompleted += 1
 
-                    # 如果有用户填过则检车是否所有行都已经完成
+                    # # 如果有用户填过则检车是否所有行都已经完成
+                    # else:
+                cell_all_complted = True
+                for cell in row:
+                    if(not cell_all_complted):break
+                    if(cell is None):cell_all_complted = False
                     else:
-                        cell_all_complted = True
-                        for cell in row:
-                            while(' ' in cell): cell = cell.replace(' ', '')
-                            if(cell is None) or (len(cell) == 0): cell_all_complted = False
-                        if(not cell_all_complted): count_uncompleted += 1
+                        while(' ' in cell): cell = cell.replace(' ', '')
+                        if(len(cell) == 0): cell_all_complted = False
+                if(not cell_all_complted): count_uncompleted += 1
 
         # Return check result
         count_completed = (count_all-count_uncompleted)
