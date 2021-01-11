@@ -201,7 +201,9 @@ def submit_specified_table():
     origi_document = Database_Utils.get_table_row(table_name=table_name, row_id=_id)
     modif_document = origi_document.copy()
     for title,cell_data in origi_document['data'].items():
-        modif_document['data'][title] = req_data[title] 
+        modif_data = req_data[title] 
+        if isinstance(modif_data, list): modif_data = modif_data[0]
+        modif_document['data'][title] = modif_data
     modif_document['user']['name'] = op_name
     modif_document['user']['time'] = op_time
     Database_Utils.set_table_row(table_name=table_name, row_id=_id, data=modif_document)
