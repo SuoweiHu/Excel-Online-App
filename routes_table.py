@@ -109,7 +109,7 @@ def table_main(cur, limit, user):
 
             count_row_completed   = Database_Utils.count_completedRows(config=config)
             count_row_uncompleted = Database_Utils.count_allRows(config=config) - count_row_completed
-            completion_percent = Database_Utils.get_completionPercentage(config=config)
+            completion_percent    = Database_Utils.get_completionPercentage(config=config)
 
             temp_dict[row_completed_title] = str(count_row_completed)
             temp_dict[row_allNumRows_title] = str(count_row_uncompleted+count_row_completed)
@@ -131,8 +131,15 @@ def table_main(cur, limit, user):
             config.tb_name = f"{temp_dict[title]}.xlsx"
             config.collection_name = f"{temp_dict[title]}"
 
-            rows_complete_state = Database_Utils.check_rowCompleted(config=config, authorized_banknos=Database_Utils.get_rows(user))
-            temp_dict["完成状态"] = "已完成" if rows_complete_state else "未完成"
+            # 获取列表完成状态信息
+            rows_uncompleted, rows_complted, rows_all_, completion_percentage_, rows_complete_state = \
+                Database_Utils.get_completionState(config=config, authorized_banknos=Database_Utils.get_rows(user))
+
+            # temp_dict["完成状态"] = "已完成" if rows_complete_state else "未完成"
+            temp_dict[row_completed_title]  = str(rows_complted)
+            temp_dict[row_allNumRows_title] = str(rows_all_)
+            temp_dict[completion_title]     = str(completion_percentage_)
+
             # 按钮
             button_stringBefReplacement = ""
             # Will be repalced with 更改表单 button

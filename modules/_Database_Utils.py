@@ -51,16 +51,18 @@ class Database_Utils:
         temp_mongoLoad = db.get_documents(collection=table_name)
         db.close()
 
-
-
         # Store to custom type
         table = TableData(json=temp_mongoLoad, tb_name=table_name)
         operators = table.operators
 
         count = 0
-        for operator in operators:
+        for row, operator in zip(table.rows, table.operators):
             if(operator[0] is not None) and (operator[1] is not None):
-                count += 1
+                cell_all_complted = True
+                for cell in row: 
+                    while(' ' in cell): cell = cell.replace(' ', '')
+                    if(cell is None) or (len(cell) == 0): cell_all_complted = False
+                if(cell_all_complted): count += 1
 
         return count 
 
@@ -80,7 +82,17 @@ class Database_Utils:
 
         return round(c_comRow/c_allRow * 100, 1)
     
-    def check_rowCompleted(config, authorized_banknos, key="行号"):
+    def get_completionState(config, authorized_banknos, key="行号"):
+        """
+        return (num_uncompleted, 
+                count_completed, 
+                num_uncompleted, 
+                completion_percentage, 
+                complted_status)
+        """
+        count_uncompleted = 0 
+        count_all         = 0 
+
         table_name = config.collection_name
         db = MongoDatabase()
         db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
@@ -93,9 +105,27 @@ class Database_Utils:
             for i in range (len(table.rows)):
                 row = table.rows[i]
                 if(row[bankno_index] == bankno):
+                    count_all += 1 
+
+                    # 如果还没有用户填过那就肯定未完成这行
                     if(table.operators[i][0] is None):
-                        return False
-        return True
+                        count_uncompleted += 1
+
+                    # 如果有用户填过则检车是否所有行都已经完成
+                    else:
+                        cell_all_complted = True
+                        for cell in row:
+                            while(' ' in cell): cell = cell.replace(' ', '')
+                            if(cell is None) or (len(cell) == 0): cell_all_complted = False
+                        if(not cell_all_complted): count_uncompleted += 1
+
+        # Return check result
+        count_completed = (count_all-count_uncompleted)
+        return (count_uncompleted,
+                count_completed,
+                count_all,
+                round(count_completed/count_all * 100, 1),
+                count_completed==count_all)
 
     # ================================
 

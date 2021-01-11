@@ -13,7 +13,7 @@ class ExcelVisitor:
             self.open(path, sheet_name)
 
     def open(self, path, sheet_name=None):
-        self.workbook = load_workbook(path)
+        self.workbook = load_workbook(path, data_only=True)
         if(len(self.workbook.sheetnames)==0): raise("Excel sheet is empty")
         if(sheet_name is None): sheet_name=(self.workbook.sheetnames)[0]
         self.worksheet = self.workbook[sheet_name]

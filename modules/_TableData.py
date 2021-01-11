@@ -8,23 +8,6 @@ import random
 
 
 class TableData:
-    """
-    Usage:
-        tbname = "2020年二季度"
-        titles = ["行号","项目号","子账户","账户名","分账户","账户名","受理人","金额"]
-        rows   = [["733101","213123","A","XXXX","A1","XXXX","小S",None],
-                  ["733121","123123","A","XXXX","A1","XXXX","小B","321"],
-                  ["733131","123123","B","YYYY","B1","YYYY 1",None,"123"],
-                  ["733141","123123","B","YYYY",None,None,None,"123"],
-                  ["733151","1231231","B","YYYY","B3","YYYY 3","小B",None]]
-        operators = [[None, None],
-                     [小明, 2020.02.11-23:32:10],
-                     [小花, 2020.03.12-23:32:10],
-                     [小百, 2020.04.13-23:32:10],
-                     [None, None]]
-        tb_data = TableData(tb_name= tbname, titles=titles, rows=rows, operators=operators)
-    """
-
     tb_name   = None
     titles    = None
     ids       = []

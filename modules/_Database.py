@@ -10,11 +10,12 @@ class DB_Config:
 
     def __init__(self, tb_name=None, db_host=None, db_port=None, db_name=None, collection_name=None):
         # Default Values for config
-        self.tb_name = ''           #'2020年二季度.xlsx'
+        self.tb_name = ''          
         self.db_host = 'localhost'
+        # self.db_host = '10.0.0.98'
         self.db_port = 27017
         self.db_name = "TableData"
-        self.collection_name = ''   #'2020第二季度'  
+        self.collection_name = ''  
 
         # Custom Valus for config
         if(tb_name is not None): self.tb_name = tb_name  # 注意这里的文件名是带后缀的: 2020第一季度.xlsx     
@@ -41,7 +42,7 @@ class MongoDatabase:
         # create client instance and connect to database
         self.client = pymongo.MongoClient(host, port)
         self.database = self.client['admin']            # 这里可以将admin替换成有数据库存账户信息的库
-        self.database.authenticate('admin', 'password') # 登陆数据库认证 (等同于mongo shell 运行 use admin, db.auth(name,pwd))
+        self.database.authenticate('admin', 'admin@123') # 登陆数据库认证 (等同于mongo shell 运行 use admin, db.auth(name,pwd))
         self.database = self.client[str(name)]          # 在认证后用client单独去关联
 
         if(clear):
@@ -131,12 +132,27 @@ class MongoDatabase:
             raise(f"Collection specified does not exist. (Collection of _name={collection}")
 
 
-    def get_documents(self, collection):
-        document_ids = self.get_ids(collection=collection)
-        rtn_dict = {}
-        for document_id in document_ids:
-            document = self.extract(collection=collection, _id=document_id)
-            rtn_dict[document_id] = document
+    def get_documents(self, collection, query=None):
+
+        # 如果没有给字典类型的Query, 那么默认返回集合全部的Document
+        if(query is None):
+            document_ids = self.get_ids(collection=collection)
+            rtn_dict = {}
+            for document_id in document_ids:
+                document = self.extract(collection=collection, _id=document_id)
+                rtn_dict[document_id] = document
+
+        # 否则根据查询条件找符合条件的Document
+        else:
+            # TODO: Implment search via query on DB
+            # document_ids = self.get_ids(collection=collection)
+            # rtn_dict = {}
+            # for document_id in document_ids:
+            #     document = self.extract(collection=collection, _id=document_id)
+            #     rtn_dict[document_id] = document
+            return
+
+
         return rtn_dict
 
     def list_collections(self, database=None):
