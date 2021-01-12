@@ -34,16 +34,17 @@ def route_upload_file(f, f_name):
     if('xlsx' not in f_name):
         # 检查文件类型是否正确
         return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 文件名为{f_name} (需要为后缀是xlsx的文件)")
-    elif(f_name.split('.')[0] in Database_Utils.list_collections()):
+
+    elif(f_name.split('.')[0] in Database_Utils.list_tableData_colNames()):
         # 检查文件是否已经存在
         return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 文件/集合已经存在", table_name = f_name)
+
     else: 
         # 保存文件, 从文件读取内容, 并保存到数据库
-        
         f.save(f'./src/temp/{f_name}') # 临时保存文件
         if(save_xlsx): f.save(f'./src/excel/{f_name}') 
 
-        # Read from Excel file 
+        # 读取Excel文件 (注意: 公式将不被保留)
         tb_name = f_name
         excelReader = ExcelVisitor(f'./src/temp/{f_name}')
         titles      = excelReader.get_titles()
@@ -52,7 +53,7 @@ def route_upload_file(f, f_name):
         os.remove(f'./src/temp/{f_name}')# 读取后删除文件
         ids_list    = [hash_id(str(random.random())) for i in range(len(info_table))]
 
-        # Store to custom class format 
+        # 存储表格数据到自定义类TableData
         tableData = TableData(json=None, tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table, ids=ids_list)
         tableData_Json = tableData.toJson()
         if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
@@ -65,6 +66,13 @@ def route_upload_file(f, f_name):
             temp_rows  = [row[i] for row in tableData.rows]
             if(None not in temp_rows): fixed_titles.append(title)
 
-        pprint.pprint(fixed_titles)
-
+        # 上传表格的元数据
+        meta = {
+            "tb_name" : tableData.tb_name,
+            "count"   : len(tableData.operators),
+            "titles"            : tableData.titles,
+            "fixed_titles"      : fixed_titles,
+            "mustFill_titles"   : [] # TODO: 必须填写栏 ???????
+        }
+        Database_Utils.meta.save_tablemMeta(tb_name=tableData.tb_name, meta=meta)
         return render_template("redirect_fileUploaded.html", message=f"成功上传文件, 文件名: {f_name}", table_name = f_name)

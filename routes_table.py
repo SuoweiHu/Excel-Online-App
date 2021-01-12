@@ -64,7 +64,7 @@ def table_main(cur, limit, user):
     # Retain colleciton names from database
     db = MongoDatabase()
     db.start()
-    collection_names = db.list_collections()
+    collection_names = db.list_tableData_colNames()
     db.close()
 
     # Take a fraction of the data and display them

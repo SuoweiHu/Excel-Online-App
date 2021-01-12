@@ -1,3 +1,4 @@
+from os import name
 import pymongo
 import json
 import sys
@@ -6,8 +7,9 @@ logging.basicConfig(level=logging.INFO)
 
 
 class DB_Config:
-    account_collection_name  = "#account"
-    tableMeta_collection_name = "#fixed_tableCols"
+    account_collection_name    = "#account"
+    tableMeta_collection_name  = "#tableMeta"
+    noneData_collection_names  = [account_collection_name, tableMeta_collection_name]
 
     def __init__(self, tb_name=None, db_host=None, db_port=None, db_name=None, collection_name=None):
         # Default Values for config
@@ -33,6 +35,15 @@ class MongoDatabase:
         return
 
     def start(self, host=None, port=None, name=None, clear=False, ptn=False):
+        """
+        打开与数据库的连接
+        Parameter:
+            host : MongoDB文档数据库所在 服务器IP地址
+            port : MongoDB文档数据库所在 端口号
+            name : MongoDB文档数据库中要打开的 数据库(Database)的 名字
+            clear : 打开后是否清除数据库中原有的所有内容
+            prn   : 是否print调试信息
+        """
 
         # Use default configuration if not given
         default_config=DB_Config()
@@ -62,6 +73,9 @@ class MongoDatabase:
         return 
 
     def close(self, clear=False, ptn=False):
+        """
+        关闭与数据库的连接
+        """
         # close client instance
         if(clear):
             collection_names = self.database.list_collection_names()
@@ -81,11 +95,12 @@ class MongoDatabase:
         return 
 
     def insert(self, collection, data, adapter=None, _id=None):
-        """
-        collection: MongoDB集合的名字
-        data:       可以是dict, 当给出适配函数的时候, 也可以是excel, json等文件
-        adapter:    可以把data转化成字典的函数 即 type(adapter(data)) == dict
-        _id:        可缺省值, 保存文档的_id (如果缺省那么就自动生成, 不推荐)
+        """在已经打开的数据库中, 向特定的集合中(Collection), 插入特定id的文档(Document)
+        Parameter
+            collection: MongoDB集合的名字
+            data:       可以是dict, 当给出适配函数的时候, 也可以是excel, json等文件
+            adapter:    可以把data转化成字典的函数 即 type(adapter(data)) == dict
+            _id:        可缺省值, 保存文档的_id (如果缺省那么就自动生成, 不推荐)
         """
         if(adapter is not None):
             data = adapter(data)
@@ -105,10 +120,19 @@ class MongoDatabase:
         return
 
     def drop(self, collection):
+        """
+        打开已经打开的数据库中的特定集合(Collection)
+        """
         self.database.drop_collection(collection)
         return 
 
     def extract(self, collection, _id):
+        """
+        在已经打开的数据库中, 向特定的集合中(Collection), 获取特定id的文档(Document)
+        Parameter
+            collection : 数据库中集合的名字
+            _id :        保存文档的_id (如果缺省那么就自动生成, 不推荐)
+        """
         if(collection in self.database.list_collection_names()):  
             db_collection = self.database[collection]
             if(db_collection.count_documents({"_id":_id})!= 0):
@@ -121,11 +145,15 @@ class MongoDatabase:
         else:  
             raise(f"Collection specified does not exist. (Collection of _name={collection}")
 
-        # raise("FUK YOU")
         # if(collection.count_documents({"_id":_id}) == 0):
         # else: return collection.find_one({"_id":_id})
 
     def get_ids(self, collection):
+        """
+        获取已经打开的数据库中特定集合的所有文档的ID
+        Parameter:
+            collection : 数据库中集合的名字
+        """
         if(collection in self.database.list_collection_names()):  
             cursor = self.database[collection].find({},{'_id':1}) 
             return [item['_id'] for item in cursor]
@@ -134,6 +162,12 @@ class MongoDatabase:
 
 
     def get_documents(self, collection, query=None):
+        """
+        获取已经打开数据库中的特定集合中的符合查询条件的文档
+        Parameter:
+            collection : 数据库中集合的名字
+            query : 字典类型的查询条件 例如{'_id':'abcdef123456', 'table_name':'demo_tableName'} 
+        """
 
         # 如果没有给字典类型的Query, 那么默认返回集合全部的Document
         if(query is None):
@@ -156,18 +190,24 @@ class MongoDatabase:
 
         return rtn_dict
 
-    def list_collections(self, database=None):
+    def list_tableData_colNames(self, exclude_collections=DB_Config.noneData_collection_names, database=None):
+        """
+        返回已打开数据库中跟表格数据有关集合的名字
+        Parameter: 
+            exclude_collections :   非表格数据集合名字, 将会被从列表中排出
+            database :              如果不为None则重新连接 (TODO: 暂时还未实现该功能)
+        """
 
-        # Advanced Version
+        db = self.database
+        names = db.list_collection_names()
+        for collection_name in exclude_collections: # 去除非表格数据的集合
+            if(collection_name in names): names.remove(collection_name) 
+        return names
+
+        # 高阶版本?
         # db = self.database
         # client = self.client
         # d = dict((db, [collection for collection in client[db].collection_names()])
         #      for db in client.database_names())
         # if(database is None): return json.dumps(d)
         # else: return d[database]
-
-        # Simple version
-        db = self.database
-        names = db.list_collection_names()
-        names.remove(DB_Config.account_collection_name)
-        return names

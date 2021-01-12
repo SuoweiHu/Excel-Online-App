@@ -8,16 +8,18 @@ from ._Database import MongoDatabase, DB_Config
 from ._TableData import TableData
 from ._Hash_Utils import hash_id
 
-account_collection_name = DB_Config.account_collection_name
-tableMeta_collection_name = DB_Config.tableMeta_collection_name
 
 class Database_Utils:
+    account_collection_name   = DB_Config.account_collection_name
+    tableMeta_collection_name = DB_Config.tableMeta_collection_name
+    noneData_collection_names = DB_Config.noneData_collection_names
+
     # ================================
 
-    def list_collections():
+    def list_tableData_colNames():
         db = MongoDatabase()
         db.start()
-        collection_names = db.list_collections()
+        collection_names = db.list_tableData_colNames()
         db.close()
         return collection_names
 
@@ -135,7 +137,7 @@ class Database_Utils:
                 count_completed==count_all)
 
     # ================================
-    # 读取列标题
+    # 读取特定表格的列标题
     def get_tableTitles(tb_name):
         # config = None
         # if(tb_name is not None) and (config is None):
@@ -156,24 +158,53 @@ class Database_Utils:
         titles = table.titles
         return titles
 
-    # 存储预设列标题
-    def save_fixedCols(name, fixed_cols):
-        _id = hash_id(name)
-        data = fixed_cols
 
-        config= DB_Config(tb_name=name, collection_name=name.split('.')[0])
-        db = MongoDatabase()
-        db.start(host=config.db_host, port=config.db_port, name=config.db_name, clear=False)
-        for row in data.items():
-            db.insert(collection=name, data=row[1], _id=row[0])
-        db.close()
+    class meta:
+        # 存储特定表格的元数据
+        def save_tablemMeta(tb_name, meta):
+            """
+            保存表格的元数据, 包含:
+                表格的名字,
+                表格的总行书,    
+                表格的所有标题,
+                表格的预设列标题, 
+                表格的必填列标题, (可以更改)
 
+            Parameter:
+                tb_name: 表格名称 (将会被用来生成_id)
+                meta:    表格元数据
+            """
 
-    # 读取预设列标题
-    def load_fixedCols(tb_name, fixed_cols):
-        _id = hash_id(tb_name)
+            db = MongoDatabase()
+            db.start()
+            db.insert(collection=Database_Utils.tableMeta_collection_name,\
+                data=meta, _id=str(hash_id(tb_name)))
+            db.close()
 
-    # 提交模版
+        # 读取特定表格的元数据
+        def load_tablemMeta(tb_name):
+            """
+            保存表格的元数据, 包含:
+                表格的名字,
+                表格的总行书,    
+                表格的所有标题,
+                表格的预设列标题, 
+                表格的必填列标题, (可以更改)
+
+            Parameter:
+                tb_name: 表格名称 (将会被用来生成_id)
+            """
+            db = MongoDatabase()
+            db.start()
+            db.get_documents(collection=Database_Utils.tableMeta_collection_name,\
+                query={'_id':str(hash_id(tb_name))})
+            db.close()
+
+            return
+
+    # ================================
+
+    # 提交模版 
     def upload_table(name, data):
         config= DB_Config(tb_name=name, collection_name=name.split('.')[0])
         db = MongoDatabase()
@@ -220,20 +251,19 @@ class Database_Utils:
         db.close()
         return 
 
-
-
-
     # ================================
 
+    # 获取用户信息 (全量返回)
     def get_user(name):
         config = DB_Config()
         db = MongoDatabase()
         db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
         _id = hash_id(name)
-        user_dict = db.database[account_collection_name].find_one({'_id':_id})
+        user_dict = db.database[Database_Utils.account_collection_name].find_one({'_id':_id})
         db.close()
         return user_dict
 
+    # 新增用户
     def add_user(name, password, rows, privilege='generic'):
         config = DB_Config()
         db = MongoDatabase()
@@ -245,14 +275,15 @@ class Database_Utils:
         usr_dict = {'name':name, 'password':hash_password, 'privilege':privilege, 'rows':rows}
 
         # 如果已经存在用户则抛出错误 (可以后面改) 否则添加用户字典数据
-        if(db.database[account_collection_name].count_documents({'_id':_id}) == 1): 
-            db.insert(collection=account_collection_name, data=usr_dict, _id=_id)
+        if(db.database[Database_Utils.account_collection_name].count_documents({'_id':_id}) == 1): 
+            db.insert(collection=Database_Utils.account_collection_name, data=usr_dict, _id=_id)
             # raise(f"The account adding already exists : _id={_id}")
-        else: db.insert(collection=account_collection_name, data=usr_dict, _id=_id)
+        else: db.insert(collection=Database_Utils.account_collection_name, data=usr_dict, _id=_id)
 
         db.close()
         return
 
+    # 删除用户
     def del_user(name, password):
         config = DB_Config()
         db = MongoDatabase()
@@ -262,13 +293,13 @@ class Database_Utils:
         _id      = hash_id(name)
         hash_password = hash_id(password)
 
-        if(db.database[account_collection_name].count_documents({'_id':_id}) == 0): 
+        if(db.database[Database_Utils.account_collection_name].count_documents({'_id':_id}) == 0): 
             db.close()
             return
             # raise(f"Your deleting account dont exist")
         else: 
             if(Database_Utils.check_password(name, password)):
-                col = db.database[account_collection_name]
+                col = db.database[Database_Utils.account_collection_name]
                 col.delete_one({'_id' : hash_id(name)})
                 db.close()
                 return 
@@ -276,6 +307,7 @@ class Database_Utils:
         db.close()
         return
 
+    # 检查密码是否正确 
     def check_password(name, password):
         """
         返回true如果密码和数据库中的hash匹配
@@ -283,12 +315,14 @@ class Database_Utils:
         if((Database_Utils.get_user(name)) is None): return False
         return (Database_Utils.get_user(name))['password'] == hash_id(password)
 
+    # 检查权限是否为admin
     def check_admin(name):
         """
         返回true如果用户的privilege字段为admin
         """
         return (Database_Utils.get_user(name))['privilege'] == 'admin'
         
+    # 获得允许访问的行号列表
     def get_rows(name):
         """
         返回用户有权限访问的行
@@ -297,6 +331,7 @@ class Database_Utils:
 
     # ================================
 
+    # 获得表格特定行 (通过行在collection中的document id)
     def get_table_row(table_name, row_id):
         """
         table_name: 表格名, 数据库中对应一个集合
@@ -311,6 +346,7 @@ class Database_Utils:
         db.close()
         return rtn
 
+    # 更改表格行 (通过行在collection中的document id)
     def set_table_row(table_name, row_id, data):
         """
         table_name: 表格名, 数据库中对应一个集合
