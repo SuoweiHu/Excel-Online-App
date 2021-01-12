@@ -5,16 +5,18 @@ from werkzeug.utils import html
 import datetime
 from ._Hash_Utils import hash_id
 import random
+import pprint
 
 
 class TableData:
-    tb_name   = None
-    titles    = None
-    ids       = []
-    rows      = []
-    operators = []
-
     operator_titles = ["操作员","时间"]
+
+    tb_name   = None    # 行文档的 _ID (自动生成, 不是行号 !!!!)
+    titles    = None    # 表格名称      
+    ids       = []      # 表格列标题
+    rows      = []      # 表格行数据
+    # operators = []      # 预设内容(列标题)
+    fixed_titles = []   # 操作员
 
     # ==============================
     # Store/ Restore from json format (For database)
@@ -159,13 +161,14 @@ class TableData:
             }
         """
         # ============================================
-        # 如果 Json 字典为 None 那么一般入参是从文件读取中来
+        # 如果 Json 字典为 None 那么一般入参是从文件读取中来 (初次读取)
         if(json is None):
-            self.ids        = ids
-            self.tb_name    = tb_name   
-            self.titles     = titles   
-            self.rows       = rows
-            if(operators is not None): 
+            self.ids        = ids       # 行文档的 _ID (自动生成, 不是行号 !!!!)
+            self.tb_name    = tb_name   # 表格名称
+            self.titles     = titles    # 表格列标题
+            self.rows       = rows      # 表格行数据
+            # self.fixed_titles = []      # 预设内容(列标题)
+            if(operators is not None):  # 操作员
                 temp_operator = []
                 for operator in operators:
                     if(not len(operator) == 2): operator = [None, None]
@@ -174,15 +177,15 @@ class TableData:
             else: 
                 self.operators  = [{"name":None, "time":None} for _ in range(len(rows))]
 
-            # 检查每行的数据数量和表头属性数量相同
+            # 检查每行的数据数量和表头属性数量相同 (若否抛出错误)
             for row in rows:
                 if not (len(row)==len(titles)): 
                     raise(f"""
                         Number of row entries does not macth with the number of titles.\n 
                         (Notice that row can include None, e.g. [1,2,None,3,\'小明\'])  \n
                         Title: ({len(titles)})\n\t {titles}
-                        Row: ({len(row)})\n\t {row}
-                        """)
+                        Row: ({len(row)})\n\t {row}""")
+            
         
         # ============================================
         # 如果 Json 字典不为 None 一般就是从数据库的读取
@@ -194,20 +197,20 @@ class TableData:
             self.operators = []      # 表操作员
             rows           = list(json.items()) # 表
 
-            # 读取标题
+            # 读取标题 ===============
             first_row_data = rows[0][1]['data']
             for item in first_row_data.items():
                 self.titles.append(item[0])
 
-            # 读取ID
+            # 读取ID ================
             for row in rows:
                 _id = row[0]
                 self.ids.append(_id)
 
-            # 内容, 操作员
+            # 内容, 操作员 ===========
             for row in rows:
                 row = row[1] 
-                # 内容
+                # 内容 ==============
                 data = row['data']
                 r_data = []
                 for i in range(len(self.titles)):
@@ -215,51 +218,12 @@ class TableData:
                     t_data = data[title]
                     r_data.append(t_data)
                 self.rows.append(r_data)
-                # 操作员
+                # 操作员 ============
                 if('user' in row.keys()):
                     user = row['user']
                     self.operators.append([user['name'], user['time']])
                 else:
                     self.operators.append([None, None])
-
-            # DEPRECATED: 
-                # for row in json:
-                #     id = row['_id']
-                #     data = row['data']
-                #     for items in row:
-                        
-
-                # temp_rows      = json["data"]
-                # table_data     = []
-                # for row in temp_rows.items():
-                #     table_data.append(row[1])
-
-                # # Extract titles
-                # titles = []
-                # first_row = table_data[0]
-                # for x in first_row.items():
-                #     titles.append(x[0])
-                # titles = titles[:-2]    # remove operator columns * 2
-                # self.titles    = titles
-
-                # # Extract data
-                # table_rows = []
-                # table_operators = []
-                # for row in table_data:
-                #     temp_row  = []
-                #     temp_oper = []
-                #     for i in range(len(titles)):
-                #         cell_title = titles[i] 
-                #         cell_data = row[cell_title]
-                #         temp_row.append(cell_data)
-                #     temp_oper.append(row['操作员'])
-                #     temp_oper.append(row['操作时间'])
-
-                #     table_rows.append(temp_row)
-                #     table_operators.append(temp_oper)
-                    
-                # self.rows      = table_rows
-                # self.operators = table_operators
 
         return
 

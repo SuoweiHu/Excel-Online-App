@@ -58,4 +58,13 @@ def route_upload_file(f, f_name):
         if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
         Database_Utils.upload_table(tb_name.split('.')[0],tableData_Json)
 
+        # 查找全部赋值完毕的列 (为以后不能更改的单元格作准备)
+        fixed_titles = []
+        for i in range(len(tableData.titles)):
+            title = tableData.titles[i]
+            temp_rows  = [row[i] for row in tableData.rows]
+            if(None not in temp_rows): fixed_titles.append(title)
+
+        pprint.pprint(fixed_titles)
+
         return render_template("redirect_fileUploaded.html", message=f"成功上传文件, 文件名: {f_name}", table_name = f_name)

@@ -6,7 +6,8 @@ logging.basicConfig(level=logging.INFO)
 
 
 class DB_Config:
-    account_collection_name = "#account"
+    account_collection_name  = "#account"
+    tableMeta_collection_name = "#fixed_tableCols"
 
     def __init__(self, tb_name=None, db_host=None, db_port=None, db_name=None, collection_name=None):
         # Default Values for config

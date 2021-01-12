@@ -9,6 +9,7 @@ from ._TableData import TableData
 from ._Hash_Utils import hash_id
 
 account_collection_name = DB_Config.account_collection_name
+tableMeta_collection_name = DB_Config.tableMeta_collection_name
 
 class Database_Utils:
     # ================================
@@ -134,16 +135,7 @@ class Database_Utils:
                 count_completed==count_all)
 
     # ================================
-
-    def upload_table(name, data):
-        config= DB_Config(tb_name=name, collection_name=name.split('.')[0])
-        db = MongoDatabase()
-        db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-        for row in data.items():
-            db.insert(collection=name, data=row[1], _id=row[0])
-        db.close()
-        return
-
+    # 读取列标题
     def get_tableTitles(tb_name):
         # config = None
         # if(tb_name is not None) and (config is None):
@@ -164,6 +156,34 @@ class Database_Utils:
         titles = table.titles
         return titles
 
+    # 存储预设列标题
+    def save_fixedCols(name, fixed_cols):
+        _id = hash_id(name)
+        data = fixed_cols
+
+        config= DB_Config(tb_name=name, collection_name=name.split('.')[0])
+        db = MongoDatabase()
+        db.start(host=config.db_host, port=config.db_port, name=config.db_name, clear=False)
+        for row in data.items():
+            db.insert(collection=name, data=row[1], _id=row[0])
+        db.close()
+
+
+    # 读取预设列标题
+    def load_fixedCols(tb_name, fixed_cols):
+        _id = hash_id(tb_name)
+
+    # 提交模版
+    def upload_table(name, data):
+        config= DB_Config(tb_name=name, collection_name=name.split('.')[0])
+        db = MongoDatabase()
+        db.start(host=config.db_host, port=config.db_port, name=config.db_name, clear=False)
+        for row in data.items():
+            db.insert(collection=name, data=row[1], _id=row[0])
+        db.close()
+        return
+
+    # 读取表格
     def load_table(tb_name):
         # if(tb_name is not None) and (config is None):
         #     config = DB_Config()
@@ -182,6 +202,7 @@ class Database_Utils:
         table = TableData(json=temp_mongoLoad, tb_name=table_name)
         return table
 
+    # 保存变更
     def save_table(tb_name,data):
         config = None
         if(tb_name is not None) and (config is None):
@@ -198,6 +219,9 @@ class Database_Utils:
             db.insert(collection=tb_name, data=row[1], _id=row[0])
         db.close()
         return 
+
+
+
 
     # ================================
 
