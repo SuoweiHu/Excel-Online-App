@@ -32,29 +32,36 @@
         <!-- <fieldset class="layui-elem-field site-demo-button" style="margin-top: 15% ;margin-left: 30%;margin-right: 30%;"> -->
           <fieldset class="layui-elem-field site-demo-button" style="margin: 15% 35%;">
             <legend>操作员</legend>
-            <div>
+            <div style="margin-top: 6.5%; margin-bottom: 6.5%; text-align: center; margin-left: 15%; margin-right: 15%;">
                 <!-- {{login_section | safe}} -->
-                <br>
-                <form class="layui-form layui-form-pane" action="/login" method="post" style="padding-left: 20px;">
+
+                <form class="layui-form layui-form-pane" action="/login" method="post" >
+
                     <div class="layui-form-item">
                         <label class="layui-form-label">账户</label>
                         <div class="layui-input-inline">
                             <input type="text" name="operator_name" lay-verify="required" placeholder="username" autocomplete="off" class="layui-input">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">用户名为必填</div>
+                        <div style="float: right;" class="layui-form-mid layui-word-aux">用户名为必填</div>
                     </div>
+                    
                     <div class="layui-form-item">
                         <label class="layui-form-label">密码</label>
                         <div class="layui-input-inline">
                             <input type="password" name="operator_pass" lay-verify="required" placeholder="password" autocomplete="off" class="layui-input">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">&nbsp;登陆以开始...</div>
+                        <div style="float: right;" class="layui-form-mid layui-word-aux">&nbsp;登陆以开始...</div>
                     </div>
-                    <button type="submit" class="layui-btn " lay-submit="" lay-filter="demo1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;立即登陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                    <button type="" class="layui-btn layui-btn-disabled" disabled>注册</button>
+
+                    <div>
+                      <button type="submit" class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="demo1">立即登陆</button>
+                      <!-- <button type="submit" class="layui-btn " lay-submit="" lay-filter="demo1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;立即登陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button> -->
+                      <!-- <button type="reset"  class="layui-btn layui-btn-primary">重置</button> -->
+                      <!-- <button type=""       class="layui-btn layui-btn-disabled" disabled>注册</button> -->
+                    </div>
+
                 </form>
-                <br>
+
             </div>
         </fieldset>
         <!-- ============================================================================ -->
