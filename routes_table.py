@@ -425,7 +425,7 @@ def export_table_data(table_name):
     # Layui数据接口 默认返回属性
     code  = 0  # 0 means success
     msg   = ""
-    count = Database_Utils.meta.load_tablemMeta(tb_name=table_name)['count']
+    count = 0
     data = []
 
     # 从数据库读取对应表格
@@ -455,6 +455,7 @@ def export_table_data(table_name):
             # 添加当前行
             data.append(temp)
     
+    count = len(data)
     data = data[start:end]
     return {"code":code, "msg":msg, "count":count, "data":data}
 
