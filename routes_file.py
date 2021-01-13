@@ -35,7 +35,7 @@ def route_upload_file(f, f_name):
         # 检查文件类型是否正确
         return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 文件名为{f_name} (需要为后缀是xlsx的文件)")
 
-    elif(f_name.split('.')[0] in Database_Utils.list_tableData_colNames()):
+    elif(f_name.split('.')[0] in Database_Utils.table.list_tableData_collections()):
         # 检查文件是否已经存在
         return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 文件/集合已经存在", table_name = f_name)
 
@@ -59,7 +59,7 @@ def route_upload_file(f, f_name):
         tableData = TableData(json=None, tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table, ids=ids_list)
         tableData_Json = tableData.toJson()
         if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
-        Database_Utils.upload_table(tb_name.split('.')[0],tableData_Json)
+        Database_Utils.table.uptable.load_table(tb_name.split('.')[0],tableData_Json)
 
         # 查找全部赋值完毕的列 (为以后不能更改的单元格作准备)
         fixed_titles = []

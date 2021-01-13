@@ -192,7 +192,7 @@ class MongoDatabase:
 
         
 
-    def list_tableData_colNames(self, exclude_collections=DB_Config.noneData_collection_names, database=None):
+    def list_tableData_collectionNames(self, exclude_collections=DB_Config.noneData_collection_names, database=None):
         """
         返回已打开数据库中跟表格数据有关集合的名字
         Parameter: 

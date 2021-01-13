@@ -172,9 +172,9 @@ def demo_3():
     #     pprint.pprint(tableDict, indent=4)
     
     # Complted rows
-    c_comRow = Database_Utils.count_completedRows(config=config)
-    c_allRow = Database_Utils.count_allRows(config=config)
-    compltion_percentage = Database_Utils.get_completionPercentage(tb_name="2020年二季度")
+    c_comRow = Database_Utils.stat.count_completedRows(config=config)
+    c_allRow = Database_Utils.stat.count_allRows(config=config)
+    compltion_percentage = Database_Utils.stat.get_completionPercentage(tb_name="2020年二季度")
 
     
     # print("="*30)

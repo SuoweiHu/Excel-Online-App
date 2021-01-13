@@ -10,7 +10,7 @@ def add_account(name, password, rows, privilege='generic'):
     rows:      1|n * int32
     privilege  'generic' | 'admin'
     """
-    Database_Utils.add_user(name=name,password=password,rows=rows, privilege=privilege)
+    Database_Utils.user.add_user(name=name,password=password,rows=rows, privilege=privilege)
     return
 
 # 删除账号
@@ -18,7 +18,7 @@ def del_account(name, password):
     """
     删除账号
     """
-    Database_Utils.del_user(name, password)
+    Database_Utils.user.del_user(name, password)
     return
 
 # 添加示范用户
