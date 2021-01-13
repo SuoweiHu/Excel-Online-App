@@ -98,6 +98,8 @@ def table_main(cur, limit, user):
             button_stringBefReplacement = ""
             # Will be repalced with 更改表单 button
             button_stringBefReplacement += button_placeholder_front * 1 + f"[{col_name}.xlsx ]" + button_placeholder_back * 1
+            # Will be repalce with 编辑必填值 button
+            button_stringBefReplacement += button_placeholder_front * 5 + f"[{col_name} ]" + button_placeholder_back * 5
             # Will be repalced with 删除表单 button (*3 will be repalced with option of disabled)
             if(count_row_completed == 0): button_stringBefReplacement += button_placeholder_front * 2 + f"[ {col_name}.xlsx ]" + button_placeholder_back * 2
             else: button_stringBefReplacement += button_placeholder_front * 3 + f"[{col_name}.xlsx ]" + button_placeholder_back * 3
@@ -150,14 +152,16 @@ def table_main(cur, limit, user):
     html_table_string = html_table_string.replace("""<table border="1">""", """<table class="layui-table" id="table">""")
 
     replace_dict = {
-        "@@@@@@@@@@@@@@@@["     : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name"  value='""",
-        "@@@@@@@@@@@@["         : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
-        "@@@@@@@@["             : """<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
-        "@@@@["                 : """<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name"  value='""",
-        " ]################"    : """'><input class="layui-btn layui-btn-sm"  type="submit"  value="&nbsp;&nbsp;查看已完成表单&nbsp;&nbsp;"></form>         """,
-        " ]############"        : """'><input class="layui-btn layui-btn-sm layui-btn-disabled " type="submit"  value="&nbsp;删除表单 (已填写)" disabled></form>       """,
-        " ]########"            : """'><input class="layui-btn layui-btn-sm layui-btn-danger "   type="submit"  value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;删除表单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></form>                 """,
-        " ]####"                : """'><input class="layui-btn layui-btn-sm layui-btn-primary "  type="submit"  value="&nbsp;&nbsp;查看 / 填写表单&nbsp;&nbsp;"></form>                 """,
+        "@@@@@@@@@@@@@@@@@@@@[" : f"""<form style="display: inline;" action='/select_RequredAttribute/""",
+        "@@@@@@@@@@@@@@@@["     : f"""<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name"  value='""",
+        "@@@@@@@@@@@@["         : f"""<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
+        "@@@@@@@@["             : f"""<form style="display: inline;" action="/table/clear" method="get"><input type="hidden" name="table_name" value='""",
+        "@@@@["                 : f"""<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name"  value='""",
+        " ]####################": f"""/True'><input class="layui-btn layui-btn-sm "  type="submit"  value="&nbsp;&nbsp;&nbsp;&nbsp;编辑必填值&nbsp;&nbsp;&nbsp;&nbsp;"></form>         """,
+        " ]################"    : f"""'><input class="layui-btn layui-btn-sm"  type="submit"  value="&nbsp;&nbsp;查看已完成表单&nbsp;&nbsp;"></form>         """,
+        " ]############"        : f"""'><input class="layui-btn layui-btn-sm layui-btn-disabled " type="submit"  value="&nbsp;无法删除 (已填写)" disabled></form>       """,
+        " ]########"            : f"""'><input class="layui-btn layui-btn-sm layui-btn-danger "   type="submit"  value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;删除表单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></form>                 """,
+        " ]####"                : f"""'><input class="layui-btn layui-btn-sm "  type="submit"  value="&nbsp;&nbsp;查看 / 填写表单&nbsp;&nbsp;"></form>                 """,
     }
     for replace_tuple in replace_dict.items():
         html_table_string = html_table_string.replace(replace_tuple[0], replace_tuple[1])

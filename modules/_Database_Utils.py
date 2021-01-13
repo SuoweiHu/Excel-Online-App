@@ -128,16 +128,21 @@ class Database_Utils:
             table = TableData(json=temp_mongoLoad, tb_name=table_name)
             operators = table.operators
 
+            meta             = Database_Utils.meta.load_tablemMeta(table_name)
+            all_titles       = meta['titles']
+            must_fill_titles = meta['mustFill_titles']
+
             count = 0
             for row, operator in zip(table.rows, table.operators):
                 # if(operator[0] is not None) and (operator[1] is not None):
                 cell_all_complted = True
-                for cell in row: 
+                for title, cell in zip(all_titles,row): 
                     if(not cell_all_complted):break
-                    if(cell is None): cell_all_complted = False
-                    else:
-                        while(' ' in cell): cell = cell.replace(' ', '')
-                        if(len(cell) == 0): cell_all_complted = False
+                    if(title in must_fill_titles):
+                        if(cell is None): cell_all_complted = False
+                        else:
+                            while(' ' in cell): cell = cell.replace(' ', '')
+                            if(len(cell) == 0): cell_all_complted = False
                 if(cell_all_complted): count += 1
 
             return count 
@@ -174,6 +179,11 @@ class Database_Utils:
             db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
             temp_mongoLoad = db.get_documents(collection=table_name)
             db.close()
+
+            meta             = Database_Utils.meta.load_tablemMeta(table_name)
+            all_titles       = meta['titles']
+            must_fill_titles = meta['mustFill_titles']
+
             for bankno in authorized_banknos:
                 bankno = str(bankno)
                 table = TableData(json=temp_mongoLoad, tb_name=table_name)
@@ -189,14 +199,19 @@ class Database_Utils:
 
                         # # 如果有用户填过则检车是否所有行都已经完成
                         # else:
-                    cell_all_complted = True
-                    for cell in row:
-                        if(not cell_all_complted):break
-                        if(cell is None):cell_all_complted = False
-                        else:
-                            while(' ' in cell): cell = cell.replace(' ', '')
-                            if(len(cell) == 0): cell_all_complted = False
-                    if(not cell_all_complted): count_uncompleted += 1
+                        cell_all_complted = True
+                        for title, cell in zip(all_titles,row):
+                            if(not cell_all_complted):break
+                            if(title in must_fill_titles):
+                                if(cell is None):cell_all_complted = False
+                                else:
+                                    while(' ' in cell): cell = cell.replace(' ', '')
+                                    if(len(cell) == 0): cell_all_complted = False
+                                    
+                        if(not cell_all_complted): count_uncompleted += 1
+
+            print(count_all)
+            print(count_uncompleted)
 
             # Return check result
             count_completed = (count_all-count_uncompleted)

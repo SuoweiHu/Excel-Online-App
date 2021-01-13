@@ -123,3 +123,8 @@ def route_upload_requiredTitles(tb_name):
 def upload_successRedirect(tb_name):
     return render_template("redirect_fileUploaded.html", message=f"成功上传表单, 文件名: {tb_name}", table_name = tb_name)
 
+@app.route('/update_success/<string:tb_name>')
+def update_successRedirect(tb_name):
+    return render_template("redirect_fileUploaded.html", message=f"成功更改表单必须填项, 文件名: {tb_name}", table_name = tb_name)
+
+

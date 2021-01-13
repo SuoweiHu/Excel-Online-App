@@ -15,6 +15,11 @@
 <body>
     <!-- Main Body -->
     <div style="padding: 20px; background-color: #ffffff;">
+        <form action="/table/all" method="get" style="padding-left: 10px;">
+            <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回全部表格 </button>
+        </form>
+        <button onclick="check_user_info()" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" style="float: right; display: inline;">{{session['operator_name']}}</button>
+
         <!-- <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;"> -->
         <fieldset class="layui-elem-field site-demo-button" style="margin: 10% 35%;">
             <!-- <legend>{{table_name}}</legend> -->
@@ -74,10 +79,10 @@
                 <br> -->
 
                 <!-- 提交按钮 -->
-                <div class="layui-form-item" style="display: inline; align-self: center;">
-                    <div class="layui-input-block">
-                    <button id="LAY-component-form-getval" class="layui-btn" lay-submit lay-filter="*">    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;确认提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" >
+                    <button id="LAY-component-form-getval" class="layui-btn" lay-submit lay-filter="*">    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;确认提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <!-- <button type="reset" class="layui-btn layui-btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button> -->
                     </div>
                 </div>
                 <br>
@@ -93,6 +98,9 @@
 
     <!-- Auto Direct -->
     <form action="{{finish_directURL}}" name="form1" method="get">
+        <input type="hidden" name="table_name" value={{table_name}}>
+    </form>
+    <form action="/update_success/{{table_name}}" name="form2" method="get">
         <input type="hidden" name="table_name" value={{table_name}}>
     </form>
 
@@ -119,12 +127,44 @@
                         // error   : function(result){alert('Upload error')},
                 })
 
-                if("{{return_aftFinish}}" == "True" || "{{return_aftFinish}}" == "true"){history.go(-1);}
+                // if("{{return_aftFinish}}" == "True" || "{{return_aftFinish}}" == "true"){history.go(-1);}
+                if("{{return_aftFinish}}" == "True" || "{{return_aftFinish}}" == "true"){setTimeout("form2.submit();",100);}
                 else{setTimeout("form1.submit();",100);}
+
+                alert("必填项已被保存")
             });
         });
     </script>
-
+    <script>
+        function check_user_info(){
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                var d=new Date();
+                var account_name = "{{session['operator_name']}}"
+                var account_date = d.toLocaleDateString();
+                var account_time = d.toLocaleTimeString();
+                layer.open({
+                    title   :'用户信息'
+                    ,content:
+                        '账号: &nbsp; &nbsp;' + account_name + '<br>'+
+                        '日期: &nbsp; &nbsp;' + account_date + '<br>'+
+                        '时间: &nbsp; &nbsp;' + account_time 
+                    ,btn: ['登出']
+                    ,yes: function(index, layero){
+                        window.location.assign('/')
+                    }
+                }); 
+            });
+        }
+    </script>
+    <script>
+        var myVar=setInterval(function(){myTimer()},1000);
+        function myTimer(){
+            var d=new Date();
+            var t=d.toLocaleTimeString();
+            document.getElementById("operator_time_display").placeholder=t;
+        }
+    </script>
 
 </body>
 </html>
