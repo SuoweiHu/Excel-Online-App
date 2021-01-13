@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='layui/dist/css/layui.css') }}"  media="all">
     <!-- <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script> -->
     <script src="{{ url_for('static', filename='jquery/min.js') }}"></script>
-
     <!-- 居中的样式设置 -->
     <style type="text/css">
         /* .table_mask {
@@ -37,6 +36,10 @@
             width: 1920px;
             height: 82vh;
         }
+        
+        /* .layui-table-cell{overflow: visible !important;} */
+        /* td .layui-form-select{ margin-top: -10px; margin-left: -15px; margin-right: -15px;}    */
+
     </style>
     <!-- ====================================================== -->
     <title>Excel Online</title>
@@ -62,166 +65,170 @@
     </div>
 
 
-<!-- layui的默认js文件 (包含一些基本的animation) -->
-<script src="{{ url_for('static', filename='layui/dist/layui.js') }}" charset="utf-8"></script>
+    <!-- layui的默认js文件 (包含一些基本的animation) -->
+    <script src="{{ url_for('static', filename='layui/dist/layui.js') }}" charset="utf-8"></script>
 
-<!-- Html表格的自动渲染设置 -->
-<script>
-    // Layui 表单模块
-    // layui.use('form', function(){
-    //     var form = layui.form;
-    //     form.render();
-    //     form.render('select')
-    // })
+    <!-- Laytpl 模版引擎 解析字符成HTML代码 -->
+    <!-- <script id="_demo_" type="text/html"> -->
+    <script>
+        String.prototype.format =function () {
+            var args = arguments;
+            return this.replace(/\{(\d+)\}/g, function(m, i){
+                return args[i];
+            });
+          };
+    </script>
 
-    // Layui 表格模块
-    layui.use('table', function(){
-        var table = layui.table;
-        // 自动渲染
-        table.render({
-            elem: '#table_present'
-        
-        //高宽设置
-            //--------------------------------------------------
-            // ,width:  1920
-            // ,height: 950
-            ,height : window.innerHeight*0.8
+    <!-- Html表格的自动渲染设置 -->
+    <script>
+        layui.use('table', function(){
+            var table = layui.table;
+            table.render({
+                elem: '#table_present'
             
-        //分页
-            //--------------------------------------------------
-            // ,page: true                    //开启分页
-            // ,limit: 10                     //每页条数
-
-        //数据接口
-            //--------------------------------------------------
-            ,url: '/data/{{table_name}}'   //数据接口
-            // 将数据接口返回数据,解析成 table 组件所规定的数据格式
-            // ,parseData: function(res){ //res 即为原始返回的数据
-                // return {
-                    // "code": res.status,     //解析接口状态
-                    // "msg": res.message,     //解析提示文本
-                    // "count": res.total,     //解析数据长度
-                    // "data": res.data.item   //解析数据列表
-                    // };}
-
-        //表头设置     
-            //--------------------------------------------------
-            ,cols: [[         
-                // {% for _id_,_title_ in column_dict.items() %}
-                //      {% if _title_ == '_id' %}
-                            // 隐藏每行特殊的 UUID (不是行号 !!!!)
-                            {field: '{{_id_}}', title: '{{_title_}}', hide:true}, 
-                //      {% elif _title_ == authorization_title %}
-                            // 每行的行号 (通过authorization_title参数获得)
-                            {field: '{{_id_}}', title: '{{_title_}}', width:110, sort: true, unresize:true, align:'center', fixed: 'left'},
-                //      {% elif _title_ == operator_title[0] %}
-                            // 操作员姓名
-                            {field: '_', title: '', width:1000},
-                            {field: '{{_id_}}', title: '{{_title_}}', width:110, sort: true, unresize:true, align:'center', fixed: 'right'},
-                //      {% elif _title_ == operator_title[1] %}
-                            // 操作员时间
-                            {field: '{{_id_}}', title: '{{_title_}}', width:200, sort: true, unresize:true, align:'center', fixed: 'right'},
-                //      {% elif _title_ in table_meta['fixed_titles'] %}
-                            // 预设数据
-                            {field: '{{_id_}}', title: '{{_title_}}', width:190},
-                //      {% elif _title_ in table_meta['mustFill_titles'] %}
-                            // 必填数据
-                            // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: red; color: #fff;'},
-                            {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: #5FB878; color: #fff;'},
-                //      {% else %}
-                            // 普通数据
-                            {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: grey; color: #fff;'},
-                            // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text'},
-                //      {% endif %}
-                // {% endfor %}
+            //高宽设置
+                // ,width:  1920
+                // ,height: 950
+                ,height : window.innerHeight*0.8
                 
+            //分页
+                // ,page: true                    //开启分页
+                // ,limit: 10                     //每页条数
 
-                // 工具栏按钮
-                // {title:'编辑', fixed: 'right', width:80, align:'center', toolbar: '#cellBar'}
-            ]]
-            ,initSort:{field:'{{authorization_title}}', type:'asc'}
+            //数据接口
+                ,url: '/data/{{table_name}}'   //数据接口
+
+            //数据解析
+                // 将数据接口返回数据,解析成 table 组件所规定的数据格式
+                // ,parseData: function(res){ //res 即为原始返回的数据
+                    // return {
+                        // "code": res.status,     //解析接口状态
+                        // "msg": res.message,     //解析提示文本
+                        // "count": res.total,     //解析数据长度
+                        // "data": res.data.item   //解析数据列表
+                        // };}
+
+            //表头设置     
+                ,cols: [[         
+                    // {% for _id_,_title_ in column_dict.items() %}
+                    //      {% if _title_ == '_id' %}
+                                // 隐藏每行特殊的 UUID (不是行号 !!!!)
+                                {field: '{{_id_}}', title: '{{_title_}}', hide:true}, 
+                    //      {% elif _title_ == authorization_title %}
+                                // 每行的行号 (通过authorization_title参数获得)
+                                {field: '{{_id_}}', title: '{{_title_}}', width:110, sort: true, unresize:true, align:'center', fixed: 'left'},
+                    //      {% elif _title_ == operator_title[0] %}
+                                // 操作员姓名
+                                {field: '_', title: '', width:2000},
+                                {field: '{{_id_}}', title: '{{_title_}}', width:110, sort: true, unresize:true, align:'center', fixed: 'right'},
+                    //      {% elif _title_ == operator_title[1] %}
+                                // 操作员时间
+                                {field: '{{_id_}}', title: '{{_title_}}', width:200, sort: true, unresize:true, align:'center', fixed: 'right'},
+                    //      {% elif _title_ in table_meta['fixed_titles'] %}
+                                // 预设数据
+                                {field: '{{_id_}}', title: '{{_title_}}', width:190},
+
+
+                    // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+                    //      {% elif _title_ == "项目名-------" %}
+                                // 下拉框数据
+                                {field: '{{_id_}}', title: '{{_title_}}', width:190, style:'overflow: visible !important', templet: function(d){
+                                    d.field = "{1,2,3,4,5,6}"
+                                    // alert(d.field)
+
+                                    $(".layui-table-body").css('overflow','visible');
+        	                        $(".layui-table-box").css('overflow','visible');
+                                    $(".layui-table-view").css('overflow','visible');
+                                    
+                                    $(".layui-table-cell").css('overflow: visible !important');
+                                    $(".layui-form-select").css('margin-top: -10px;', 'margin-left: -15px;', 'margin-right: -15px;');
+
+                                    // var tableElem = this.elem.next('.layui-table-view');
+                                    // count || tableElem.find('.layui-table-header').css('overflow', 'auto');
+                                    // layui.each(tableElem.find('select[name="logins"]'), function (index, item) {
+                                    //     var elem = $(item);
+                                    //     elem.val(elem.data('state')).parents('div.layui-table-cell').css('overflow', 'visible');
+                                    // });
+                                    // form.render();//刷新表单
+
+
+                                    if(d.field == undefined){return ""}
+                                    else if(d.field.length == 0){return ""}
+                                    else{
+                                        oriData = d.field
+                                        oriData = oriData.replace('{','')
+                                        oriData = oriData.replace('}','')
+                                        options = oriData.split(',')
+                                        
+                                        var rtn_string = "";
+                                        rtn_string = rtn_string + "<select name='jtcyGxmc' lay-verify='' lay-search='' >";
+
+                                        rtn_string = rtn_string + "<option value=''></option>"
+                                        for (var option in options){
+                                            rtn_string = rtn_string + "<option value={name}>{name}</option>".format({name:'option'});
+                                        }
+                                        rtn_string = rtn_string + "</select>"
+                                        return rtn_string
+                                    }
+                                }},
+                    // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+                    
+
+                    //      {% elif _title_ in table_meta['mustFill_titles'] %}
+                                // 必填数据
+                                // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: red; color: #fff;'},
+                                {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: #5FB878; color: #fff;'},
+                    
+                    //      {% else %}
+                                // 普通数据
+                                {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: grey; color: #fff;'},
+                                // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text'},
+                                
+                    //      {% endif %}
+                    // {% endfor %}
+                    
+
+                    // 工具栏按钮
+                    // {title:'编辑', fixed: 'right', width:80, align:'center', toolbar: '#cellBar'}
+                ]]
+                ,initSort:{field:'{{authorization_title}}', type:'asc'}
+            });
+
+            // 监听单元格编辑
+            table.on('edit(table_filter)', function(obj){ 
+                // 案例
+                    // console.log(obj.value);  //得到修改后的值
+                    // console.log(obj.field);  //当前编辑的字段名
+                    // console.log(obj.data);   //所在行的所有相关数据  
+
+                // 检查更改是否为空
+                var enable_space_check = false  //是否不提交空值
+                var modified_value = obj.value;
+                while(modified_value.search(' ') != -1){modified_value = modified_value.replace(' ','');}
+                if(modified_value.length != 0 || !enable_space_check){
+
+                    // 获得数据
+                    const request_url = "/submit"
+                    var request_dict  = obj.data;
+                    
+                    request_dict['table_name'] = '{{table_name}}';
+                    
+                    // 提交更改
+                    $.ajax({
+                        url: request_url,
+                        type: "POST",
+                        data: request_dict,
+                        dataType: "json",
+                            // complete: function(){alert("Change saved !")}
+                            // success : function(result){alert('Upload success')},
+                            // error   : function(result){alert('Upload error')},
+                    })
+                }
+            });
+            
         });
-        // 监听单元格编辑
-        table.on('edit(table_filter)', function(obj){ 
-            // 案例
-                // console.log(obj.value);  //得到修改后的值
-                // console.log(obj.field);  //当前编辑的字段名
-                // console.log(obj.data);   //所在行的所有相关数据  
+    </script>
 
-            // 检查更改是否为空
-            var enable_space_check = false  //是否不提交空值
-            var modified_value = obj.value;
-            while(modified_value.search(' ') != -1){modified_value = modified_value.replace(' ','');}
-            if(modified_value.length != 0 || !enable_space_check){
-
-                // 获得数据
-                const request_url = "/submit"
-                var request_dict  = obj.data;
-                
-                request_dict['table_name'] = '{{table_name}}';
-                
-                // 提交更改
-                $.ajax({
-                    url: request_url,
-                    type: "POST",
-                    data: request_dict,
-                    dataType: "json",
-                        // complete: function(){alert("Change saved !")}
-                        // success : function(result){alert('Upload success')},
-                        // error   : function(result){alert('Upload error')},
-                })
-            }
-        });
-        
-    });
-</script>
-
-<!-- 没行最后的 工具栏按钮 的 设置 -->
-<script type="text/html" id="cellBar">
-    <!-- <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a> -->
-    <a class="layui-btn layui-btn-xs" lay-event="edit">提交更改</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
-
-<!-- 每行最后 的 工具栏按钮 的 监听器(这里是网站节选的范例) 要写到表格渲染的函数里-->
-<!-- <script>
-    table.on('tool(table_filter)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-    var data = obj.data; //获得当前行数据
-    var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-    var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
-    
-    if(layEvent === 'detail'){ //查看
-        //do somehing
-    } else if(layEvent === 'del'){ //删除
-        layer.confirm('真的删除行么', function(index){
-        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-        layer.close(index);
-        //向服务端发送删除指令
-        });
-    } else if(layEvent === 'edit'){ //编辑
-        //do something
-        
-        //同步更新缓存对应的值
-        obj.update({
-        username: '123'
-        ,title: 'xxx'
-        });
-    } else if(layEvent === 'LAYTABLE_TIPS'){
-        layer.alert('Hi，头部工具栏扩展的右侧图标。');
-    }
-    });
-</script> -->
-
-<!-- 单元格更改 的 监听器 (这里是网站节选的范例) 要写到表格渲染的函数里-->
-<!-- <script>
-    var table = layui.table;
-    //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-    table.on('edit(table_filter)', function(obj){ 
-        console.log(obj.value); //得到修改后的值
-        console.log(obj.field); //当前编辑的字段名
-        console.log(obj.data); //所在行的所有相关数据  
-    });
-</script> -->
 
 
 </body>
