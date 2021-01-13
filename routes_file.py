@@ -54,6 +54,8 @@ def route_upload_file(f, f_name):
         ids_list    = [hash_id(str(random.random())) for i in range(len(info_table))]
 
         # 存储表格数据到自定义类TableData
+        tb_name = tb_name.split('.')[0]
+        while(' ' in tb_name): tb_name = tb_name.replace(' ', '')
         tableData = TableData(json=None, tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table, ids=ids_list)
         tableData_Json = tableData.toJson()
         if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
@@ -72,7 +74,10 @@ def route_upload_file(f, f_name):
             "count"   : len(tableData.operators),
             "titles"            : tableData.titles,
             "fixed_titles"      : fixed_titles,
-            "mustFill_titles"   : [] # TODO: 必须填写栏 ???????
+            "mustFill_titles"   : ["列1"] # TODO: 必须填写栏 ???????
         }
         Database_Utils.meta.save_tablemMeta(tb_name=tableData.tb_name, meta=meta)
+
+        (Database_Utils.meta.load_tablemMeta(tb_name=meta['tb_name']))
+
         return render_template("redirect_fileUploaded.html", message=f"成功上传文件, 文件名: {f_name}", table_name = f_name)

@@ -50,13 +50,17 @@
 
                         {{table_info | safe}} 
                 </div>
-                <span>
-                    <div id="page_component" style="display: inline; float: right; margin-right: 30px;"></div>
-                    <form action="/file" method="post" id="file_form" enctype="multipart/form-data" style="display: inline; float: left; ">
-                        <input type="file" accept=".xls,.xlsx" name="stuff_file"  id="selectedFile" size="60" style="display: none;">
-                        <input style="display: {{file_upload_section}};" type="button" class="layui-btn " value="上传 Excel 文件" onclick="document.getElementById('selectedFile').click();" />
-                    </form>
-                </span>
+
+
+                <div>
+                    <span>
+                        <div id="page_component" style="display: inline; float: right; margin-right: 30px;"></div>
+                        <form action="/file" method="post" id="file_form" enctype="multipart/form-data" style="display: inline; float: left; ">
+                            <input type="file" accept=".xls,.xlsx" name="stuff_file"  id="selectedFile" size="60" style="display: none;">
+                            <input style="display: {{file_upload_section}};" type="button" class="layui-btn " value="上传 Excel 文件" onclick="document.getElementById('selectedFile').click();" />
+                        </form>
+                    </span>
+                </div>
             </div>
             <!-- <form action="/index" method="get" style="margin-left: 20px;">
                 <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo1">返回主页</button>
@@ -162,7 +166,7 @@
         limit : '{{page_limit}}', // Number of elements per page 
         count : '{{page_count}}', // Number of element in totoal (change to dynamic input)
         layout: ['limit', 'prev', 'page', 'next'],
-        limits: [5,10,20],
+        limits: [1,2,3,4,5,6,7,8,9,10],
 
         jump: function(obj, first){
             if(!first){

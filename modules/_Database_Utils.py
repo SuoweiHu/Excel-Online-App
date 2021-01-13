@@ -174,7 +174,8 @@ class Database_Utils:
                 tb_name: 表格名称 (将会被用来生成_id)
                 meta:    表格元数据
             """
-
+            tb_name = tb_name.split('.')[0]
+            tb_name = tb_name.replace(' ','')
             db = MongoDatabase()
             db.start()
             db.insert(collection=Database_Utils.tableMeta_collection_name,\
@@ -194,13 +195,15 @@ class Database_Utils:
             Parameter:
                 tb_name: 表格名称 (将会被用来生成_id)
             """
+            tb_name = tb_name.split('.')[0]
+            tb_name = tb_name.replace(' ','')
             db = MongoDatabase()
             db.start()
-            db.get_documents(collection=Database_Utils.tableMeta_collection_name,\
-                query={'_id':str(hash_id(tb_name))})
+            rtn = db.get_documents(collection=Database_Utils.tableMeta_collection_name,\
+                query={'tb_name':tb_name})
             db.close()
 
-            return
+            return rtn
 
     # ================================
 

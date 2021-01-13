@@ -108,12 +108,21 @@
                             {field: '{{_id_}}', title: '{{_title_}}', width:110, sort: true, unresize:true, align:'center', fixed: 'right'},
                 //      {% elif _title_ == operator_title[1] %}
                             // 操作员时间
-                            {fiekld: '{{_id_}}', title: '{{_title_}}', width:200, sort: true, unresize:true, align:'center', fixed: 'right'},
+                            {field: '{{_id_}}', title: '{{_title_}}', width:200, sort: true, unresize:true, align:'center', fixed: 'right'},
+                //      {% elif _title_ in table_meta['fixed_titles'] %}
+                            // 预设数据
+                            {field: '{{_id_}}', title: '{{_title_}}', width:190},
+                //      {% elif _title_ in table_meta['mustFill_titles'] %}
+                            // 必填数据
+                            {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: red; color: #fff;'},
+
                 //      {% else %}
                             // 普通数据
-                            {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text'},
+                            {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: #5FB878; color: #fff;'},
+                            // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'border-color: #5FB878; border: 20px;'},
                 //      {% endif %}
                 // {% endfor %}
+                
                 // 工具栏按钮
                 // {title:'编辑', fixed: 'right', width:80, align:'center', toolbar: '#cellBar'}
             ]]

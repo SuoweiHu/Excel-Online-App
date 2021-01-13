@@ -176,19 +176,21 @@ class MongoDatabase:
             for document_id in document_ids:
                 document = self.extract(collection=collection, _id=document_id)
                 rtn_dict[document_id] = document
+            return rtn_dict
 
         # 否则根据查询条件找符合条件的Document
         else:
-            # TODO: Implment search via query on DB
-            # document_ids = self.get_ids(collection=collection)
-            # rtn_dict = {}
-            # for document_id in document_ids:
-            #     document = self.extract(collection=collection, _id=document_id)
-            #     rtn_dict[document_id] = document
-            return
+            if(collection in self.database.list_collection_names()):  
+                db_collection = self.database[collection]
+                if(db_collection.count_documents(query)!= 0):
+                    document = db_collection.find_one(query)
+                    del document["_id"]
+                    return document
+                else:raise(f"Document specified does not exist. (Document of {str(query)}")
+            else:raise(f"Collection specified does not exist. (Collection of _name={collection}")
+            
 
-
-        return rtn_dict
+        
 
     def list_tableData_colNames(self, exclude_collections=DB_Config.noneData_collection_names, database=None):
         """

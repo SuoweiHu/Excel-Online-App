@@ -160,8 +160,14 @@ def edit_specified_table(table_name):
     column_dict   = {column_ids[i]:column_titles[i] for i in range(len(column_titles))}
 
     # 使用模版渲染表格
-    return render_template('table_show_edit.html', column_dict=column_dict, table_name=table_name, \
-        authorization_title=column_titles[authorization_inedx], operator_title=TableData.operator_titles)
+    return render_template(
+        'table_show_edit.html',\
+        column_dict         = column_dict,\
+        table_name          = table_name, \
+        authorization_title = column_titles[authorization_inedx], \
+        operator_title      = TableData.operator_titles,\
+        table_meta          = Database_Utils.meta.load_tablemMeta(tb_name=table_name)
+        )
 
 
 @app.route('/submit',methods=["POST"])
