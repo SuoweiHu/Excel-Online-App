@@ -7,6 +7,8 @@ import os
 # import pprint
 # import datetime
 import random
+import pprint
+from sys import meta_path
 
 # from modules._Database  import MongoDatabase, DB_Config
 from modules._TableData import TableData
@@ -18,9 +20,9 @@ from modules._Hash_Utils import hash_id
 from routes_table import *
 
 
+from app import app
 # from pymongo.periodic_executor import _on_executor_deleted
 # from werkzeug   import utils
-# from app import app
 # from json2html  import json2html
 from flask      import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
 
@@ -59,7 +61,7 @@ def route_upload_file(f, f_name):
         tableData = TableData(json=None, tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table, ids=ids_list)
         tableData_Json = tableData.toJson()
         if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
-        Database_Utils.table.uptable.load_table(tb_name.split('.')[0],tableData_Json)
+        Database_Utils.table.upload_table(tb_name.split('.')[0],tableData_Json)
 
         # 查找全部赋值完毕的列 (为以后不能更改的单元格作准备)
         fixed_titles = []
@@ -80,4 +82,44 @@ def route_upload_file(f, f_name):
 
         (Database_Utils.meta.load_tablemMeta(tb_name=meta['tb_name']))
 
-        return render_template("redirect_fileUploaded.html", message=f"成功上传文件, 文件名: {f_name}", table_name = f_name)
+        return redirect(url_for('select_RequredAttribute', tb_name=tb_name, return_aftFinish='False'))
+
+@app.route('/select_RequredAttribute/<string:tb_name>/<string:return_aftFinish>', methods=['GET'])
+def select_RequredAttribute(tb_name, return_aftFinish):
+
+    return render_template("table_select_requiredAttribute.html",\
+        table_name = tb_name,\
+        table_titles         = Database_Utils.table.get_tableTitles(tb_name=tb_name),\
+        table_fixedTitles    = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)['fixed_titles'],\
+        table_requiredTitles = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)['mustFill_titles'],\
+        request_url = "/update_requiredTitles",\
+        return_aftFinish = return_aftFinish,
+        # finish_directURL = url_for('upload_successRedirect',tb_name=tb_name),
+        finish_directURL = f"/upload_success/{tb_name}",\
+    )
+
+@app.route('/update_requiredTitles/<string:tb_name>', methods=['POST'])
+def route_upload_requiredTitles(tb_name):
+
+    meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
+    meta['mustFill_titles'] = [item_key for item_key,_ in dict(request.form).items()]
+
+    # # 获取表格原来的meta
+    # updated_meta  = dict(request.form.get('meta'))
+    # original_meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
+    # meta = {}
+
+    # # 替换被更新的字段
+    # for attri,value in original_meta.items():
+    #     if(attri in list(updated_meta.keys())):meta[attri] = updated_meta[attri]
+    #     else:meta[attri] = value
+
+    # # 上传更新后的文件
+    Database_Utils.meta.save_tablemMeta(tb_name=tb_name, meta=meta)
+
+    return "Successful !"
+
+@app.route('/upload_success/<string:tb_name>')
+def upload_successRedirect(tb_name):
+    return render_template("redirect_fileUploaded.html", message=f"成功上传表单, 文件名: {tb_name}", table_name = tb_name)
+

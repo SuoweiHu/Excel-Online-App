@@ -27,6 +27,3 @@ from routes_file  import *
 from routes_login import *
 
 
-
-# @app.route('/debuggging_still_here', methods=['GET'])
-# def choose_requredTitles

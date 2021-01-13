@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='layui/dist/css/layui.css') }}"  media="all">
     <!-- <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script> -->
     <script src="{{ url_for('static', filename='jquery/min.js') }}"></script>
+
     <!-- 居中的样式设置 -->
     <style type="text/css">
         /* .table_mask {
@@ -66,8 +67,17 @@
 
 <!-- Html表格的自动渲染设置 -->
 <script>
+    // Layui 表单模块
+    // layui.use('form', function(){
+    //     var form = layui.form;
+    //     form.render();
+    //     form.render('select')
+    // })
+
+    // Layui 表格模块
     layui.use('table', function(){
         var table = layui.table;
+        // 自动渲染
         table.render({
             elem: '#table_present'
         
@@ -106,6 +116,7 @@
                             {field: '{{_id_}}', title: '{{_title_}}', width:110, sort: true, unresize:true, align:'center', fixed: 'left'},
                 //      {% elif _title_ == operator_title[0] %}
                             // 操作员姓名
+                            {field: '_', title: '', width:1000},
                             {field: '{{_id_}}', title: '{{_title_}}', width:110, sort: true, unresize:true, align:'center', fixed: 'right'},
                 //      {% elif _title_ == operator_title[1] %}
                             // 操作员时间
@@ -115,21 +126,22 @@
                             {field: '{{_id_}}', title: '{{_title_}}', width:190},
                 //      {% elif _title_ in table_meta['mustFill_titles'] %}
                             // 必填数据
-                            {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: red; color: #fff;'},
-
+                            // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: red; color: #fff;'},
+                            {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: #5FB878; color: #fff;'},
                 //      {% else %}
                             // 普通数据
-                            {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: #5FB878; color: #fff;'},
-                            // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'border-color: #5FB878; border: 20px;'},
+                            {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: grey; color: #fff;'},
+                            // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text'},
                 //      {% endif %}
                 // {% endfor %}
                 
+
                 // 工具栏按钮
                 // {title:'编辑', fixed: 'right', width:80, align:'center', toolbar: '#cellBar'}
             ]]
             ,initSort:{field:'{{authorization_title}}', type:'asc'}
         });
-        
+        // 监听单元格编辑
         table.on('edit(table_filter)', function(obj){ 
             // 案例
                 // console.log(obj.value);  //得到修改后的值

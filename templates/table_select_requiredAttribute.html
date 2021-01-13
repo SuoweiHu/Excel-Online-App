@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- ====================================================== -->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/dist/css/layui.css') }}"  media="all">
+    <script src="{{ url_for('static', filename='jquery/min.js') }}"></script>
+    <!-- ====================================================== -->
+    <title>Excel Online</title>
+</head>
+<body>
+    <!-- Main Body -->
+    <div style="padding: 20px; background-color: #ffffff;">
+        <!-- <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;"> -->
+        <fieldset class="layui-elem-field site-demo-button" style="margin: 10% 35%;">
+            <!-- <legend>{{table_name}}</legend> -->
+            <legend>填报设置</legend>
+            <br>
+            <h3 style="text-align: center;">请选择表格"{{table_name}}"的必填项:</h3>
+            <br>
+            <!-- ======================================================================== -->
+            <form class="layui-form" action="" lay-filter="requiredTitles-form">
+
+                <!-- 单选项 -->
+                {% for title in table_titles %}
+                {% if title in table_fixedTitles %}
+                <div class="layui-form-item" style="display: inline; position: relative; left: 20%;">
+                    <label class="layui-form-label">{{title}}</label>
+                    <div class="layui-input-block">
+                        <!-- 预设列 -->
+                        <input type="checkbox" lay-skin="switch" lay-text="默认|可省" lay-filter="{{title}}" name="{{title}}" checked disabled> 
+                        <span class="ayui-form-label">&nbsp; &nbsp; (预设值)</span>
+                    </div>
+                </div>
+
+                {% elif title in table_requiredTitles %}
+                <div class="layui-form-item" style="display: inline; position: relative; left: 20%;">
+                    <label class="layui-form-label">{{title}}</label>
+                    <div class="layui-input-block">
+                        <!-- 预设列 -->
+                        <input type="checkbox" lay-skin="switch" lay-text="必填|可省" lay-filter="{{title}}" name="{{title}}" checked>
+                    </div>
+                </div>
+                
+                {% else %}
+                <div class="layui-form-item" style="display: inline; position: relative; left: 20%;">
+                    <label class="layui-form-label">{{title}}</label>
+                    <div class="layui-input-block">
+                        <!-- 数据列 -->
+                        <input type="checkbox" lay-skin="switch" lay-text="必填|可省" lay-filter="{{title}}" name="{{title}}">
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                <br>
+
+                <!-- 全选/全空
+                <div class="layui-form-item" style="display: inline; position: relative; left: 30%;">
+                    <label class="layui-form-label">全部开启</label>
+                    <div class="layui-input-block">
+                    <input type="checkbox" lay-skin="switch" lay-filter="all_on" id="all_on">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: inline; position: relative; left: 30%;">
+                    <label class="layui-form-label">全部关闭</label>
+                    <div class="layui-input-block">
+                    <input type="checkbox" lay-skin="switch" lay-filter="all_off" id="all_off">
+                    </div>
+                </div>
+                <br> -->
+
+                <!-- 提交按钮 -->
+                <div class="layui-form-item" style="display: inline; align-self: center;">
+                    <div class="layui-input-block">
+                    <button id="LAY-component-form-getval" class="layui-btn" lay-submit lay-filter="*">    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;确认提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+                <br>
+
+            </form>
+            <!-- ======================================================================== -->
+        </fieldset>
+    </div>
+
+    <!-- Auto Re-Direct -->
+    <!-- <form action="/table/show?table_name={{table_name}}" name="form1" method="post"></form> -->
+    <!-- <script type="text/javascript">setTimeout("form1.submit();",1000);</script> -->
+
+    <!-- Auto Direct -->
+    <form action="{{finish_directURL}}" name="form1" method="get">
+        <input type="hidden" name="table_name" value={{table_name}}>
+    </form>
+
+    <script src="{{ url_for('static', filename='layui/dist/layui.js') }}" charset="utf-8"></script>
+    <script>
+        layui.use('form', function(){
+            var form = layui.form;
+
+            //提交表单
+            layui.$('#LAY-component-form-getval').on('click', function(){
+                var raw_data = form.val('requiredTitles-form');
+                var rtn_data = [];
+                for (var prop in raw_data){
+                    if(raw_data[prop]=="on"){rtn_data.push(prop)}
+                }
+                
+                $.ajax({
+                    url: '{{request_url}}/{{table_name}}',
+                    type: "POST",
+                    data: form.val('requiredTitles-form'),
+                    dataType: "json",
+                        // complete: function(){alert("Change saved !")}
+                        // success : function(result){alert('Upload success')},
+                        // error   : function(result){alert('Upload error')},
+                })
+
+                if("{{return_aftFinish}}" == "True" || "{{return_aftFinish}}" == "true"){history.go(-1);}
+                else{setTimeout("form1.submit();",100);}
+            });
+        });
+    </script>
+
+
+</body>
+</html>
+
+
+
