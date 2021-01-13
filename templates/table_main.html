@@ -7,7 +7,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="{{ url_for('static', filename='/layui/dist/css/layui.css') }}"  media="all">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/dist/css/layui.css') }}"  media="all">
     <style type="text/css">
         .table_mask {
             position: relative;
@@ -55,9 +55,9 @@
                 <div>
                     <span>
                         <div id="page_component" style="display: inline; float: right; margin-right: 30px;"></div>
-                        <form action="/file" method="post" id="file_form" enctype="multipart/form-data" style="display: inline; float: left; ">
-                            <input type="file" accept=".xls,.xlsx" name="stuff_file"  id="selectedFile" size="60" style="display: none;">
-                            <input style="display: {{file_upload_section}};" type="button" class="layui-btn " value="上传 Excel 文件" onclick="document.getElementById('selectedFile').click();" />
+                        <form action="/file" method="post" id="file_form_1" enctype="multipart/form-data" style="display: inline; float: left; ">
+                            <input type="file" accept=".xls,.xlsx" name="stuff_file"  id="selectedFile_1" size="60" style="display: none;">
+                            <input style="display: {{file_upload_section}};" type="button" class="layui-btn " value="上传 Excel 文件" onclick="document.getElementById('selectedFile_1').click();" />
                         </form>
                     </span>
                 </div>
@@ -111,9 +111,9 @@
                 <legend>上传模版</legend>
                 <div style="margin-left: 20px; margin-right: 20px;">
                     <br>
-                    <form action="/file" method="post" id="file_form" enctype="multipart/form-data" >
+                    <form action="/file" method="post" id="file_form_2" enctype="multipart/form-data" >
                         <br>
-                        <input type="file" accept=".xls,.xlsx" name="stuff_file"  id="selectedFile" size="60" style="display: none;">
+                        <input type="file" accept=".xls,.xlsx" name="stuff_file"  id="selectedFile_2" size="60" style="display: none;">
                         <input type="button" class="layui-btn layui-btn-primary layui-btn-fluid" style="height: 170px; width: 550px; margin-left: 30px; margin-right: 30px; margin-bottom: 30px;" value="上传 Excel 文件" onclick="document.getElementById('selectedFile').click();" />
                         <br>
                         <!-- <input type="submit" class="layui-btn layui-btn-primary layui-btn-fluid" value="上传文件"> -->
@@ -130,8 +130,13 @@
 
     <!-- 自动上传文件 -->
     <script>
-        document.getElementById("selectedFile").onchange = function() {
-            document.getElementById("file_form").submit();
+        document.getElementById("selectedFile_1").onchange = function() {
+            document.getElementById("file_form_1").submit();
+        };
+    </script>
+     <script>
+        document.getElementById("selectedFile_2").onchange = function() {
+            document.getElementById("file_form_2").submit();
         };
     </script>
 
