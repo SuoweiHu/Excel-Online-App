@@ -92,8 +92,10 @@
                 ,height : window.innerHeight*0.8
                 
             //分页
-                // ,page: true                    //开启分页
-                // ,limit: 10                     //每页条数
+                ,page: true                    //开启分页
+                ,limit: 20                     //每页条数
+                // ,page: {theme: '#c00'}      //开启分页主题
+                ,limits:[5,10,15,20,25,30]           //分页选项
 
             //数据接口
                 ,url: '/data/{{table_name}}'   //数据接口

@@ -210,8 +210,8 @@ class Database_Utils:
                                     
                         if(not cell_all_complted): count_uncompleted += 1
 
-            print(count_all)
-            print(count_uncompleted)
+            # print(count_all)
+            # print(count_uncompleted)
 
             # Return check result
             count_completed = (count_all-count_uncompleted)

@@ -414,13 +414,18 @@ def export_table_data(table_name):
     # authorized_rows      = [733101,733121,733131,733141,733151,733165,733177,733189,733201,733213,733225]
     authorized_rows      = Database_Utils.user.get_rows(session['operator_name'])
     authorized_rows      = [str(i) for i in authorized_rows]
-    
+
+    # 分页请求
+    page  = int(request.args['page'])
+    limit = int(request.args['limit'])
+    start = (page - 1) * limit
+    end   = start + limit
 
     # ========================================
     # Layui数据接口 默认返回属性
     code  = 0  # 0 means success
     msg   = ""
-    count = 1000
+    count = Database_Utils.meta.load_tablemMeta(tb_name=table_name)['count']
     data = []
 
     # 从数据库读取对应表格
@@ -450,6 +455,7 @@ def export_table_data(table_name):
             # 添加当前行
             data.append(temp)
     
+    data = data[start:end]
     return {"code":code, "msg":msg, "count":count, "data":data}
 
 @app.route('/edit/<string:table_name>')
