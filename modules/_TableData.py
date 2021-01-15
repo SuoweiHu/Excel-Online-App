@@ -10,12 +10,11 @@ import pprint
 
 class TableData:
     operator_titles = ["操作员","时间"]
-
+    # operators = []      # 预设内容(列标题)
     tb_name   = None    # 行文档的 _ID (自动生成, 不是行号 !!!!)
     titles    = None    # 表格名称      
     ids       = []      # 表格列标题
     rows      = []      # 表格行数据
-    # operators = []      # 预设内容(列标题)
     fixed_titles = []   # 操作员
 
     # ==============================
@@ -711,3 +710,14 @@ class TableData:
                 if(str(bank_no) == str((self.rows[i])[key_index])):
                     rtn.append(self.ids[i])
         return rtn
+    def clear_column(self,title):
+        """
+        删除特定标题的某一列
+        """
+        delCol_index = self.titles.index(title)
+        result_rows = []
+        for row in self.rows:
+            row[delCol_index] = None
+            result_rows.append(row)
+        self.rows = result_rows
+        return self

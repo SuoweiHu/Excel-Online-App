@@ -148,6 +148,11 @@ class MongoDatabase:
         # if(collection.count_documents({"_id":_id}) == 0):
         # else: return collection.find_one({"_id":_id})
 
+    def delete(self, collection, query):
+        collection = self.database[collection]
+        collection.delete_many(query)
+        return
+
     def get_ids(self, collection):
         """
         获取已经打开的数据库中特定集合的所有文档的ID
@@ -159,7 +164,6 @@ class MongoDatabase:
             return [item['_id'] for item in cursor]
         else:  
             raise(f"Collection specified does not exist. (Collection of _name={collection}")
-
 
     def get_documents(self, collection, search_query=None):
         """
@@ -188,9 +192,6 @@ class MongoDatabase:
                     return document
                 else:raise(f"Document specified does not exist. (Document of {str(search_query)}")
             else:raise(f"Collection specified does not exist. (Collection of _name={collection}")
-            
-
-        
 
     def list_tableData_collectionNames(self, exclude_collections=DB_Config.noneData_collection_names, database=None):
         """

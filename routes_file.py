@@ -70,8 +70,7 @@ def route_upload_file(f, f_name):
         if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json")   # 如果想暂时存储为JSON文件预览
         Database_Utils.table.upload_table(tb_name.split('.')[0],tableData_Json) # 上传表格到数据库为其表格名为名称的集合
 
-        
-
+        # 重新定向到选择 “必填” “预设可改” 的页面
         return redirect(url_for('select_RequredAttribute', tb_name=tb_name, return_aftFinish='False'))
 
 # 上传文件时将会通过这个函数为表格建立元数据表并上传 (也会处理其中的配置列)
@@ -106,21 +105,44 @@ def generate_tableMeta(tableData):
         if(exist_notNone): fixed_titles.append(title)
 
     # -----配置列-------------------------------------------------
-    option_titles = []
+    option_titles     = []
+    option_optionDict = {}
     
+    """
+    key = prefix + identifier + suffix 
+    e.g   prefix = "#"
+          suffix = "#"
+          identifier = "OAO"
+          key    = "#OAO#"
+    """
+    identifier = "OAO" 
+    prefix     = "#"
+    suffix     = "#"
+    key        = prefix+identifier+suffix
 
-
+    for i in range(len(tableData.titles)):
+        if(tableData.rows[0][i] is not None):
+            if(key in tableData.rows[0][i]): 
+                option_titles.append(tableData.titles[i])
+                option_optionDict[tableData.titles[i]] = (tableData.rows[0][i])[len(key):].split(';')
+                tableData.clear_column(tableData.titles[i])
+            else: pass
+        else: pass
 
     # ---上传表格的元数据--------------------------------------------
     meta = {
-        "tb_name" : tableData.tb_name,
-        "count"   : len(tableData.operators),
+        "tb_name"           : tableData.tb_name,
+        "count"             : len(tableData.operators),
         "titles"            : tableData.titles,
         "fixed_titles"      : fixed_titles,
-        "mustFill_titles"   : []
+        "mustFill_titles"   : [],
+        "option_titles"     : option_titles,
+        "option_optionDict" : option_optionDict
     }
     timer = debugTimer(f"开始上传表格元数据 ({tableData.tb_name})", "完成上传元数据操作")
     timer.start()
+    print('------------')
+    Database_Utils.meta.del_tablemMeta(tb_name=tableData.tb_name)
     Database_Utils.meta.save_tablemMeta(tb_name=tableData.tb_name, meta=meta)
     Database_Utils.meta.load_tablemMeta(tb_name=meta['tb_name'])
     timer.stop()

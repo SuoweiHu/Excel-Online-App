@@ -4,6 +4,7 @@ import pprint
 from flask import config
 from flask.config import Config
 from pymongo import cursor
+from pymongo.database import Database
 from pymongo.mongo_client import MongoClient
 from ._Database import MongoDatabase, DB_Config
 from ._TableData import TableData
@@ -271,6 +272,15 @@ class Database_Utils:
             db.close()
 
             return rtn
+        #  删除特定表格的元数据
+        def del_tablemMeta(tb_name):
+            tb_name = tb_name.split('.')[0]
+            tb_name = tb_name.replace(' ','')
+            db = MongoDatabase()
+            db.start()
+            db.delete(collection=Database_Utils.tableMeta_collection_name,query={'tb_name' : tb_name})
+            db.close()
+
 
     # ================================
 
