@@ -129,11 +129,20 @@
                                 {field: '{{_id_}}', title: '{{_title_}}', width:200, sort: true, unresize:true, align:'center', fixed: 'right'},
                     //      {% elif _title_ in table_meta['fixed_titles'] %}
                                 // 预设数据
+                                // {field: '{{_id_}}', title: '{{_title_}}', width:190},
+
+                    // 预设数据(可以更改)
+                    //      {% if _title_ in table_meta['mustFill_titles'] %}
+                                {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:"background-color:grey;color: #fff;"},
+                    // 预设数据(不可以更改)
+                    //      {% else %}
                                 {field: '{{_id_}}', title: '{{_title_}}', width:190},
+                    //      {% endif %}
+
 
 
                     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-                    //      {% elif _title_ == "项目名-------" %}
+                    //      {% elif _title_ == "-------项目名-------" %}
                                 // 下拉框数据
                                 {field: '{{_id_}}', title: '{{_title_}}', width:190, style:'overflow: visible !important', templet: function(d){
                                     d.field = "{1,2,3,4,5,6}"
@@ -184,7 +193,7 @@
                     
                     //      {% else %}
                                 // 普通数据
-                                {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: grey; color: #fff;'},
+                                {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: #008B7D; color: #fff;'},
                                 // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text'},
                                 
                     //      {% endif %}

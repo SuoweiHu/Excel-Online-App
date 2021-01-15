@@ -63,12 +63,24 @@ def route_upload_file(f, f_name):
         if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json") # 如果想暂时存储为JSON文件预览
         Database_Utils.table.upload_table(tb_name.split('.')[0],tableData_Json)
 
-        # 查找全部赋值完毕的列 (为以后不能更改的单元格作准备)
-        fixed_titles = []
+        # ~~ # 查找全部赋值完毕的列 (为以后不能更改的单元格作准备) ~~
+        # fixed_titles = []
+        # for i in range(len(tableData.titles)):
+        #     title = tableData.titles[i]
+        #     temp_rows  = [row[i] for row in tableData.rows]
+        #     if(None not in temp_rows): fixed_titles.append(title)
+
+        # 查找有值的列 (为以后没有例外不能更改的预设列)
+        fixed_titles  = []
         for i in range(len(tableData.titles)):
             title = tableData.titles[i]
-            temp_rows  = [row[i] for row in tableData.rows]
-            if(None not in temp_rows): fixed_titles.append(title)
+            exist_notNone = False
+            j = 0 
+            while(j < len(tableData.rows) and (not exist_notNone)):
+                item = tableData.rows[j][i] 
+                if(item is not None): exist_notNone = True 
+                j+=1
+            if(exist_notNone): fixed_titles.append(title)
 
         # 上传表格的元数据
         meta = {
@@ -76,7 +88,7 @@ def route_upload_file(f, f_name):
             "count"   : len(tableData.operators),
             "titles"            : tableData.titles,
             "fixed_titles"      : fixed_titles,
-            "mustFill_titles"   : ["列1"] # TODO: 必须填写栏 ???????
+            "mustFill_titles"   : []
         }
         Database_Utils.meta.save_tablemMeta(tb_name=tableData.tb_name, meta=meta)
 
@@ -87,11 +99,15 @@ def route_upload_file(f, f_name):
 @app.route('/select_RequredAttribute/<string:tb_name>/<string:return_aftFinish>', methods=['GET'])
 def select_RequredAttribute(tb_name, return_aftFinish):
 
+    meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
+    print(meta)
+
+
     return render_template("table_select_requiredAttribute.html",\
         table_name = tb_name,\
         table_titles         = Database_Utils.table.get_tableTitles(tb_name=tb_name),\
-        table_fixedTitles    = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)['fixed_titles'],\
-        table_requiredTitles = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)['mustFill_titles'],\
+        table_fixedTitles    = meta['fixed_titles'],\
+        table_requiredTitles = meta['mustFill_titles'],\
         request_url = "/update_requiredTitles",\
         return_aftFinish = return_aftFinish,
         # finish_directURL = url_for('upload_successRedirect',tb_name=tb_name),

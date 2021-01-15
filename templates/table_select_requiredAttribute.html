@@ -15,9 +15,15 @@
 <body>
     <!-- Main Body -->
     <div style="padding: 20px; background-color: #ffffff;">
+        {% if return_aftFinish == "True" %}
         <form action="/table/all" method="get" style="padding-left: 10px;">
             <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回全部表格 </button>
         </form>
+        {% else %}
+        <form action="/table/all" method="get" style="padding-left: 10px;">
+            <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1" disabled> 正在上传表格... </button>
+        </form>
+        {% endif %}
         <button onclick="check_user_info()" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" style="float: right; display: inline;">{{session['operator_name']}}</button>
 
         <!-- <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;"> -->
@@ -33,21 +39,42 @@
                 <!-- 单选项 -->
                 {% for title in table_titles %}
                 {% if title in table_fixedTitles %}
-                <div class="layui-form-item" style="display: inline; position: relative; left: 20%;">
-                    <label class="layui-form-label">{{title}}</label>
-                    <div class="layui-input-block">
-                        <!-- 预设列 -->
-                        <input type="checkbox" lay-skin="switch" lay-text="默认|可省" lay-filter="{{title}}" name="{{title}}" checked disabled> 
-                        <span class="ayui-form-label">&nbsp; &nbsp; (预设值)</span>
+
+                    {% if title in table_requiredTitles %}
+                    <div class="layui-form-item" style="display: inline; position: relative; left: 20%;">
+                        <label class="layui-form-label">{{title}}</label>
+                        <div class="layui-input-block">
+                            <!-- 预设列 (不可以更改) -->
+                            <input type="checkbox" lay-skin="switch" lay-text="可改动|不可改" lay-filter="{{title}}" name="{{title}}" checked> 
+                            <span class="ayui-form-label">&nbsp; &nbsp; (预设列)</span>
+                        </div>
                     </div>
-                </div>
+                    {% elif title == '行号'%}
+                    <div class="layui-form-item" style="display: inline; position: relative; left: 20%;">
+                        <label class="layui-form-label">{{title}}</label>
+                        <div class="layui-input-block">
+                            <!-- 预设列 (不可以更改) -->
+                            <input type="checkbox" lay-skin="switch" lay-text="可改动|不可改" lay-filter="{{title}}" name="{{title}}" disabled> 
+                            <span class="ayui-form-label">&nbsp; &nbsp; (索引列)</span>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="layui-form-item" style="display: inline; position: relative; left: 20%;">
+                        <label class="layui-form-label">{{title}}</label>
+                        <div class="layui-input-block">
+                            <!-- 预设列(可以更改) -->
+                            <input type="checkbox" lay-skin="switch" lay-text="可改动|不可改" lay-filter="{{title}}" name="{{title}}"> 
+                            <span class="ayui-form-label">&nbsp; &nbsp; (预设列)</span>
+                        </div>
+                    </div>
+                    {% endif %}
 
                 {% elif title in table_requiredTitles %}
                 <div class="layui-form-item" style="display: inline; position: relative; left: 20%;">
                     <label class="layui-form-label">{{title}}</label>
                     <div class="layui-input-block">
-                        <!-- 预设列 -->
-                        <input type="checkbox" lay-skin="switch" lay-text="必填|可省" lay-filter="{{title}}" name="{{title}}" checked>
+                        <!-- 数据列 (必须填写) -->
+                        <input type="checkbox" lay-skin="switch" lay-text="-必填-|-可省-" lay-filter="{{title}}" name="{{title}}" checked>
                     </div>
                 </div>
                 
@@ -55,8 +82,8 @@
                 <div class="layui-form-item" style="display: inline; position: relative; left: 20%;">
                     <label class="layui-form-label">{{title}}</label>
                     <div class="layui-input-block">
-                        <!-- 数据列 -->
-                        <input type="checkbox" lay-skin="switch" lay-text="必填|可省" lay-filter="{{title}}" name="{{title}}">
+                        <!-- 数据列 (可省略)-->
+                        <input type="checkbox" lay-skin="switch" lay-text="-必填-|可省-" lay-filter="{{title}}" name="{{title}}">
                     </div>
                 </div>
                 {% endif %}
