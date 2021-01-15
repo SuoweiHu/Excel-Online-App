@@ -98,14 +98,11 @@ def route_upload_file(f, f_name):
 
 @app.route('/select_RequredAttribute/<string:tb_name>/<string:return_aftFinish>', methods=['GET'])
 def select_RequredAttribute(tb_name, return_aftFinish):
-
+    titles = Database_Utils.table.get_tableTitles(tb_name=tb_name)
     meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
-    print(meta)
-
-
     return render_template("table_select_requiredAttribute.html",\
         table_name = tb_name,\
-        table_titles         = Database_Utils.table.get_tableTitles(tb_name=tb_name),\
+        table_titles         = titles,\
         table_fixedTitles    = meta['fixed_titles'],\
         table_requiredTitles = meta['mustFill_titles'],\
         request_url = "/update_requiredTitles",\

@@ -3,10 +3,14 @@ import json
 from logging import log
 import logging
 import os
+from re import L
 import sys
 import pprint
 import datetime
 import random
+import time
+
+from pymongo.message import query
 
 from modules._Database  import MongoDatabase, DB_Config
 from modules._TableData import TableData
@@ -26,6 +30,7 @@ from routes_utils import *
 # from routes_table import *
 from routes_file  import *
 # from routes_login import *
+from debugTimer import *
 
 
 
@@ -429,32 +434,36 @@ def export_table_data(table_name):
     data = []
 
     # 从数据库读取对应表格
-    table_data = Database_Utils.table.load_table(table_name)
+    role  = ("管理员") if Database_Utils.user.check_admin(session['operator_name']) else ("普通用户")
+    timer = debugTimer(f"开始获取表格 (用户:{session['operator_name']}, 权限: {role}", "获取表格完毕")
+    timer.start()
+    if(Database_Utils.user.check_admin(session['operator_name'])):row_query = {}
+    else:row_query = {'data.行号': {'$in': authorized_rows}}
+    table_data = Database_Utils.table.load_table(tb_name=table_name, search_query=row_query)
+    timer.end()
+
+    # 处理获得的文档成为可被Juinja2渲染的格式
     for i in range(len(table_data.rows)):
-        if(table_data.rows[i][authorization_inedx] in authorized_rows) or (Database_Utils.user.check_admin(session['operator_name'])):
-            temp = {}
+        # if(table_data.rows[i][authorization_inedx] in authorized_rows) or (Database_Utils.user.check_admin(session['operator_name'])):
+        temp = {}
+        # UUID
+        _id  = table_data.ids[i]
+        temp['_id'] = _id
+        # 数据
+        _row = table_data.rows[i]
+        for j in range(len(table_data.titles)):
+                _cell  =_row[j]
+                _title =  table_data.titles[j]
+                temp[_title] = _cell
+        # 操作员
+        if(show_operator):
+            for j in range(len(table_data.operator_titles)):
+                op_title =  table_data.operator_titles[j]
+                op_data  =  table_data.operators[i][j]
+                temp[op_title] = op_data
+        # 添加当前行
+        data.append(temp)
 
-            # UUID
-            _id  = table_data.ids[i]
-            temp['_id'] = _id
-
-            # 数据
-            _row = table_data.rows[i]
-            for j in range(len(table_data.titles)):
-                    _cell  =_row[j]
-                    _title =  table_data.titles[j]
-                    temp[_title] = _cell
-
-            # 操作员
-            if(show_operator):
-                for j in range(len(table_data.operator_titles)):
-                    op_title =  table_data.operator_titles[j]
-                    op_data  =  table_data.operators[i][j]
-                    temp[op_title] = op_data
-
-            # 添加当前行
-            data.append(temp)
-    
     count = len(data)
     data = data[start:end]
     return {"code":code, "msg":msg, "count":count, "data":data}
@@ -507,15 +516,6 @@ def submit_specified_table():
       time = {op_time}
     """
     app.logger.debug(debug_string)
-
-    # print("\n"*2)
-    # print(_id)
-    # print(table_name)
-    # print(req_data)
-    # print(op_name)
-    # print(op_time)
-    # print("\n"*2)
-
     origi_document = Database_Utils.row.get_table_row(table_name=table_name, row_id=_id)
     modif_document = origi_document.copy()
     for title,cell_data in origi_document['data'].items():
@@ -524,7 +524,14 @@ def submit_specified_table():
         modif_document['data'][title] = modif_data
     modif_document['user']['name'] = op_name
     modif_document['user']['time'] = op_time
+
+
+
+    timer = debugTimer("开始上传行变更", "行变更上传完毕")
+    timer.start()
     Database_Utils.row.set_table_row(table_name=table_name, row_id=_id, data=modif_document)
+    timer.end()
+
     origi_document = Database_Utils.row.get_table_row(table_name=table_name, row_id=_id)
 
     return "Success !"

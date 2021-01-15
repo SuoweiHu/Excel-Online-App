@@ -3,6 +3,7 @@ import sys
 import pprint
 from flask import config
 from flask.config import Config
+from pymongo import cursor
 from pymongo.mongo_client import MongoClient
 from ._Database import MongoDatabase, DB_Config
 from ._TableData import TableData
@@ -261,7 +262,8 @@ class Database_Utils:
             db = MongoDatabase()
             db.start()
             rtn = db.get_documents(collection=Database_Utils.tableMeta_collection_name,\
-                query={'tb_name':tb_name})
+                search_query={'tb_name':tb_name})
+            rtn = rtn[0]
             db.close()
 
             return rtn
@@ -279,7 +281,7 @@ class Database_Utils:
             db.close()
             return
         # 读取表格
-        def load_table(tb_name):
+        def load_table(tb_name, search_query=None):
             # if(tb_name is not None) and (config is None):
             #     config = DB_Config()
             #     config.collection_name = tb_name.split('.')[0]
@@ -291,11 +293,23 @@ class Database_Utils:
             config = DB_Config()
             db = MongoDatabase()
             db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-            temp_mongoLoad = db.get_documents(collection=table_name)
+            
+            if(search_query is None):
+                temp_mongoLoad = db.get_documents(collection=table_name)
+            else:
+                temp_cursor = db.get_documents(collection=table_name, search_query=search_query)
+                temp_mongoLoad = {}
+                for item in temp_cursor:
+                    keys = list(item)
+                    keys.remove('_id')
+                    item_id = item['_id']
+                    del item['_id']
+                    temp_mongoLoad[item_id] = item
             db.close()
 
             table = TableData(json=temp_mongoLoad, tb_name=table_name)
             return table
+
         # 保存变更
         def save_table(tb_name,data):
             config = None

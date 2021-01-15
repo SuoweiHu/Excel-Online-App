@@ -53,9 +53,9 @@ class MongoDatabase:
 
         # create client instance and connect to database
         self.client = pymongo.MongoClient(host, port)
-        self.database = self.client['admin']            # 这里可以将admin替换成有数据库存账户信息的库
+        self.database = self.client['admin']             # 这里可以将admin替换成有数据库存账户信息的库
         self.database.authenticate('admin', 'admin@123') # 登陆数据库认证 (等同于mongo shell 运行 use admin, db.auth(name,pwd))
-        self.database = self.client[str(name)]          # 在认证后用client单独去关联
+        self.database = self.client[str(name)]           # 在认证后用client单独去关联
 
         if(clear):
             collection_names = self.database.list_collection_names()
@@ -161,16 +161,16 @@ class MongoDatabase:
             raise(f"Collection specified does not exist. (Collection of _name={collection}")
 
 
-    def get_documents(self, collection, query=None):
+    def get_documents(self, collection, search_query=None):
         """
         获取已经打开数据库中的特定集合中的符合查询条件的文档
         Parameter:
             collection : 数据库中集合的名字
-            query : 字典类型的查询条件 例如{'_id':'abcdef123456', 'table_name':'demo_tableName'} 
+            search_query : 字典类型的查询条件 例如{'_id':'abcdef123456', 'table_name':'demo_tableName'} 
         """
 
         # 如果没有给字典类型的Query, 那么默认返回集合全部的Document
-        if(query is None):
+        if(search_query is None):
             document_ids = self.get_ids(collection=collection)
             rtn_dict = {}
             for document_id in document_ids:
@@ -182,11 +182,11 @@ class MongoDatabase:
         else:
             if(collection in self.database.list_collection_names()):  
                 db_collection = self.database[collection]
-                if(db_collection.count_documents(query)!= 0):
-                    document = db_collection.find_one(query)
-                    del document["_id"]
+                if(db_collection.count_documents(search_query)!= 0):
+                    document = db_collection.find(search_query)
+                    # del document["_id"]
                     return document
-                else:raise(f"Document specified does not exist. (Document of {str(query)}")
+                else:raise(f"Document specified does not exist. (Document of {str(search_query)}")
             else:raise(f"Collection specified does not exist. (Collection of _name={collection}")
             
 
