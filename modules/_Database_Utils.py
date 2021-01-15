@@ -100,6 +100,8 @@ class Database_Utils:
             for instance "2020年一季度.xlsx"
             """
 
+            return Database_Utils.meta.load_tablemMeta(config.collection_name)['count']
+
             table_name =config.collection_name
 
             # Store to database
@@ -111,6 +113,8 @@ class Database_Utils:
             # Store to custom type
             table = TableData(json=temp_mongoLoad, tb_name=table_name)
             return len(table.operators)
+
+
         # 得到表格完成行数   (admin)
         def count_completedRows(config):
             """
@@ -122,7 +126,7 @@ class Database_Utils:
             db = MongoDatabase()
             db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
             table_name = config.collection_name
-            temp_mongoLoad = db.get_documents(collection=table_name)
+            temp_mongoLoad = db.get_documents(collection=table_name, search_query=None)
             db.close()
 
             # Store to custom type
