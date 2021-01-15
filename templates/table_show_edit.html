@@ -117,6 +117,7 @@
                     //      {% if _title_ == '_id' %}
                                 // 隐藏每行特殊的 UUID (不是行号 !!!!)
                                 {field: '{{_id_}}', title: '{{_title_}}', hide:true}, 
+                                // {field: '{{_id_}}', title: '{{_title_}}', width:110}, 
                     //      {% elif _title_ == authorization_title %}
                                 // 每行的行号 (通过authorization_title参数获得)
                                 {field: '{{_id_}}', title: '{{_title_}}', width:110, sort: true, unresize:true, align:'center', fixed: 'left'},
@@ -127,69 +128,35 @@
                     //      {% elif _title_ == operator_title[1] %}
                                 // 操作员时间
                                 {field: '{{_id_}}', title: '{{_title_}}', width:200, sort: true, unresize:true, align:'center', fixed: 'right'},
-                    //      {% elif _title_ in table_meta['fixed_titles'] %}
-                                // 预设数据
-                                // {field: '{{_id_}}', title: '{{_title_}}', width:190},
-
-                    // 预设数据(可以更改)
-                    //      {% if _title_ in table_meta['mustFill_titles'] %}
-                                {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:"background-color:grey;color: #fff;"},
-                    // 预设数据(不可以更改)
-                    //      {% else %}
-                                {field: '{{_id_}}', title: '{{_title_}}', width:190},
-                    //      {% endif %}
 
 
 
-                    // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-                    //      {% elif _title_ == "-------项目名-------" %}
-                                // 下拉框数据
-                                {field: '{{_id_}}', title: '{{_title_}}', width:190, style:'overflow: visible !important', templet: function(d){
-                                    d.field = "{1,2,3,4,5,6}"
-                                    // alert(d.field)
-
-                                    $(".layui-table-body").css('overflow','visible');
-        	                        $(".layui-table-box").css('overflow','visible');
-                                    $(".layui-table-view").css('overflow','visible');
-                                    
-                                    $(".layui-table-cell").css('overflow: visible !important');
-                                    $(".layui-form-select").css('margin-top: -10px;', 'margin-left: -15px;', 'margin-right: -15px;');
-
-                                    // var tableElem = this.elem.next('.layui-table-view');
-                                    // count || tableElem.find('.layui-table-header').css('overflow', 'auto');
-                                    // layui.each(tableElem.find('select[name="logins"]'), function (index, item) {
-                                    //     var elem = $(item);
-                                    //     elem.val(elem.data('state')).parents('div.layui-table-cell').css('overflow', 'visible');
-                                    // });
-                                    // form.render();//刷新表单
-
-
-                                    if(d.field == undefined){return ""}
-                                    else if(d.field.length == 0){return ""}
-                                    else{
-                                        oriData = d.field
-                                        oriData = oriData.replace('{','')
-                                        oriData = oriData.replace('}','')
-                                        options = oriData.split(',')
-                                        
-                                        var rtn_string = "";
-                                        rtn_string = rtn_string + "<select name='jtcyGxmc' lay-verify='' lay-search='' >";
-
-                                        rtn_string = rtn_string + "<option value=''></option>"
-                                        for (var option in options){
-                                            rtn_string = rtn_string + "<option value={name}>{name}</option>".format({name:'option'});
-                                        }
-                                        rtn_string = rtn_string + "</select>"
-                                        return rtn_string
-                                    }
-                                }},
-                    // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+                    // ---------------
+                    // 预设值选择列 (原下拉框)
+                    //      {% elif _title_ in table_meta['option_titles']%}
+                                {field: '{{_id_}}', title: '{{_title_}}', width:90, style:'background-color: blue;'},
                     
+                                // ---------------
+                    // 预设列 (默认不可更改)    
+                    //      {% elif _title_ in table_meta['fixed_titles'] %}
+                                // 预设数据(可以更改)
+                    //          {% if _title_ in table_meta['mustFill_titles'] %}
+                    {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:"background-color:grey;color: #fff;"},
+                                // 预设数据(不可以更改)
+                    //          {% else %}
+                                    {field: '{{_id_}}', title: '{{_title_}}', width:190},
+                    //          {% endif %}
 
+                
+
+
+
+                    // ---------------
+                    // 普通数据
                     //      {% elif _title_ in table_meta['mustFill_titles'] %}
-                                // 必填数据
-                                // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: red; color: #fff;'},
-                                {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: #5FB878; color: #fff;'},
+                                // 必填数据 (展示为特殊颜色)
+                                {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: red; color: #fff;'},
+                                // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: #5FB878; color: #fff;'},
                     
                     //      {% else %}
                                 // 普通数据

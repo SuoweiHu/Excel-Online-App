@@ -139,9 +139,8 @@ def generate_tableMeta(tableData):
         "option_titles"     : option_titles,
         "option_optionDict" : option_optionDict
     }
-    timer = debugTimer(f"开始上传表格元数据 ({tableData.tb_name})", "完成上传元数据操作")
+    timer = debugTimer(f"上传文件页面 - 开始上传表格元数据", f"完成上传元数据操作 ({tableData.tb_name})")
     timer.start()
-    print('------------')
     Database_Utils.meta.del_tablemMeta(tb_name=tableData.tb_name)
     Database_Utils.meta.save_tablemMeta(tb_name=tableData.tb_name, meta=meta)
     Database_Utils.meta.load_tablemMeta(tb_name=meta['tb_name'])
