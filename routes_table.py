@@ -89,8 +89,8 @@ def table_main(cur, limit, user):
             config=DB_Config()
             config.tb_name = f"{temp_dict[title]}.xlsx"
             config.collection_name = f"{temp_dict[title]}"
-
-            timer = debugTimer(f"主界面-开始统计表格: {config.tb_name}", "完成统计表格")
+            tb_meta  = (Database_Utils.meta.load_tablemMeta(config.tb_name.split('.')[0]))
+            timer = debugTimer(f"主界面-开始统计表格: {config.tb_name}", f"完成统计表格 (总计处理了: { tb_meta['count'] } 行 { len(tb_meta['titles']) } 列)")
             timer.start()
             count_row_completed   = Database_Utils.stat.count_completedRows(config=config)
             count_row_uncompleted = Database_Utils.stat.count_allRows(config=config) - count_row_completed

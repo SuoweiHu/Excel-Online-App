@@ -30,7 +30,7 @@ class debugTimer:
         app.logger.debug(f"\t\t{self.msgEnd}")
         self.print()
 
-    def get_interval(self, unit='ms'):
+    def get_interval(self, unit='s'):
         if(unit == 'ms' or unit == 'Ms' or unit == 'MS'):
             return f"{(self.t_end - self.t_start) * 1000} ms"
         elif(unit == 's' or unit == 'S'):
