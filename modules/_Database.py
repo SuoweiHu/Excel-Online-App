@@ -165,7 +165,7 @@ class MongoDatabase:
         else:  
             raise(f"Collection specified does not exist. (Collection of _name={collection}")
 
-    def get_documents(self, collection, search_query=None):
+    def get_documents(self, collection, search_query=None, sort=(None,None)):
         """
         获取已经打开数据库中的特定集合中的符合查询条件的文档
         Parameter:
@@ -187,7 +187,10 @@ class MongoDatabase:
             if(collection in self.database.list_collection_names()):  
                 db_collection = self.database[collection]
                 if(db_collection.count_documents(search_query)!= 0):
-                    document = db_collection.find(search_query)
+                    if (sort is None) or (sort[0] is None) or (sort[1] is None):
+                        document = db_collection.find(search_query)
+                    else:
+                        document = db_collection.find(search_query).sort(sort[0], sort[1])
                     # del document["_id"]
                     return document
                 else:raise(f"Document specified does not exist. (Document of {str(search_query)}")

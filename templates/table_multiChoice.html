@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- ====================================================== -->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/dist/css/layui.css') }}"  media="all">
+    <script src="{{ url_for('static', filename='jquery/min.js') }}"></script>
+    <!-- ====================================================== -->
+    <title>Excel Online</title>
+</head>
+<body>
+    <div style="padding: 20px; background-color: #ffffff;">
+        tb_name = {{tb_name}} <br>
+        title = {{title}} <br>
+        id = {{_id}} <br>
+
+        <br>
+        <div>
+            <legend>请从以下选项选择：</legend>
+            {% for option in options%}
+
+            <form action="{{submit_url}}" method="get">
+                <input type="hidden" name="tb_name" value="{{tb_name}}">
+                <input type="hidden" name="title"   value="{{title}}">
+                <input type="hidden" name="_id"     value="{{_id}}">
+                <input type="hidden" name="choice"  value="{{option}}">
+
+                <input class="layui-btn layui-btn-primary" type="submit" value="{{option}}">
+            </form>
+
+            {% endfor %}
+        </div>
+
+    </div>
+</body>
+</html>
+
+
+

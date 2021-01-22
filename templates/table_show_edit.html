@@ -81,8 +81,21 @@
 
     <!-- Html表格的自动渲染设置 -->
     <script>
-        layui.use('table', function(){
+        layui.use(['table', 'laytpl'], function(){
+            var laytpl= layui.laytpl;
+            
+            //更改模版的分隔符
+            // laytpl.config({
+            //     open:  '<%%',
+            //     close: '%%>'
+            // });
+
+            // ----------------------------------------
+
             var table = layui.table;
+
+
+            
             table.render({
                 elem: '#table_present'
             
@@ -130,37 +143,56 @@
                                 {field: '{{_id_}}', title: '{{_title_}}', width:200, sort: true, unresize:true, align:'center', fixed: 'right'},
 
 
-
-                    // ---------------
-                    // 预设值选择列 (原下拉框)
-                    //      {% elif _title_ in table_meta['option_titles']%}
-                                {field: '{{_id_}}', title: '{{_title_}}', width:90, style:'background-color: blue;'},
                     
-                                // ---------------
+                    // ---------------
+                    // 多选/选择列 (原下拉框)
+                    //      {% elif _title_ in table_meta['option_titles']%}
+                    //          {% if _title_ in table_meta['mustFill_titles'] %}
+
+                                    // {field: '{{_id_}}', title: '{{_title_}}', width:90, style:'background-color: blue;color: #fff;',templet: '#multiSelectTpl'},
+                                    // {field: '{{_id_}}', title: '{{_title_}}', width:290, style:'background-color: blue; color: #fff;', templet: "#multiSelectTpl"},
+                                    // {field: '{{_id_}}', title: '{{_title_}}', width:290, style:'background-color: #008B7D; color: #fff;', templet: '<div> {{"{{#var title=\'"+ _title_ +"\';}}"}} 已选择：{{"{{(d[title])}}"}}， <a style="color:#fff;text-decoration: underline overline;" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link">前往更改 </a> </div>'},
+                                    {field: '{{_id_}}', title: '{{_title_}}', width:200, align:'center', style:'text-align:center; background-color: #008B7D; color: #fff;', templet: '<div> {{"{{#var title=\'"+ _title_ +"\'; var value = d[title]; if(value == null){value=\"-----\"} }}"}}  <a style="color:#fff; display:block" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link"> {{"{{value}}"}} </a> </div>'},
+                                    // {
+                                    //     field: '{{_id_}}', 
+                                    //     title: '{{_title_}}', 
+                                    //     width:290, 
+                                    //     style:'background-color: blue; color: #fff;', 
+                                    //     templet: function(d){
+                                    //         return 
+                                    //     }
+                                    // },
+                    //          {% else %}
+                                    // {field: '{{_id_}}', title: '{{_title_}}', width:290, style:'background-color: #5FB878; color: #fff;', templet: '<div> {{"{{#var title=\'"+ _title_ +"\';}}"}} 已选择：{{"{{(d[title])}}"}}， <a style="color:#fff;text-decoration: underline overline;" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link">前往更改 </a> </div>'},
+                                    {field: '{{_id_}}', title: '{{_title_}}', width:200, align:'center', style:'text-align:center; background-color: #5FB878; color: #fff;', templet: '<div> {{"{{#var title=\'"+ _title_ +"\'; var value = d[title]; if(value == null){value=\"-----\"} }}"}}  <a style="color:#fff; display:block" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link"> {{"{{value}}"}} </a> </div>'},
+                    //          {% endif %}
+                                
+                    
+                    // ---------------
                     // 预设列 (默认不可更改)    
                     //      {% elif _title_ in table_meta['fixed_titles'] %}
                                 // 预设数据(可以更改)
                     //          {% if _title_ in table_meta['mustFill_titles'] %}
-                    {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:"background-color:grey;color: #fff;"},
+                                    // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:"background-color:grey;color: #fff;"},
+                                    {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center', edit:'text'},
                                 // 预设数据(不可以更改)
                     //          {% else %}
-                                    {field: '{{_id_}}', title: '{{_title_}}', width:190},
+                                    {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center'},
                     //          {% endif %}
 
                 
-
 
 
                     // ---------------
                     // 普通数据
                     //      {% elif _title_ in table_meta['mustFill_titles'] %}
                                 // 必填数据 (展示为特殊颜色)
-                                {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: red; color: #fff;'},
-                                // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: #5FB878; color: #fff;'},
+                                // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: red; color: #fff;'},
+                                {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center', edit:'text', style:'background-color: #008B7D; color: #fff;'},
                     
                     //      {% else %}
                                 // 普通数据
-                                {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: #008B7D; color: #fff;'},
+                                {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center', edit:'text', style:'background-color: #5FB878; color: #fff;'},
                                 // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text'},
                                 
                     //      {% endif %}
@@ -202,13 +234,46 @@
                             // success : function(result){alert('Upload success')},
                             // error   : function(result){alert('Upload error')},
                     })
+
+                    //提示
+                    // table.reload('table_present')
+                    layer.msg('更改已经被保存', {time:1000});
                 }
             });
+
+            //监听排序事件 
+            table.on('sort(table_filter)', function(obj){ //注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                console.log(obj.field); //当前排序的字段名
+                console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
+                // console.log(this); //当前排序的 th 对象
+                
+                //尽管我们的 table 自带排序功能，但并没有请求服务端。
+                //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
+                table.reload('table_present', {
+                    initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                    ,url: '/data/{{table_name}}'   //数据接口
+                    ,where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                        field: obj.field //排序字段
+                        ,order: obj.type //排序方式
+                    }
+                });
+                
+                layer.msg('服务端排序。<br> 排序列:'+ obj.field + '， 排序方式:' + obj.type, {time:1000});
+            });
+                
             
         });
     </script>
+    <script type="text/html" id="multiSelectTpl">
+        <!-- 必须有div否则模版无法识别 -->
+        <div> 
+            ==Placeholder== {{"{{#console.log(d.title)}}"}}
+            <a href="" class="\multiChoice\"> 
+                {{ "{{# console.log(d); }}" }} 
+            </a> 
+        </div>
 
-
-
+        <form action=""></form>
+    </script>
 </body>
 </html>

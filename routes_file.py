@@ -81,28 +81,6 @@ def generate_tableMeta(tableData):
         tableData : TableData 类的数据 
         (注意其中的带 "\{", "\}" 字符的单元格将被识别成需要配置成预设值的单元格)
     """
-    # -----预设列-------------------------------------------------
-
-    # 老方法 ...
-        # ~~ # 查找全部赋值完毕的列 (为以后不能更改的单元格作准备) ~~
-        # fixed_titles = []
-        # for i in range(len(tableData.titles)):
-        #     title = tableData.titles[i]
-        #     temp_rows  = [row[i] for row in tableData.rows]
-        #     if(None not in temp_rows): fixed_titles.append(title)
-
-    # 新方法
-    # 查找有值的列 (为以后没有例外不能更改的预设列)
-    fixed_titles  = []
-    for i in range(len(tableData.titles)):
-        title = tableData.titles[i]
-        exist_notNone = False
-        j = 0 
-        while(j < len(tableData.rows) and (not exist_notNone)):
-            item = tableData.rows[j][i] 
-            if(item is not None): exist_notNone = True 
-            j+=1
-        if(exist_notNone): fixed_titles.append(title)
 
     # -----配置列-------------------------------------------------
     option_titles     = []
@@ -128,6 +106,36 @@ def generate_tableMeta(tableData):
                 tableData.clear_column(tableData.titles[i])
             else: pass
         else: pass
+
+     # -----预设列-------------------------------------------------
+
+    # 老方法 ...
+        # ~~ # 查找全部赋值完毕的列 (为以后不能更改的单元格作准备) ~~
+        # fixed_titles = []
+        # for i in range(len(tableData.titles)):
+        #     title = tableData.titles[i]
+        #     temp_rows  = [row[i] for row in tableData.rows]
+        #     if(None not in temp_rows): fixed_titles.append(title)
+
+    # 新方法
+    # 查找有值的列 (为以后没有例外不能更改的预设列)
+    fixed_titles  = []
+    for i in range(len(tableData.titles)):
+        title = tableData.titles[i]
+        exist_notNone = False
+        j = 0 
+        while(j < len(tableData.rows) and (not exist_notNone)):
+            item = tableData.rows[j][i] 
+            if(item is not None): 
+                exist_notNone = True 
+            j+=1
+        if(exist_notNone): fixed_titles.append(title)
+
+    for title in fixed_titles:
+        if(title in option_titles):
+            fixed_titles.remove(title)
+            
+
 
     # ---上传表格的元数据--------------------------------------------
     meta = {

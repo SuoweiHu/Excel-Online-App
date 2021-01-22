@@ -295,7 +295,7 @@ class Database_Utils:
             db.close()
             return
         # 读取表格
-        def load_table(tb_name, search_query=None):
+        def load_table(tb_name, search_query=None, sort=(None,None)):
             # if(tb_name is not None) and (config is None):
             #     config = DB_Config()
             #     config.collection_name = tb_name.split('.')[0]
@@ -311,7 +311,7 @@ class Database_Utils:
             if(search_query is None):
                 temp_mongoLoad = db.get_documents(collection=table_name)
             else:
-                temp_cursor = db.get_documents(collection=table_name, search_query=search_query)
+                temp_cursor = db.get_documents(collection=table_name, search_query=search_query, sort=sort)
                 temp_mongoLoad = {}
                 for item in temp_cursor:
                     keys = list(item)
