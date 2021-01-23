@@ -54,7 +54,7 @@ class MongoDatabase:
         # create client instance and connect to database
         self.client = pymongo.MongoClient(host, port)
         self.database = self.client['admin']             # 这里可以将admin替换成有数据库存账户信息的库
-        self.database.authenticate('admin', 'admin@123') # 登陆数据库认证 (等同于mongo shell 运行 use admin, db.auth(name,pwd))
+        self.database.authenticate('yefeng', 'yeFeng@123') # 登陆数据库认证 (等同于mongo shell 运行 use admin, db.auth(name,pwd))
         self.database = self.client[str(name)]           # 在认证后用client单独去关联
 
         if(clear):

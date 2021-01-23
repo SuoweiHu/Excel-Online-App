@@ -93,7 +93,7 @@ def generate_tableMeta(tableData):
           identifier = "OAO"
           key    = "#OAO#"
     """
-    identifier = "OAO" 
+    identifier = "Multi-Choice" 
     prefix     = "#"
     suffix     = "#"
     key        = prefix+identifier+suffix

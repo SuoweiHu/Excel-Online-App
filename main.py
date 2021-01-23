@@ -1,4 +1,3 @@
-from modules._Database_Utils import Database_Utils as DU
 from routes import app
 from account import add_mockUsers
 

@@ -14,27 +14,43 @@
 </head>
 <body>
     <div style="padding: 20px; background-color: #ffffff;">
-        tb_name = {{tb_name}} <br>
-        title = {{title}} <br>
-        id = {{_id}} <br>
 
+        
+        <form action="/edit/{{tb_name}}" method="get" style="padding-left: 10px;">
+            <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回表格 </button>
+        </form>
         <br>
-        <div>
+        <fieldset class="layui-elem-field site-demo-button" style="margin: 10% 40%; text-align: center;">
+            <!-- <legend>{{table_name}}</legend> -->
             <legend>请从以下选项选择：</legend>
-            {% for option in options%}
+                <br>
+                <!-- tb_name = {{tb_name}} <br>
+                title = {{title}} <br>
+                id = {{_id}} <br> -->
 
-            <form action="{{submit_url}}" method="get">
-                <input type="hidden" name="tb_name" value="{{tb_name}}">
-                <input type="hidden" name="title"   value="{{title}}">
-                <input type="hidden" name="_id"     value="{{_id}}">
-                <input type="hidden" name="choice"  value="{{option}}">
-
-                <input class="layui-btn layui-btn-primary" type="submit" value="{{option}}">
-            </form>
-
-            {% endfor %}
-        </div>
-
+                <div>
+                    {% for option in options%}
+                    <form action="{{submit_url}}" method="get">
+                        <input type="hidden" name="tb_name" value="{{tb_name}}">
+                        <input type="hidden" name="title"   value="{{title}}">
+                        <input type="hidden" name="_id"     value="{{_id}}">
+                        <input type="hidden" name="choice"  value="{{option}}">
+        
+                        <input class="layui-btn layui-btn-primary" type="submit" value="{{option}}">
+                    </form> <br>
+                    {% endfor %}
+                    <form action="{{submit_url}}" method="get">
+                        <input type="hidden" name="tb_name" value="{{tb_name}}">
+                        <input type="hidden" name="title"   value="{{title}}">
+                        <input type="hidden" name="_id"     value="{{_id}}">
+                        <input type="hidden" name="choice"  value="">
+        
+                        <input class="layui-btn layui-btn-primary" type="submit" value="清除">
+                    </form> <br>
+                </div>
+            <!-- ======================================================================== -->
+        </fieldset>
+        <br>
     </div>
 </body>
 </html>

@@ -6,10 +6,10 @@ import os
 from re import L
 import sys
 import pprint
-import datetime
-import random
-from threading import ExceptHookArgs
-import time
+# import datetime
+# import random
+# from threading import ExceptHookArgs
+# import time
 
 from pymongo.message import query
 
@@ -169,7 +169,7 @@ def table_main(cur, limit, user):
         "@@@@["                 : f"""<form style="display: inline;" action='/table/show' method="get"><input type="hidden" name="table_name"  value='""",
         " ]####################": f"""/True'><input class="layui-btn layui-btn-sm "  type="submit"  value="&nbsp;&nbsp;&nbsp;&nbsp;编辑必填值&nbsp;&nbsp;&nbsp;&nbsp;"></form>         """,
         " ]################"    : f"""'><input class="layui-btn layui-btn-sm"  type="submit"  value="&nbsp;&nbsp;查看已完成表单&nbsp;&nbsp;"></form>         """,
-        " ]############"        : f"""'><input class="layui-btn layui-btn-sm layui-btn-disabled " type="submit"  value="&nbsp;无法删除 (已填写)" disabled></form>       """,
+        " ]############"        : f"""'><input class="layui-btn layui-btn-sm layui-btn-disabled " type="submit"  value="&nbsp;无法删除 (已填写)" ></form>       """,
         " ]########"            : f"""'><input class="layui-btn layui-btn-sm layui-btn-danger "   type="submit"  value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;删除表单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></form>                 """,
         " ]####"                : f"""'><input class="layui-btn layui-btn-sm "  type="submit"  value="&nbsp;&nbsp;查看 / 填写表单&nbsp;&nbsp;"></form>                 """,
     }
