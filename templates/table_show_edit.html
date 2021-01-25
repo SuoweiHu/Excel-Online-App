@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='layui/dist/css/layui.css') }}"  media="all">
     <!-- <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script> -->
     <script src="{{ url_for('static', filename='jquery/min.js') }}"></script>
-    <!-- 居中的样式设置 -->
     <style type="text/css">
+        /*<!-- 居中的样式 -->*/
         /* .table_mask {
             position: relative;
             height: 1080px;
@@ -36,95 +36,86 @@
             width: 1920px;
             height: 82vh;
         }
-        
         /* .layui-table-cell{overflow: visible !important;} */
         /* td .layui-form-select{ margin-top: -10px; margin-left: -15px; margin-right: -15px;}    */
-
     </style>
-    <!-- ====================================================== -->
     <title>Excel Online</title>
-    
 </head>
 <body>
+    <!-- ====================================================== -->
+
     <div style="padding: 20px; background-color: #ffffff;">
         <form action="/table/all" method="get" style="padding-left: 10px;">
             <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回全部表格 </button>
         </form>
         <br>
-
         <fieldset class="layui-elem-field " style="margin-top: 30px; ">
             <legend>表格: {{table_name}}</legend>
             <div class="table_mask">
                 <div class="table_center" style="width:95%;">
                     <!-- 以上为居中设置 -->
-                    <table id="table_present" lay-filter="table_filter" ></table>
+
+                    <table id="_MAIN_TABLE_RENDER_ID_" lay-filter="_MAIN_TABLE_RENDER_FILTER_" ></table>
+
                     <!-- 以下为居中设置 -->
                 </div>
             </div>
         </fieldset>
     </div>
 
-
-    <!-- layui的默认js文件 (包含一些基本的animation) -->
+    <!-- ====================================================== -->
+    <!-- layui的默认js文件 (包含一些基本的样式和动画) -->
     <script src="{{ url_for('static', filename='layui/dist/layui.js') }}" charset="utf-8"></script>
 
     <!-- Laytpl 模版引擎 解析字符成HTML代码 -->
     <!-- <script id="_demo_" type="text/html"> -->
-    <script>
-        String.prototype.format =function () {
-            var args = arguments;
-            return this.replace(/\{(\d+)\}/g, function(m, i){
-                return args[i];
-            });
-          };
-    </script>
+    <script>String.prototype.format =function () {var args = arguments;return this.replace(/\{(\d+)\}/g, function(m, i){return args[i];});};</script>
 
     <!-- Html表格的自动渲染设置 -->
     <script>
         layui.use(['table', 'laytpl'], function(){
             var laytpl= layui.laytpl;
-            
-            //更改模版的分隔符
-            // laytpl.config({
-            //     open:  '<%%',
-            //     close: '%%>'
-            // });
-
-            // ----------------------------------------
-
             var table = layui.table;
-
-
-            
+            //更改Layui模版组件的的分隔符
+                // laytpl.config({          // 经过测试不可使用 （和Jinja2渲染分隔符冲突）
+                //     open:  '<%%',        // 改为使用 \{\{""\}\} 转义成为string格式
+                //     close: '%%>'         // 例子：
+                // });                      // \{\{" \{\{<div> Hello World ! </div>\}\} "\}\}
+            //选择被渲染的表格元素
             table.render({
-                elem: '#table_present'
-            
+                elem: '#_MAIN_TABLE_RENDER_ID_'
             //高宽设置
-                // ,width:  1920
-                // ,height: 950
-                ,height : window.innerHeight*0.8
-                // ,height :85vh
-                
+                // ,width:  1920                    //1080p
+                // ,height: 950                     //1080p
+                ,height : window.innerHeight*0.8    //自适应-1
+                // ,height :85vh                    //自适应-2
             //分页
-                ,page: true                    //开启分页
-                ,limit: 20                     //每页条数
-                // ,page: {theme: '#c00'}      //开启分页主题
-                ,limits:[5,10,15,20,25,30]           //分页选项
+                ,page: true                         //开启分页
+                ,limit: 20                          //每页条数
+                // ,page: {theme: '#c00'}           //开启分页主题
+                ,limits:[5,10,15,20,25,30]          //分页选项
 
             //数据接口
-                ,url: '/data/{{table_name}}'   //数据接口
-
-            //数据解析
-                // 将数据接口返回数据,解析成 table 组件所规定的数据格式
-                // ,parseData: function(res){ //res 即为原始返回的数据
+                ,url: '/data/{{table_name}}'        //数据接口
+            //数据解析 (将数据接口返回数据,解析成 table 组件所规定的数据格式)
+                // ,parseData: function(res){ 
                     // return {
-                        // "code": res.status,     //解析接口状态
-                        // "msg": res.message,     //解析提示文本
-                        // "count": res.total,     //解析数据长度
-                        // "data": res.data.item   //解析数据列表
+                                                   // res 为原始返回的数据
+                        // "code": res.status,     // 解析接口状态
+                        // "msg": res.message,     // ...提示文本
+                        // "count": res.total,     // ...数据长度
+                        // "data": res.data.item   // ...数据列表
                         // };}
+            //初始排序（这里一般使用行号列作为默认排序）
+                ,initSort:{field:'{{authorization_title}}', type:'asc'}
+            //表格头部工具栏
+            // ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            // ,defaultToolbar: ['filter', 'exports', 'print']
+            ,toolbar: '#'
+            ,defaultToolbar: ['filter', 'exports']
 
-            //表头设置     
+            // ----------------------------------------
+            //表头设置 （渲染的时候会根据这里设置的field为单元格设置样式）     
                 ,cols: [[         
                     // {% for _id_,_title_ in column_dict.items() %}
                     //      {% if _title_ == '_id' %}
@@ -142,9 +133,6 @@
                                 // 操作员时间
                                 {field: '{{_id_}}', title: '{{_title_}}', width:200, sort: true, unresize:true, align:'center', fixed: 'right'},
 
-
-                    
-                    // ---------------
                     // 多选/选择列 (原下拉框)
                     //      {% elif _title_ in table_meta['option_titles']%}
                     //          {% if _title_ in table_meta['mustFill_titles'] %}
@@ -152,22 +140,12 @@
                                     // {field: '{{_id_}}', title: '{{_title_}}', width:290, style:'background-color: blue; color: #fff;', templet: "#multiSelectTpl"},
                                     // {field: '{{_id_}}', title: '{{_title_}}', width:290, style:'background-color: #008B7D; color: #fff;', templet: '<div> {{"{{#var title=\'"+ _title_ +"\';}}"}} 已选择：{{"{{(d[title])}}"}}， <a style="color:#fff;text-decoration: underline overline;" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link">前往更改 </a> </div>'},
                                     {field: '{{_id_}}', title: '{{_title_}}', width:200, align:'center', style:'text-align:center; background-color: #008B7D; color: #fff;', templet: '<div> {{"{{#var title=\'"+ _title_ +"\'; var value = d[title]; var color=\"\#fff\"; if(value == null || value == \"\"){value=\"----\"; color=\"\#008B7D\";} }}"}}  <a style="color: {{"{{color}}"}}; display:block" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link"> {{"{{value}}"}} </a> </div>'},
-                                    // {
-                                    //     field: '{{_id_}}', 
-                                    //     title: '{{_title_}}', 
-                                    //     width:290, 
-                                    //     style:'background-color: blue; color: #fff;', 
-                                    //     templet: function(d){
-                                    //         return 
-                                    //     }
-                                    // },
+                                    // {field: '{{_id_}}', title: '{{_title_}}',width:290,style:'background-color: blue; color: #fff;',templet: function(d)    return}},
                     //          {% else %}
                                     // {field: '{{_id_}}', title: '{{_title_}}', width:290, style:'background-color: #5FB878; color: #fff;', templet: '<div> {{"{{#var title=\'"+ _title_ +"\';}}"}} 已选择：{{"{{(d[title])}}"}}， <a style="color:#fff;text-decoration: underline overline;" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link">前往更改 </a> </div>'},
                                     {field: '{{_id_}}', title: '{{_title_}}', width:200, align:'center', style:'text-align:center; background-color: #5FB878; color: #fff;', templet: '<div> {{"{{#var title=\'"+ _title_ +"\'; var value = d[title]; var color=\"\#fff\"; if(value == null || value == \"\"){value=\"----\"; color=\"\#5FB878\";} }}"}}  <a style="color: {{"{{color}}"}}; display:block" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link"> {{"{{value}}"}} </a> </div>'},
                     //          {% endif %}
                                 
-                    
-                    // ---------------
                     // 预设列 (默认不可更改)    
                     //      {% elif _title_ in table_meta['fixed_titles'] %}
                                 // 预设数据(可以更改)
@@ -179,16 +157,11 @@
                                     {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center'},
                     //          {% endif %}
 
-                
-
-
-                    // ---------------
-                    // 普通数据
+                    // 普通数据（分为必须填写和非必须）
                     //      {% elif _title_ in table_meta['mustFill_titles'] %}
                                 // 必填数据 (展示为特殊颜色)
                                 // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: red; color: #fff;'},
                                 {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center', edit:'text', style:'background-color: #008B7D; color: #fff;'},
-                    
                     //      {% else %}
                                 // 普通数据
                                 {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center', edit:'text', style:'background-color: #5FB878; color: #fff;'},
@@ -196,83 +169,70 @@
                                 
                     //      {% endif %}
                     // {% endfor %}
-                    
 
-                    // 工具栏按钮
-                    // {title:'编辑', fixed: 'right', width:80, align:'center', toolbar: '#cellBar'}
+                    // 工具栏按钮（在每行的最右侧是否显示工具栏按钮）
+                        // {title:'编辑', fixed: 'right', width:80, align:'center', toolbar: '#cellBar'}
                 ]]
-                ,initSort:{field:'{{authorization_title}}', type:'asc'}
             });
 
-            // 监听单元格编辑
-            table.on('edit(table_filter)', function(obj){ 
-                // 案例
-                    // console.log(obj.value);  //得到修改后的值
-                    // console.log(obj.field);  //当前编辑的字段名
-                    // console.log(obj.data);   //所在行的所有相关数据  
+            // 监听单元格编辑事件
+            table.on('edit(_MAIN_TABLE_RENDER_FILTER_)', function(obj){ 
+                // console.log(obj.value);  //案例：得到修改后的值
+                // console.log(obj.field);  //案例：当前编辑的字段名
+                // console.log(obj.data);   //案例：所在行的所有相关数据  
 
-                // 检查更改是否为空
-                var enable_space_check = false  //是否不提交空值
-                var modified_value = obj.value;
+                // 检查更改是否为空（或者全部为&nbsp；如果是则不作处理）
+                var enable_space_check = false      //是否不提交空值
+                var modified_value = obj.value;     //数据
                 while(modified_value.search(' ') != -1){modified_value = modified_value.replace(' ','');}
                 if(modified_value.length != 0 || !enable_space_check){
 
-                    // 获得数据
+                    //从单元格监听器获得数据
                     const request_url = "/submit"
                     var request_dict  = obj.data;
-                    
                     request_dict['table_name'] = '{{table_name}}';
-                    
-                    // 提交更改
+                    //使用Ajax提交更改
                     $.ajax({
-                        url: request_url,
-                        type: "POST",
-                        data: request_dict,
-                        dataType: "json",
+                        url: request_url,   //异步数据接口
+                        type: "POST",       //请求类型
+                        data: request_dict, //请求数据
+                        dataType: "json",   //请求数据格式
                             // complete: function(){alert("Change saved !")}
                             // success : function(result){alert('Upload success')},
                             // error   : function(result){alert('Upload error')},
                     })
-
-                    //提示
-                    // table.reload('table_present')
+                    //提示更改已被保存
+                    // table.reload('_MAIN_TABLE_RENDER_ID_')
                     // layer.msg('更改已经被保存', {time:1000});
                 }
             });
 
             //监听排序事件 
-            table.on('sort(table_filter)', function(obj){ //注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-                console.log(obj.field); //当前排序的字段名
-                console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
-                // console.log(this); //当前排序的 th 对象
+            table.on('sort(_MAIN_TABLE_RENDER_FILTER_)', function(obj){ 
+                // console.log(this);                                       //案例：当前排序的 th 对象 (HTNL元素)
+                // console.log(obj.field);                                  //案例：当前排序的字段名
+                // console.log(obj.type);                                   //案例：当前排序类型 asc/desc/null
                 
-                //尽管我们的 table 自带排序功能，但并没有请求服务端。
-                //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
-                table.reload('table_present', {
-                    initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
-                    ,url: '/data/{{table_name}}'   //数据接口
-                    ,where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
-                        field: obj.field //排序字段
-                        ,order: obj.type //排序方式
+                //根据当前排序的字段，重新向服务端发送请求
+                table.reload('_MAIN_TABLE_RENDER_ID_', {
+                    initSort: obj                   //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                    ,url: '/data/{{table_name}}'    //服务端的异步数据接口
+                    ,where: {                       //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                        field: obj.field            //排序字段
+                        ,order: obj.type            //排序方式
                     }
                 });
                 
+                //弹窗提示数据已经重新加载
                 layer.msg('服务端排序。<br> 排序列:'+ obj.field + '， 排序方式:' + obj.type, {time:1000});
             });
-                
-            
         });
     </script>
+
+    <!-- 多选单元格渲染模版 -->
     <script type="text/html" id="multiSelectTpl">
         <!-- 必须有div否则模版无法识别 -->
-        <div> 
-            ==Placeholder== {{"{{#console.log(d.title)}}"}}
-            <a href="" class="\multiChoice\"> 
-                {{ "{{# console.log(d); }}" }} 
-            </a> 
-        </div>
-
-        <form action=""></form>
+        <div> ==Placeholder== {{"{{#console.log(d.title)}}"}}<a href="" class="\multiChoice\"> {{ "{{# console.log(d); }}" }} </a> </div><form action=""></form>
     </script>
 </body>
 </html>
