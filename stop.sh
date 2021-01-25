@@ -1,5 +1,5 @@
 # ids=`ps -ef|grep python|grep yf|grep main.py awk '{print $2}'`
-ids=`ps -ef|grep Excel-Online-App/main.py`
+ids=`ps -ef|grep python3|grep Excel-Online-App/main.py`
 
 if [[ "${ids}" = "" ]]
 then 

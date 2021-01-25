@@ -16,7 +16,7 @@ class DB_Config:
     # self.db_host = 'localhost'    # 本地默认连接地址（等同于127.0.0.1）
     db_port        = 27017          # 连接接口
     db_name                    = 'TableData'
-    auth_db_name               = 'admin'
+    auth_db_name               = 'TableData'
     auth_usr                   = 'yefeng'
     auth_pass                  = 'yeFeng@123'
 

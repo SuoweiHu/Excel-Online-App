@@ -72,7 +72,7 @@ def route_upload_file(f, f_name):
             pass
         else: 
             app.logger.debug("未发现”行号“标题，进入选择替代列页面")
-            return render_template("table_multiCHoice_idMissing.html", 
+            return render_template("table_multiChoice_idMissing.html", 
                 options    = titles,
                 submit_url = url_for('route_upload_file_idMissing'),
                 tb_name    = tb_name
