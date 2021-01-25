@@ -52,6 +52,7 @@ def route_upload_file(f, f_name):
 
         # 读取Excel文件 (注意: 使用获取单元格绝对值, 公式将不被保留)
         tb_name = f_name
+        if(not (os.path.exists(f'./src/temp/{f_name}'))): return redirect('table/all')
         excelReader = ExcelVisitor(f'./src/temp/{f_name}')
         titles      = excelReader.get_titles()
         info_table  = excelReader.get_infoTable()
