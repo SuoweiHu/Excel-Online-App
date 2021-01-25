@@ -10,23 +10,23 @@ class DB_Config:
     account_collection_name    = "#account"
     tableMeta_collection_name  = "#tableMeta"
     noneData_collection_names  = [account_collection_name, tableMeta_collection_name]
+    tb_name                    = ''             # 
+    db_host        = 'mongodb'      # 配置在/etc/hosts路径下的mongodb的服务地址（e.g.mongodb 10.0.0.98）
+    # self.db_host = '10.0.0.98'    # 如果上面的配置不管用可以尝试手动配置连接地址
+    # self.db_host = 'localhost'    # 本地默认连接地址（等同于127.0.0.1）
+    db_port        = 27017          # 连接接口
+    db_name                    = 'TableData'
+    auth_db_name               = 'admin'
+    auth_usr                   = 'yefeng'
+    auth_pass                  = 'yeFeng@123'
 
     def __init__(self, tb_name=None, db_host=None, db_port=None, db_name=None, collection_name=None):
-        # Default Values for config
-        self.tb_name = ''          
-        self.db_host = 'localhost'
-        # self.db_host = '10.0.0.98'
-        self.db_port = 27017
-        self.db_name = "TableData"
-        self.collection_name = ''  
-
-        # Custom Valus for config
-        if(tb_name is not None): self.tb_name = tb_name  # 注意这里的文件名是带后缀的: 2020第一季度.xlsx     
+        # If require custom Valus for config then pass via params
+        if(tb_name is not None): self.tb_name = tb_name                 # 注意这里的文件名是带后缀的: 2020第一季度.xlsx     
         if(db_host is not None): self.db_host = db_host 
         if(db_port is not None): self.db_port = db_port
         if(db_name is not None): self.db_name = db_name
-        if(collection_name is not None): self.collection_name = collection_name # 里的文件名是不带后缀的: 2020第一季度
-
+        if(collection_name is not None): self.collection_name = collection_name # 这里的文件名是不带后缀的: 2020第一季度
         return
 
 class MongoDatabase:
@@ -53,9 +53,9 @@ class MongoDatabase:
 
         # create client instance and connect to database
         self.client = pymongo.MongoClient(host, port)
-        self.database = self.client['admin']             # 这里可以将admin替换成有数据库存账户信息的库
-        self.database.authenticate('yefeng', 'yeFeng@123') # 登陆数据库认证 (等同于mongo shell 运行 use admin, db.auth(name,pwd))
-        self.database = self.client[str(name)]           # 在认证后用client单独去关联
+        self.database = self.client[default_config.auth_db_name]                       # 这里可以将admin替换成有数据库存账户信息的库
+        self.database.authenticate(default_config.auth_usr, default_config.auth_pass)  # 登陆数据库认证 (等同于mongo shell 运行 use admin, db.auth(name,pwd))
+        self.database = self.client[str(name)]                                         # 在认证后用client单独去关联
 
         if(clear):
             collection_names = self.database.list_collection_names()
