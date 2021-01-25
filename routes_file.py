@@ -57,21 +57,62 @@ def route_upload_file(f, f_name):
         info_table  = excelReader.get_infoTable()
         oper_table  = excelReader.get_operTable()
 
-        # 读取后删除临时表格xlsx文件
-        os.remove(f'./src/temp/{f_name}')
-        ids_list    = [hash_id(str(random.random())) for i in range(len(info_table))]
-
         # 存储表格数据到自定义类TableData
         tb_name = tb_name.split('.')[0]
         while(' ' in tb_name): tb_name = tb_name.replace(' ', '')
+        ids_list    = [hash_id(str(random.random())) for i in range(len(info_table))]
         tableData = TableData(json=None, tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table, ids=ids_list)
         tableData = generate_tableMeta(tableData=tableData)                     # 生成并上传表格的元数据 (并处理原表格)
         tableData_Json = tableData.toJson()                                     # 将表格数据转化成数据库可以保存的BSON类型
+        
+        # 确认表头标题是否包含行号栏目（）
+        titles = tableData.titles   # 标题
+        if("行号" in titles):
+            app.logger.debug("发现“行号”标题，进入选择必填列页面")
+            pass
+        else: 
+            app.logger.debug("未发现”行号“标题，进入选择替代列页面")
+            return render_template("table_multiCHoice_idMissing.html", 
+                options    = titles,
+                submit_url = url_for('route_upload_file_idMissing'),
+                tb_name    = tb_name
+                )
+
+        # 读取后删除临时表格xlsx文件
+        os.remove(f'./src/temp/{f_name}')
+
+        # 保存数据            
         if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json")   # 如果想暂时存储为JSON文件预览
         Database_Utils.table.upload_table(tb_name.split('.')[0],tableData_Json) # 上传表格到数据库为其表格名为名称的集合
 
+
         # 重新定向到选择 “必填” “预设可改” 的页面
         return redirect(url_for('select_RequredAttribute', tb_name=tb_name, return_aftFinish='False'))
+
+@app.route('/file/select_IdReplAttribute',methods=['GET'])
+def route_upload_file_idMissing():
+    tb_name = request.args.get("tb_name")
+    repl_attribute = request.args.get("choice")
+    # 以下内容与route_upload_file中的上传大致类似
+    excelReader = ExcelVisitor(f'./src/temp/{tb_name}.xlsx')
+    titles      = excelReader.get_titles()
+    info_table  = excelReader.get_infoTable()
+    oper_table  = excelReader.get_operTable()
+    tb_name = tb_name.split('.')[0]
+    while(' ' in tb_name): tb_name = tb_name.replace(' ', '')
+    ids_list    = [hash_id(str(random.random())) for i in range(len(info_table))]
+    tableData = TableData(json=None, tb_name=tb_name, titles=titles, rows=info_table, operators=oper_table, ids=ids_list)
+    tableData.titles[tableData.titles.index(repl_attribute)] = "行号"        # 替换行号相关内容
+    tableData = generate_tableMeta(tableData=tableData)                   
+    tableData_Json = tableData.toJson()   
+    os.remove(f'./src/temp/{tb_name}.xlsx')
+
+    # app.logger.warn('-' * 66)
+    # app.logger.warn(tableData_Json)
+
+    if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json")   
+    Database_Utils.table.upload_table(tb_name.split('.')[0],tableData_Json) 
+    return redirect(url_for('select_RequredAttribute', tb_name=tb_name, return_aftFinish='False'))
 
 # 上传文件时将会通过这个函数为表格建立元数据表并上传 (也会处理其中的配置列)
 def generate_tableMeta(tableData):
