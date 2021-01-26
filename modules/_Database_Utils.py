@@ -137,6 +137,10 @@ class Database_Utils:
             meta             = Database_Utils.meta.load_tablemMeta(table_name)
             all_titles       = meta['titles']
             must_fill_titles = meta['mustFill_titles']
+            fixed_titles     = set(meta['fixed_titles'])
+
+            # 除去预设部分
+            must_fill_titles = [item for item in must_fill_titles if item not in fixed_titles]
 
             count = 0
             for row, operator in zip(table.rows, table.operators):
