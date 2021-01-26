@@ -191,7 +191,7 @@ class Database_Utils:
             db.close()
 
             meta             = Database_Utils.meta.load_tablemMeta(table_name)
-            all_titles       = meta['titles']
+            all_titles       = meta['titles'] 
             must_fill_titles = meta['mustFill_titles']
             fixed_titles     = set(meta['fixed_titles'])
 
