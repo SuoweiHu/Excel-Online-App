@@ -2970,3 +2970,204 @@ DEBUG:app:  耗时:	0.05161905288696289 s
 DEBUG:app:开始于:	2021-01-26 14:32:18
 DEBUG:app:结束于:	2021-01-26 14:32:18
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:32:18] "[37mGET /data/DEMO_TABLE_28?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in '/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 270-674-982
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.10092377662658691 s
+DEBUG:app:开始于:	2021-01-26 14:33:56
+DEBUG:app:结束于:	2021-01-26 14:33:56
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.0966637134552002 s
+DEBUG:app:开始于:	2021-01-26 14:33:56
+DEBUG:app:结束于:	2021-01-26 14:33:56
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.09538698196411133 s
+DEBUG:app:开始于:	2021-01-26 14:33:56
+DEBUG:app:结束于:	2021-01-26 14:33:56
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1018531322479248 s
+DEBUG:app:开始于:	2021-01-26 14:33:56
+DEBUG:app:结束于:	2021-01-26 14:33:56
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.09451985359191895 s
+DEBUG:app:开始于:	2021-01-26 14:33:56
+DEBUG:app:结束于:	2021-01-26 14:33:56
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.09727215766906738 s
+DEBUG:app:开始于:	2021-01-26 14:33:56
+DEBUG:app:结束于:	2021-01-26 14:33:56
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.11615395545959473 s
+DEBUG:app:开始于:	2021-01-26 14:33:56
+DEBUG:app:结束于:	2021-01-26 14:33:57
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.10011816024780273 s
+DEBUG:app:开始于:	2021-01-26 14:33:57
+DEBUG:app:结束于:	2021-01-26 14:33:57
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.09053325653076172 s
+DEBUG:app:开始于:	2021-01-26 14:33:57
+DEBUG:app:结束于:	2021-01-26 14:33:57
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.10129976272583008 s
+DEBUG:app:开始于:	2021-01-26 14:33:57
+DEBUG:app:结束于:	2021-01-26 14:33:57
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.09446001052856445 s
+DEBUG:app:开始于:	2021-01-26 14:33:57
+DEBUG:app:结束于:	2021-01-26 14:33:57
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.09628486633300781 s
+DEBUG:app:开始于:	2021-01-26 14:33:57
+DEBUG:app:结束于:	2021-01-26 14:33:57
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:33:57] "[37mGET /table/all HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in '/Users/suoweihu/Documents/GitHub/Excel-Online-App/modules/_Database_Utils.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 270-674-982
+INFO:werkzeug: * Detected change in '/Users/suoweihu/Documents/GitHub/Excel-Online-App/modules/_Database_Utils.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 270-674-982
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:45] "[32mGET /table/show?table_name=1111退回任务_copy.xlsx HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:46] "[37mGET /edit/1111退回任务_copy HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.05357980728149414 s
+DEBUG:app:开始于:	2021-01-26 14:34:46
+DEBUG:app:结束于:	2021-01-26 14:34:46
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:46] "[37mGET /data/1111退回任务_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.10120010375976562 s
+DEBUG:app:开始于:	2021-01-26 14:34:49
+DEBUG:app:结束于:	2021-01-26 14:34:49
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.08452916145324707 s
+DEBUG:app:开始于:	2021-01-26 14:34:49
+DEBUG:app:结束于:	2021-01-26 14:34:49
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.10338401794433594 s
+DEBUG:app:开始于:	2021-01-26 14:34:49
+DEBUG:app:结束于:	2021-01-26 14:34:49
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.09396195411682129 s
+DEBUG:app:开始于:	2021-01-26 14:34:49
+DEBUG:app:结束于:	2021-01-26 14:34:50
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.08349800109863281 s
+DEBUG:app:开始于:	2021-01-26 14:34:50
+DEBUG:app:结束于:	2021-01-26 14:34:50
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.09319114685058594 s
+DEBUG:app:开始于:	2021-01-26 14:34:50
+DEBUG:app:结束于:	2021-01-26 14:34:50
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.12053298950195312 s
+DEBUG:app:开始于:	2021-01-26 14:34:50
+DEBUG:app:结束于:	2021-01-26 14:34:50
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.11655998229980469 s
+DEBUG:app:开始于:	2021-01-26 14:34:50
+DEBUG:app:结束于:	2021-01-26 14:34:50
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.1205759048461914 s
+DEBUG:app:开始于:	2021-01-26 14:34:50
+DEBUG:app:结束于:	2021-01-26 14:34:50
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.11889410018920898 s
+DEBUG:app:开始于:	2021-01-26 14:34:50
+DEBUG:app:结束于:	2021-01-26 14:34:51
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.07857823371887207 s
+DEBUG:app:开始于:	2021-01-26 14:34:51
+DEBUG:app:结束于:	2021-01-26 14:34:51
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.0978550910949707 s
+DEBUG:app:开始于:	2021-01-26 14:34:51
+DEBUG:app:结束于:	2021-01-26 14:34:51
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:51] "[37mGET /table/all HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:51] "[37mGET /static/layui/dist/lay/modules/jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:51] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:52] "[32mGET / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:52] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:54] "[37mPOST /login HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:55] "[32mPOST /redirect HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:55] "[32mGET /index HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:56] "[35m[1mGET /table/all HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 2464, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 359, in table
+    return table_main(cur, limit, user)
+  File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 126, in table_main
+    Database_Utils.stat.get_completionState(config=config, authorized_banknos=Database_Utils.user.get_rows(user))
+  File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/modules/_Database_Utils.py", line 236, in get_completionState
+    round(count_completed/count_all * 100, 1),
+ZeroDivisionError: division by zero
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:56] "[37mGET /table/all?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:56] "[37mGET /table/all?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:56] "[37mGET /table/all?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:56] "[37mGET /table/all?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:56] "[37mGET /table/all?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:56] "[37mGET /table/all?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in '/Users/suoweihu/Documents/GitHub/Excel-Online-App/modules/_Database_Utils.py', reloading
+INFO:werkzeug: * Restarting with stat
+Traceback (most recent call last):
+  File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/main.py", line 1, in <module>
+    from routes import app
+  File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes.py", line 25, in <module>
+    from routes_table import *
+  File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 16, in <module>
+    from modules._Database  import MongoDatabase, DB_Config
+  File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/modules/__init__.py", line 6, in <module>
+    from ._Database_Utils import Database_Utils
+  File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/modules/_Database_Utils.py", line 238
+    ,
+    ^
+SyntaxError: invalid syntax

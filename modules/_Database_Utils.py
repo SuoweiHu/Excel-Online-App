@@ -156,7 +156,7 @@ class Database_Utils:
                 if(cell_all_complted): count += 1
 
             return count 
-        # 得到表格完成百分比  (admin)
+        # 得到表格完成百分比  (admin) (DEPRECATED)
         def get_completionPercentage(tb_name=None, config=None):
             if(tb_name is not None) and (config is None):
                 config = DB_Config()
@@ -193,6 +193,11 @@ class Database_Utils:
             meta             = Database_Utils.meta.load_tablemMeta(table_name)
             all_titles       = meta['titles']
             must_fill_titles = meta['mustFill_titles']
+            fixed_titles     = set(meta['fixed_titles'])
+
+            # 除去预设部分
+            must_fill_titles = [item for item in must_fill_titles if item not in fixed_titles]
+
 
             for bankno in authorized_banknos:
                 bankno = str(bankno)
@@ -225,10 +230,12 @@ class Database_Utils:
 
             # Return check result
             count_completed = (count_all-count_uncompleted)
+            if(count_all == 0): percentage = 100.0
+            else: percentage = round(count_completed/count_all * 100, 1)
             return (count_uncompleted,
                     count_completed,
                     count_all,
-                    round(count_completed/count_all * 100, 1),
+                    percentage,
                     count_completed==count_all)
 
     class meta:

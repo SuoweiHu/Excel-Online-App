@@ -96,7 +96,7 @@ def table_main(cur, limit, user):
             count_row_completed   = Database_Utils.stat.count_completedRows(config=config)
             count_row_uncompleted = Database_Utils.stat.count_allRows(config=config) - count_row_completed
             # completion_percent    = Database_Utils.stat.get_completionPercentage(config=config)
-            completion_percent    = round(count_row_completed/(count_row_uncompleted+count_row_completed), 2)
+            completion_percent    = round(count_row_completed/(count_row_uncompleted+count_row_completed)*100, 2)
             timer.end()
 
             temp_dict[row_completed_title] = str(count_row_completed)
