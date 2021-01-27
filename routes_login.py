@@ -109,8 +109,6 @@ def api_login_success():
     app.logger.debug(f'\t\t权限：{authorized_nums}')
     authorized_nums          = authorized_nums.split(',')
     authorized_nums          = [int(num) for num in authorized_nums]   
-    print(authorized_nums)
-    print('='*100)
 
     # 存入数据库/会话 + 跳转
     Database_Utils.user.del_user_brutal(name=operator_name)

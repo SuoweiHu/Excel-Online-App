@@ -193,8 +193,8 @@ class MongoDatabase:
                         document = db_collection.find(search_query).sort(sort[0], sort[1])
                     # del document["_id"]
                     return document
-                else:raise(f"Document specified does not exist. (Document of {str(search_query)}")
-            else:raise(f"Collection specified does not exist. (Collection of _name={collection}")
+                else: raise RuntimeError(f"Document specified does not exist. (Document of {str(search_query)}")
+            else: raise RuntimeError(f"Collection specified does not exist. (Collection of _name_={collection}")
 
     def list_tableData_collectionNames(self, exclude_collections=DB_Config.noneData_collection_names, database=None):
         """

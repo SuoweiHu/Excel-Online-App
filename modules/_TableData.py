@@ -195,6 +195,7 @@ class TableData:
             self.rows      = []      # 表数据
             self.operators = []      # 表操作员
             rows           = list(json.items()) # 表
+            if(len(rows)==0): return
 
             # 读取标题 ===============
             first_row_data = rows[0][1]['data']

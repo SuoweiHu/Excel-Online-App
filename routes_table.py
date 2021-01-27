@@ -482,9 +482,17 @@ def export_table_data(table_name):
     role  = ("管理员") if Database_Utils.user.check_admin(session['operator_name']) else ("普通用户")
     timer = debugTimer(f"开始获取表格 (用户:{session['operator_name']}, 权限: {role})", "获取表格完毕")
     timer.start()
+    # 生成查询问句
     if(Database_Utils.user.check_admin(session['operator_name'])):row_query = {}
     else:row_query = {'data.行号': {'$in': authorized_rows}}
-    table_data = Database_Utils.table.load_table(tb_name=table_name, search_query=row_query, sort=sort)
+    # 尝试获取数据（如果不存在数据则会抛出RuntimeError错误）
+    try: 
+        table_data = Database_Utils.table.load_table(tb_name=table_name, search_query=row_query, sort=sort)
+        print(table_data.toJson)
+    except RuntimeError as e: 
+        app.logger.debug(e)
+        emptyTable_json = dict({})
+        table_data = TableData(json=emptyTable_json, tb_name=table_show)
     timer.end()
 
     # print(table_data.rows)
