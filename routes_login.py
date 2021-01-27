@@ -80,18 +80,18 @@ def api_login_success():
     - key_authorized_nums:      用户可操作的行号（例：733101,733102,733121）
 
     若定义
-    - key_operator_name:        account
-    - key_operator_nickname:    nickname
-    - key_authorized_nums:      auth
+    - key_operator_name:        logon_usr_id
+    - key_operator_nickname:    usr_cn_nm
+    - key_authorized_nums:      belg_org_id
 
     那么最后访问的URL，例如如下：
     /api/login?account=zhang_san1&nickname=张三&auth=733101,733102,733121
     """
 
     # 请求字段键名
-    key_operator_name        = "account"
-    key_operator_nickname    = "nickname"
-    key_authorized_nums      = "auth"
+    key_operator_name        = "logon_usr_id"
+    key_operator_nickname    = "usr_cn_nm"
+    key_authorized_nums      = "belg_org_id"
 
     # 重置会话
     session.pop('operator')

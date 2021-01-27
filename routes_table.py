@@ -75,11 +75,17 @@ def table_main(cur, limit, user):
     button_title                = "操作"                 # Usually empty string like ""
     button_placeholder_front    = "@@@@"                # @@@@@@@@@@@@@@@@@@@@'
     button_placeholder_back     = "####"                # ####################'
+    upload_account_title        = "提交人"
+    upload_time_title           = "提交时间"
+    due_date_title              = "截止日期"
 
     # Append to json dict
     json_collections= []
     file_upload_html= "none"
+    calculated_table_count = 1
     for col_name in collection_names: 
+        if(calculated_table_count > sheet_indexEnd):break
+        else: calculated_table_count += 1
         temp_dict = {}
         temp_dict[title] = col_name
         
@@ -90,15 +96,25 @@ def table_main(cur, limit, user):
             config=DB_Config()
             config.tb_name = f"{temp_dict[title]}.xlsx"
             config.collection_name = f"{temp_dict[title]}"
+
+            # 提交人/提交时间/截止日期
             tb_meta  = (Database_Utils.meta.load_tablemMeta(config.tb_name.split('.')[0]))
-            timer = debugTimer(f"主界面-开始统计表格: {config.tb_name}", f"完成统计表格 (总计处理了: { tb_meta['count'] } 行 { len(tb_meta['titles']) } 列)")
+            if('upload_operator' in tb_meta.keys()):temp_dict[upload_account_title]=tb_meta['upload_operator']
+            elif('upload_account' in tb_meta.keys()):temp_dict[upload_account_title]=tb_meta['upload_account']
+            else:temp_dict[upload_account_title]=""
+            if('upload_time' in tb_meta.keys()):temp_dict[upload_time_title]=tb_meta['upload_time']
+            else:temp_dict[upload_time_title]=""
+            if('due' in tb_meta.keys()):temp_dict[due_date_title]=tb_meta['due']
+            else:temp_dict[due_date_title]=""
+
+            # 统计完成度
+            timer = debugTimer(f"主界面-开始统计表格: {config.tb_name}  (第{calculated_table_count-1}/{sheet_indexEnd}表格)", f"完成统计表格 (总计处理了: { tb_meta['count'] } 行 { len(tb_meta['titles']) } 列)")
             timer.start()
             count_row_completed   = Database_Utils.stat.count_completedRows(config=config)
             count_row_uncompleted = Database_Utils.stat.count_allRows(config=config) - count_row_completed
             # completion_percent    = Database_Utils.stat.get_completionPercentage(config=config)
             completion_percent    = round(count_row_completed/(count_row_uncompleted+count_row_completed)*100, 2)
             timer.end()
-
             temp_dict[row_completed_title] = str(count_row_completed)
             temp_dict[row_allNumRows_title] = str(count_row_uncompleted+count_row_completed)
             # temp_dict["完成/全部行数"] = str(count_row_completed) + " / " + str(count_row_uncompleted+count_row_completed)
@@ -120,6 +136,16 @@ def table_main(cur, limit, user):
             config=DB_Config()
             config.tb_name = f"{temp_dict[title]}.xlsx"
             config.collection_name = f"{temp_dict[title]}"
+
+            # 提交人/提交时间/截止日期
+            tb_meta  = (Database_Utils.meta.load_tablemMeta(config.tb_name.split('.')[0]))
+            if('upload_operator' in tb_meta.keys()):temp_dict[upload_account_title]=tb_meta['upload_operator']
+            elif('upload_account' in tb_meta.keys()):temp_dict[upload_account_title]=tb_meta['upload_account']
+            else:temp_dict[upload_account_title]=""
+            if('upload_time' in tb_meta.keys()):temp_dict[upload_time_title]=tb_meta['upload_time']
+            else:temp_dict[upload_time_title]=""
+            if('due' in tb_meta.keys()):temp_dict[due_date_title]=tb_meta['due']
+            else:temp_dict[due_date_title]=""
 
             # 获取列表完成状态信息
             rows_uncompleted, rows_complted, rows_all_, completion_percentage_, rows_complete_state = \
@@ -458,10 +484,6 @@ def export_table_data(table_name):
     timer.start()
     if(Database_Utils.user.check_admin(session['operator_name'])):row_query = {}
     else:row_query = {'data.行号': {'$in': authorized_rows}}
-    app.logger.warn(table_name)
-    app.logger.warn(row_query)
-    app.logger.warn(sort)
-
     table_data = Database_Utils.table.load_table(tb_name=table_name, search_query=row_query, sort=sort)
     timer.end()
 

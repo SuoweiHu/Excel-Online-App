@@ -13,7 +13,7 @@
 </head>
 <body>
     <div style="padding: 20px; background-color: #ffffff;">
-            <button style="display: inline; float: right;" onclick="check_user_info()" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius">{{session['operator_name']}}</button>
+            <button style="display: inline; float: right;" onclick="check_user_info()" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius">{{session['nickname']}}</button>
             <form action="/table/all" method="get" style="padding-left: 10px;">
                 <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回全部表格 </button>
             </form>

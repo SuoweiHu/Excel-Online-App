@@ -180,6 +180,8 @@ def generate_tableMeta(tableData):
 
 
     # ---上传表格的元数据--------------------------------------------
+    op_name = session['operator_name']
+    op_time = gen_dateTime_str()
     meta = {
         "tb_name"           : tableData.tb_name,
         "count"             : len(tableData.operators),
@@ -187,7 +189,11 @@ def generate_tableMeta(tableData):
         "fixed_titles"      : fixed_titles,
         "mustFill_titles"   : [],
         "option_titles"     : option_titles,
-        "option_optionDict" : option_optionDict
+        "option_optionDict" : option_optionDict,
+        "upload_operator"   : op_name,
+        "upload_time"       : op_time,
+        "due"               : "",
+        "comment"           : ""
     }
     timer = debugTimer(f"上传文件页面 - 开始上传表格元数据", f"完成上传元数据操作 ({tableData.tb_name})")
     timer.start()
