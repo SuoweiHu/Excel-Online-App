@@ -3171,3 +3171,1590 @@ Traceback (most recent call last):
     ,
     ^
 SyntaxError: invalid syntax
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+INFO:werkzeug: * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 270-674-982
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+INFO:werkzeug: * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 270-674-982
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:41:30] "[32mGET / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:41:30] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:41:36] "[37mPOST /login HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:41:37] "[32mPOST /redirect HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:41:37] "[32mGET /index HTTP/1.1[0m" 302 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.14594507217407227 s
+DEBUG:app:开始于:	2021-01-26 15:41:37
+DEBUG:app:结束于:	2021-01-26 15:41:37
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1500239372253418 s
+DEBUG:app:开始于:	2021-01-26 15:41:37
+DEBUG:app:结束于:	2021-01-26 15:41:37
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.148759126663208 s
+DEBUG:app:开始于:	2021-01-26 15:41:38
+DEBUG:app:结束于:	2021-01-26 15:41:38
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1507432460784912 s
+DEBUG:app:开始于:	2021-01-26 15:41:38
+DEBUG:app:结束于:	2021-01-26 15:41:38
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.1507430076599121 s
+DEBUG:app:开始于:	2021-01-26 15:41:38
+DEBUG:app:结束于:	2021-01-26 15:41:38
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.11096787452697754 s
+DEBUG:app:开始于:	2021-01-26 15:41:38
+DEBUG:app:结束于:	2021-01-26 15:41:38
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.14844202995300293 s
+DEBUG:app:开始于:	2021-01-26 15:41:39
+DEBUG:app:结束于:	2021-01-26 15:41:39
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.15236186981201172 s
+DEBUG:app:开始于:	2021-01-26 15:41:39
+DEBUG:app:结束于:	2021-01-26 15:41:39
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.14524078369140625 s
+DEBUG:app:开始于:	2021-01-26 15:41:39
+DEBUG:app:结束于:	2021-01-26 15:41:39
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.152846097946167 s
+DEBUG:app:开始于:	2021-01-26 15:41:39
+DEBUG:app:结束于:	2021-01-26 15:41:39
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.11134076118469238 s
+DEBUG:app:开始于:	2021-01-26 15:41:39
+DEBUG:app:结束于:	2021-01-26 15:41:40
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14886784553527832 s
+DEBUG:app:开始于:	2021-01-26 15:41:40
+DEBUG:app:结束于:	2021-01-26 15:41:40
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:41:40] "[37mGET /table/all HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:41:42] "[32mGET /table/show?table_name=1111退回任务.xlsx HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:41:43] "[37mGET /edit/1111退回任务 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.10142183303833008 s
+DEBUG:app:开始于:	2021-01-26 15:41:43
+DEBUG:app:结束于:	2021-01-26 15:41:43
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:41:43] "[37mGET /data/1111退回任务?page=1&limit=20 HTTP/1.1[0m" 200 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.14931988716125488 s
+DEBUG:app:开始于:	2021-01-26 15:41:50
+DEBUG:app:结束于:	2021-01-26 15:41:50
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14997291564941406 s
+DEBUG:app:开始于:	2021-01-26 15:41:51
+DEBUG:app:结束于:	2021-01-26 15:41:51
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1492469310760498 s
+DEBUG:app:开始于:	2021-01-26 15:41:51
+DEBUG:app:结束于:	2021-01-26 15:41:51
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1504960060119629 s
+DEBUG:app:开始于:	2021-01-26 15:41:51
+DEBUG:app:结束于:	2021-01-26 15:41:51
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.1526029109954834 s
+DEBUG:app:开始于:	2021-01-26 15:41:51
+DEBUG:app:结束于:	2021-01-26 15:41:51
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.15502429008483887 s
+DEBUG:app:开始于:	2021-01-26 15:41:52
+DEBUG:app:结束于:	2021-01-26 15:41:52
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.15760183334350586 s
+DEBUG:app:开始于:	2021-01-26 15:41:52
+DEBUG:app:结束于:	2021-01-26 15:41:52
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.14225482940673828 s
+DEBUG:app:开始于:	2021-01-26 15:41:52
+DEBUG:app:结束于:	2021-01-26 15:41:52
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.154052734375 s
+DEBUG:app:开始于:	2021-01-26 15:41:52
+DEBUG:app:结束于:	2021-01-26 15:41:52
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.15368199348449707 s
+DEBUG:app:开始于:	2021-01-26 15:41:53
+DEBUG:app:结束于:	2021-01-26 15:41:53
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.15037298202514648 s
+DEBUG:app:开始于:	2021-01-26 15:41:53
+DEBUG:app:结束于:	2021-01-26 15:41:53
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1495058536529541 s
+DEBUG:app:开始于:	2021-01-26 15:41:53
+DEBUG:app:结束于:	2021-01-26 15:41:53
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:41:53] "[37mGET /table/all HTTP/1.1[0m" 200 -
+DEBUG:app:		上传文件页面 - 开始上传表格元数据
+DEBUG:app:		完成上传元数据操作 (Madness)
+DEBUG:app:  耗时:	0.09096288681030273 s
+DEBUG:app:开始于:	2021-01-26 15:43:48
+DEBUG:app:结束于:	2021-01-26 15:43:48
+DEBUG:app:发现“行号”标题，进入选择必填列页面
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:43:49] "[32mPOST /file HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:43:50] "[37mGET /select_RequredAttribute/Madness/False HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:43:52] "[37mPOST /update_requiredTitles/Madness HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:43:52] "[37mGET /upload_success/Madness?table_name=Madness HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:43:53] "[32mGET /table/show?table_name=Madness HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:43:53] "[37mGET /select_RequredAttribute/Madness/False HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:43:54] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.1271500587463379 s
+DEBUG:app:开始于:	2021-01-26 15:43:54
+DEBUG:app:结束于:	2021-01-26 15:43:54
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:43:54] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.151810884475708 s
+DEBUG:app:开始于:	2021-01-26 15:43:56
+DEBUG:app:结束于:	2021-01-26 15:43:56
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14796900749206543 s
+DEBUG:app:开始于:	2021-01-26 15:43:56
+DEBUG:app:结束于:	2021-01-26 15:43:56
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1511850357055664 s
+DEBUG:app:开始于:	2021-01-26 15:43:56
+DEBUG:app:结束于:	2021-01-26 15:43:56
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14981389045715332 s
+DEBUG:app:开始于:	2021-01-26 15:43:57
+DEBUG:app:结束于:	2021-01-26 15:43:57
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.15317797660827637 s
+DEBUG:app:开始于:	2021-01-26 15:43:57
+DEBUG:app:结束于:	2021-01-26 15:43:57
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.1557328701019287 s
+DEBUG:app:开始于:	2021-01-26 15:43:57
+DEBUG:app:结束于:	2021-01-26 15:43:57
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.1456739902496338 s
+DEBUG:app:开始于:	2021-01-26 15:43:57
+DEBUG:app:结束于:	2021-01-26 15:43:57
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.15221714973449707 s
+DEBUG:app:开始于:	2021-01-26 15:43:58
+DEBUG:app:结束于:	2021-01-26 15:43:58
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.15006709098815918 s
+DEBUG:app:开始于:	2021-01-26 15:43:58
+DEBUG:app:结束于:	2021-01-26 15:43:58
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.15034723281860352 s
+DEBUG:app:开始于:	2021-01-26 15:43:58
+DEBUG:app:结束于:	2021-01-26 15:43:58
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.15135526657104492 s
+DEBUG:app:开始于:	2021-01-26 15:43:58
+DEBUG:app:结束于:	2021-01-26 15:43:58
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1479182243347168 s
+DEBUG:app:开始于:	2021-01-26 15:43:59
+DEBUG:app:结束于:	2021-01-26 15:43:59
+DEBUG:app:		主界面-开始统计表格: Madness.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 998 行 37 列)
+DEBUG:app:  耗时:	1.2485270500183105 s
+DEBUG:app:开始于:	2021-01-26 15:43:59
+DEBUG:app:结束于:	2021-01-26 15:44:00
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:44:00] "[37mGET /table/all HTTP/1.1[0m" 200 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.14899301528930664 s
+DEBUG:app:开始于:	2021-01-26 15:44:04
+DEBUG:app:结束于:	2021-01-26 15:44:04
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1503620147705078 s
+DEBUG:app:开始于:	2021-01-26 15:44:04
+DEBUG:app:结束于:	2021-01-26 15:44:04
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1508190631866455 s
+DEBUG:app:开始于:	2021-01-26 15:44:04
+DEBUG:app:结束于:	2021-01-26 15:44:04
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.149139404296875 s
+DEBUG:app:开始于:	2021-01-26 15:44:04
+DEBUG:app:结束于:	2021-01-26 15:44:05
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.15148591995239258 s
+DEBUG:app:开始于:	2021-01-26 15:44:05
+DEBUG:app:结束于:	2021-01-26 15:44:05
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.15505194664001465 s
+DEBUG:app:开始于:	2021-01-26 15:44:05
+DEBUG:app:结束于:	2021-01-26 15:44:05
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.15023493766784668 s
+DEBUG:app:开始于:	2021-01-26 15:44:05
+DEBUG:app:结束于:	2021-01-26 15:44:05
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.15292787551879883 s
+DEBUG:app:开始于:	2021-01-26 15:44:05
+DEBUG:app:结束于:	2021-01-26 15:44:06
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.14664316177368164 s
+DEBUG:app:开始于:	2021-01-26 15:44:06
+DEBUG:app:结束于:	2021-01-26 15:44:06
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.15504717826843262 s
+DEBUG:app:开始于:	2021-01-26 15:44:06
+DEBUG:app:结束于:	2021-01-26 15:44:06
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14966869354248047 s
+DEBUG:app:开始于:	2021-01-26 15:44:06
+DEBUG:app:结束于:	2021-01-26 15:44:06
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.15503311157226562 s
+DEBUG:app:开始于:	2021-01-26 15:44:06
+DEBUG:app:结束于:	2021-01-26 15:44:07
+DEBUG:app:		主界面-开始统计表格: Madness.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 998 行 37 列)
+DEBUG:app:  耗时:	1.2446730136871338 s
+DEBUG:app:开始于:	2021-01-26 15:44:07
+DEBUG:app:结束于:	2021-01-26 15:44:08
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:44:08] "[37mGET /table/all?curr=2&limit=10 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:44:13] "[32mGET /table/show?table_name=Madness.xlsx HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:44:14] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.12810802459716797 s
+DEBUG:app:开始于:	2021-01-26 15:44:15
+DEBUG:app:结束于:	2021-01-26 15:44:15
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:44:15] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.13010382652282715 s
+DEBUG:app:开始于:	2021-01-26 15:44:18
+DEBUG:app:结束于:	2021-01-26 15:44:18
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:44:18] "[37mGET /data/Madness?page=1&limit=1000000 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:52:55] "[32mGET / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:52:55] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:52:55] "[32mGET / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:53:00] "[37mPOST /login HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:53:01] "[32mPOST /redirect HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:53:01] "[32mGET /index HTTP/1.1[0m" 302 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.11206603050231934 s
+DEBUG:app:开始于:	2021-01-26 15:53:01
+DEBUG:app:结束于:	2021-01-26 15:53:01
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14755821228027344 s
+DEBUG:app:开始于:	2021-01-26 15:53:01
+DEBUG:app:结束于:	2021-01-26 15:53:01
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.10889387130737305 s
+DEBUG:app:开始于:	2021-01-26 15:53:01
+DEBUG:app:结束于:	2021-01-26 15:53:01
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14997577667236328 s
+DEBUG:app:开始于:	2021-01-26 15:53:02
+DEBUG:app:结束于:	2021-01-26 15:53:02
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.11522793769836426 s
+DEBUG:app:开始于:	2021-01-26 15:53:02
+DEBUG:app:结束于:	2021-01-26 15:53:02
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.14627885818481445 s
+DEBUG:app:开始于:	2021-01-26 15:53:02
+DEBUG:app:结束于:	2021-01-26 15:53:02
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.14193391799926758 s
+DEBUG:app:开始于:	2021-01-26 15:53:02
+DEBUG:app:结束于:	2021-01-26 15:53:02
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.15397882461547852 s
+DEBUG:app:开始于:	2021-01-26 15:53:02
+DEBUG:app:结束于:	2021-01-26 15:53:03
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.1574559211730957 s
+DEBUG:app:开始于:	2021-01-26 15:53:03
+DEBUG:app:结束于:	2021-01-26 15:53:03
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.14397478103637695 s
+DEBUG:app:开始于:	2021-01-26 15:53:03
+DEBUG:app:结束于:	2021-01-26 15:53:03
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1504220962524414 s
+DEBUG:app:开始于:	2021-01-26 15:53:03
+DEBUG:app:结束于:	2021-01-26 15:53:03
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.15280389785766602 s
+DEBUG:app:开始于:	2021-01-26 15:53:03
+DEBUG:app:结束于:	2021-01-26 15:53:04
+DEBUG:app:		主界面-开始统计表格: Madness.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 998 行 37 列)
+DEBUG:app:  耗时:	1.1540043354034424 s
+DEBUG:app:开始于:	2021-01-26 15:53:04
+DEBUG:app:结束于:	2021-01-26 15:53:05
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:53:05] "[37mGET /table/all HTTP/1.1[0m" 200 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.10906529426574707 s
+DEBUG:app:开始于:	2021-01-26 15:53:13
+DEBUG:app:结束于:	2021-01-26 15:53:13
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.15090417861938477 s
+DEBUG:app:开始于:	2021-01-26 15:53:13
+DEBUG:app:结束于:	2021-01-26 15:53:13
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14832210540771484 s
+DEBUG:app:开始于:	2021-01-26 15:53:13
+DEBUG:app:结束于:	2021-01-26 15:53:13
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14325189590454102 s
+DEBUG:app:开始于:	2021-01-26 15:53:13
+DEBUG:app:结束于:	2021-01-26 15:53:13
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.14738678932189941 s
+DEBUG:app:开始于:	2021-01-26 15:53:14
+DEBUG:app:结束于:	2021-01-26 15:53:14
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.15323805809020996 s
+DEBUG:app:开始于:	2021-01-26 15:53:14
+DEBUG:app:结束于:	2021-01-26 15:53:14
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.14986705780029297 s
+DEBUG:app:开始于:	2021-01-26 15:53:14
+DEBUG:app:结束于:	2021-01-26 15:53:14
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.15233612060546875 s
+DEBUG:app:开始于:	2021-01-26 15:53:14
+DEBUG:app:结束于:	2021-01-26 15:53:14
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.1500868797302246 s
+DEBUG:app:开始于:	2021-01-26 15:53:15
+DEBUG:app:结束于:	2021-01-26 15:53:15
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.15575718879699707 s
+DEBUG:app:开始于:	2021-01-26 15:53:15
+DEBUG:app:结束于:	2021-01-26 15:53:15
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14327430725097656 s
+DEBUG:app:开始于:	2021-01-26 15:53:15
+DEBUG:app:结束于:	2021-01-26 15:53:15
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1495378017425537 s
+DEBUG:app:开始于:	2021-01-26 15:53:15
+DEBUG:app:结束于:	2021-01-26 15:53:15
+DEBUG:app:		主界面-开始统计表格: Madness.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 998 行 37 列)
+DEBUG:app:  耗时:	1.0514121055603027 s
+DEBUG:app:开始于:	2021-01-26 15:53:16
+DEBUG:app:结束于:	2021-01-26 15:53:17
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:53:17] "[37mGET /table/all?curr=2&limit=10 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:53:30] "[32mGET /table/show?table_name=Madness.xlsx HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:53:31] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.09145593643188477 s
+DEBUG:app:开始于:	2021-01-26 15:53:31
+DEBUG:app:结束于:	2021-01-26 15:53:31
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:53:31] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:54:19] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.08841109275817871 s
+DEBUG:app:开始于:	2021-01-26 15:54:19
+DEBUG:app:结束于:	2021-01-26 15:54:19
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:54:19] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:55:08] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.08456230163574219 s
+DEBUG:app:开始于:	2021-01-26 15:55:08
+DEBUG:app:结束于:	2021-01-26 15:55:08
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:55:08] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:55:48] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.1207571029663086 s
+DEBUG:app:开始于:	2021-01-26 15:55:48
+DEBUG:app:结束于:	2021-01-26 15:55:48
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:55:48] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.129425048828125 s
+DEBUG:app:开始于:	2021-01-26 15:56:29
+DEBUG:app:结束于:	2021-01-26 15:56:30
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:30] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:38] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.08794879913330078 s
+DEBUG:app:开始于:	2021-01-26 15:56:38
+DEBUG:app:结束于:	2021-01-26 15:56:38
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:38] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:52] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.11389803886413574 s
+DEBUG:app:开始于:	2021-01-26 15:56:52
+DEBUG:app:结束于:	2021-01-26 15:56:52
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:52] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:00] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.1306760311126709 s
+DEBUG:app:开始于:	2021-01-26 15:57:00
+DEBUG:app:结束于:	2021-01-26 15:57:00
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:00] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:06] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.12473607063293457 s
+DEBUG:app:开始于:	2021-01-26 15:57:06
+DEBUG:app:结束于:	2021-01-26 15:57:06
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:06] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:10] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.12843585014343262 s
+DEBUG:app:开始于:	2021-01-26 15:57:10
+DEBUG:app:结束于:	2021-01-26 15:57:11
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:11] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:28] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.12657403945922852 s
+DEBUG:app:开始于:	2021-01-26 15:57:28
+DEBUG:app:结束于:	2021-01-26 15:57:28
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:28] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:53] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.1254258155822754 s
+DEBUG:app:开始于:	2021-01-26 15:57:53
+DEBUG:app:结束于:	2021-01-26 15:57:53
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:53] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:05] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:16] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:23] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+INFO:werkzeug: * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 270-674-982
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:32] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.13814187049865723 s
+DEBUG:app:开始于:	2021-01-26 15:59:33
+DEBUG:app:结束于:	2021-01-26 15:59:34
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1464829444885254 s
+DEBUG:app:开始于:	2021-01-26 15:59:34
+DEBUG:app:结束于:	2021-01-26 15:59:34
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1407029628753662 s
+DEBUG:app:开始于:	2021-01-26 15:59:34
+DEBUG:app:结束于:	2021-01-26 15:59:34
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14939403533935547 s
+DEBUG:app:开始于:	2021-01-26 15:59:34
+DEBUG:app:结束于:	2021-01-26 15:59:34
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.10627508163452148 s
+DEBUG:app:开始于:	2021-01-26 15:59:34
+DEBUG:app:结束于:	2021-01-26 15:59:35
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.14419317245483398 s
+DEBUG:app:开始于:	2021-01-26 15:59:35
+DEBUG:app:结束于:	2021-01-26 15:59:35
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.11175394058227539 s
+DEBUG:app:开始于:	2021-01-26 15:59:35
+DEBUG:app:结束于:	2021-01-26 15:59:35
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.14754295349121094 s
+DEBUG:app:开始于:	2021-01-26 15:59:35
+DEBUG:app:结束于:	2021-01-26 15:59:35
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.15013885498046875 s
+DEBUG:app:开始于:	2021-01-26 15:59:35
+DEBUG:app:结束于:	2021-01-26 15:59:35
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.11009001731872559 s
+DEBUG:app:开始于:	2021-01-26 15:59:36
+DEBUG:app:结束于:	2021-01-26 15:59:36
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.11233091354370117 s
+DEBUG:app:开始于:	2021-01-26 15:59:36
+DEBUG:app:结束于:	2021-01-26 15:59:36
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.15546584129333496 s
+DEBUG:app:开始于:	2021-01-26 15:59:36
+DEBUG:app:结束于:	2021-01-26 15:59:36
+DEBUG:app:		主界面-开始统计表格: Madness.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 998 行 37 列)
+DEBUG:app:  耗时:	1.04705810546875 s
+DEBUG:app:开始于:	2021-01-26 15:59:36
+DEBUG:app:结束于:	2021-01-26 15:59:37
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:37] "[37mGET /table/all HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:41] "[32mGET /table/show?table_name=2020年三季度.xlsx HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:41] "[37mGET /edit/2020年三季度 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:49] "[37mGET /edit/2020年三季度 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.0556187629699707 s
+DEBUG:app:开始于:	2021-01-26 15:59:49
+DEBUG:app:结束于:	2021-01-26 15:59:49
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:49] "[37mGET /data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:01:22] "[37mGET /edit/2020年三季度 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.05811572074890137 s
+DEBUG:app:开始于:	2021-01-26 16:01:22
+DEBUG:app:结束于:	2021-01-26 16:01:22
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:01:22] "[37mGET /data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:06:17] "[37mGET /edit/2020年三季度 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.04326009750366211 s
+DEBUG:app:开始于:	2021-01-26 16:06:17
+DEBUG:app:结束于:	2021-01-26 16:06:17
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:06:17] "[37mGET /data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:12] "[37mGET /edit/2020年三季度 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.04026913642883301 s
+DEBUG:app:开始于:	2021-01-26 16:12:12
+DEBUG:app:结束于:	2021-01-26 16:12:12
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:12] "[37mGET /data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:26] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /edit/2020年三季度 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /static/layui/dist/layui.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /static/layui/dist/lay/modules/table.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /static/layui/dist/lay/modules/laytpl.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /static/layui/dist/lay/modules/laypage.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /static/layui/dist/lay/modules/layer.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /static/layui/dist/css/modules/layer/default/layer.css?v=3.1.1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /static/layui/dist/lay/modules/form.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /static/layui/dist/lay/modules/util.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /static/layui/dist/font/iconfont.woff2?v=256 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.0502629280090332 s
+DEBUG:app:开始于:	2021-01-26 16:12:46
+DEBUG:app:结束于:	2021-01-26 16:12:46
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:46] "[37mGET /data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:58] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:13:40] "[32mGET / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:13:40] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:13:41] "[32mGET / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:13:41] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:13:44] "[37mPOST /login HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:13:45] "[32mPOST /redirect HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:13:45] "[32mGET /index HTTP/1.1[0m" 302 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.08249402046203613 s
+DEBUG:app:开始于:	2021-01-26 16:13:45
+DEBUG:app:结束于:	2021-01-26 16:13:45
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.08337092399597168 s
+DEBUG:app:开始于:	2021-01-26 16:13:45
+DEBUG:app:结束于:	2021-01-26 16:13:45
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.09250903129577637 s
+DEBUG:app:开始于:	2021-01-26 16:13:45
+DEBUG:app:结束于:	2021-01-26 16:13:46
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.07996916770935059 s
+DEBUG:app:开始于:	2021-01-26 16:13:46
+DEBUG:app:结束于:	2021-01-26 16:13:46
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.06957697868347168 s
+DEBUG:app:开始于:	2021-01-26 16:13:46
+DEBUG:app:结束于:	2021-01-26 16:13:46
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.09676599502563477 s
+DEBUG:app:开始于:	2021-01-26 16:13:46
+DEBUG:app:结束于:	2021-01-26 16:13:46
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.12639188766479492 s
+DEBUG:app:开始于:	2021-01-26 16:13:46
+DEBUG:app:结束于:	2021-01-26 16:13:46
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.10300588607788086 s
+DEBUG:app:开始于:	2021-01-26 16:13:46
+DEBUG:app:结束于:	2021-01-26 16:13:46
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.09533214569091797 s
+DEBUG:app:开始于:	2021-01-26 16:13:46
+DEBUG:app:结束于:	2021-01-26 16:13:46
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.09360003471374512 s
+DEBUG:app:开始于:	2021-01-26 16:13:46
+DEBUG:app:结束于:	2021-01-26 16:13:47
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.07325601577758789 s
+DEBUG:app:开始于:	2021-01-26 16:13:47
+DEBUG:app:结束于:	2021-01-26 16:13:47
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.0940389633178711 s
+DEBUG:app:开始于:	2021-01-26 16:13:47
+DEBUG:app:结束于:	2021-01-26 16:13:47
+DEBUG:app:		主界面-开始统计表格: Madness.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 998 行 37 列)
+DEBUG:app:  耗时:	1.4877407550811768 s
+DEBUG:app:开始于:	2021-01-26 16:13:47
+DEBUG:app:结束于:	2021-01-26 16:13:48
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:13:48] "[37mGET /table/all HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:14:45] "[37mGET /select_RequredAttribute/DEMO_TABLE_1/True HTTP/1.1[0m" 200 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.07702207565307617 s
+DEBUG:app:开始于:	2021-01-26 16:15:02
+DEBUG:app:结束于:	2021-01-26 16:15:02
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.06954288482666016 s
+DEBUG:app:开始于:	2021-01-26 16:15:02
+DEBUG:app:结束于:	2021-01-26 16:15:02
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.08666706085205078 s
+DEBUG:app:开始于:	2021-01-26 16:15:02
+DEBUG:app:结束于:	2021-01-26 16:15:02
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.0731661319732666 s
+DEBUG:app:开始于:	2021-01-26 16:15:02
+DEBUG:app:结束于:	2021-01-26 16:15:02
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.07841086387634277 s
+DEBUG:app:开始于:	2021-01-26 16:15:02
+DEBUG:app:结束于:	2021-01-26 16:15:02
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.07447981834411621 s
+DEBUG:app:开始于:	2021-01-26 16:15:02
+DEBUG:app:结束于:	2021-01-26 16:15:02
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.09520196914672852 s
+DEBUG:app:开始于:	2021-01-26 16:15:03
+DEBUG:app:结束于:	2021-01-26 16:15:03
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.08930706977844238 s
+DEBUG:app:开始于:	2021-01-26 16:15:03
+DEBUG:app:结束于:	2021-01-26 16:15:03
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.09794378280639648 s
+DEBUG:app:开始于:	2021-01-26 16:15:03
+DEBUG:app:结束于:	2021-01-26 16:15:03
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.07290506362915039 s
+DEBUG:app:开始于:	2021-01-26 16:15:03
+DEBUG:app:结束于:	2021-01-26 16:15:03
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.0816340446472168 s
+DEBUG:app:开始于:	2021-01-26 16:15:03
+DEBUG:app:结束于:	2021-01-26 16:15:03
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.0658729076385498 s
+DEBUG:app:开始于:	2021-01-26 16:15:03
+DEBUG:app:结束于:	2021-01-26 16:15:03
+DEBUG:app:		主界面-开始统计表格: Madness.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 998 行 37 列)
+DEBUG:app:  耗时:	1.1680152416229248 s
+DEBUG:app:开始于:	2021-01-26 16:15:03
+DEBUG:app:结束于:	2021-01-26 16:15:04
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:15:05] "[37mGET /table/all HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:15:34] "[32mGET /table/show?table_name=DEMO_TABLE_1.xlsx HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:15:34] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.04414677619934082 s
+DEBUG:app:开始于:	2021-01-26 16:15:35
+DEBUG:app:结束于:	2021-01-26 16:15:35
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:15:35] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.07792997360229492 s
+DEBUG:app:开始于:	2021-01-26 16:15:44
+DEBUG:app:结束于:	2021-01-26 16:15:44
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.0772390365600586 s
+DEBUG:app:开始于:	2021-01-26 16:15:44
+DEBUG:app:结束于:	2021-01-26 16:15:44
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.07407999038696289 s
+DEBUG:app:开始于:	2021-01-26 16:15:44
+DEBUG:app:结束于:	2021-01-26 16:15:44
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.07159090042114258 s
+DEBUG:app:开始于:	2021-01-26 16:15:44
+DEBUG:app:结束于:	2021-01-26 16:15:44
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.0769350528717041 s
+DEBUG:app:开始于:	2021-01-26 16:15:45
+DEBUG:app:结束于:	2021-01-26 16:15:45
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.0873870849609375 s
+DEBUG:app:开始于:	2021-01-26 16:15:45
+DEBUG:app:结束于:	2021-01-26 16:15:45
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.10863900184631348 s
+DEBUG:app:开始于:	2021-01-26 16:15:45
+DEBUG:app:结束于:	2021-01-26 16:15:45
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.08798003196716309 s
+DEBUG:app:开始于:	2021-01-26 16:15:45
+DEBUG:app:结束于:	2021-01-26 16:15:45
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.08070969581604004 s
+DEBUG:app:开始于:	2021-01-26 16:15:45
+DEBUG:app:结束于:	2021-01-26 16:15:45
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.07912397384643555 s
+DEBUG:app:开始于:	2021-01-26 16:15:45
+DEBUG:app:结束于:	2021-01-26 16:15:45
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.07412886619567871 s
+DEBUG:app:开始于:	2021-01-26 16:15:45
+DEBUG:app:结束于:	2021-01-26 16:15:45
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.06979703903198242 s
+DEBUG:app:开始于:	2021-01-26 16:15:45
+DEBUG:app:结束于:	2021-01-26 16:15:45
+DEBUG:app:		主界面-开始统计表格: Madness.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 998 行 37 列)
+DEBUG:app:  耗时:	1.3388736248016357 s
+DEBUG:app:开始于:	2021-01-26 16:15:46
+DEBUG:app:结束于:	2021-01-26 16:15:47
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:15:47] "[37mGET /table/all HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:15:50] "[32mGET /table/show?table_name=DEMO_TABLE_1.xlsx HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:15:50] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.04207491874694824 s
+DEBUG:app:开始于:	2021-01-26 16:15:50
+DEBUG:app:结束于:	2021-01-26 16:15:50
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:15:50] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.07775998115539551 s
+DEBUG:app:开始于:	2021-01-26 16:16:25
+DEBUG:app:结束于:	2021-01-26 16:16:25
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.07786202430725098 s
+DEBUG:app:开始于:	2021-01-26 16:16:25
+DEBUG:app:结束于:	2021-01-26 16:16:25
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.08019900321960449 s
+DEBUG:app:开始于:	2021-01-26 16:16:25
+DEBUG:app:结束于:	2021-01-26 16:16:26
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.07529401779174805 s
+DEBUG:app:开始于:	2021-01-26 16:16:26
+DEBUG:app:结束于:	2021-01-26 16:16:26
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.07480812072753906 s
+DEBUG:app:开始于:	2021-01-26 16:16:26
+DEBUG:app:结束于:	2021-01-26 16:16:26
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.06636404991149902 s
+DEBUG:app:开始于:	2021-01-26 16:16:26
+DEBUG:app:结束于:	2021-01-26 16:16:26
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.0931849479675293 s
+DEBUG:app:开始于:	2021-01-26 16:16:26
+DEBUG:app:结束于:	2021-01-26 16:16:26
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.06833505630493164 s
+DEBUG:app:开始于:	2021-01-26 16:16:26
+DEBUG:app:结束于:	2021-01-26 16:16:26
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.0706338882446289 s
+DEBUG:app:开始于:	2021-01-26 16:16:26
+DEBUG:app:结束于:	2021-01-26 16:16:26
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.0747368335723877 s
+DEBUG:app:开始于:	2021-01-26 16:16:26
+DEBUG:app:结束于:	2021-01-26 16:16:26
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.061980247497558594 s
+DEBUG:app:开始于:	2021-01-26 16:16:26
+DEBUG:app:结束于:	2021-01-26 16:16:26
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.06229281425476074 s
+DEBUG:app:开始于:	2021-01-26 16:16:26
+DEBUG:app:结束于:	2021-01-26 16:16:27
+DEBUG:app:		主界面-开始统计表格: Madness.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 998 行 37 列)
+DEBUG:app:  耗时:	1.2558958530426025 s
+DEBUG:app:开始于:	2021-01-26 16:16:27
+DEBUG:app:结束于:	2021-01-26 16:16:28
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:16:28] "[37mGET /table/all HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:16:37] "[32mGET /table/show?table_name=DEMO_TABLE_1.xlsx HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:16:37] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.04978013038635254 s
+DEBUG:app:开始于:	2021-01-26 16:16:37
+DEBUG:app:结束于:	2021-01-26 16:16:37
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:16:37] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.07459092140197754 s
+DEBUG:app:开始于:	2021-01-26 16:16:47
+DEBUG:app:结束于:	2021-01-26 16:16:47
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.08301782608032227 s
+DEBUG:app:开始于:	2021-01-26 16:16:47
+DEBUG:app:结束于:	2021-01-26 16:16:47
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.07675409317016602 s
+DEBUG:app:开始于:	2021-01-26 16:16:47
+DEBUG:app:结束于:	2021-01-26 16:16:47
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.0792691707611084 s
+DEBUG:app:开始于:	2021-01-26 16:16:47
+DEBUG:app:结束于:	2021-01-26 16:16:47
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.0779561996459961 s
+DEBUG:app:开始于:	2021-01-26 16:16:47
+DEBUG:app:结束于:	2021-01-26 16:16:47
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.08161187171936035 s
+DEBUG:app:开始于:	2021-01-26 16:16:47
+DEBUG:app:结束于:	2021-01-26 16:16:48
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.10113692283630371 s
+DEBUG:app:开始于:	2021-01-26 16:16:48
+DEBUG:app:结束于:	2021-01-26 16:16:48
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.10522890090942383 s
+DEBUG:app:开始于:	2021-01-26 16:16:48
+DEBUG:app:结束于:	2021-01-26 16:16:48
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.1014716625213623 s
+DEBUG:app:开始于:	2021-01-26 16:16:48
+DEBUG:app:结束于:	2021-01-26 16:16:48
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.10176372528076172 s
+DEBUG:app:开始于:	2021-01-26 16:16:48
+DEBUG:app:结束于:	2021-01-26 16:16:48
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.07615017890930176 s
+DEBUG:app:开始于:	2021-01-26 16:16:48
+DEBUG:app:结束于:	2021-01-26 16:16:48
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.0809779167175293 s
+DEBUG:app:开始于:	2021-01-26 16:16:48
+DEBUG:app:结束于:	2021-01-26 16:16:48
+DEBUG:app:		主界面-开始统计表格: Madness.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 998 行 37 列)
+DEBUG:app:  耗时:	1.178300142288208 s
+DEBUG:app:开始于:	2021-01-26 16:16:48
+DEBUG:app:结束于:	2021-01-26 16:16:50
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:16:50] "[37mGET /table/all HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:17:16] "[37mGET /select_RequredAttribute/DEMO_TABLE_1/True HTTP/1.1[0m" 200 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.10121798515319824 s
+DEBUG:app:开始于:	2021-01-26 16:17:17
+DEBUG:app:结束于:	2021-01-26 16:17:17
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.0930781364440918 s
+DEBUG:app:开始于:	2021-01-26 16:17:17
+DEBUG:app:结束于:	2021-01-26 16:17:18
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.09580206871032715 s
+DEBUG:app:开始于:	2021-01-26 16:17:18
+DEBUG:app:结束于:	2021-01-26 16:17:18
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.10041594505310059 s
+DEBUG:app:开始于:	2021-01-26 16:17:18
+DEBUG:app:结束于:	2021-01-26 16:17:18
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.11560201644897461 s
+DEBUG:app:开始于:	2021-01-26 16:17:18
+DEBUG:app:结束于:	2021-01-26 16:17:18
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.09006309509277344 s
+DEBUG:app:开始于:	2021-01-26 16:17:18
+DEBUG:app:结束于:	2021-01-26 16:17:18
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.10497426986694336 s
+DEBUG:app:开始于:	2021-01-26 16:17:18
+DEBUG:app:结束于:	2021-01-26 16:17:18
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.09886479377746582 s
+DEBUG:app:开始于:	2021-01-26 16:17:18
+DEBUG:app:结束于:	2021-01-26 16:17:19
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.09336185455322266 s
+DEBUG:app:开始于:	2021-01-26 16:17:19
+DEBUG:app:结束于:	2021-01-26 16:17:19
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.09747481346130371 s
+DEBUG:app:开始于:	2021-01-26 16:17:19
+DEBUG:app:结束于:	2021-01-26 16:17:19
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.0998070240020752 s
+DEBUG:app:开始于:	2021-01-26 16:17:19
+DEBUG:app:结束于:	2021-01-26 16:17:19
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.12746095657348633 s
+DEBUG:app:开始于:	2021-01-26 16:17:19
+DEBUG:app:结束于:	2021-01-26 16:17:19
+DEBUG:app:		主界面-开始统计表格: Madness.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 998 行 37 列)
+DEBUG:app:  耗时:	1.2434501647949219 s
+DEBUG:app:开始于:	2021-01-26 16:17:19
+DEBUG:app:结束于:	2021-01-26 16:17:20
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:17:21] "[37mGET /table/all HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:17:22] "[32mGET /table/show?table_name=DEMO_TABLE_1.xlsx HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:17:22] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.060363054275512695 s
+DEBUG:app:开始于:	2021-01-26 16:17:22
+DEBUG:app:结束于:	2021-01-26 16:17:22
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:17:22] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
+DEBUG:app:  耗时:	0.10224723815917969 s
+DEBUG:app:开始于:	2021-01-26 16:17:46
+DEBUG:app:结束于:	2021-01-26 16:17:46
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.12091612815856934 s
+DEBUG:app:开始于:	2021-01-26 16:17:47
+DEBUG:app:结束于:	2021-01-26 16:17:47
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_28.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14744973182678223 s
+DEBUG:app:开始于:	2021-01-26 16:17:47
+DEBUG:app:结束于:	2021-01-26 16:17:47
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_25.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.1091609001159668 s
+DEBUG:app:开始于:	2021-01-26 16:17:47
+DEBUG:app:结束于:	2021-01-26 16:17:47
+DEBUG:app:		主界面-开始统计表格: 2020年三季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 20 列)
+DEBUG:app:  耗时:	0.1015768051147461 s
+DEBUG:app:开始于:	2021-01-26 16:17:47
+DEBUG:app:结束于:	2021-01-26 16:17:47
+DEBUG:app:		主界面-开始统计表格: 下拉测试_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 7 列)
+DEBUG:app:  耗时:	0.11182785034179688 s
+DEBUG:app:开始于:	2021-01-26 16:17:47
+DEBUG:app:结束于:	2021-01-26 16:17:47
+DEBUG:app:		主界面-开始统计表格: 2020年一季度.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
+DEBUG:app:  耗时:	0.1330270767211914 s
+DEBUG:app:开始于:	2021-01-26 16:17:48
+DEBUG:app:结束于:	2021-01-26 16:17:48
+DEBUG:app:		主界面-开始统计表格: 1111退回任务_copy.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.10774397850036621 s
+DEBUG:app:开始于:	2021-01-26 16:17:48
+DEBUG:app:结束于:	2021-01-26 16:17:48
+DEBUG:app:		主界面-开始统计表格: 1111退回任务.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 14 行 13 列)
+DEBUG:app:  耗时:	0.14953303337097168 s
+DEBUG:app:开始于:	2021-01-26 16:17:48
+DEBUG:app:结束于:	2021-01-26 16:17:48
+DEBUG:app:		主界面-开始统计表格: 下拉测试.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 10 行 6 列)
+DEBUG:app:  耗时:	0.13414907455444336 s
+DEBUG:app:开始于:	2021-01-26 16:17:48
+DEBUG:app:结束于:	2021-01-26 16:17:48
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_4.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.13263368606567383 s
+DEBUG:app:开始于:	2021-01-26 16:17:48
+DEBUG:app:结束于:	2021-01-26 16:17:48
+DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_32.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
+DEBUG:app:  耗时:	0.14513683319091797 s
+DEBUG:app:开始于:	2021-01-26 16:17:49
+DEBUG:app:结束于:	2021-01-26 16:17:49
+DEBUG:app:		主界面-开始统计表格: Madness.xlsx
+DEBUG:app:		完成统计表格 (总计处理了: 998 行 37 列)
+DEBUG:app:  耗时:	1.2124748229980469 s
+DEBUG:app:开始于:	2021-01-26 16:17:49
+DEBUG:app:结束于:	2021-01-26 16:17:50
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:17:50] "[37mGET /table/all HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:20:53] "[32mGET /table/show?table_name=DEMO_TABLE_1.xlsx HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:20:53] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.04613208770751953 s
+DEBUG:app:开始于:	2021-01-26 16:20:53
+DEBUG:app:结束于:	2021-01-26 16:20:53
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:20:53] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:20:55] "[35m[1mGET /data/DEMO_TABLE_1?offset=0&limit=1000 HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 2464, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 429, in export_table_data
+    page  = int(request.args['page'])
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/werkzeug/datastructures.py", line 442, in __getitem__
+    raise exceptions.BadRequestKeyError(key)
+werkzeug.exceptions.BadRequestKeyError: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+KeyError: 'page'
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /static/layui/dist/layui.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /static/layui/dist/lay/modules/table.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /static/layui/dist/lay/modules/laytpl.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /static/layui/dist/lay/modules/laypage.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /static/layui/dist/lay/modules/layer.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /static/layui/dist/css/modules/layer/default/layer.css?v=3.1.1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /static/layui/dist/lay/modules/form.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /static/layui/dist/lay/modules/util.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /static/layui/dist/font/iconfont.woff2?v=256 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.04559206962585449 s
+DEBUG:app:开始于:	2021-01-26 16:21:15
+DEBUG:app:结束于:	2021-01-26 16:21:15
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:('data.行号', -1)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.044326066970825195 s
+DEBUG:app:开始于:	2021-01-26 16:21:17
+DEBUG:app:结束于:	2021-01-26 16:21:17
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:17] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:('data.行号', 1)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.03954195976257324 s
+DEBUG:app:开始于:	2021-01-26 16:21:18
+DEBUG:app:结束于:	2021-01-26 16:21:18
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:18] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order= HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:('data.行号', 1)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.05125570297241211 s
+DEBUG:app:开始于:	2021-01-26 16:21:18
+DEBUG:app:结束于:	2021-01-26 16:21:18
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:18] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=asc HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:('data.行号', -1)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.04319500923156738 s
+DEBUG:app:开始于:	2021-01-26 16:21:19
+DEBUG:app:结束于:	2021-01-26 16:21:19
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:19] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:('data.行号', 1)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.0517728328704834 s
+DEBUG:app:开始于:	2021-01-26 16:21:19
+DEBUG:app:结束于:	2021-01-26 16:21:19
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:19] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order= HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:('data.行号', 1)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.051275014877319336 s
+DEBUG:app:开始于:	2021-01-26 16:21:20
+DEBUG:app:结束于:	2021-01-26 16:21:20
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:20] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=asc HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:('data.行号', -1)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.04463601112365723 s
+DEBUG:app:开始于:	2021-01-26 16:21:21
+DEBUG:app:结束于:	2021-01-26 16:21:21
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:21] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/layui/dist/layui.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/layui/dist/lay/modules/table.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/layui/dist/lay/modules/laytpl.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/layui/dist/lay/modules/laypage.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/layui/dist/lay/modules/layer.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/layui/dist/css/modules/layer/default/layer.css?v=3.1.1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/layui/dist/lay/modules/form.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/layui/dist/lay/modules/util.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/layui/dist/font/iconfont.woff2?v=256 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.06424117088317871 s
+DEBUG:app:开始于:	2021-01-26 16:21:31
+DEBUG:app:结束于:	2021-01-26 16:21:31
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:('data.行号', -1)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.0421910285949707 s
+DEBUG:app:开始于:	2021-01-26 16:21:32
+DEBUG:app:结束于:	2021-01-26 16:21:32
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:32] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:('data.行号', 1)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.04528307914733887 s
+DEBUG:app:开始于:	2021-01-26 16:21:34
+DEBUG:app:结束于:	2021-01-26 16:21:35
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:35] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order= HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:50] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/layui/dist/layui.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/layui/dist/lay/modules/table.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/layui/dist/lay/modules/laytpl.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/layui/dist/lay/modules/laypage.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/layui/dist/lay/modules/layer.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/layui/dist/css/modules/layer/default/layer.css?v=3.1.1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/layui/dist/lay/modules/form.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/layui/dist/lay/modules/util.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/layui/dist/font/iconfont.woff2?v=256 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.061722755432128906 s
+DEBUG:app:开始于:	2021-01-26 16:21:51
+DEBUG:app:结束于:	2021-01-26 16:21:51
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:('data.行号', -1)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.05829191207885742 s
+DEBUG:app:开始于:	2021-01-26 16:21:53
+DEBUG:app:结束于:	2021-01-26 16:21:53
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:53] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:('data.行号', -1)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.10191702842712402 s
+DEBUG:app:开始于:	2021-01-26 16:23:08
+DEBUG:app:结束于:	2021-01-26 16:23:08
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:08] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.10209369659423828 s
+DEBUG:app:开始于:	2021-01-26 16:23:14
+DEBUG:app:结束于:	2021-01-26 16:23:14
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:14] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:39] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:42] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:42] "[35m[1mGET /data/DEMO_TABLE_1?offset=0&limit=1000 HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 2464, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 429, in export_table_data
+    page  = int(request.args['page'])
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/werkzeug/datastructures.py", line 442, in __getitem__
+    raise exceptions.BadRequestKeyError(key)
+werkzeug.exceptions.BadRequestKeyError: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+KeyError: 'page'
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /static/layui/dist/layui.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /static/layui/dist/lay/modules/table.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /static/layui/dist/lay/modules/laytpl.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /static/layui/dist/lay/modules/laypage.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /static/layui/dist/lay/modules/layer.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /static/layui/dist/css/modules/layer/default/layer.css?v=3.1.1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /static/layui/dist/lay/modules/form.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /static/layui/dist/lay/modules/util.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /static/layui/dist/font/iconfont.woff2?v=256 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.09889411926269531 s
+DEBUG:app:开始于:	2021-01-26 16:24:16
+DEBUG:app:结束于:	2021-01-26 16:24:16
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:18] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:36] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.10151195526123047 s
+DEBUG:app:开始于:	2021-01-26 16:24:36
+DEBUG:app:结束于:	2021-01-26 16:24:36
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:36] "[37mGET /data/DEMO_TABLE_1?page=0&limit=1000 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/layui/dist/layui.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/layui/dist/lay/modules/table.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/layui/dist/lay/modules/laytpl.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/layui/dist/lay/modules/laypage.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/layui/dist/lay/modules/layer.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/layui/dist/css/modules/layer/default/layer.css?v=3.1.1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/layui/dist/lay/modules/form.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/layui/dist/lay/modules/util.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/layui/dist/font/iconfont.woff2?v=256 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.10183405876159668 s
+DEBUG:app:开始于:	2021-01-26 16:25:56
+DEBUG:app:结束于:	2021-01-26 16:25:56
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:57] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /static/layui/dist/layui.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /static/layui/dist/lay/modules/table.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /static/layui/dist/lay/modules/laytpl.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /static/layui/dist/lay/modules/laypage.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /static/layui/dist/lay/modules/layer.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /static/layui/dist/css/modules/layer/default/layer.css?v=3.1.1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /static/layui/dist/lay/modules/form.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /static/layui/dist/lay/modules/util.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /static/layui/dist/font/iconfont.woff2?v=256 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.1015770435333252 s
+DEBUG:app:开始于:	2021-01-26 16:26:05
+DEBUG:app:结束于:	2021-01-26 16:26:05
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:07] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:08] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.10071110725402832 s
+DEBUG:app:开始于:	2021-01-26 16:26:22
+DEBUG:app:结束于:	2021-01-26 16:26:22
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:22] "[37mGET /data/DEMO_TABLE_1?page=0&limit=1000 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/layui/dist/layui.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/layui/dist/lay/modules/table.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/layui/dist/lay/modules/laytpl.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/layui/dist/lay/modules/laypage.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/layui/dist/lay/modules/layer.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/layui/dist/css/modules/layer/default/layer.css?v=3.1.1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/layui/dist/lay/modules/form.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/layui/dist/lay/modules/util.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/layui/dist/font/iconfont.woff2?v=256 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.09905385971069336 s
+DEBUG:app:开始于:	2021-01-26 16:26:43
+DEBUG:app:结束于:	2021-01-26 16:26:43
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:45] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:46] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.10360288619995117 s
+DEBUG:app:开始于:	2021-01-26 16:26:48
+DEBUG:app:结束于:	2021-01-26 16:26:48
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:48] "[37mGET /data/DEMO_TABLE_1?page=0&limit=1000 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/layui/dist/layui.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/layui/dist/lay/modules/table.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/layui/dist/lay/modules/laytpl.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/layui/dist/lay/modules/laypage.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/layui/dist/lay/modules/layer.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/layui/dist/css/modules/layer/default/layer.css?v=3.1.1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/layui/dist/lay/modules/form.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/layui/dist/lay/modules/util.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/layui/dist/font/iconfont.woff2?v=256 HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.09750509262084961 s
+DEBUG:app:开始于:	2021-01-26 16:27:42
+DEBUG:app:结束于:	2021-01-26 16:27:43
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:43] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:44] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:46] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
+DEBUG:app:		重新获得信息
+DEBUG:app:		排序信息:(None, None)
+DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
+DEBUG:app:		获取表格完毕
+DEBUG:app:  耗时:	0.10080599784851074 s
+DEBUG:app:开始于:	2021-01-26 16:27:50
+DEBUG:app:结束于:	2021-01-26 16:27:50
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:50] "[37mGET /data/DEMO_TABLE_1?page=0&limit=1000 HTTP/1.1[0m" 200 -

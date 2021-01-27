@@ -93,7 +93,7 @@
                 ,page: true                         //开启分页
                 ,limit: 20                          //每页条数
                 // ,page: {theme: '#c00'}           //开启分页主题
-                ,limits:[5,10,15,20,25,30]          //分页选项
+                ,limits:[50,100,500,2000,1000000]          //分页选项
 
             //数据接口
                 ,url: '/data/{{table_name}}'        //数据接口
@@ -112,7 +112,12 @@
             // ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             // ,defaultToolbar: ['filter', 'exports', 'print']
             ,toolbar: '#'
-            ,defaultToolbar: ['filter', 'exports']
+            ,defaultToolbar: [
+                'filter', 
+                // 'exports', 
+                {title: '导出为xlxs', layEvent: 'LAYTABLE_EXPORTALL_XLXS', icon: 'layui-icon-export'},
+                {title: '导出为csv',  layEvent: 'LAYTABLE_EXPORTALL_CSV',  icon: 'layui-icon-export'}
+            ]
 
             // ----------------------------------------
             //表头设置 （渲染的时候会根据这里设置的field为单元格设置样式）     
@@ -229,9 +234,106 @@
                 });
                 
                 //弹窗提示数据已经重新加载
-                layer.msg('服务端排序。<br> 排序列:'+ obj.field + '， 排序方式:' + obj.type, {time:1000});
+                // layer.msg('服务端排序。<br> 排序列:'+ obj.field + '， 排序方式:' + obj.type, {time:1000});
+            });
+           
+            //当前用户全量导出
+            var deviceTotal = parseInt("{{table_meta['count']}}");
+            var dataExport = new Array;
+            function exportData(obj, offset, limit, format) {
+                //请求所有数据
+                $.ajax({
+                    type: 'get',
+                    url: '/data/{{table_name}}',
+                    dataType: 'json',
+                    data: {
+                        // 'domain': domainname,
+                        'page': offset+1,
+                        'limit': limit,
+                    },
+                    success: function (res) {
+                        debugger
+                        dataExport = dataExport.concat(res.data);
+                        var a = dataExport.length
+                        var b = deviceTotal
+
+                        if (dataExport.length >= deviceTotal) {
+                            layer.close(indexload)
+                            table.exportFile(obj.config.id, dataExport, format);
+                        }
+                    }
+                });
+            }
+
+
+            //头工具栏事件
+            table.on('toolbar(_MAIN_TABLE_RENDER_FILTER_)', function(obj){
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch(obj.event){
+                 
+                    //自定义头工具栏 - 全量导出（XLXS格式）
+                    case 'LAYTABLE_EXPORTALL_XLXS':
+                        layer.confirm("是否要导出当前用户数据? <br> (为.xlxs格式)", {
+                            icon: 3,
+                            btn: ["确定", "取消"]
+                        }, function (layerIndex) {
+                            layer.close(layerIndex);
+                            indexload = layer.load(2, {
+                                 content: '正在导出...<br>(为.xlsx格式)',
+                                icon: 16,
+                                success: function (layero) {
+                                    layero.find('.layui-layer-content').css({
+                                        'paddingTop': '40px',
+                                        'width': '100px',
+                                        'textAlign': 'center',
+                                        'backgroundPositionX': 'center'
+                                    });
+                                }
+                            });
+                            var deviceTotal = parseInt("{{table_meta['count']}}");
+                            var datalength = deviceTotal;
+                            if (datalength > 0) {
+                                for (var i = 0; i < Math.ceil(datalength / 1000); i++) //
+                                {
+                                    exportData(obj, i * 1000, 1000, 'xlsx')
+                                }
+                            }
+                        });
+                    break;
+
+                    //自定义头工具栏 - 全量导出（CSV格式）
+                    case 'LAYTABLE_EXPORTALL_CSV':
+                        layer.confirm("是否要导出当前用户数据?<br> (为.csv格式)", {
+                            icon: 3,
+                            btn: ["确定", "取消"]
+                        }, function (layerIndex) {
+                            layer.close(layerIndex);
+                            indexload = layer.load(2, {
+                                content: '正在导出...<br>(为.csv格式)',
+                                icon: 16,
+                                success: function (layero) {
+                                    layero.find('.layui-layer-content').css({
+                                        'paddingTop': '40px',
+                                        'width': '100px',
+                                        'textAlign': 'center',
+                                        'backgroundPositionX': 'center',
+                                    });
+                                }
+                            });
+                            var deviceTotal = parseInt("{{table_meta['count']}}");
+                            var datalength = deviceTotal;
+                            if (datalength > 0) {
+                                for (var i = 0; i < Math.ceil(datalength / 1000); i++) //
+                                {
+                                    exportData(obj, i * 1000, 1000, 'csv')
+                                }
+                            }
+                        });
+                    break;
+                };
             });
         });
+        
     </script>
 
     <!-- 多选单元格渲染模版 -->
