@@ -75,9 +75,20 @@ def login():
 def api_login_success():
     """
     登陆完成后的接口，传过来的字段有：
-    - 
+    - key_operator_name:        用户ID （例：zhang_san1）
+    - key_operator_nickname:    用户中文名（例：张三）可以有重复的名字
+    - key_authorized_nums:      用户可操作的行号（例：733101,733102,733121）
+
+    若定义
+    - key_operator_name:        account
+    - key_operator_nickname:    nickname
+    - key_authorized_nums:      auth
+
+    那么最后访问的URL，例如如下：
+    /api/login?account=zhang_san1&nickname=张三&auth=733101,733102,733121
     """
 
+    # 请求字段键名
     key_operator_name        = "account"
     key_operator_nickname    = "nickname"
     key_authorized_nums      = "auth"
@@ -101,11 +112,10 @@ def api_login_success():
     print(authorized_nums)
     print('='*100)
 
-    # 存入数据库/会话
+    # 存入数据库/会话 + 跳转
     Database_Utils.user.del_user_brutal(name=operator_name)
     Database_Utils.user.add_user(name=operator_name,password="",rows=authorized_nums, privilege='generic')
     session['operator']      = session['operator_name'] = operator_name
     session['nickname']      = nickname
     session['login_state']   = True
-
     return redirect('/table/all')
