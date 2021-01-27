@@ -370,9 +370,9 @@ def table(option):
         tb_name = request.args.get('table_name')    # 提取表名
         tb_name = tb_name.split('.')[0]
         return redirect(f'/edit/{tb_name}')
-        op_name = session["operator_name"]          # session提取用户名
-        op_rows = Database_Utils.user.get_rows(op_name)  # 提取用户允许访问的行
-        return table_show(table_name=tb_name, show_rows_of_keys=op_rows, user=op_name) 
+        # op_name = session["operator_name"]                # session提取用户名
+        # op_rows = Database_Utils.user.get_rows(op_name)   # 提取用户允许访问的行
+        # return table_show(table_name=tb_name, show_rows_of_keys=op_rows, user=op_name) 
 
     # 如果options为表格名: 用户编辑行界面
     elif(option=='edit'):
@@ -458,6 +458,10 @@ def export_table_data(table_name):
     timer.start()
     if(Database_Utils.user.check_admin(session['operator_name'])):row_query = {}
     else:row_query = {'data.行号': {'$in': authorized_rows}}
+    app.logger.warn(table_name)
+    app.logger.warn(row_query)
+    app.logger.warn(sort)
+
     table_data = Database_Utils.table.load_table(tb_name=table_name, search_query=row_query, sort=sort)
     timer.end()
 

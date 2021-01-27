@@ -70,6 +70,27 @@ class Database_Utils:
 
             db.close()
             return
+        # 强制删除用户
+        def del_user_brutal(name):
+            config = DB_Config()
+            db = MongoDatabase()
+            db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+
+            # 生成用户唯一的ID
+            _id      = hash_id(name)
+
+            if(db.database[Database_Utils.account_collection_name].count_documents({'_id':_id}) == 0): 
+                db.close()
+                return
+                # raise(f"Your deleting account dont exist")
+            else: 
+                col = db.database[Database_Utils.account_collection_name]
+                col.delete_one({'_id' : hash_id(name)})
+                db.close()
+                return 
+
+            db.close()
+            return
         # 检查密码是否正确 
         def check_password(name, password):
             """

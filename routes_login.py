@@ -12,6 +12,7 @@
 # from modules._ExcelVisitor import ExcelVisitor
 # from modules._JsonVisitor  import JSON
 # from modules._Redis import RedisCache
+from logging import debug
 import flask
 from modules._Database_Utils import Database_Utils
 from modules._Hash_Utils import hash_id
@@ -65,6 +66,46 @@ def login():
         session['login_state']   = True
         session['operator']      = name
         session['operator_name'] = name
+        session['nickname']      = name
         return render_template("redirect_login.html", message=f"登陆成功: 用户名为[ {name} ]")
     else: 
         return render_template("redirect_login.html", message="登陆失败: 账号或密码不匹配")
+
+@app.route('/api/login', methods=["GET"])
+def api_login_success():
+    """
+    登陆完成后的接口，传过来的字段有：
+    - 
+    """
+
+    key_operator_name        = "account"
+    key_operator_nickname    = "nickname"
+    key_authorized_nums      = "auth"
+
+    # 重置会话
+    session.pop('operator')
+    session.pop('operator_name')
+    session['login_state']   = False
+    session['previous_page'] = "/"
+    session['page']          = 0
+    # 获得参数
+    operator_name            = request.args.get(key_operator_name)
+    nickname                 = request.args.get(key_operator_nickname)
+    authorized_nums          = request.args.get(key_authorized_nums)
+    app.logger.debug(f'\t\t正在接入用户')
+    app.logger.debug(f'\t\t用户：{operator_name}')
+    app.logger.debug(f'\t\t昵称：{nickname}')
+    app.logger.debug(f'\t\t权限：{authorized_nums}')
+    authorized_nums          = authorized_nums.split(',')
+    authorized_nums          = [int(num) for num in authorized_nums]   
+    print(authorized_nums)
+    print('='*100)
+
+    # 存入数据库/会话
+    Database_Utils.user.del_user_brutal(name=operator_name)
+    Database_Utils.user.add_user(name=operator_name,password="",rows=authorized_nums, privilege='generic')
+    session['operator']      = session['operator_name'] = operator_name
+    session['nickname']      = nickname
+    session['login_state']   = True
+
+    return redirect('/table/all')
