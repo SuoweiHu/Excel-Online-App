@@ -215,7 +215,7 @@ def table_main(cur, limit, user):
 
     # Render with tempalte
     # return html_table_string
-    return render_template('table_main.html',   \
+    return render_template('table_show_main.html',   \
         file_upload_section = file_upload_html,\
         table_info = html_table_string, \
         operator_name=operator_name,    \
@@ -671,7 +671,7 @@ def edit_multiChoice(tb_name,title, _id):
     meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
     options = meta['option_optionDict'][title]
 
-    return render_template('table_multiChoice.html',
+    return render_template('table_show_multiChoice.html',
         tb_name     = tb_name,
         title       = title,
         _id         = _id,

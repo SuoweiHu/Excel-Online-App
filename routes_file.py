@@ -73,7 +73,7 @@ def route_upload_file(f, f_name):
             pass
         else: 
             app.logger.debug("未发现”行号“标题，进入选择替代列页面")
-            return render_template("table_multiChoice_idMissing.html", 
+            return render_template("table_option_multiChoice_idMissing.html", 
                 options    = titles,
                 submit_url = url_for('route_upload_file_idMissing'),
                 tb_name    = tb_name
@@ -214,7 +214,7 @@ def generate_tableMeta(tableData):
 def select_RequredAttribute(tb_name, return_aftFinish):
     titles = Database_Utils.table.get_tableTitles(tb_name=tb_name)
     meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
-    return render_template("table_select_requiredAttribute.html",\
+    return render_template("table_option_selectRequiredAttribute.html",\
         table_name = tb_name,\
         table_titles         = titles,\
         table_fixedTitles    = meta['fixed_titles'],\
