@@ -33,6 +33,7 @@ def gen_operInfo_tup():
     return (operator_str, datetime_str)
 
 # =============================================
+# 跳转页面
 
 @app.route('/redirect', methods=["POST","GET"])
 def redirect_to_index():

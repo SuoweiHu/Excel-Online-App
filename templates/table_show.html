@@ -84,7 +84,7 @@
                 layui.use('layer', function(){
                     var layer = layui.layer;
                     var d=new Date();
-                    var account_name = "{{session['operator_name']}}"
+                    var account_name = "{{session['nickname']}}"
                     var account_date = d.toLocaleDateString();
                     var account_time = d.toLocaleTimeString();
                     layer.open({

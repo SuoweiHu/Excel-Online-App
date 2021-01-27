@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- ====================================================== -->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/dist/css/layui.css') }}"  media="all">
+    <script src="{{ url_for('static', filename='jquery/min.js') }}"></script>
+    <!-- ====================================================== -->
+    <title>Excel Online</title>
+</head>
+<body>
+    <!-- Main Body -->
+    <div style="padding: 20px; background-color: #ffffff;">
+        {% if return_aftFinish == "True" %}
+        <form action="/table/all" method="get" style="padding-left: 10px;">
+            <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回全部表格 </button>
+        </form>
+        {% else %}
+        <form action="/table/all" method="get" style="padding-left: 10px;">
+            <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1" disabled> 正在上传表格... </button>
+        </form>
+        {% endif %}
+        <button onclick="check_user_info()" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" style="float: right; display: inline;">{{session['operator_name']}}</button>
+
+        <!-- <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;"> -->
+        <fieldset class="layui-elem-field site-demo-button" style="margin: 10% 35%;">
+            <!-- <legend>{{table_name}}</legend> -->
+            <legend>填报设置</legend>
+            <form class="layui-form" action="/dueNComment_data_save/{{table_name}}" lay-filter="requiredTitles-form" >
+                <br>
+                <!-- ======================================================================== -->
+                <!-- <br><h3 style="text-align: center;">请选择表格"{{table_name}}"的填表说明:</h3><br> -->
+                <div class="layui-form-item layui-form-text" style="margin-right: 30px;">
+                    <label class="layui-form-label">填表说明</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入内容...." name="comment" lay-verify="COMMENT_ELEMENT" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+
+                <!-- ======================================================================== -->
+                <!-- <br><h3 style="text-align: center;">请选择表格"{{table_name}}"的截止日期:</h3><br> -->
+                
+                <div class="layui-form-item layui-form-text" style="margin-right: 30px;">
+                    <label class="layui-form-label">截止日期</label>
+                    <div class="layui-input-block">
+                        <input type="text" placeholder="点击以选择...." name="date" lay-verify="DATE_ELEMENT" id="DATE_ELEMENT_ID" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                  
+                <!-- ======================================================================== -->
+                <!-- 提交按钮 -->
+                <!-- <div class="layui-form-item" style="margin-right: 30px; margin-left: 30px;">
+                    <div class="layui-input-block" style="margin-left: 0%;">
+                    <button id="SUBMIT_CHANGES_BUTTON_ID" class="layui-btn layui-btn-fluid" lay-submit lay-filter="*">确认提交</button>
+                    </div>
+                </div><br> -->
+                <div class="layui-form-item" style="margin-right: 30px;">
+                    <div class="layui-input-block">
+                      <button type="submit" class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="SUBMIT_CHANGES_BUTTON_FILTER">立即提交</button>
+                      <!-- <button type="reset" class="layui-btn layui-btn-primary">重置</button> -->
+                    </div>
+                  </div>
+                <!-- ======================================================================== -->
+            </form>
+        </fieldset>
+    </div>
+
+    <!-- Auto Direct -->
+    <form action="{{finish_directURL}}" name="form1" method="get"><input type="hidden" name="table_name" value={{table_name}}></form>
+    <form action="/update_success/{{table_name}}" name="form2" method="get"><input type="hidden" name="table_name" value={{table_name}}></form>
+
+    <script src="{{ url_for('static', filename='layui/dist/layui.js') }}" charset="utf-8"></script>
+
+    <!-- 渲染页面 -->
+    <script>
+        layui.use(['form', 'laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            laydate.render({elem: '#DATE_ELEMENT_ID'}); //渲染日期元素
+            form.verify({                               //自定验证规则
+                // COMMENT_ELEMENT: function(value){if(value.length == 0){return '填报说明不能为空';}},
+                // DATE_ELEMENT:    function(value){if(value.length == 0){return '截止日期不能为空';}}
+            });
+
+            // //监听提交
+            // form.on('submit(SUBMIT_CHANGES_BUTTON_FILTER)', function(data){
+            //     var raw_data = data.field
+            //     var comment  = raw_data['comment']
+            //     var date     = raw_data['date']
+            //     $.ajax({
+            //         url: '{{request_url}}/{{table_name}}',
+            //         type: "POST",
+            //         data: {'comment':comment, 'due':date},
+            //         dataType: "json",
+            //             // complete: function(){alert("Change saved !")}
+            //             // success : function(result){alert('Upload success')},
+            //             // error   : function(result){alert('Upload error')},
+            //     })
+            //     if("{{return_aftFinish}}" == "True" || "{{return_aftFinish}}" == "true"){setTimeout("form2.submit();",100);}
+            //     else{setTimeout("form1.submit();",100);}
+            // });
+        });
+    </script>
+
+
+
+
+    <script>
+        function check_user_info(){
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                var d=new Date();
+                var account_name = "{{session['nickname']}}"
+                var account_date = d.toLocaleDateString();
+                var account_time = d.toLocaleTimeString();
+                layer.open({
+                    title   :'用户信息'
+                    ,content:
+                        '账号: &nbsp; &nbsp;' + account_name + '<br>'+
+                        '日期: &nbsp; &nbsp;' + account_date + '<br>'+
+                        '时间: &nbsp; &nbsp;' + account_time 
+                    ,btn: ['登出']
+                    ,yes: function(index, layero){
+                        window.location.assign('/')
+                    }
+                }); 
+            });
+        }
+    </script>
+    <script>
+        var myVar=setInterval(function(){myTimer()},1000);function myTimer(){var d=new Date();var t=d.toLocaleTimeString();}
+    </script>
+</body>
+</html>
+
+
+

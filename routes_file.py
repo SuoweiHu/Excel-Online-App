@@ -260,4 +260,24 @@ def upload_successRedirect(tb_name):
 def update_successRedirect(tb_name):
     return render_template("redirect_fileUploaded.html", message=f"成功更改表单必须填项, 文件名: {tb_name}", table_name = tb_name)
 
+# =============================================
+# 截止日期/填表说明设置
+@app.route('/dueNComment/<string:tb_name>')
+def fill_dueDate_n_comment(tb_name):
+    return render_template('table_option_dueNcomment.html',
+        request_url = "/dueNComment_data_save",\
+        table_name  = tb_name,
+        finish_directURL = '/table/all'
+    )
+
+@app.route('/dueNComment_data_save/<string:tb_name>',methods=["POST","GET"])
+def save_dueDate_n_comment(tb_name):
+    meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
+    # meta['comment']= request.form.get('comment')
+    # meta['due']    = request.form.get('due')
+    meta['comment']= request.args.get('comment')
+    meta['due']    = request.args.get('date')
+    if(meta['due'] is None): meta['due']=""
+    Database_Utils.meta.save_tablemMeta(tb_name=tb_name,meta=meta)
+    return redirect('/table/all')
 
