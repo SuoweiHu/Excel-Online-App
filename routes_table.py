@@ -573,7 +573,6 @@ def edit_multiChoice(tb_name,title, _id):
         submit_url  = url_for('submit_mulitiChoise')
     )
 
-
 @app.route('/submit_multiChoice')
 def submit_mulitiChoise():
     op_name = session['operator_name']

@@ -108,7 +108,7 @@
                 <!-- 提交按钮 -->
                 <div class="layui-form-item">
                     <div class="layui-input-block" style="margin-left: 0%;">
-                    <button id="LAY-component-form-getval" class="layui-btn layui-btn-fluid" lay-submit lay-filter="*">确认提交</button>
+                    <button id="SUBMIT_CHANGES_BUTTON_ID" class="layui-btn layui-btn-fluid" lay-submit lay-filter="*">确认提交</button>
                     <!-- <button type="reset" class="layui-btn layui-btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button> -->
                     </div>
                 </div>
@@ -137,12 +137,10 @@
             var form = layui.form;
 
             //提交表单
-            layui.$('#LAY-component-form-getval').on('click', function(){
+            layui.$('#SUBMIT_CHANGES_BUTTON_ID').on('click', function(){
                 var raw_data = form.val('requiredTitles-form');
                 var rtn_data = [];
-                for (var prop in raw_data){
-                    if(raw_data[prop]=="on"){rtn_data.push(prop)}
-                }
+                for (var prop in raw_data){if(raw_data[prop]=="on"){rtn_data.push(prop)}}
                 
                 $.ajax({
                     url: '{{request_url}}/{{table_name}}',

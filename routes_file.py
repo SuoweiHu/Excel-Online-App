@@ -135,7 +135,7 @@ def generate_tableMeta(tableData):
           identifier = "OAO"
           key    = "#OAO#"
     """
-    identifier = "Multi-Choice" 
+    identifier = "@" 
     prefix     = "#"
     suffix     = "#"
     key        = prefix+identifier+suffix
@@ -239,7 +239,8 @@ def route_upload_requiredTitles(tb_name):
     # # 上传更新后的文件
     Database_Utils.meta.save_tablemMeta(tb_name=tb_name, meta=meta)
 
-    return "Successful !"
+    # return "Successful !"
+    return redirect('/edit/'+tb_name)
 
 # ------------------------------------------------------------------------------------------------------------------------------------
 
