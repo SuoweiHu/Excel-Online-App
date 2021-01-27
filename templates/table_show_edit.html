@@ -238,7 +238,7 @@
             });
            
             //当前用户全量导出
-            var deviceTotal = parseInt("{{table_meta['count']}}");
+            var deviceTotal = parseInt("{{number_of_rows}}");
             var dataExport = new Array;
             function exportData(obj, offset, limit, format) {
                 //请求所有数据
@@ -290,7 +290,7 @@
                                     });
                                 }
                             });
-                            var deviceTotal = parseInt("{{table_meta['count']}}");
+                            var deviceTotal = parseInt("{{number_of_rows}}");
                             var datalength = deviceTotal;
                             if (datalength > 0) {
                                 for (var i = 0; i < Math.ceil(datalength / 1000); i++) //
