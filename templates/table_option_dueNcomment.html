@@ -37,7 +37,11 @@
                 <div class="layui-form-item layui-form-text" style="margin-right: 30px;">
                     <label class="layui-form-label">填表说明</label>
                     <div class="layui-input-block">
-                        <textarea placeholder="请输入内容...." name="comment" lay-verify="COMMENT_ELEMENT" class="layui-textarea"></textarea>
+                        <!-- <textarea placeholder="{{comment}}" value = "{{comment}}" name="comment" lay-verify="COMMENT_ELEMENT" class="layui-textarea"></textarea> -->
+                        <textarea id="COMMENT_ELEMENT_ID" placeholder="{{comment}}" value = "123123123" name="comment" autocomplete="off" class="layui-textarea"></textarea>
+                        <script>
+                            document.getElementById("COMMENT_ELEMENT_ID").value = "{{comment}}";
+                        </script>
                     </div>
                 </div>
 
@@ -45,9 +49,10 @@
                 <!-- <br><h3 style="text-align: center;">请选择表格"{{table_name}}"的截止日期:</h3><br> -->
                 
                 <div class="layui-form-item layui-form-text" style="margin-right: 30px;">
-                    <label class="layui-form-label">截止日期</label>
+                    <label class="layui-form-label">截止时间</label>
                     <div class="layui-input-block">
-                        <input type="text" placeholder="点击以选择...." name="date" lay-verify="DATE_ELEMENT" id="DATE_ELEMENT_ID" autocomplete="off" class="layui-input">
+                        <!-- <input type="text" placeholder="点击以选择...." name="date" lay-verify="DATE_ELEMENT" id="DATE_ELEMENT_ID" autocomplete="off" class="layui-input"> -->
+                        <input type="text" placeholder="{{due}}" value = "{{due}}" name="date" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                   
@@ -72,39 +77,38 @@
     <!-- Auto Direct -->
     <form action="{{finish_directURL}}" name="form1" method="get"><input type="hidden" name="table_name" value={{table_name}}></form>
     <form action="/update_success/{{table_name}}" name="form2" method="get"><input type="hidden" name="table_name" value={{table_name}}></form>
-
     <script src="{{ url_for('static', filename='layui/dist/layui.js') }}" charset="utf-8"></script>
 
     <!-- 渲染页面 -->
     <script>
-        layui.use(['form', 'laydate'], function(){
-            var form = layui.form;
-            var layer = layui.layer;
-            var laydate = layui.laydate;
-            laydate.render({elem: '#DATE_ELEMENT_ID'}); //渲染日期元素
-            form.verify({                               //自定验证规则
-                // COMMENT_ELEMENT: function(value){if(value.length == 0){return '填报说明不能为空';}},
-                // DATE_ELEMENT:    function(value){if(value.length == 0){return '截止日期不能为空';}}
-            });
+        // layui.use(['form', 'laydate'], function(){
+        //     var form = layui.form;
+        //     var layer = layui.layer;
+        //     var laydate = layui.laydate;
+        //     laydate.render({elem: '#DATE_ELEMENT_ID'}); //渲染日期元素
+        //     form.verify({                               //自定验证规则
+        //         // COMMENT_ELEMENT: function(value){if(value.length == 0){return '填报说明不能为空';}},
+        //         // DATE_ELEMENT:    function(value){if(value.length == 0){return '截止日期不能为空';}}
+        //     });
 
-            // //监听提交
-            // form.on('submit(SUBMIT_CHANGES_BUTTON_FILTER)', function(data){
-            //     var raw_data = data.field
-            //     var comment  = raw_data['comment']
-            //     var date     = raw_data['date']
-            //     $.ajax({
-            //         url: '{{request_url}}/{{table_name}}',
-            //         type: "POST",
-            //         data: {'comment':comment, 'due':date},
-            //         dataType: "json",
-            //             // complete: function(){alert("Change saved !")}
-            //             // success : function(result){alert('Upload success')},
-            //             // error   : function(result){alert('Upload error')},
-            //     })
-            //     if("{{return_aftFinish}}" == "True" || "{{return_aftFinish}}" == "true"){setTimeout("form2.submit();",100);}
-            //     else{setTimeout("form1.submit();",100);}
-            // });
-        });
+        //     // //监听提交
+        //     // form.on('submit(SUBMIT_CHANGES_BUTTON_FILTER)', function(data){
+        //     //     var raw_data = data.field
+        //     //     var comment  = raw_data['comment']
+        //     //     var date     = raw_data['date']
+        //     //     $.ajax({
+        //     //         url: '{{request_url}}/{{table_name}}',
+        //     //         type: "POST",
+        //     //         data: {'comment':comment, 'due':date},
+        //     //         dataType: "json",
+        //     //             // complete: function(){alert("Change saved !")}
+        //     //             // success : function(result){alert('Upload success')},
+        //     //             // error   : function(result){alert('Upload error')},
+        //     //     })
+        //     //     if("{{return_aftFinish}}" == "True" || "{{return_aftFinish}}" == "true"){setTimeout("form2.submit();",100);}
+        //     //     else{setTimeout("form1.submit();",100);}
+        //     // });
+        // });
     </script>
 
 

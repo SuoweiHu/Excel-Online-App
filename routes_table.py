@@ -620,14 +620,21 @@ def edit_specified_table(table_name):
     column_dict   = {column_ids[i]:column_titles[i] for i in range(len(column_titles))}
 
     # 使用模版渲染表格
+    table_meta = Database_Utils.meta.load_tablemMeta(tb_name=table_name)
+    if('comment' in table_meta.keys()): comment = table_meta['comment']
+    else: comment = "提交人未填写填报说明"
+    if(comment==""): comment = "提交人未填写填报说明"
+
     return render_template(
         'table_show_edit.html',\
         column_dict         = column_dict,\
         table_name          = table_name, \
         authorization_title = column_titles[authorization_inedx], \
         operator_title      = TableData.operator_titles,\
-        table_meta          = Database_Utils.meta.load_tablemMeta(tb_name=table_name),\
-        number_of_rows      = count_authRows
+        table_meta          = table_meta,\
+        number_of_rows      = count_authRows,\
+        comment             = comment,
+        first_entry         = True
         )
 
 @app.route('/submit',methods=["POST"])

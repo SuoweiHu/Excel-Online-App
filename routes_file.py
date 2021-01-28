@@ -264,11 +264,20 @@ def update_successRedirect(tb_name):
 # 截止日期/填表说明设置页面
 @app.route('/dueNComment/<string:tb_name>')
 def fill_dueDate_n_comment(tb_name):
+    meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
+    if('comment' in meta.keys()): comment = meta['comment']
+    else: comment = ""
+    if('due' in meta.keys()): due = meta['due']
+    else: due = ""
+
     return render_template('table_option_dueNcomment.html',
         request_url = "/dueNComment_data_save",\
         table_name  = tb_name,
-        finish_directURL = '/table/all'
+        finish_directURL = '/table/all',
+        comment = comment,
+        due = due
     )
+    
 # 截止日期/填表说明设置上传
 @app.route('/dueNComment_data_save/<string:tb_name>',methods=["POST","GET"])
 def save_dueDate_n_comment(tb_name):
