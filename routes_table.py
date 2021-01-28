@@ -399,7 +399,7 @@ def table(option):
     elif(option=='show'):
         tb_name = request.args.get('table_name')    # 提取表名
         tb_name = tb_name.split('.')[0]
-        return redirect(f'/edit/{tb_name}')
+        return redirect(f'/edit/{tb_name}?entry=main_page')
         # op_name = session["operator_name"]                # session提取用户名
         # op_rows = Database_Utils.user.get_rows(op_name)   # 提取用户允许访问的行
         # return table_show(table_name=tb_name, show_rows_of_keys=op_rows, user=op_name) 
@@ -625,6 +625,11 @@ def edit_specified_table(table_name):
     else: comment = "提交人未填写填报说明"
     if(comment==""): comment = "提交人未填写填报说明"
 
+    # ========================================
+    # 如果是第一次打开
+    if(request.args.get('entry') == "main_page"): first_entry = True
+    else: first_entry = False
+
     return render_template(
         'table_show_edit.html',\
         column_dict         = column_dict,\
@@ -634,7 +639,7 @@ def edit_specified_table(table_name):
         table_meta          = table_meta,\
         number_of_rows      = count_authRows,\
         comment             = comment,
-        first_entry         = True
+        first_entry         = first_entry
         )
 
 @app.route('/submit',methods=["POST"])
