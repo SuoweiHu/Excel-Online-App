@@ -3,10 +3,10 @@ import json
 from logging import log
 import logging
 import os
-from re import L
+from re import L, split
 import sys
 import pprint
-# import datetime
+from datetime import datetime
 # import random
 # from threading import ExceptHookArgs
 # import time
@@ -37,6 +37,15 @@ from debugTimer import *
 
 # =============================================
 # 手动渲染表格 - DEPRECATED (Sorta?)
+
+def helper_getDateTime(dateTime_string):
+    try:
+        date_time_obj = datetime.datetime.strptime(dateTime_string, '%Y/%m/%d; %H:%M:%S')
+        return date_time_obj
+    except:
+        return datetime.datetime.min
+        
+    
 
 # @app.route('/table_main')
 def table_main(cur, limit, user):
@@ -173,14 +182,22 @@ def table_main(cur, limit, user):
     if len(json_collections) == 0:
         json_collections = [{title: "数据库为空 !", row_completed_title:"", row_allNumRows_title:"", completion_title:"", button_title:""}]
 
-    get_title = lambda i:i[title]
-    json_collections = sorted(json_collections, key=get_title)
+    # ============================
 
-    # if(user == 'admin'):
-    if(Database_Utils.user.check_admin(user)):
-        # 通过完成度给表格排序
-        get_percentage = lambda i:i[completion_title]
-        json_collections = sorted(json_collections, key=get_percentage)
+    # 如果希望使用表格名称排序 (这里先使用表格名称排一遍，后续再加上其他的排序规则)
+    get_key = lambda i:i[title]
+    json_collections = sorted(json_collections, key=get_key, reverse=False)
+
+    # 如果希望使用完成度排序
+    # if(Database_Utils.user.check_admin(user)):
+    #   get_key = lambda i:i[completion_title]
+    #   json_collections = sorted(json_collections, key=get_key, reverse=False)
+
+    # 如果希望使用截止日期排序
+    get_key = lambda i : helper_getDateTime(i[due_date_title])
+    json_collections = sorted(json_collections, key=get_key, reverse=False)
+
+    # ============================
 
     # keep only a fraction of data
     json_collections = json_collections[sheet_indexStart: sheet_indexEnd]

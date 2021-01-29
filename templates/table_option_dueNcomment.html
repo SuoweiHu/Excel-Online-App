@@ -15,13 +15,13 @@
 <body>
     <!-- Main Body -->
     <div style="padding: 20px; background-color: #ffffff;">
-        {% if return_aftFinish == "True" %}
+        {% if return_aftFinish == "False" %}
         <form action="/table/all" method="get" style="padding-left: 10px;">
-            <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回全部表格 </button>
+            <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1" disabled> 正在上传表格... </button>
         </form>
         {% else %}
         <form action="/table/all" method="get" style="padding-left: 10px;">
-            <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1" disabled> 正在上传表格... </button>
+            <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回全部表格 </button>
         </form>
         {% endif %}
         <button onclick="check_user_info()" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" style="float: right; display: inline;">{{session['operator_name']}}</button>
@@ -52,7 +52,7 @@
                     <label class="layui-form-label">截止时间</label>
                     <div class="layui-input-block">
                         <!-- <input type="text" placeholder="点击以选择...." name="date" lay-verify="DATE_ELEMENT" id="DATE_ELEMENT_ID" autocomplete="off" class="layui-input"> -->
-                        <input type="text" placeholder="yyyy/mm/dd, hh:mm:ss" value = "{{due}}" name="date" autocomplete="off" class="layui-input">
+                        <input type="text" placeholder="yyyy/mm/dd; hh:mm:ss" value = "{{due}}" name="date" autocomplete="off" class="layui-input">
                         <!-- <input type="datetime-local" value = "{{due}}" name="date" class="layui-input"> -->
                         <!-- <input type="datetime-local" name="" id=""> -->
                     </div>
