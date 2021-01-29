@@ -96,6 +96,7 @@ def table_main(cur, limit, user):
     
     # # TODO: MAKE THIS RIGHT !!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # print('===' * 30)
+    # collection_names = collection_names[sheet_indexStart:sheet_indexEnd]
     # print(sheet_indexStart)
     # print(sheet_indexEnd)
     # print(collection_names)
@@ -103,11 +104,12 @@ def table_main(cur, limit, user):
     # # TODO: MAKE THIS RIGHT !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-    collection_names = collection_names[sheet_indexStart:sheet_indexEnd]
     calculated_table_count = 1
     for col_name in collection_names: 
-        if(calculated_table_count > sheet_indexEnd):break
-        else: calculated_table_count += 1
+        calculated_table_count += 1
+        # if(calculated_table_count > sheet_indexEnd):break
+        # else: calculated_table_count += 1
+
         temp_dict = {}
         temp_dict[title] = col_name
         
@@ -192,10 +194,6 @@ def table_main(cur, limit, user):
 
         json_collections.append(temp_dict)
 
-    # print('===' * 30)
-    # pprint.pprint(json_collections)
-    # print('===' * 30)
-
     if len(json_collections) == 0:
         json_collections = [{title: "数据库为空 !", row_completed_title:"", row_allNumRows_title:"", completion_title:"", button_title:""}]
 
@@ -221,7 +219,7 @@ def table_main(cur, limit, user):
     # ============================
 
     # keep only a fraction of data
-    # json_collections = json_collections[sheet_indexStart: sheet_indexEnd]
+    json_collections = json_collections[sheet_indexStart: sheet_indexEnd]
 
     # Using json2html to convert into table
     html_table_string = json2html.convert(json = json_collections)
