@@ -1,5 +1,13 @@
-from routes import app
 from account import add_mockUsers
+
+from app					import *
+from routes_utils           import *
+from routes_table_static    import *
+from routes_table_dynamic   import *
+from routes_table_setting   import *
+from routes_file            import *
+from routes_login           import *
+
 
 def main():
 	add_mockUsers() # 添加示范用户

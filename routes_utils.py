@@ -3,8 +3,7 @@ from app import app
 from flask import session, redirect, url_for
 
 # =============================================
-# 生成日期信息/操作员信息
- 
+# 生成日期信息
 def gen_dateTime_str():
     now = datetime.datetime.now()
 
@@ -20,6 +19,7 @@ def gen_dateTime_str():
 
     return f"{day_str} {time_str}"
 
+# 生成操作员信息
 def gen_operInfo_tup():
     # Add form info into string 
     now = datetime.datetime.now()
@@ -34,7 +34,6 @@ def gen_operInfo_tup():
 
 # =============================================
 # 跳转页面
-
 @app.route('/redirect', methods=["POST","GET"])
 def redirect_to_index():
     """
