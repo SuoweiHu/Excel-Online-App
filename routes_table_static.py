@@ -95,15 +95,15 @@ def table_main(cur, limit, user):
     file_upload_html= "none"
     
     # # TODO: MAKE THIS RIGHT !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    print('===' * 30)
-    # collection_names = collection_names[sheet_indexStart:sheet_indexEnd+1]
-    print(sheet_indexStart)
-    print(sheet_indexEnd)
-    print(collection_names)
-    print('===' * 30)
+    # print('===' * 30)
+    # print(sheet_indexStart)
+    # print(sheet_indexEnd)
+    # print(collection_names)
+    # print('===' * 30)
     # # TODO: MAKE THIS RIGHT !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+    collection_names = collection_names[sheet_indexStart:sheet_indexEnd]
     calculated_table_count = 1
     for col_name in collection_names: 
         if(calculated_table_count > sheet_indexEnd):break
@@ -191,7 +191,10 @@ def table_main(cur, limit, user):
                 temp_dict[button_title] = button_stringBefReplacement
 
         json_collections.append(temp_dict)
-    
+
+    # print('===' * 30)
+    # pprint.pprint(json_collections)
+    # print('===' * 30)
 
     if len(json_collections) == 0:
         json_collections = [{title: "数据库为空 !", row_completed_title:"", row_allNumRows_title:"", completion_title:"", button_title:""}]
@@ -203,8 +206,8 @@ def table_main(cur, limit, user):
     # ============================
 
     # 如果希望使用表格名称排序 (这里先使用表格名称排一遍，后续再加上其他的排序规则)
-    get_key = lambda i:i[title]
-    json_collections = sorted(json_collections, key=get_key, reverse=False)
+    # get_key = lambda i:i[title]
+    # json_collections = sorted(json_collections, key=get_key, reverse=False)
 
     # 如果希望使用完成度排序
     # if(Database_Utils.user.check_admin(user)):
@@ -212,13 +215,13 @@ def table_main(cur, limit, user):
     #   json_collections = sorted(json_collections, key=get_key, reverse=False)
 
     # 如果希望使用截止日期排序
-    get_key = lambda i : helper_getDateTime(i[due_date_title])
-    json_collections = sorted(json_collections, key=get_key, reverse=False)
+    # get_key = lambda i : helper_getDateTime(i[due_date_title])
+    # json_collections = sorted(json_collections, key=get_key, reverse=False)
 
     # ============================
 
     # keep only a fraction of data
-    json_collections = json_collections[sheet_indexStart: sheet_indexEnd]
+    # json_collections = json_collections[sheet_indexStart: sheet_indexEnd]
 
     # Using json2html to convert into table
     html_table_string = json2html.convert(json = json_collections)
