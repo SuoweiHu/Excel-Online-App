@@ -40,10 +40,14 @@ from debugTimer import *
 
 def helper_getDateTime(dateTime_string):
     try:
-        date_time_obj = datetime.datetime.strptime(dateTime_string, '%Y/%m/%d; %H:%M:%S')
+        date_time_obj = datetime.datetime.strptime(dateTime_string, '%Y/%m/%d %H:%M:%S')
         return date_time_obj
-    except:
-        return datetime.datetime.min
+    except ValueError:
+        try:
+            date_time_obj = datetime.datetime.strptime(dateTime_string, '%Y/%m/%d %H：%M：%S')
+            return date_time_obj
+        except ValueError:
+            return datetime.datetime.min
         
     
 
