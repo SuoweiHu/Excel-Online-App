@@ -87,9 +87,10 @@
                 ,closeBtn:  0           //关闭右上角关闭按钮
                 ,anim:      6           //出场动画
                 ,yes:       function(index, layero){
-                    //返回否 将 禁止点击按钮关闭弹窗窗口
-                    //return False
-                    console.log('123')
+                    console.log('确认已读填报说明，关闭填报窗口')
+                    console.log('\t'+'填报信息:'+'{{comment}}')
+                    console.log('\t'+'操作用户:'+'{{session["nickname"]}}')
+                    
                     layer.close(index)
                 }
             });     
@@ -207,9 +208,10 @@
 
             // 监听单元格编辑事件
             table.on('edit(_MAIN_TABLE_RENDER_FILTER_)', function(obj){ 
-                // console.log(obj.value);  //案例：得到修改后的值
-                // console.log(obj.field);  //案例：当前编辑的字段名
-                // console.log(obj.data);   //案例：所在行的所有相关数据  
+                console.log('监听到单元格编辑:');
+                console.log('\t'+'列标题:'+obj.field);  //当前编辑的字段名
+                console.log('\t'+'数据:'+obj.value);  //得到修改后的值
+                // console.log('\t'+obj.data);   //所在行的所有相关数据  
 
                 // 检查更改是否为空（或者全部为&nbsp；如果是则不作处理）
                 var enable_space_check = false      //是否不提交空值
@@ -239,9 +241,10 @@
 
             //监听排序事件 
             table.on('sort(_MAIN_TABLE_RENDER_FILTER_)', function(obj){ 
-                // console.log(this);                                       //案例：当前排序的 th 对象 (HTNL元素)
-                // console.log(obj.field);                                  //案例：当前排序的字段名
-                // console.log(obj.type);                                   //案例：当前排序类型 asc/desc/null
+                console.log('监听到重新排序:')
+                console.log('\t'+this);             //当前排序的 th 对象 (HTNL元素)
+                console.log('\t'+obj.field);        //当前排序的字段名
+                console.log('\t'+obj.type);         //当前排序类型 asc/desc/null
                 
                 //根据当前排序的字段，重新向服务端发送请求
                 table.reload('_MAIN_TABLE_RENDER_ID_', {
@@ -261,6 +264,11 @@
             var deviceTotal = parseInt("{{number_of_rows}}");
             var dataExport = new Array;
             function exportData(obj, offset, limit, format) {
+                console.log('监听到表格全部导出事件:')
+                console.log('\t'+'操作用户:'+'{{session["nickname"]}}')
+                console.log('\t'+'总计行数:'+deviceTotal)
+                console.log('\t'+'导出格式:'+format)
+
                 //请求所有数据
                 $.ajax({
                     type: 'get',
