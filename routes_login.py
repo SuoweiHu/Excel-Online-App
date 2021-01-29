@@ -22,12 +22,7 @@ from modules._Hash_Utils import hash_id
 from app import app
 # from json2html  import json2html
 from flask      import Flask, abort, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
-
 from routes_utils import *
-# from routes_table import *
-# from routes_file  import *
-# from routes_login import *
-
 
 
 # =============================================

@@ -18,12 +18,14 @@
 # from pymongo.periodic_executor import _on_executor_deleted
 # from werkzeug   import utils
 # from json2html  import json2html
-from app import app
-from flask      import Flask, abort, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
+# from app import app
+# from flask      import Flask, abort, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
 
-from routes_utils import *
-from routes_table import *
-from routes_file  import *
-from routes_login import *
+from routes_utils           import *
+from routes_table_static    import *
+from routes_table_dynamic   import *
+from routes_table_setting   import *
+from routes_file            import *
+from routes_login           import *
 
 

@@ -28,9 +28,7 @@ from json2html  import json2html
 from flask      import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
 
 from routes_utils import *
-# from routes_table import *
 from routes_file  import *
-# from routes_login import *
 from debugTimer import *
 
 
@@ -95,6 +93,17 @@ def table_main(cur, limit, user):
     # Append to json dict
     json_collections= []
     file_upload_html= "none"
+    
+    # # TODO: MAKE THIS RIGHT !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    print('===' * 30)
+    # collection_names = collection_names[sheet_indexStart:sheet_indexEnd+1]
+    print(sheet_indexStart)
+    print(sheet_indexEnd)
+    print(collection_names)
+    print('===' * 30)
+    # # TODO: MAKE THIS RIGHT !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
     calculated_table_count = 1
     for col_name in collection_names: 
         if(calculated_table_count > sheet_indexEnd):break
@@ -121,7 +130,7 @@ def table_main(cur, limit, user):
             else:temp_dict[due_date_title]=""
 
             # 统计完成度
-            timer = debugTimer(f"主界面-开始统计表格: {config.tb_name}  (第{calculated_table_count-1}/{sheet_indexEnd}表格)", f"完成统计表格 (总计处理了: { tb_meta['count'] } 行 { len(tb_meta['titles']) } 列)")
+            timer = debugTimer(f"主界面-开始统计表格: {config.tb_name}  (第{calculated_table_count-1+sheet_indexStart}/{sheet_indexEnd}表格)", f"完成统计表格 (总计处理了: { tb_meta['count'] } 行 { len(tb_meta['titles']) } 列)")
             timer.start()
             count_row_completed   = Database_Utils.stat.count_completedRows(config=config)
             count_row_uncompleted = Database_Utils.stat.count_allRows(config=config) - count_row_completed
@@ -182,9 +191,14 @@ def table_main(cur, limit, user):
                 temp_dict[button_title] = button_stringBefReplacement
 
         json_collections.append(temp_dict)
+    
 
     if len(json_collections) == 0:
         json_collections = [{title: "数据库为空 !", row_completed_title:"", row_allNumRows_title:"", completion_title:"", button_title:""}]
+
+    # print('='*100)
+    # print(pprint.pprint(json_collections))
+    # print('='*100)
 
     # ============================
 
