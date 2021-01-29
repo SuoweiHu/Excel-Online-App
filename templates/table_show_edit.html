@@ -76,12 +76,22 @@
         layui.use(['table', 'laytpl','layer'], function(){
             var laytpl= layui.laytpl;
             var table = layui.table;
-            //{% if first_entry == True %}
-            //{% set first_entry = False %}
-            console.log('{{first_entry}}')
+            // {% if first_entry == True %}
+            // {% set first_entry = False %}
+            // console.log('{{first_entry}}')
             layer.open({
-                title: '填报说明'
-                ,content: "{{comment}}"
+                title:      '填报说明'
+                ,content:   '<div style="text-align: center;"> {{comment}} </div>'
+                ,btnAlign:  'c'         //按钮对齐方向
+                ,btn:       ['已读']     //按钮
+                ,closeBtn:  0           //关闭右上角关闭按钮
+                ,anim:      6           //出场动画
+                ,yes:       function(index, layero){
+                    //返回否 将 禁止点击按钮关闭弹窗窗口
+                    //return False
+                    console.log('123')
+                    layer.close(index)
+                }
             });     
             //{% endif %}
             

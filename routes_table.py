@@ -622,8 +622,8 @@ def edit_specified_table(table_name):
     # 使用模版渲染表格
     table_meta = Database_Utils.meta.load_tablemMeta(tb_name=table_name)
     if('comment' in table_meta.keys()): comment = table_meta['comment']
-    else: comment = "提交人未填写填报说明"
-    if(comment==""): comment = "提交人未填写填报说明"
+    else:                               comment = "提交人暂时还未填写说明"
+    if(comment==""):                    comment = "提交人暂时还未填写说明"
 
     # ========================================
     # 如果是第一次打开

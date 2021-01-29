@@ -86,6 +86,11 @@ def route_upload_file(f, f_name):
         if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json")   # 如果想暂时存储为JSON文件预览
         Database_Utils.table.upload_table(tb_name.split('.')[0],tableData_Json) # 上传表格到数据库为其表格名为名称的集合
 
+        # 重新定向到 “上传成功页面  ”
+        # return redirect(url_for('upload_successRedirect', tb_name=tb_name))
+        return render_template('redirect_fileUploaded.html', 
+        table_name=tb_name,
+        message=f"文件 {f_name} 成功上传")
 
         # 重新定向到选择 “必填” “预设可改” 的页面
         return redirect(url_for('select_RequredAttribute', tb_name=tb_name, return_aftFinish='False'))
