@@ -165,7 +165,7 @@ class MongoDatabase:
         else:  
             raise(f"Collection specified does not exist. (Collection of _name={collection}")
 
-    def get_documents(self, collection, search_query=None, sort=(None,None)):
+    def get_documents(self, collection, search_query=None, sort=(None,None), limit=None, skip=0):
         """
         获取已经打开数据库中的特定集合中的符合查询条件的文档
         Parameter:
@@ -174,6 +174,7 @@ class MongoDatabase:
         """
 
         # 如果没有给字典类型的Query, 那么默认返回集合全部的Document
+        # (注意：如果使用没有Query的调用，则默认Sort和Limit也不会启用)
         if(search_query is None):
             document_ids = self.get_ids(collection=collection)
             rtn_dict = {}
@@ -187,10 +188,15 @@ class MongoDatabase:
             if(collection in self.database.list_collection_names()):  
                 db_collection = self.database[collection]
                 if(db_collection.count_documents(search_query)!= 0):
+                    # 如果不需要排序
                     if (sort is None) or (sort[0] is None) or (sort[1] is None):
-                        document = db_collection.find(search_query)
+                        if(limit is None): document = db_collection.find(search_query).skip(skip)
+                        else: document = db_collection.find(search_query).limit(limit).skip(skip)
+
+                    # 如果需要开启排序（sort[0]:排序键， sort[1]:+1/-1, ASC/DESC）
                     else:
-                        document = db_collection.find(search_query).sort(sort[0], sort[1])
+                        if(limit is None): document = db_collection.find(search_query).sort(sort[0], sort[1]).skip(skip)
+                        else: document = db_collection.find(search_query).sort(sort[0], sort[1]).limit(limit).skip(skip)
                     # del document["_id"]
                     return document
                 else: raise RuntimeError(f"Document specified does not exist. (Document of {str(search_query)}")

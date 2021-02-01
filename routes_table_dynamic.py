@@ -33,14 +33,7 @@ from routes_table_static    import *
 
 
 # =============================================
-# 自动渲染表格 - 主界面数据接口
-# @app.route('/api/data/')
-# def apiData_dataMain():
-    # return
-
-
-# =============================================
-# 自动渲染表格 - 上传文件/数据接口
+# 自动渲染表格 - 上传文件
 
 @app.route('/file', methods=["POST"])
 def upload_file():
@@ -57,6 +50,10 @@ def upload_file():
     else:                                                    
         return render_template("redirect_fileUploaded.html",\
             message=f"上传文件失败, 错误: 位置上传方法 (需要为POST)")
+
+
+# =============================================
+# 自动渲染表格 - 数据接口
 
 # DEPRECATED
 # @app.route('/data_all/<string:table_name>')
@@ -133,20 +130,21 @@ def upload_file():
     # count = len(data)
     # return {"code":code, "msg":msg, "count":count, "data":data}
 
-@app.route('/api/data')
+# 编辑页面
+@app.route('/api/dataEdit')
 def apiData_dataEdit(): 
     """
-    数据接口
+    获取”编辑页面“的表格的数据接口
     """
     # 获取 表格信息
     table_name = request.args['tb_name']
 
     # 获取 操作员信息
-    show_operator        = True   # 是否展示操作员信息
-    # authorization_inedx  = 0    # 用于确认用户权限的列的序号 (这里 0 指的是 ‘行号’ 在标题的第一个位置)
-    # authorized_rows      = [733101,733121,733131,733141,733151,733165,733177,733189,733201,733213,733225]
-    authorized_rows      = Database_Utils.user.get_rows(session['operator_name'])
-    authorized_rows      = [str(i) for i in authorized_rows]
+    show_operator           = True   # 是否展示操作员信息
+    # authorization_inedx   = 0    # 用于确认用户权限的列的序号 (这里 0 指的是 ‘行号’ 在标题的第一个位置)
+    # authorized_rows       = [733101,733121,733131,733141,733151,733165,733177,733189,733201,733213,733225]
+    authorized_rows         = Database_Utils.user.get_rows(session['operator_name'])
+    authorized_rows         = [str(i) for i in authorized_rows]
 
     # 获取 分页请求
     page  = int(request.args['page'])
@@ -163,6 +161,7 @@ def apiData_dataEdit():
     count = 0
     data = []
 
+    # 使用其中一列进行排序
     sort = (None,None)
     if('field' in dict(request.args).keys()):
         key   =  request.args.get('field')
@@ -171,11 +170,11 @@ def apiData_dataEdit():
         else:                  key = 'data.' + key
         order = (-1) if(request.args.get('order') == 'desc') else (1)
         sort  = (key, order)
+        app.logger.debug(f"\t\t重新获得信息")
+        app.logger.debug(f"\t\t排序信息:{sort}")
     else:
         sort = (None, None) 
-
-    app.logger.debug(f"\t\t重新获得信息")
-    app.logger.debug(f"\t\t排序信息:{sort}")
+    
 
     # 从数据库读取对应表格
     role  = ("管理员") if Database_Utils.user.check_admin(session['operator_name']) else ("普通用户")
@@ -187,14 +186,12 @@ def apiData_dataEdit():
     # 尝试获取数据（如果不存在数据则会抛出RuntimeError错误）
     try: 
         table_data = Database_Utils.table.load_table(tb_name=table_name, search_query=row_query, sort=sort)
-        print(table_data.toJson)
     except RuntimeError as e: 
         app.logger.debug(f"\t\t{e}")
         emptyTable_json = dict({})
         table_data = TableData(json=emptyTable_json, tb_name=table_show)
     timer.end()
 
-    # print(table_data.rows)
 
     # 处理获得的文档成为可被Juinja2渲染的格式
     for i in range(len(table_data.rows)):
@@ -222,6 +219,103 @@ def apiData_dataEdit():
     data = data[start:end]
     return {"code":code, "msg":msg, "count":count, "data":data}
 
+# 主界面
+@app.route('/api/dataMain')
+def apiData_dataMain():
+
+    """
+    主界面表格的数据接口，返回数据包括了
+    {
+        code = xx,                          # 0 means success 
+        msg  = yy,                          # message for debug purpose
+        count = zz,                         # 总行数（被layui用于分页使用）
+        data  = [
+            {
+               tb_name : XX,                # 表格名称
+               upload_operator : XX         # 指示 - 提交人
+               upload_time : XX             # 指示 - 提交时间
+               due : XX                     # 指示 - 截止日期
+               count_completed : XX         # 完成度 - 完成行数
+               count_uncompleted : XX       # 完成度 - 未完成行数
+               count_total : XX             # 完成度 - 全部行数
+               percentage : XX              # 完成度 - 百分比/小数
+               url_edit : XX                # 操作按钮URL - 查看填写表单
+               url_edit_mustFill X XX       # 操作按钮URL - 编辑必填值
+               url_edit_dueNComment : XX    # 操作按钮URL - 编辑填报说明/截止时期
+               url_delete : XX              # 操作按钮URL - 删除表单
+            },
+            ...
+        ]
+    }
+    """
+
+    # 返回的数据
+    rtn_data = {
+        'code'  : 0,
+        'msg'   : "",
+        'count' : 0,
+        'data'  : []
+    }
+
+    # 使用其中一列进行排序
+    sort = (None,None)
+    if('field' not in dict(request.args).keys()): 
+        sort = ('tb_name',+1) # 默认使用提交时间排序
+    else:
+        # key   =  request.args.get('field')
+        # if(key == "操作员"):    key = 'user.name'
+        # elif(key == "时间"):    key = 'user.time' 
+        # else:                  key = 'data.' + key
+        # order = (-1) if(request.args.get('order') == 'desc') else (1)
+        # sort  = (key, order)
+        # app.logger.debug(f"\t\t重新获得信息")
+        # app.logger.debug(f"\t\t排序信息:{sort}")
+
+        # ======================================================================
+        # TODO: IMPLMENT METHOD THAT TRANSFORMS SORTING REUQEST TO SEARCH QUERY
+        # ======================================================================
+        pass 
+
+    
+    # 通过meta确认，仅在当前页显示的表单（通过XX排序）
+    # 尝试获取数据（如果不存在数据则会抛出RuntimeError错误）
+    try: 
+        table_data = Database_Utils.meta.pull_tableMeta_s(sort=sort)
+
+        # ======================================================================
+        # TODO: IMPLMENT METHOD SUCH THAT THIS LIMIT AND SKIP WORKS AS YOU EXPECTED
+        # ======================================================================
+        # table_data = Database_Utils.meta.pull_tableMeta_s(sort=sort, limit=2, skip=3)
+
+        tb_names = [table_i['tb_name'] for table_i in table_data]
+    except RuntimeError as e: 
+        app.logger.debug(f"\t\t{e}")
+        tb_names = []
+    
+    # 处理每张表格得到想要的信息
+    for tb_name in tb_names:  
+        cur_table_data = {}
+        table_meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
+        meta_preserveKey = [
+            'tb_name'           # 表格名称
+            ,'upload_operator'  # 指示 - 提交人
+            ,'upload_time'      # 指示 - 提交时间
+            ,'due'              # 指示 - 截止日期
+        ]
+        app.logger.warn(table_meta)
+        cur_table_data = {i:table_meta[i] for i in meta_preserveKey}
+        completion_state      = Database_Utils.stat.completion(tb_name=tb_name)
+        cur_table_data['count_row_total']       = completion_state['total']       # 完成度 - 完成行数
+        cur_table_data['count_row_completed']   = completion_state['completed']   # 完成度 - 未完成行数
+        cur_table_data['count_row_uncompleted'] = completion_state['uncompleted'] # 完成度 - 全部行数
+        cur_table_data['completion_percent']    = completion_state['percentage']  # 完成度 - 百分比
+        # cur_table_data['url_edit']              = url_for('YET-TO-BE-ENSURED ',tb_name=tb_name)
+        cur_table_data['url_edit_mustFill']     = url_for('select_RequredAttribute', tb_name=tb_name, return_aftFinish=True)
+        cur_table_data['url_edit_dueNComment']  = url_for('fill_dueDate_n_comment', tb_name=tb_name)
+        cur_table_data['url_delete']            = url_for('table_clear', table_name=tb_name)
+        rtn_data['data'].append(cur_table_data)
+
+    return rtn_data
 
 # =============================================
 # 自动渲染表格 - 展示表格/提交变更 

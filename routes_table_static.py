@@ -123,7 +123,6 @@ def table_main(cur, limit, user):
             # 提交人/提交时间/截止日期
             tb_meta  = (Database_Utils.meta.load_tablemMeta(config.tb_name.split('.')[0]))
             if('upload_operator' in tb_meta.keys()):temp_dict[upload_account_title]=tb_meta['upload_operator']
-            elif('upload_account' in tb_meta.keys()):temp_dict[upload_account_title]=tb_meta['upload_account']
             else:temp_dict[upload_account_title]=""
             if('upload_time' in tb_meta.keys()):temp_dict[upload_time_title]=tb_meta['upload_time']
             else:temp_dict[upload_time_title]=""
@@ -166,7 +165,6 @@ def table_main(cur, limit, user):
             # 提交人/提交时间/截止日期
             tb_meta  = (Database_Utils.meta.load_tablemMeta(config.tb_name.split('.')[0]))
             if('upload_operator' in tb_meta.keys()):temp_dict[upload_account_title]=tb_meta['upload_operator']
-            elif('upload_account' in tb_meta.keys()):temp_dict[upload_account_title]=tb_meta['upload_account']
             else:temp_dict[upload_account_title]=""
             if('upload_time' in tb_meta.keys()):temp_dict[upload_time_title]=tb_meta['upload_time']
             else:temp_dict[upload_time_title]=""
@@ -199,25 +197,19 @@ def table_main(cur, limit, user):
 
     if len(json_collections) == 0:
         json_collections = [{title: "数据库为空 !", row_completed_title:"", row_allNumRows_title:"", completion_title:"", button_title:""}]
+    else:
+        # 如果希望使用表格名称排序 (这里先使用表格名称排一遍，后续再加上其他的排序规则)
+        get_key = lambda i:i[title]
+        json_collections = sorted(json_collections, key=get_key, reverse=False)
 
-    # print('='*100)
-    # print(pprint.pprint(json_collections))
-    # print('='*100)
+        # 如果希望使用完成度排序
+        # if(Database_Utils.user.check_admin(user)):
+        #   get_key = lambda i:i[completion_title]
+        #   json_collections = sorted(json_collections, key=get_key, reverse=False)
 
-    # ============================
-
-    # 如果希望使用表格名称排序 (这里先使用表格名称排一遍，后续再加上其他的排序规则)
-    get_key = lambda i:i[title]
-    json_collections = sorted(json_collections, key=get_key, reverse=False)
-
-    # 如果希望使用完成度排序
-    # if(Database_Utils.user.check_admin(user)):
-    #   get_key = lambda i:i[completion_title]
-    #   json_collections = sorted(json_collections, key=get_key, reverse=False)
-
-    # 如果希望使用截止日期排序
-    get_key = lambda i : helper_getDateTime(i[due_date_title])
-    json_collections = sorted(json_collections, key=get_key, reverse=False)
+        # 如果希望使用截止日期排序
+        get_key = lambda i : helper_getDateTime(i[due_date_title])
+        json_collections = sorted(json_collections, key=get_key, reverse=False)
 
     # ============================
 
@@ -269,7 +261,7 @@ def table_main(cur, limit, user):
         page_count = page['count'],     \
         )
 
-# @app.route('/table_clear')
+@app.route('/table_clear/<string:table_name>')
 def table_clear(table_name):
     """
     删除指定名称的表单
@@ -279,6 +271,7 @@ def table_clear(table_name):
     db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
     db.drop(collection = table_name)
     db.close()
+    Database_Utils.meta.del_tablemMeta(tb_name=table_name)
     return render_template("redirect_tableCleaned.html", message=f"操作成功: 已清除集合[ {table_name} ]")
 
 # @app.route('/table_show')

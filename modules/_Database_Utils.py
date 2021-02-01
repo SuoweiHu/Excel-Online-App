@@ -128,7 +128,7 @@ class Database_Utils:
         def count_allRows(tb_name, is_admin=True, authorized_banknos=None):
             if(is_admin):
                 # 通过元数据表获得信息
-                return Database_Utils.meta.load_tablemMeta(tb_name=tb_name)['count'] + 1
+                return Database_Utils.meta.load_tablemMeta(tb_name=tb_name)['count']
             else:
                 # 通过查询条件获得符合条件的文件数量
                 bankno_list = [str(no) for no in authorized_banknos]
@@ -285,7 +285,7 @@ class Database_Utils:
             rtn_completion['completed']   = Database_Utils.stat.count_completedRows(tb_name=tb_name, is_admin=is_admin,authorized_banknos=authorized_banknos) # 获取用户的完成（有权限的）行数
             rtn_completion['total']       = Database_Utils.stat.count_allRows(tb_name=tb_name,is_admin=is_admin,authorized_banknos=authorized_banknos) # 获取用户的所有（有权限的）行数
             rtn_completion['uncompleted'] = rtn_completion['total'] - rtn_completion['completed']
-            if(rtn_completion['total'] != 0): rtn_completion['percentage']  = round(rtn_completion['completed']/rtn_completion['total'], 2) # 完成百分比（2位小数点）
+            if(rtn_completion['total'] != 0): rtn_completion['percentage']  = round(rtn_completion['completed']/rtn_completion['total'], 3) # 完成百分比（2位小数点）
             else: rtn_completion['percentage'] = 1.00
             return rtn_completion
 
@@ -342,6 +342,16 @@ class Database_Utils:
             db.start()
             db.delete(collection=Database_Utils.tableMeta_collection_name,query={'tb_name' : tb_name})
             db.close()
+
+        # 获取特定排序顺序的表格元数据
+        def pull_tableMeta_s(sort=(None,None), limit=None, skip=0):
+            db = MongoDatabase()
+            db.start()
+            if(limit is None):docs = db.get_documents(collection=Database_Utils.tableMeta_collection_name, search_query={}, sort=sort, skip=skip)
+            else:docs = db.get_documents(collection=Database_Utils.tableMeta_collection_name, search_query={}, sort=sort, limit=limit, skip=skip)
+            db.close()
+            return docs
+
 
 
     # ================================
