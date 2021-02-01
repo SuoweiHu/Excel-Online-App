@@ -320,7 +320,10 @@ def apiData_dataMain():
 # =============================================
 # 自动渲染表格 - 展示表格/提交变更 
 
-# 表格展示
+# 主界面
+# @app.route('')
+
+# 编辑界面
 @app.route('/edit/<string:table_name>')
 def edit_specified_table(table_name):
 
@@ -362,9 +365,15 @@ def edit_specified_table(table_name):
         first_entry         = first_entry
         )
 
-# 提交普通单元格
-@app.route('/submit',methods=["POST"])
-def submit_specified_table():
+
+
+
+# =============================================
+# 提交变更 
+# 自动渲染表格 - 提交普通单元格
+
+@app.route('/api/submit_row',methods=["POST"])
+def submit_specified_tableRow():
     """
     接受Ajax POST上传请求的路由, 更新数据库中特定集合(对应表格)的特定文件(对应行)
     """

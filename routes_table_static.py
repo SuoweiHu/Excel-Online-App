@@ -431,7 +431,7 @@ def table(option):
     elif(option=='show'):
         tb_name = request.args.get('table_name')    # 提取表名
         tb_name = tb_name.split('.')[0]
-        return redirect(f'/edit/{tb_name}?entry=main_page')
+        return redirect(url_for('edit_specified_table', table_name=tb_name)+'?entry=main_page')
         # op_name = session["operator_name"]                # session提取用户名
         # op_rows = Database_Utils.user.get_rows(op_name)   # 提取用户允许访问的行
         # return table_show(table_name=tb_name, show_rows_of_keys=op_rows, user=op_name) 

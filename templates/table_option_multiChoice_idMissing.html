@@ -16,7 +16,7 @@
     <div style="padding: 20px; background-color: #ffffff;">
 
         
-        <form action="/edit/{{tb_name}}" method="get" style="padding-left: 10px;">
+        <form action="{{url_for('edit_specified_table', table_name=tb_name)}}" method="get" style="padding-left: 10px;">
             <button style="display: inline; float: left;" type="submit" class="layui-btn layui-btn-primary layui-btn-m layui-btn-radius" lay-submit="" lay-filter="demo1"> 返回表格 </button>
         </form>
         <br>

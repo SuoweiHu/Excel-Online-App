@@ -70,7 +70,7 @@ def route_upload_requiredTitles(tb_name):
     Database_Utils.meta.save_tablemMeta(tb_name=tb_name, meta=meta)
 
     # return "Successful !"
-    return redirect('/edit/'+tb_name)
+    return redirect(url_for('edit_specified_table', table_name=tb_name))
 
 
 # =============================================

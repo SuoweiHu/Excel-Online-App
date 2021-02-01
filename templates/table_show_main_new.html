@@ -220,7 +220,7 @@
                 if(modified_value.length != 0 || !enable_space_check){
 
                     //从单元格监听器获得数据
-                    const request_url = "{{url_for('submit_specified_tableRow')}}"
+                    const request_url = "/submit"
                     var request_dict  = obj.data;
                     request_dict['table_name'] = '{{table_name}}';
                     //使用Ajax提交更改
