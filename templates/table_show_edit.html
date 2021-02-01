@@ -117,7 +117,7 @@
                 ,limits:[25, 50, 75, 100]           //分页选项
 
             //数据接口
-                ,url: '/data/{{table_name}}'        //数据接口
+                ,url: '/api/data?tb_name={{table_name}}'        //数据接口
             //数据解析 (将数据接口返回数据,解析成 table 组件所规定的数据格式)
                 // ,parseData: function(res){ 
                     // return {
@@ -249,7 +249,7 @@
                 //根据当前排序的字段，重新向服务端发送请求
                 table.reload('_MAIN_TABLE_RENDER_ID_', {
                     initSort: obj                   //记录初始排序，如果不设的话，将无法标记表头的排序状态。
-                    ,url: '/data/{{table_name}}'    //服务端的异步数据接口
+                    ,url: '/api/data?tb_name={{table_name}}'    //服务端的异步数据接口
                     ,where: {                       //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
                         field: obj.field            //排序字段
                         ,order: obj.type            //排序方式
@@ -272,7 +272,7 @@
                 //请求所有数据
                 $.ajax({
                     type: 'get'
-                    ,url: '/data/{{table_name}}'
+                    ,url: '/api/data?tb_name={{table_name}}'
                     ,dataType: 'json'
                     ,data: {
                         // 'domain': domainname,

@@ -294,7 +294,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10215973854064941 s
 DEBUG:app:开始于:	2021-01-25 15:35:39
 DEBUG:app:结束于:	2021-01-25 15:35:40
-INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:35:40] "[37mGET /data/DEMO_TABLE_32?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:35:40] "[37mGET /api/data/DEMO_TABLE_32?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:35:46] "[37mPOST /update_requiredTitles/DEMO_TABLE_32 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:35:46] "[37mGET /select_RequredAttribute/DEMO_TABLE_32/True?项目名=on HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:35:46] "[37mGET /update_success/DEMO_TABLE_32?table_name=DEMO_TABLE_32 HTTP/1.1[0m" 200 -
@@ -308,7 +308,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.09933590888977051 s
 DEBUG:app:开始于:	2021-01-25 15:35:48
 DEBUG:app:结束于:	2021-01-25 15:35:49
-INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:35:49] "[37mGET /data/DEMO_TABLE_32?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:35:49] "[37mGET /api/data/DEMO_TABLE_32?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -316,7 +316,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0629892349243164 s
 DEBUG:app:开始于:	2021-01-25 15:35:49
 DEBUG:app:结束于:	2021-01-25 15:35:49
-INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:35:49] "[37mGET /data/DEMO_TABLE_32?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:35:49] "[37mGET /api/data/DEMO_TABLE_32?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app: 
 		Saving changes for
 			table  = DEMO_TABLE_32
@@ -409,7 +409,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10038495063781738 s
 DEBUG:app:开始于:	2021-01-25 15:37:14
 DEBUG:app:结束于:	2021-01-25 15:37:14
-INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:37:14] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:37:14] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
 DEBUG:app:  耗时:	0.14994096755981445 s
@@ -473,7 +473,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10764479637145996 s
 DEBUG:app:开始于:	2021-01-25 15:37:27
 DEBUG:app:结束于:	2021-01-25 15:37:27
-INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:37:27] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:37:27] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:37:27] "[32mGET /table/show?table_name=下拉测试_copy HTTP/1.1[0m" 302 -
 INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:37:27] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
@@ -483,7 +483,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10283327102661133 s
 DEBUG:app:开始于:	2021-01-25 15:37:29
 DEBUG:app:结束于:	2021-01-25 15:37:29
-INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:37:29] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:37:29] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:38:27] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -492,7 +492,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.09395194053649902 s
 DEBUG:app:开始于:	2021-01-25 15:38:27
 DEBUG:app:结束于:	2021-01-25 15:38:28
-INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:38:28] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:38:28] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:38:44] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -501,7 +501,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10242319107055664 s
 DEBUG:app:开始于:	2021-01-25 15:38:44
 DEBUG:app:结束于:	2021-01-25 15:38:44
-INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:38:44] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:38:44] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug: * Detected change in '/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_file.py', reloading
 INFO:werkzeug: * Restarting with stat
 WARNING:werkzeug: * Debugger is active!
@@ -581,7 +581,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10105776786804199 s
 DEBUG:app:开始于:	2021-01-25 15:44:21
 DEBUG:app:结束于:	2021-01-25 15:44:22
-INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:44:22] "[37mGET /data/DEMO_TABLE_32?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:44:22] "[37mGET /api/data/DEMO_TABLE_32?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:44:23] "[37mGET /select_RequredAttribute/DEMO_TABLE_32/False HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:44:24] "[37mPOST /file HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:44:25] "[32mGET /table/show?table_name=DEMO_TABLE_32.xlsx HTTP/1.1[0m" 302 -
@@ -593,7 +593,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10706830024719238 s
 DEBUG:app:开始于:	2021-01-25 15:44:26
 DEBUG:app:结束于:	2021-01-25 15:44:26
-INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:44:26] "[37mGET /data/DEMO_TABLE_32?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:44:26] "[37mGET /api/data/DEMO_TABLE_32?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: DEMO_TABLE_1.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 5 列)
 DEBUG:app:  耗时:	0.1551370620727539 s
@@ -767,7 +767,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10758209228515625 s
 DEBUG:app:开始于:	2021-01-25 15:45:04
 DEBUG:app:结束于:	2021-01-25 15:45:04
-INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:45:04] "[37mGET /data/2020年二季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2021 15:45:04] "[37mGET /api/data/2020年二季度?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.15730881690979004 s
@@ -905,7 +905,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04809093475341797 s
 DEBUG:app:开始于:	2021-01-26 11:17:05
 DEBUG:app:结束于:	2021-01-26 11:17:05
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:17:05] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:17:05] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:17:12] "[37mGET /multiChoice/下拉测试_copy/性别/26e0d33b7abb478d3423446ccdfcdd216e99e3f28e06823a97fa27f0f264fd98 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:17:19] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
@@ -915,7 +915,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.051753997802734375 s
 DEBUG:app:开始于:	2021-01-26 11:17:19
 DEBUG:app:结束于:	2021-01-26 11:17:19
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:17:19] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:17:19] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.07187724113464355 s
@@ -1110,7 +1110,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.09850597381591797 s
 DEBUG:app:开始于:	2021-01-26 11:19:04
 DEBUG:app:结束于:	2021-01-26 11:19:04
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:19:04] "[37mGET /data/1111退回任务_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:19:04] "[37mGET /api/data/1111退回任务_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app: 
 		Saving changes for
 			table  = 1111退回任务_copy
@@ -1261,7 +1261,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.194227933883667 s
 DEBUG:app:开始于:	2021-01-26 11:19:37
 DEBUG:app:结束于:	2021-01-26 11:19:37
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:19:37] "[37mGET /data/1111退回任务_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:19:37] "[37mGET /api/data/1111退回任务_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:19:42] "[32mGET / HTTP/1.1[0m" 302 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:19:42] "[37mGET /index HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:19:47] "[37mPOST /login HTTP/1.1[0m" 200 -
@@ -1379,7 +1379,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04474067687988281 s
 DEBUG:app:开始于:	2021-01-26 14:17:32
 DEBUG:app:结束于:	2021-01-26 14:17:32
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:17:32] "[37mGET /data/2020年一季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:17:32] "[37mGET /api/data/2020年一季度?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.07086491584777832 s
@@ -1449,7 +1449,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0459599494934082 s
 DEBUG:app:开始于:	2021-01-26 14:18:02
 DEBUG:app:结束于:	2021-01-26 14:18:03
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:18:03] "[37mGET /data/2020年一季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:18:03] "[37mGET /api/data/2020年一季度?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:18:26] "[37mGET /edit/2020年一季度 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -1458,7 +1458,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04330015182495117 s
 DEBUG:app:开始于:	2021-01-26 14:18:26
 DEBUG:app:结束于:	2021-01-26 14:18:26
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:18:26] "[37mGET /data/2020年一季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:18:26] "[37mGET /api/data/2020年一季度?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.07691407203674316 s
@@ -1591,7 +1591,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0422210693359375 s
 DEBUG:app:开始于:	2021-01-26 14:18:39
 DEBUG:app:结束于:	2021-01-26 14:18:39
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:18:39] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:18:39] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:19:18] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -1600,7 +1600,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0479278564453125 s
 DEBUG:app:开始于:	2021-01-26 14:19:18
 DEBUG:app:结束于:	2021-01-26 14:19:18
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:19:18] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:19:18] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app: 
 		Saving changes for
 			table  = DEMO_TABLE_1
@@ -1625,7 +1625,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04433083534240723 s
 DEBUG:app:开始于:	2021-01-26 14:19:39
 DEBUG:app:结束于:	2021-01-26 14:19:39
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:19:39] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:19:39] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:19:42] "[37mPOST /update_requiredTitles/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:19:42] "[37mGET /select_RequredAttribute/DEMO_TABLE_1/True?备注=on HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:19:44] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
@@ -1636,7 +1636,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04676389694213867 s
 DEBUG:app:开始于:	2021-01-26 14:19:44
 DEBUG:app:结束于:	2021-01-26 14:19:44
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:19:44] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:19:44] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app: 
 		Saving changes for
 			table  = DEMO_TABLE_1
@@ -1756,7 +1756,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04381108283996582 s
 DEBUG:app:开始于:	2021-01-26 14:20:02
 DEBUG:app:结束于:	2021-01-26 14:20:02
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:02] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:02] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:14] "[37mPOST /update_requiredTitles/下拉测试_copy HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:14] "[37mGET /select_RequredAttribute/下拉测试_copy/True?普通列1=on&省份=on&选项=on HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:16] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
@@ -1767,7 +1767,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.03950023651123047 s
 DEBUG:app:开始于:	2021-01-26 14:20:16
 DEBUG:app:结束于:	2021-01-26 14:20:16
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:16] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:16] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:34] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -1776,7 +1776,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04697871208190918 s
 DEBUG:app:开始于:	2021-01-26 14:20:34
 DEBUG:app:结束于:	2021-01-26 14:20:34
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:34] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:34] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:38] "[37mGET /multiChoice/下拉测试_copy/性别/26e0d33b7abb478d3423446ccdfcdd216e99e3f28e06823a97fa27f0f264fd98 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:39] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
@@ -1786,7 +1786,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0421750545501709 s
 DEBUG:app:开始于:	2021-01-26 14:20:40
 DEBUG:app:结束于:	2021-01-26 14:20:40
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:40] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:40] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:58] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -1795,7 +1795,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04242110252380371 s
 DEBUG:app:开始于:	2021-01-26 14:20:59
 DEBUG:app:结束于:	2021-01-26 14:20:59
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:59] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:20:59] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:00] "[37mGET /multiChoice/下拉测试_copy/性别/26e0d33b7abb478d3423446ccdfcdd216e99e3f28e06823a97fa27f0f264fd98 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:01] "[32mGET /submit_multiChoice?tb_name=下拉测试_copy&title=性别&_id=26e0d33b7abb478d3423446ccdfcdd216e99e3f28e06823a97fa27f0f264fd98&choice=女 HTTP/1.1[0m" 302 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:01] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
@@ -1806,7 +1806,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0467982292175293 s
 DEBUG:app:开始于:	2021-01-26 14:21:01
 DEBUG:app:结束于:	2021-01-26 14:21:01
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:01] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:01] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:02] "[37mGET /multiChoice/下拉测试_copy/性别/4cbc94a648f06c6f8c6fe890019b43ca4811fe1dcd51a139a5fe8e9b1bd00152 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:03] "[32mGET /submit_multiChoice?tb_name=下拉测试_copy&title=性别&_id=4cbc94a648f06c6f8c6fe890019b43ca4811fe1dcd51a139a5fe8e9b1bd00152&choice=男 HTTP/1.1[0m" 302 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:03] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
@@ -1817,7 +1817,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04947996139526367 s
 DEBUG:app:开始于:	2021-01-26 14:21:03
 DEBUG:app:结束于:	2021-01-26 14:21:03
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:03] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:03] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:04] "[37mGET /multiChoice/下拉测试_copy/性别/c7bbdae81c28cb42bf6af871c62f096413e6a2a2a659fad4d3f443b1eab84411 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:05] "[32mGET /submit_multiChoice?tb_name=下拉测试_copy&title=性别&_id=c7bbdae81c28cb42bf6af871c62f096413e6a2a2a659fad4d3f443b1eab84411&choice= HTTP/1.1[0m" 302 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:05] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
@@ -1828,7 +1828,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04922795295715332 s
 DEBUG:app:开始于:	2021-01-26 14:21:05
 DEBUG:app:结束于:	2021-01-26 14:21:05
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:05] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:05] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:10] "[37mGET /multiChoice/下拉测试_copy/省份/26e0d33b7abb478d3423446ccdfcdd216e99e3f28e06823a97fa27f0f264fd98 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:10] "[32mGET /submit_multiChoice?tb_name=下拉测试_copy&title=省份&_id=26e0d33b7abb478d3423446ccdfcdd216e99e3f28e06823a97fa27f0f264fd98&choice=河北省 HTTP/1.1[0m" 302 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:11] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
@@ -1839,7 +1839,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.05003094673156738 s
 DEBUG:app:开始于:	2021-01-26 14:21:11
 DEBUG:app:结束于:	2021-01-26 14:21:11
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:11] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:11] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:12] "[37mGET /multiChoice/下拉测试_copy/选项/ee59114a4a46e5aef602095f27dde78b0a42cfd276cebe5887139a97e51e96df HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:13] "[32mGET /submit_multiChoice?tb_name=下拉测试_copy&title=选项&_id=ee59114a4a46e5aef602095f27dde78b0a42cfd276cebe5887139a97e51e96df&choice=C HTTP/1.1[0m" 302 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:13] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
@@ -1850,7 +1850,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0440518856048584 s
 DEBUG:app:开始于:	2021-01-26 14:21:13
 DEBUG:app:结束于:	2021-01-26 14:21:13
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:13] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:13] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:36] "[37mGET /edit/下拉测试_copy HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -1859,7 +1859,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04914712905883789 s
 DEBUG:app:开始于:	2021-01-26 14:21:36
 DEBUG:app:结束于:	2021-01-26 14:21:36
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:36] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:21:36] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.06896114349365234 s
@@ -1934,7 +1934,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0613250732421875 s
 DEBUG:app:开始于:	2021-01-26 14:23:38
 DEBUG:app:结束于:	2021-01-26 14:23:38
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:23:38] "[37mGET /data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:23:38] "[37mGET /api/data/下拉测试_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.06608414649963379 s
@@ -2006,7 +2006,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.05609393119812012 s
 DEBUG:app:开始于:	2021-01-26 14:23:47
 DEBUG:app:结束于:	2021-01-26 14:23:47
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:23:47] "[37mGET /data/DEMO_TABLE_32?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:23:47] "[37mGET /api/data/DEMO_TABLE_32?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:23:53] "[32mGET /table/show?table_name=DEMO_TABLE_28.xlsx HTTP/1.1[0m" 302 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:23:53] "[37mGET /edit/DEMO_TABLE_28 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:23:53] "[37mGET /select_RequredAttribute/DEMO_TABLE_28/True HTTP/1.1[0m" 200 -
@@ -2017,7 +2017,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.053314208984375 s
 DEBUG:app:开始于:	2021-01-26 14:23:54
 DEBUG:app:结束于:	2021-01-26 14:23:54
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:23:54] "[37mGET /data/DEMO_TABLE_28?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:23:54] "[37mGET /api/data/DEMO_TABLE_28?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:24:02] "[32mGET /table/show?table_name=2020年二季度.xlsx HTTP/1.1[0m" 302 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:24:02] "[37mGET /edit/2020年二季度 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
@@ -2027,7 +2027,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0591123104095459 s
 DEBUG:app:开始于:	2021-01-26 14:24:03
 DEBUG:app:结束于:	2021-01-26 14:24:03
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:24:03] "[37mGET /data/2020年二季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:24:03] "[37mGET /api/data/2020年二季度?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:24:04] "[37mGET /select_RequredAttribute/2020年二季度/True HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:24:18] "[37mPOST /update_requiredTitles/2020年二季度 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:24:18] "[37mGET /select_RequredAttribute/2020年二季度/True?受理人=on&金额=on HTTP/1.1[0m" 200 -
@@ -2041,7 +2041,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0809328556060791 s
 DEBUG:app:开始于:	2021-01-26 14:24:21
 DEBUG:app:结束于:	2021-01-26 14:24:21
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:24:21] "[37mGET /data/2020年二季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:24:21] "[37mGET /api/data/2020年二季度?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.1108238697052002 s
@@ -2173,7 +2173,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.08011698722839355 s
 DEBUG:app:开始于:	2021-01-26 14:24:39
 DEBUG:app:结束于:	2021-01-26 14:24:39
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:24:39] "[37mGET /data/下拉测试?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:24:39] "[37mGET /api/data/下拉测试?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:24:48] "[37mGET /select_RequredAttribute/下拉测试/True HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:25:06] "[37mPOST /update_requiredTitles/下拉测试 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:25:06] "[37mGET /select_RequredAttribute/下拉测试/True?普通列1=on&普通列3=on HTTP/1.1[0m" 200 -
@@ -2311,7 +2311,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10038304328918457 s
 DEBUG:app:开始于:	2021-01-26 14:25:15
 DEBUG:app:结束于:	2021-01-26 14:25:15
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:25:15] "[37mGET /data/下拉测试?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:25:15] "[37mGET /api/data/下拉测试?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.15448307991027832 s
@@ -2508,7 +2508,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.1011199951171875 s
 DEBUG:app:开始于:	2021-01-26 14:25:32
 DEBUG:app:结束于:	2021-01-26 14:25:32
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:25:32] "[37mGET /data/下拉测试?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:25:32] "[37mGET /api/data/下拉测试?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.1489269733428955 s
@@ -2614,7 +2614,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.1009221076965332 s
 DEBUG:app:开始于:	2021-01-26 14:25:59
 DEBUG:app:结束于:	2021-01-26 14:25:59
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:25:59] "[37mGET /data/下拉测试?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:25:59] "[37mGET /api/data/下拉测试?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		完成统计表格 (总计处理了: 22 行 10 列)
 DEBUG:app:  耗时:	0.1478877067565918 s
 DEBUG:app:开始于:	2021-01-26 14:25:59
@@ -2821,7 +2821,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.05139517784118652 s
 DEBUG:app:开始于:	2021-01-26 14:31:46
 DEBUG:app:结束于:	2021-01-26 14:31:46
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:31:46] "[37mGET /data/下拉测试?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:31:46] "[37mGET /api/data/下拉测试?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.07412266731262207 s
@@ -2959,7 +2959,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.07639622688293457 s
 DEBUG:app:开始于:	2021-01-26 14:32:12
 DEBUG:app:结束于:	2021-01-26 14:32:13
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:32:13] "[37mGET /data/2020年二季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:32:13] "[37mGET /api/data/2020年二季度?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:32:17] "[32mGET /table/show?table_name=DEMO_TABLE_28.xlsx HTTP/1.1[0m" 302 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:32:17] "[37mGET /edit/DEMO_TABLE_28 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
@@ -2969,7 +2969,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.05161905288696289 s
 DEBUG:app:开始于:	2021-01-26 14:32:18
 DEBUG:app:结束于:	2021-01-26 14:32:18
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:32:18] "[37mGET /data/DEMO_TABLE_28?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:32:18] "[37mGET /api/data/DEMO_TABLE_28?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug: * Detected change in '/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py', reloading
 INFO:werkzeug: * Restarting with stat
 WARNING:werkzeug: * Debugger is active!
@@ -3052,7 +3052,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.05357980728149414 s
 DEBUG:app:开始于:	2021-01-26 14:34:46
 DEBUG:app:结束于:	2021-01-26 14:34:46
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:46] "[37mGET /data/1111退回任务_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:46] "[37mGET /api/data/1111退回任务_copy?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.10120010375976562 s
@@ -3264,7 +3264,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10142183303833008 s
 DEBUG:app:开始于:	2021-01-26 15:41:43
 DEBUG:app:结束于:	2021-01-26 15:41:43
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:41:43] "[37mGET /data/1111退回任务?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:41:43] "[37mGET /api/data/1111退回任务?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.14931988716125488 s
@@ -3346,7 +3346,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.1271500587463379 s
 DEBUG:app:开始于:	2021-01-26 15:43:54
 DEBUG:app:结束于:	2021-01-26 15:43:54
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:43:54] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:43:54] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.151810884475708 s
@@ -3488,7 +3488,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.12810802459716797 s
 DEBUG:app:开始于:	2021-01-26 15:44:15
 DEBUG:app:结束于:	2021-01-26 15:44:15
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:44:15] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:44:15] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -3496,7 +3496,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.13010382652282715 s
 DEBUG:app:开始于:	2021-01-26 15:44:18
 DEBUG:app:结束于:	2021-01-26 15:44:18
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:44:18] "[37mGET /data/Madness?page=1&limit=1000000 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:44:18] "[37mGET /api/data/Madness?page=1&limit=1000000 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:52:55] "[32mGET / HTTP/1.1[0m" 302 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:52:55] "[37mGET /index HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:52:55] "[32mGET / HTTP/1.1[0m" 302 -
@@ -3644,7 +3644,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.09145593643188477 s
 DEBUG:app:开始于:	2021-01-26 15:53:31
 DEBUG:app:结束于:	2021-01-26 15:53:31
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:53:31] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:53:31] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:54:19] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3653,7 +3653,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.08841109275817871 s
 DEBUG:app:开始于:	2021-01-26 15:54:19
 DEBUG:app:结束于:	2021-01-26 15:54:19
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:54:19] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:54:19] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:55:08] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3662,7 +3662,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.08456230163574219 s
 DEBUG:app:开始于:	2021-01-26 15:55:08
 DEBUG:app:结束于:	2021-01-26 15:55:08
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:55:08] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:55:08] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:55:48] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3671,7 +3671,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.1207571029663086 s
 DEBUG:app:开始于:	2021-01-26 15:55:48
 DEBUG:app:结束于:	2021-01-26 15:55:48
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:55:48] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:55:48] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -3679,7 +3679,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.129425048828125 s
 DEBUG:app:开始于:	2021-01-26 15:56:29
 DEBUG:app:结束于:	2021-01-26 15:56:30
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:30] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:30] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:38] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3688,7 +3688,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.08794879913330078 s
 DEBUG:app:开始于:	2021-01-26 15:56:38
 DEBUG:app:结束于:	2021-01-26 15:56:38
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:38] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:38] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:52] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3697,7 +3697,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.11389803886413574 s
 DEBUG:app:开始于:	2021-01-26 15:56:52
 DEBUG:app:结束于:	2021-01-26 15:56:52
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:52] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:56:52] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:00] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3706,7 +3706,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.1306760311126709 s
 DEBUG:app:开始于:	2021-01-26 15:57:00
 DEBUG:app:结束于:	2021-01-26 15:57:00
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:00] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:00] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:06] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3715,7 +3715,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.12473607063293457 s
 DEBUG:app:开始于:	2021-01-26 15:57:06
 DEBUG:app:结束于:	2021-01-26 15:57:06
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:06] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:06] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:10] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3724,7 +3724,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.12843585014343262 s
 DEBUG:app:开始于:	2021-01-26 15:57:10
 DEBUG:app:结束于:	2021-01-26 15:57:11
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:11] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:11] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:28] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3733,7 +3733,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.12657403945922852 s
 DEBUG:app:开始于:	2021-01-26 15:57:28
 DEBUG:app:结束于:	2021-01-26 15:57:28
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:28] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:28] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:53] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3742,7 +3742,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.1254258155822754 s
 DEBUG:app:开始于:	2021-01-26 15:57:53
 DEBUG:app:结束于:	2021-01-26 15:57:53
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:53] "[37mGET /data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:57:53] "[37mGET /api/data/Madness?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:05] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:16] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:23] "[37mGET /edit/Madness HTTP/1.1[0m" 200 -
@@ -3832,7 +3832,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0556187629699707 s
 DEBUG:app:开始于:	2021-01-26 15:59:49
 DEBUG:app:结束于:	2021-01-26 15:59:49
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:49] "[37mGET /data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 15:59:49] "[37mGET /api/data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:01:22] "[37mGET /edit/2020年三季度 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3841,7 +3841,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.05811572074890137 s
 DEBUG:app:开始于:	2021-01-26 16:01:22
 DEBUG:app:结束于:	2021-01-26 16:01:22
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:01:22] "[37mGET /data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:01:22] "[37mGET /api/data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:06:17] "[37mGET /edit/2020年三季度 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3850,7 +3850,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04326009750366211 s
 DEBUG:app:开始于:	2021-01-26 16:06:17
 DEBUG:app:结束于:	2021-01-26 16:06:17
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:06:17] "[37mGET /data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:06:17] "[37mGET /api/data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:12] "[37mGET /edit/2020年三季度 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
@@ -3859,7 +3859,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04026913642883301 s
 DEBUG:app:开始于:	2021-01-26 16:12:12
 DEBUG:app:结束于:	2021-01-26 16:12:12
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:12] "[37mGET /data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:12] "[37mGET /api/data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:26] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /edit/2020年三季度 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:45] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
@@ -3880,7 +3880,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0502629280090332 s
 DEBUG:app:开始于:	2021-01-26 16:12:46
 DEBUG:app:结束于:	2021-01-26 16:12:46
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:46] "[37mGET /data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:46] "[37mGET /api/data/2020年三季度?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:12:58] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:13:40] "[32mGET / HTTP/1.1[0m" 302 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:13:40] "[37mGET /index HTTP/1.1[0m" 200 -
@@ -4031,7 +4031,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04414677619934082 s
 DEBUG:app:开始于:	2021-01-26 16:15:35
 DEBUG:app:结束于:	2021-01-26 16:15:35
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:15:35] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:15:35] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.07792997360229492 s
@@ -4107,7 +4107,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04207491874694824 s
 DEBUG:app:开始于:	2021-01-26 16:15:50
 DEBUG:app:结束于:	2021-01-26 16:15:50
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:15:50] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:15:50] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.07775998115539551 s
@@ -4183,7 +4183,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04978013038635254 s
 DEBUG:app:开始于:	2021-01-26 16:16:37
 DEBUG:app:结束于:	2021-01-26 16:16:37
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:16:37] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:16:37] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.07459092140197754 s
@@ -4326,7 +4326,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.060363054275512695 s
 DEBUG:app:开始于:	2021-01-26 16:17:22
 DEBUG:app:结束于:	2021-01-26 16:17:22
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:17:22] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:17:22] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		主界面-开始统计表格: 2020年二季度.xlsx
 DEBUG:app:		完成统计表格 (总计处理了: 5 行 8 列)
 DEBUG:app:  耗时:	0.10224723815917969 s
@@ -4402,8 +4402,8 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04613208770751953 s
 DEBUG:app:开始于:	2021-01-26 16:20:53
 DEBUG:app:结束于:	2021-01-26 16:20:53
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:20:53] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:20:55] "[35m[1mGET /data/DEMO_TABLE_1?offset=0&limit=1000 HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:20:53] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:20:55] "[35m[1mGET /api/data/DEMO_TABLE_1?offset=0&limit=1000 HTTP/1.1[0m" 500 -
 Traceback (most recent call last):
 	File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 2464, in __call__
 		return self.wsgi_app(environ, start_response)
@@ -4425,7 +4425,7 @@ Traceback (most recent call last):
 		rv = self.dispatch_request()
 	File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
 		return self.view_functions[rule.endpoint](**req.view_args)
-	File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 429, in export_table_data
+	File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 429, in apiData_dataEdit
 		page  = int(request.args['page'])
 	File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/werkzeug/datastructures.py", line 442, in __getitem__
 		raise exceptions.BadRequestKeyError(key)
@@ -4450,7 +4450,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04559206962585449 s
 DEBUG:app:开始于:	2021-01-26 16:21:15
 DEBUG:app:结束于:	2021-01-26 16:21:15
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:15] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:('data.行号', -1)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -4458,7 +4458,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.044326066970825195 s
 DEBUG:app:开始于:	2021-01-26 16:21:17
 DEBUG:app:结束于:	2021-01-26 16:21:17
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:17] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:17] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:('data.行号', 1)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -4466,7 +4466,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.03954195976257324 s
 DEBUG:app:开始于:	2021-01-26 16:21:18
 DEBUG:app:结束于:	2021-01-26 16:21:18
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:18] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order= HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:18] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20&field=行号&order= HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:('data.行号', 1)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -4474,7 +4474,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.05125570297241211 s
 DEBUG:app:开始于:	2021-01-26 16:21:18
 DEBUG:app:结束于:	2021-01-26 16:21:18
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:18] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=asc HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:18] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=asc HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:('data.行号', -1)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -4482,7 +4482,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04319500923156738 s
 DEBUG:app:开始于:	2021-01-26 16:21:19
 DEBUG:app:结束于:	2021-01-26 16:21:19
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:19] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:19] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:('data.行号', 1)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -4490,7 +4490,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0517728328704834 s
 DEBUG:app:开始于:	2021-01-26 16:21:19
 DEBUG:app:结束于:	2021-01-26 16:21:19
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:19] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order= HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:19] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20&field=行号&order= HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:('data.行号', 1)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -4498,7 +4498,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.051275014877319336 s
 DEBUG:app:开始于:	2021-01-26 16:21:20
 DEBUG:app:结束于:	2021-01-26 16:21:20
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:20] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=asc HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:20] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=asc HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:('data.行号', -1)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -4506,7 +4506,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04463601112365723 s
 DEBUG:app:开始于:	2021-01-26 16:21:21
 DEBUG:app:结束于:	2021-01-26 16:21:21
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:21] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:21] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
@@ -4526,7 +4526,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.06424117088317871 s
 DEBUG:app:开始于:	2021-01-26 16:21:31
 DEBUG:app:结束于:	2021-01-26 16:21:31
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:31] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:('data.行号', -1)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -4534,7 +4534,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.0421910285949707 s
 DEBUG:app:开始于:	2021-01-26 16:21:32
 DEBUG:app:结束于:	2021-01-26 16:21:32
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:32] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:32] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:('data.行号', 1)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -4542,7 +4542,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.04528307914733887 s
 DEBUG:app:开始于:	2021-01-26 16:21:34
 DEBUG:app:结束于:	2021-01-26 16:21:35
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:35] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order= HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:35] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20&field=行号&order= HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:50] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
@@ -4562,7 +4562,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.061722755432128906 s
 DEBUG:app:开始于:	2021-01-26 16:21:51
 DEBUG:app:结束于:	2021-01-26 16:21:51
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:51] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:('data.行号', -1)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -4570,7 +4570,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.05829191207885742 s
 DEBUG:app:开始于:	2021-01-26 16:21:53
 DEBUG:app:结束于:	2021-01-26 16:21:53
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:53] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:21:53] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:('data.行号', -1)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -4578,7 +4578,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10191702842712402 s
 DEBUG:app:开始于:	2021-01-26 16:23:08
 DEBUG:app:结束于:	2021-01-26 16:23:08
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:08] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:08] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20&field=行号&order=desc HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
 DEBUG:app:		排序信息:(None, None)
 DEBUG:app:		开始获取表格 (用户:admin, 权限: 管理员)
@@ -4586,10 +4586,10 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10209369659423828 s
 DEBUG:app:开始于:	2021-01-26 16:23:14
 DEBUG:app:结束于:	2021-01-26 16:23:14
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:14] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:14] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:39] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:42] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:42] "[35m[1mGET /data/DEMO_TABLE_1?offset=0&limit=1000 HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:23:42] "[35m[1mGET /api/data/DEMO_TABLE_1?offset=0&limit=1000 HTTP/1.1[0m" 500 -
 Traceback (most recent call last):
 	File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 2464, in __call__
 		return self.wsgi_app(environ, start_response)
@@ -4611,7 +4611,7 @@ Traceback (most recent call last):
 		rv = self.dispatch_request()
 	File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
 		return self.view_functions[rule.endpoint](**req.view_args)
-	File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 429, in export_table_data
+	File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 429, in apiData_dataEdit
 		page  = int(request.args['page'])
 	File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/werkzeug/datastructures.py", line 442, in __getitem__
 		raise exceptions.BadRequestKeyError(key)
@@ -4636,7 +4636,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.09889411926269531 s
 DEBUG:app:开始于:	2021-01-26 16:24:16
 DEBUG:app:结束于:	2021-01-26 16:24:16
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:16] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:18] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:36] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
@@ -4646,7 +4646,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10151195526123047 s
 DEBUG:app:开始于:	2021-01-26 16:24:36
 DEBUG:app:结束于:	2021-01-26 16:24:36
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:36] "[37mGET /data/DEMO_TABLE_1?page=0&limit=1000 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:24:36] "[37mGET /api/data/DEMO_TABLE_1?page=0&limit=1000 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
@@ -4666,7 +4666,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10183405876159668 s
 DEBUG:app:开始于:	2021-01-26 16:25:56
 DEBUG:app:结束于:	2021-01-26 16:25:56
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:56] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:25:57] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
@@ -4687,7 +4687,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.1015770435333252 s
 DEBUG:app:开始于:	2021-01-26 16:26:05
 DEBUG:app:结束于:	2021-01-26 16:26:05
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:05] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:07] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:08] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
@@ -4697,7 +4697,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10071110725402832 s
 DEBUG:app:开始于:	2021-01-26 16:26:22
 DEBUG:app:结束于:	2021-01-26 16:26:22
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:22] "[37mGET /data/DEMO_TABLE_1?page=0&limit=1000 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:22] "[37mGET /api/data/DEMO_TABLE_1?page=0&limit=1000 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
@@ -4717,7 +4717,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.09905385971069336 s
 DEBUG:app:开始于:	2021-01-26 16:26:43
 DEBUG:app:结束于:	2021-01-26 16:26:43
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:43] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:45] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:46] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
@@ -4727,7 +4727,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10360288619995117 s
 DEBUG:app:开始于:	2021-01-26 16:26:48
 DEBUG:app:结束于:	2021-01-26 16:26:48
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:48] "[37mGET /data/DEMO_TABLE_1?page=0&limit=1000 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:26:48] "[37mGET /api/data/DEMO_TABLE_1?page=0&limit=1000 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /edit/DEMO_TABLE_1 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/layui/dist/css/layui.css HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:42] "[37mGET /static/jquery/min.js HTTP/1.1[0m" 200 -
@@ -4747,7 +4747,7 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.09750509262084961 s
 DEBUG:app:开始于:	2021-01-26 16:27:42
 DEBUG:app:结束于:	2021-01-26 16:27:43
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:43] "[37mGET /data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:43] "[37mGET /api/data/DEMO_TABLE_1?page=1&limit=20 HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:44] "[37mGET /static/layui/dist/css/modules/layer/default/icon.png HTTP/1.1[0m" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:46] "[37mGET /static/layui/dist/css/modules/layer/default/loading-0.gif HTTP/1.1[0m" 200 -
 DEBUG:app:		重新获得信息
@@ -4757,4 +4757,4 @@ DEBUG:app:		获取表格完毕
 DEBUG:app:  耗时:	0.10080599784851074 s
 DEBUG:app:开始于:	2021-01-26 16:27:50
 DEBUG:app:结束于:	2021-01-26 16:27:50
-INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:50] "[37mGET /data/DEMO_TABLE_1?page=0&limit=1000 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 16:27:50] "[37mGET /api/data/DEMO_TABLE_1?page=0&limit=1000 HTTP/1.1[0m" 200 -
