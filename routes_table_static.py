@@ -25,7 +25,7 @@ from modules._Hash_Utils import hash_id
 # from werkzeug             import utils
 from app                    import app
 from json2html              import json2html
-from flask                  import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
+from flask                  import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request, abort
 from routes_utils           import *
 from routes_file            import *
 from debugTimer             import *
@@ -133,15 +133,16 @@ def table_main(cur, limit, user):
             # 统计完成度
             timer = debugTimer(f"主界面-开始统计表格: {config.tb_name}  (第{calculated_table_count-1}/{sheet_indexEnd}表格)", f"完成统计表格 (总计处理了: { tb_meta['count'] } 行 { len(tb_meta['titles']) } 列)")
             timer.start()
-            count_row_completed   = Database_Utils.stat.count_completedRows(config=config)
-            count_row_uncompleted = Database_Utils.stat.count_allRows(config=config) - count_row_completed
-            # completion_percent    = Database_Utils.stat.get_completionPercentage(config=config)
-            completion_percent    = round(count_row_completed/(count_row_uncompleted+count_row_completed)*100, 2)
+            completion_state      = Database_Utils.stat.completion(tb_name=config.collection_name)
+            count_row_total       = completion_state['total']
+            count_row_completed   = completion_state['completed']
+            count_row_uncompleted = completion_state['uncompleted']
+            completion_percent    = completion_state['percentage']
             timer.end()
-            temp_dict[row_completed_title] = str(count_row_completed)
-            temp_dict[row_allNumRows_title] = str(count_row_uncompleted+count_row_completed)
-            # temp_dict["完成/全部行数"] = str(count_row_completed) + " / " + str(count_row_uncompleted+count_row_completed)
-            temp_dict[completion_title]    = completion_percent
+            
+            temp_dict[row_completed_title]  = str(count_row_completed)
+            temp_dict[row_allNumRows_title] = str(count_row_total)
+            temp_dict[completion_title]     = completion_percent
 
             # 按钮
             button_stringBefReplacement = ""
@@ -173,18 +174,21 @@ def table_main(cur, limit, user):
             else:temp_dict[due_date_title]=""
 
             # 获取列表完成状态信息
-            rows_uncompleted, rows_complted, rows_all_, completion_percentage_, rows_complete_state = \
-                Database_Utils.stat.get_completionState(config=config, authorized_banknos=Database_Utils.user.get_rows(user))
+            completion_state      = Database_Utils.stat.completion(tb_name=config.collection_name)
+            count_row_total       = completion_state['total']
+            count_row_completed   = completion_state['completed']
+            count_row_uncompleted = completion_state['uncompleted']
+            completion_percent    = completion_state['percentage']
 
             # temp_dict["完成状态"] = "已完成" if rows_complete_state else "未完成"
-            temp_dict[row_completed_title]  = str(rows_complted)
-            temp_dict[row_allNumRows_title] = str(rows_all_)
-            temp_dict[completion_title]     = str(completion_percentage_)
+            temp_dict[row_completed_title]  = str(count_row_completed)
+            temp_dict[row_allNumRows_title] = str(count_row_total)
+            temp_dict[completion_title]     = str(completion_percent)
 
             # 按钮
             button_stringBefReplacement = ""
             # Will be repalced with 更改表单 button
-            if(not rows_complete_state):
+            if(not count_row_uncompleted == 0):
                 button_stringBefReplacement += button_placeholder_front * 1 + f"[{col_name}.xlsx ]" + button_placeholder_back * 1
                 temp_dict[button_title] = button_stringBefReplacement
             else:

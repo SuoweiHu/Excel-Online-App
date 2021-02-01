@@ -271,15 +271,15 @@
 
                 //请求所有数据
                 $.ajax({
-                    type: 'get',
-                    url: '/data/{{table_name}}',
-                    dataType: 'json',
-                    data: {
+                    type: 'get'
+                    ,url: '/data/{{table_name}}'
+                    ,dataType: 'json'
+                    ,data: {
                         // 'domain': domainname,
                         'page': offset+1,
                         'limit': limit,
-                    },
-                    success: function (res) {
+                    }
+                    ,success: function (res) {
                         // debugger
                         dataExport = dataExport.concat(res.data);
                         var a = dataExport.length

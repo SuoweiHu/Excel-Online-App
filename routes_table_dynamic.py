@@ -33,6 +33,12 @@ from routes_table_static    import *
 
 
 # =============================================
+# 自动渲染表格 - 主界面数据接口
+# @app.route('')
+# def 
+
+
+# =============================================
 # 自动渲染表格 - 上传文件/数据接口
 
 @app.route('/file', methods=["POST"])
@@ -125,9 +131,6 @@ def export_table_data_all(table_name):
     count = len(data)
     return {"code":code, "msg":msg, "count":count, "data":data}
 
-# =============================================
-# 自动渲染表格 - 展示表格/提交变更
-
 @app.route('/data/<string:table_name>')
 def export_table_data(table_name): 
     """
@@ -211,6 +214,9 @@ def export_table_data(table_name):
     data = data[start:end]
     return {"code":code, "msg":msg, "count":count, "data":data}
 
+# =============================================
+# 自动渲染表格 - 展示表格/提交变更
+
 @app.route('/edit/<string:table_name>')
 def edit_specified_table(table_name):
 
@@ -221,6 +227,11 @@ def edit_specified_table(table_name):
     # 设置行属性 
     column_titles = Database_Utils.table.get_tableTitles(table_name) 
     count_authRows = len(export_table_data_all(table_name=table_name)['data'])
+
+    # is_admin       = Database_Utils.user.check_admin(session['operator_name'])
+    # auth_rows      = Database_Utils.user.get_rows(session['operator_name'])
+    # count_authRows = Database_Utils.stat.count_allRows(tb_name=table_name, is_admin=is_admin)
+
     if(show_operator): column_titles += TableData.operator_titles
     # (这里的id:title映射将被Jinja2赋值到 layui数据表单中的 每行的field上)
     column_ids    = [i for i in column_titles]

@@ -115,30 +115,49 @@ class Database_Utils:
     # ================================
 
     class stat:
-        # 得到表格总行数     (admin)
-        def count_allRows(config):
-            """
-            table name is filename with the .xlxs suffix
-            for instance "2020年一季度.xlsx"
-            """
+        # HELPER: 得到必填列标题
+        def get_mustFill_titles(tb_name):
+            # 必填不包括任何的预设列，预设列：模版上传时有不为空的单元格的列
+            # （因为可编辑的预设列会被标注为mustFill，所以需要在这里排除）
+            table_meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
+            mustfill_titles = table_meta['mustFill_titles'] 
+            fixed_titles    = table_meta['fixed_titles']
+            mustfill_titles = [title for title in mustfill_titles if title not in fixed_titles]
+            return mustfill_titles
+        # HELPER: 得到表格总行数
+        def count_allRows(tb_name, is_admin=True, authorized_banknos=None):
+            if(is_admin):
+                # 通过元数据表获得信息
+                return Database_Utils.meta.load_tablemMeta(tb_name=tb_name)['count'] + 1
+            else:
+                # 通过查询条件获得符合条件的文件数量
+                bankno_list = [str(no) for no in authorized_banknos]
+                query = {'data.行号':{'$in':bankno_list}}
+                return Database_Utils.row.count_table_row(table_name=tb_name,query=query)
+        # HELPER: 得到完成的表格行数
+        def count_completedRows(tb_name, is_admin=True, authorized_banknos=None):
+            mustFill_titles = Database_Utils.stat.get_mustFill_titles(tb_name=tb_name)  # 获取必填列标题
+            if(is_admin):
+                # 通过查询条件获得符合条件的文件数量
+                sub_queries_1 = [{f'data.{title}':{'$ne':""}}   for title in mustFill_titles]
+                sub_queries_2 = [{f'data.{title}':{'$ne':None}} for title in mustFill_titles]
+                sub_queries = sub_queries_1 + sub_queries_2
+                if(len(sub_queries) == 0): return Database_Utils.meta.load_tablemMeta(tb_name=tb_name)['count']
+                return Database_Utils.row.count_table_row(table_name=tb_name,query={'$and':sub_queries})
 
-            return Database_Utils.meta.load_tablemMeta(config.collection_name)['count']
+            else:
+                # 通过查询条件获得符合条件的文件数量
+                bankno_list   = [str(no) for no in authorized_banknos]
+                bankno_query  = {'data.行号':{'$in':bankno_list}}
+                sub_queries_1 = [{f'data.{title}':{'$ne':""}}   for title in mustFill_titles]
+                sub_queries_2 = [{f'data.{title}':{'$ne':None}} for title in mustFill_titles]
+                sub_queries   = sub_queries_1 + sub_queries_2 + [bankno_query]
+                print(sub_queries)
+                if(len(sub_queries) == 0): return Database_Utils.meta.load_tablemMeta(tb_name=tb_name)['count']
+                return Database_Utils.row.count_table_row(table_name=tb_name,query={'$and':sub_queries})
 
-            table_name =config.collection_name
-
-            # Store to database
-            db = MongoDatabase()
-            db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
-            temp_mongoLoad = db.get_documents(collection=table_name)
-            db.close()
-
-            # Store to custom type
-            table = TableData(json=temp_mongoLoad, tb_name=table_name)
-            return len(table.operators)
-
-
-        # 得到表格完成行数   (admin)
-        def count_completedRows(config):
+        # (DEPRECATED) HELPER: 得到表格完成行数   (admin)
+        def deprecated_count_completedRows(config):
             """
             table name is filename without the .xlxs suffix
             for instance "2020年一季度"
@@ -177,24 +196,25 @@ class Database_Utils:
                 if(cell_all_complted): count += 1
 
             return count 
-        # 得到表格完成百分比  (admin) (DEPRECATED)
-        def get_completionPercentage(tb_name=None, config=None):
+        # (DEPRECATED) HELPER: 得到表格完成百分比  (admin) 
+        def deprecated_get_completionPercentage(tb_name=None, config=None):
             if(tb_name is not None) and (config is None):
                 config = DB_Config()
                 config.collection_name = tb_name.split('.')[0]
                 config.tb_name         = tb_name.split('.')[0] + ".xlsx"
             elif(config is not None) and (tb_name is None):
                 # config = config
+                tb_name = config.collection_name
                 pass
             else:
                 raise("No input given (one of the tb_name, config must be filled)")
 
-            c_comRow = Database_Utils.stat.count_completedRows(config=config)
-            c_allRow = Database_Utils.stat.count_allRows(config=config)
+            c_comRow = Database_Utils.stat.deprecated_count_completedRows(config=config)
+            c_allRow = Database_Utils.stat.count_allRows(tb_name=tb_name)
 
             return round(c_comRow/c_allRow * 100, 1)
-        # 得到表格完成信息   (普通用户)
-        def get_completionState(config, authorized_banknos, key="行号"):
+        # (DEPRECATED) HELPER: 得到表格完成信息   (普通用户)
+        def deprecated_get_completionState(config, authorized_banknos, key="行号"):
             """
             return (num_uncompleted, 
                     count_completed, 
@@ -258,6 +278,16 @@ class Database_Utils:
                     count_all,
                     percentage,
                     count_completed==count_all)
+        
+        # 得到表格完成度信息
+        def completion(tb_name, is_admin=True, authorized_banknos=None):
+            rtn_completion  = {}  # 最终返回的完成度字典
+            rtn_completion['completed']   = Database_Utils.stat.count_completedRows(tb_name=tb_name, is_admin=is_admin,authorized_banknos=authorized_banknos) # 获取用户的完成（有权限的）行数
+            rtn_completion['total']       = Database_Utils.stat.count_allRows(tb_name=tb_name,is_admin=is_admin,authorized_banknos=authorized_banknos) # 获取用户的所有（有权限的）行数
+            rtn_completion['uncompleted'] = rtn_completion['total'] - rtn_completion['completed']
+            if(rtn_completion['total'] != 0): rtn_completion['percentage']  = round(rtn_completion['completed']/rtn_completion['total'], 2) # 完成百分比（2位小数点）
+            else: rtn_completion['percentage'] = 1.00
+            return rtn_completion
 
     class meta:
         # 存储特定表格的元数据
@@ -431,6 +461,20 @@ class Database_Utils:
             db.database[table_name].update_one({'_id':row_id}, {'$set': data})
             db.close()
             return 
+        # 返回符合条件的表格数量
+        def count_table_row(table_name, query={}):
+            """
+            table_name: 表格名, 数据库中对应一个集合
+            row_id:     行uuid, 数据库中对应刚刚集合中的一个文件
+            return:     整个文件 (包含其id, 需自行去除)
+            """
+
+            db_config = DB_Config()
+            db = MongoDatabase()
+            db.start(host=db_config.db_host, port=db_config.db_port, name=db_config.db_name,clear=False)
+            rtn = db.database[table_name].count_documents(query)
+            db.close()
+            return rtn
 
     # ================================
     

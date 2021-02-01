@@ -1292,8 +1292,8 @@ Traceback (most recent call last):
 	File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 359, in table
 		return table_main(cur, limit, user)
 	File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 126, in table_main
-		Database_Utils.stat.get_completionState(config=config, authorized_banknos=Database_Utils.user.get_rows(user))
-	File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/modules/_Database_Utils.py", line 227, in get_completionState
+		Database_Utils.stat.deprecated_get_completionState(config=config, authorized_banknos=Database_Utils.user.get_rows(user))
+	File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/modules/_Database_Utils.py", line 227, in deprecated_get_completionState
 		round(count_completed/count_all * 100, 1),
 ZeroDivisionError: division by zero
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 11:19:50] "[37mGET /table/all?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
@@ -3146,8 +3146,8 @@ Traceback (most recent call last):
 	File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 359, in table
 		return table_main(cur, limit, user)
 	File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/routes_table.py", line 126, in table_main
-		Database_Utils.stat.get_completionState(config=config, authorized_banknos=Database_Utils.user.get_rows(user))
-	File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/modules/_Database_Utils.py", line 236, in get_completionState
+		Database_Utils.stat.deprecated_get_completionState(config=config, authorized_banknos=Database_Utils.user.get_rows(user))
+	File "/Users/suoweihu/Documents/GitHub/Excel-Online-App/modules/_Database_Utils.py", line 236, in deprecated_get_completionState
 		round(count_completed/count_all * 100, 1),
 ZeroDivisionError: division by zero
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2021 14:34:56] "[37mGET /table/all?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
