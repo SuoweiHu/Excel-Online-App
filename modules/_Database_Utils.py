@@ -343,6 +343,13 @@ class Database_Utils:
             db.delete(collection=Database_Utils.tableMeta_collection_name,query={'tb_name' : tb_name})
             db.close()
 
+        # 获取表格的数量
+        def get_tableMeta_count():
+            db = MongoDatabase()
+            db.start()
+            count = db.count_documents(collection=Database_Utils.tableMeta_collection_name, search_query={})
+            db.close()
+            return count
         # 获取特定排序顺序的表格元数据
         def pull_tableMeta_s(sort=(None,None), limit=None, skip=0):
             db = MongoDatabase()

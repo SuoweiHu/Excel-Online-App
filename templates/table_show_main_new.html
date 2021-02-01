@@ -102,23 +102,12 @@
                 // ,height :85vh                    //自适应-2
             //分页
                 ,page: true                         //开启分页
-                ,limit: 25                          //每页条数
+                ,limit: 20                          //每页条数
                 // ,page: {theme: '#c00'}           //开启分页主题
-                ,limits:[25, 50, 75, 100]           //分页选项
+                ,limits:[5,10,15,20]           //分页选项
 
             //数据接口
                 ,url: '/api/dataMain'               //数据接口
-            //数据解析 (将数据接口返回数据,解析成 table 组件所规定的数据格式)
-                // ,parseData: function(res){ 
-                    // return {
-                                                   // res 为原始返回的数据
-                        // "code": res.status,     // 解析接口状态
-                        // "msg": res.message,     // ...提示文本
-                        // "count": res.total,     // ...数据长度
-                        // "data": res.data.item   // ...数据列表
-                        // };}
-            //初始排序（这里一般使用行号列作为默认排序）
-                ,initSort:{field:'{{authorization_title}}', type:'asc'}
             
             // ----------------------------------------
             //表头设置 （渲染的时候会根据这里设置的field为单元格设置样式）     
@@ -131,10 +120,10 @@
                     // {field: 'count_uncompleted',    title: '未完成行数'}, 
                     {field: 'count_total',          title: '总计行数', width:120, unresize:true, align:'center',}, 
                     {field: 'percentage',           title: '完成度'  , width:120, unresize:true, align:'center',}, 
-                    {field: 'url_edit',             title: '123', width:120, unresize:true, align:'center',}, 
-                    {field: 'url_edit_mustFill',    title: '123', width:120, unresize:true, align:'center',}, 
-                    {field: 'url_edit_dueNComment', title: '123', width:120, unresize:true, align:'center',}, 
-                    {field: 'url_delete',           title: '123', width:120, unresize:true, align:'center',}, 
+                    {field: 'url_edit',             title: '123', width:220, unresize:true, align:'center',}, 
+                    {field: 'url_edit_mustFill',    title: '123', width:220, unresize:true, align:'center',}, 
+                    {field: 'url_edit_dueNComment', title: '123', width:220, unresize:true, align:'center',}, 
+                    {field: 'url_delete',           title: '123', width:220, unresize:true, align:'center',}, 
                 ]]
             });
 
@@ -163,5 +152,14 @@
         });
         
     </script>
+
+     <!-- 自动上传文件 -->
+     <script>
+        document.getElementById("selectedFile_1").onchange = function() {
+            document.getElementById("file_form_1").submit();
+        };
+    </script>
+    
+
 </body>
 </html>

@@ -202,6 +202,10 @@ class MongoDatabase:
                 else: raise RuntimeError(f"Document specified does not exist. (Document of {str(search_query)}")
             else: raise RuntimeError(f"Collection specified does not exist. (Collection of _name_={collection}")
 
+    def count_documents(self, collection, search_query={}):
+        count = self.database[collection].count_documents(search_query)
+        return count
+
     def list_tableData_collectionNames(self, exclude_collections=DB_Config.noneData_collection_names, database=None):
         """
         返回已打开数据库中跟表格数据有关集合的名字

@@ -248,12 +248,17 @@ def apiData_dataMain():
         ]
     }
     """
+    # 获取 分页请求
+    page  = int(request.args['page'])
+    limit = int(request.args['limit'])
+    start = (page - 1) * limit
+    print(start)
 
     # 返回的数据
     rtn_data = {
         'code'  : 0,
         'msg'   : "",
-        'count' : 0,
+        'count' : Database_Utils.meta.get_tableMeta_count(),
         'data'  : []
     }
 
@@ -278,7 +283,7 @@ def apiData_dataMain():
         # ======================================================================
         # TODO: IMPLMENT METHOD SUCH THAT THIS LIMIT AND SKIP WORKS AS YOU EXPECTED
         # ======================================================================
-        # table_data = Database_Utils.meta.pull_tableMeta_s(sort=sort, limit=2, skip=3)
+        table_data = Database_Utils.meta.pull_tableMeta_s(sort=sort, limit=limit, skip=start)
 
         tb_names = [table_i['tb_name'] for table_i in table_data]
     except RuntimeError as e: 
