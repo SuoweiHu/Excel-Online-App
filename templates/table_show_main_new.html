@@ -50,15 +50,24 @@
         </form>
         <br>
         <fieldset class="layui-elem-field " style="margin-top: 30px; ">
-            <legend>表格: {{table_name}}</legend>
+            <legend>中信银行填报系统</legend>
             <div class="table_mask">
+                <!-- 以上为居中设置 -->
                 <div class="table_center" style="width:95%;">
-                    <!-- 以上为居中设置 -->
 
                     <table id="_MAIN_TABLE_RENDER_ID_" lay-filter="_MAIN_TABLE_RENDER_FILTER_" ></table>
-
-                    <!-- 以下为居中设置 -->
+                    <br>
+                    <div>
+                        <span>
+                            <div id="page_component" style="display: inline; float: right; margin-right: 30px;"></div>
+                            <form action="/file" method="post" id="file_form_1" enctype="multipart/form-data" style="display: inline; float: left; ">
+                                <input type="file" accept=".xls,.xlsx" name="stuff_file"  id="selectedFile_1" size="60" style="display: none;">
+                                <input style="display: {{file_upload_section}};" type="button" class="layui-btn " value="提交任务" onclick="document.getElementById('selectedFile_1').click();" />
+                            </form>
+                        </span>
+                    </div>
                 </div>
+                <!-- 以下为居中设置 -->
             </div>
         </fieldset>
     </div>
@@ -76,25 +85,6 @@
         layui.use(['table', 'laytpl','layer'], function(){
             var laytpl= layui.laytpl;
             var table = layui.table;
-            // {% if first_entry == True %}
-            // {% set first_entry = False %}
-            // console.log('{{first_entry}}')
-            layer.open({
-                title:      '填报说明'
-                ,content:   '<div style="text-align: center;"> {{comment}} </div>'
-                ,btnAlign:  'c'         //按钮对齐方向
-                ,btn:       ['已读']     //按钮
-                ,closeBtn:  0           //关闭右上角关闭按钮
-                ,anim:      6           //出场动画
-                ,yes:       function(index, layero){
-                    console.log('确认已读填报说明，关闭填报窗口')
-                    console.log('\t'+'填报信息:'+'{{comment}}')
-                    console.log('\t'+'操作用户:'+'{{session["nickname"]}}')
-                    
-                    layer.close(index)
-                }
-            });     
-            //{% endif %}
             
             //更改Layui模版组件的的分隔符
                 // laytpl.config({          // 经过测试不可使用 （和Jinja2渲染分隔符冲突）
@@ -103,12 +93,12 @@
                 // });                      // \{\{" \{\{<div> Hello World ! </div>\}\} "\}\}
             //选择被渲染的表格元素
             table.render({
-                title: "{{table_name}}"
+                title: "中信银行填报系统"
                 ,elem: '#_MAIN_TABLE_RENDER_ID_'
             //高宽设置
                 // ,width:  1920                    //1080p
                 // ,height: 950                     //1080p
-                ,height : window.innerHeight*0.8    //自适应-1
+                ,height : window.innerHeight*0.75    //自适应-1
                 // ,height :85vh                    //自适应-2
             //分页
                 ,page: true                         //开启分页
@@ -117,7 +107,7 @@
                 ,limits:[25, 50, 75, 100]           //分页选项
 
             //数据接口
-                ,url: '/api/dataEdit?tb_name={{table_name}}'        //数据接口
+                ,url: '/api/dataMain'               //数据接口
             //数据解析 (将数据接口返回数据,解析成 table 组件所规定的数据格式)
                 // ,parseData: function(res){ 
                     // return {
@@ -129,115 +119,25 @@
                         // };}
             //初始排序（这里一般使用行号列作为默认排序）
                 ,initSort:{field:'{{authorization_title}}', type:'asc'}
-            //表格头部工具栏
-            // ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-            // ,defaultToolbar: ['filter', 'exports', 'print']
-            ,toolbar: '#'
-            ,defaultToolbar: [
-                'filter', 
-                // 'exports', 
-                {title: '导出为csv',  layEvent: 'LAYTABLE_EXPORTALL_CSV',  icon: 'layui-icon-export'},
-                {title: '导出为xlxs', layEvent: 'LAYTABLE_EXPORTALL_XLXS', icon: 'layui-icon-print'},
-            ]
-
+            
             // ----------------------------------------
             //表头设置 （渲染的时候会根据这里设置的field为单元格设置样式）     
-                ,cols: [[         
-                    // {% for _id_,_title_ in column_dict.items() %}
-                    //      {% if _title_ == '_id' %}
-                                // 隐藏每行特殊的 UUID (不是行号 !!!!)
-                                {field: '{{_id_}}', title: '{{_title_}}', hide:true}, 
-                                // {field: '{{_id_}}', title: '{{_title_}}', width:110},  
-                    //      {% elif _title_ == authorization_title %}
-                                // 每行的行号 (通过authorization_title参数获得)
-                                {field: '{{_id_}}', title: '{{_title_}}', width:110, sort: true, unresize:true, align:'center', fixed: 'left'},
-                    //      {% elif _title_ == operator_title[0] %}
-                                // 操作员姓名
-                                {field: '_', title: '', width:2000, style:'background-color: #fff; color: #fff; border-color: #fff'}, 
-                                {field: '{{_id_}}', title: '{{_title_}}', width:110, sort: true, unresize:true, align:'center', fixed: 'right'},
-                    //      {% elif _title_ == operator_title[1] %}
-                                // 操作员时间
-                                {field: '{{_id_}}', title: '{{_title_}}', width:200, sort: true, unresize:true, align:'center', fixed: 'right'},
-
-                    // 多选/选择列 (原下拉框)
-                    //      {% elif _title_ in table_meta['option_titles']%}
-                    //          {% if _title_ in table_meta['mustFill_titles'] %}
-                                    // {field: '{{_id_}}', title: '{{_title_}}', width:90, style:'background-color: blue;color: #fff;',templet: '#multiSelectTpl'},
-                                    // {field: '{{_id_}}', title: '{{_title_}}', width:290, style:'background-color: blue; color: #fff;', templet: "#multiSelectTpl"},
-                                    // {field: '{{_id_}}', title: '{{_title_}}', width:290, style:'background-color: #008B7D; color: #fff;', templet: '<div> {{"{{#var title=\'"+ _title_ +"\';}}"}} 已选择：{{"{{(d[title])}}"}}， <a style="color:#fff;text-decoration: underline overline;" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link">前往更改 </a> </div>'},
-                                    // {field: '{{_id_}}', title: '{{_title_}}', width:200, align:'center', style:'text-align:center; background-color: #008B7D; color: #fff;', templet: '<div> {{"{{#var title=\'"+ _title_ +"\'; var value = d[title]; var color=\"\#fff\"; if(value == null || value == \"\"){value=\"----\"; color=\"\#008B7D\";} }}"}}  <a style="color: {{"{{color}}"}}; display:block" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link"> {{"{{value}}"}} </a> </div>'},
-                                    {field: '{{_id_}}', title: '{{_title_}}', width:200, align:'center', style:'text-align:center; background-color: #F9D342; color: #000;', templet: '<div>{{"{{#var title=\'"+ _title_ +"\'; var value = d[title]; var color=\"\#000\"; if(value == null || value == \'\'){value=\"\"; color=\"\#F9D342\";} }}"}}<a style="min-height:100%; min-width:100%; color: {{"{{color}}"}}; display:block" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link"><span>{{"{{value}}"}}</span></a></div>'},
-                                    // {field: '{{_id_}}', title: '{{_title_}}',width:290,style:'background-color: blue; color: #fff;',templet: function(d)    return}},
-                    //          {% else %}
-                                    // {field: '{{_id_}}', title: '{{_title_}}', width:290, style:'background-color: #5FB878; color: #fff;', templet: '<div> {{"{{#var title=\'"+ _title_ +"\';}}"}} 已选择：{{"{{(d[title])}}"}}， <a style="color:#fff;text-decoration: underline overline;" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link">前往更改 </a> </div>'},
-                                    // {field: '{{_id_}}', title: '{{_title_}}', width:200, align:'center', style:'text-align:center; background-color: #5FB878; color: #fff;', templet: '<div> {{"{{#var title=\'"+ _title_ +"\'; var value = d[title]; var color=\"\#fff\"; if(value == null || value == \"\"){value=\"----\"; color=\"\#5FB878\";} }}"}}  <a style="color: {{"{{color}}"}}; display:block" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link"> {{"{{value}}"}} </a> </div>'},
-                                    {field: '{{_id_}}', title: '{{_title_}}', width:200, align:'center', style:'text-align:center; background-color: #f0f0f0; color: #000;', templet: '<div>{{"{{#var title=\'"+ _title_ +"\'; var value = d[title]; var color=\"\#000\"; if(value == null || value == \'\'){value=\"\"; color=\"\#f0f0f0\";} }}"}}<a style="min-height:100%; min-width:100%; color: {{"{{color}}"}}; display:block" href="\\multiChoice\\{{table_name}}\\{{_title_}}\\{{"{{d._id}}"}}" class="layui-table-link"><span >{{"{{value}}"}}</span></a></div>'},
-
-                    //          {% endif %}
-                                
-                    // 预设列 (默认不可更改)    
-                    //      {% elif _title_ in table_meta['fixed_titles'] %}
-                                // 预设数据(可以更改)
-                    //          {% if _title_ in table_meta['mustFill_titles'] %}
-                                    // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:"background-color:grey;color: #fff;"},
-                                    {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center', edit:'text',style:'background-color: #f0f0f0; color: #000;'},
-                                // 预设数据(不可以更改)
-                    //          {% else %}
-                                    {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center'},
-                    //          {% endif %}
-
-                    // 普通数据（分为必须填写和非必须）
-                    //      {% elif _title_ in table_meta['mustFill_titles'] %}
-                                // 必填数据 (展示为特殊颜色)
-                                // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text', style:'background-color: red; color: #fff;'},
-                                // {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center', edit:'text', style:'background-color: #008B7D; color: #000;'},
-                                {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center', edit:'text', style:'background-color: #F9D342; color: #000;'},
-                    //      {% else %}
-                                // 普通数据
-                                // {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center', edit:'text', style:'background-color: #5FB878; color: #fff;'},
-                                {field: '{{_id_}}', title: '{{_title_}}', width:190, align:'center', edit:'text', style:'background-color: #f0f0f0; color: #000;'},
-                                // {field: '{{_id_}}', title: '{{_title_}}', width:190, edit:'text'},
-                                
-                    //      {% endif %}
-                    // {% endfor %}
-
-                    // 工具栏按钮（在每行的最右侧是否显示工具栏按钮）
-                        // {title:'编辑', fixed: 'right', width:80, align:'center', toolbar: '#cellBar'}
+                ,cols: [[    
+                    {field: 'tb_name',              title: '任务名',   width:250, sort: true, unresize:false, align:'center', fixed: 'left'}, 
+                    {field: 'upload_operator',      title: '上传用户', width:120, sort: true, unresize:true, align:'center',}, 
+                    {field: 'upload_time',          title: '上传时间', width:200, sort: true, unresize:true, align:'center',}, 
+                    {field: 'due',                  title: '截止日期', width:200, sort: true, unresize:true, align:'center',}, 
+                    {field: 'count_completed',      title: '完成行数', width:120, unresize:true, align:'center',}, 
+                    // {field: 'count_uncompleted',    title: '未完成行数'}, 
+                    {field: 'count_total',          title: '总计行数', width:120, unresize:true, align:'center',}, 
+                    {field: 'percentage',           title: '完成度'  , width:120, unresize:true, align:'center',}, 
+                    {field: 'url_edit',             title: '123', width:120, unresize:true, align:'center',}, 
+                    {field: 'url_edit_mustFill',    title: '123', width:120, unresize:true, align:'center',}, 
+                    {field: 'url_edit_dueNComment', title: '123', width:120, unresize:true, align:'center',}, 
+                    {field: 'url_delete',           title: '123', width:120, unresize:true, align:'center',}, 
                 ]]
             });
 
-            // 监听单元格编辑事件
-            table.on('edit(_MAIN_TABLE_RENDER_FILTER_)', function(obj){ 
-                console.log('监听到单元格编辑:');
-                console.log('\t'+'列标题:'+obj.field);  //当前编辑的字段名
-                console.log('\t'+'数据:'+obj.value);  //得到修改后的值
-                // console.log('\t'+obj.data);   //所在行的所有相关数据  
-
-                // 检查更改是否为空（或者全部为&nbsp；如果是则不作处理）
-                var enable_space_check = false      //是否不提交空值
-                var modified_value = obj.value;     //数据
-                while(modified_value.search(' ') != -1){modified_value = modified_value.replace(' ','');}
-                if(modified_value.length != 0 || !enable_space_check){
-
-                    //从单元格监听器获得数据
-                    const request_url = "/submit"
-                    var request_dict  = obj.data;
-                    request_dict['table_name'] = '{{table_name}}';
-                    //使用Ajax提交更改
-                    $.ajax({
-                        url: request_url,   //异步数据接口
-                        type: "POST",       //请求类型
-                        data: request_dict, //请求数据
-                        dataType: "json",   //请求数据格式
-                            // complete: function(){alert("Change saved !")}
-                            // success : function(result){alert('Upload success')},
-                            // error   : function(result){alert('Upload error')},
-                    })
-                    //提示更改已被保存
-                    // table.reload('_MAIN_TABLE_RENDER_ID_')
-                    // layer.msg('更改已经被保存', {time:1000});
-                }
-            });
 
             //监听排序事件 
             table.on('sort(_MAIN_TABLE_RENDER_FILTER_)', function(obj){ 
@@ -249,7 +149,7 @@
                 //根据当前排序的字段，重新向服务端发送请求
                 table.reload('_MAIN_TABLE_RENDER_ID_', {
                     initSort: obj                   //记录初始排序，如果不设的话，将无法标记表头的排序状态。
-                    ,url: '/api/dataEdit?tb_name={{table_name}}'    //服务端的异步数据接口
+                    ,url: '/api/dataMain'           //服务端的异步数据接口
                     ,where: {                       //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
                         field: obj.field            //排序字段
                         ,order: obj.type            //排序方式
@@ -259,120 +159,9 @@
                 //弹窗提示数据已经重新加载
                 // layer.msg('服务端排序。<br> 排序列:'+ obj.field + '， 排序方式:' + obj.type, {time:1000});
             });
-           
-            //当前用户全量导出
-            var deviceTotal = parseInt("{{number_of_rows}}");
-            var dataExport = new Array;
-            function exportData(obj, offset, limit, format) {
-                console.log('监听到表格全部导出事件:')
-                console.log('\t'+'操作用户:'+'{{session["nickname"]}}')
-                console.log('\t'+'总计行数:'+deviceTotal)
-                console.log('\t'+'导出格式:'+format)
 
-                //请求所有数据
-                $.ajax({
-                    type: 'get'
-                    ,url: '/api/dataEdit?tb_name={{table_name}}'
-                    ,dataType: 'json'
-                    ,data: {
-                        // 'domain': domainname,
-                        'page': offset+1,
-                        'limit': limit,
-                    }
-                    ,success: function (res) {
-                        // debugger
-                        dataExport = dataExport.concat(res.data);
-                        var a = dataExport.length
-                        var b = deviceTotal
-
-                        if (dataExport.length >= deviceTotal) {
-                            layer.close(indexload)
-                            // table.config[obj.config.id] = "123"
-                            // var config = table.config[id]
-                            // var id = obj.config.id
-                            // table.config[id] = {"title" : "123"}
-                            // console.log(table.config)
-                            table.exportFile(obj.config.id, dataExport, format, '123');
-                        }
-                    }
-                });
-            }
-
-
-            //头工具栏事件
-            table.on('toolbar(_MAIN_TABLE_RENDER_FILTER_)', function(obj){
-                var checkStatus = table.checkStatus(obj.config.id);
-                switch(obj.event){
-                 
-                    //自定义头工具栏 - 全量导出（XLXS格式）
-                    case 'LAYTABLE_EXPORTALL_XLXS':
-                        layer.confirm("是否要导出当前用户数据? <br> (为.xlxs格式)", {
-                            icon: 3,
-                            btn: ["确定", "取消"]
-                        }, function (layerIndex) {
-                            layer.close(layerIndex);
-                            indexload = layer.load(2, {
-                                 content: '正在导出...<br>(为.xlsx格式)',
-                                icon: 16,
-                                success: function (layero) {
-                                    layero.find('.layui-layer-content').css({
-                                        'paddingTop': '40px',
-                                        'width': '100px',
-                                        'textAlign': 'center',
-                                        'backgroundPositionX': 'center'
-                                    });
-                                }
-                            });
-                            var deviceTotal = parseInt("{{number_of_rows}}");
-                            var datalength = deviceTotal;
-                            if (datalength > 0) {
-                                for (var i = 0; i < Math.ceil(datalength / 1000); i++) //
-                                {
-                                    exportData(obj, i * 1000, 1000, 'xlsx')
-                                }
-                            }
-                        });
-                    break;
-
-                    //自定义头工具栏 - 全量导出（CSV格式）
-                    case 'LAYTABLE_EXPORTALL_CSV':
-                        layer.confirm("是否要导出当前用户数据?<br> (为.csv格式)", {
-                            icon: 3,
-                            btn: ["确定", "取消"]
-                        }, function (layerIndex) {
-                            layer.close(layerIndex);
-                            indexload = layer.load(2, {
-                                content: '正在导出...<br>(为.csv格式)',
-                                icon: 16,
-                                success: function (layero) {
-                                    layero.find('.layui-layer-content').css({
-                                        'paddingTop': '40px',
-                                        'width': '100px',
-                                        'textAlign': 'center',
-                                        'backgroundPositionX': 'center',
-                                    });
-                                }
-                            });
-                            var deviceTotal = parseInt("{{table_meta['count']}}");
-                            var datalength = deviceTotal;
-                            if (datalength > 0) {
-                                for (var i = 0; i < Math.ceil(datalength / 1000); i++) //
-                                {
-                                    exportData(obj, i * 1000, 1000, 'csv')
-                                }
-                            }
-                        });
-                    break;
-                };
-            });
         });
         
-    </script>
-
-    <!-- 多选单元格渲染模版 -->
-    <script type="text/html" id="multiSelectTpl">
-        <!-- 必须有div否则模版无法识别 -->
-        <div> ==Placeholder== {{"{{#console.log(d.title)}}"}}<a href="" class="\multiChoice\"> {{ "{{# console.log(d); }}" }} </a> </div><form action=""></form>
     </script>
 </body>
 </html>

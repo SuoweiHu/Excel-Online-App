@@ -262,18 +262,11 @@ def apiData_dataMain():
     if('field' not in dict(request.args).keys()): 
         sort = ('tb_name',+1) # 默认使用提交时间排序
     else:
-        # key   =  request.args.get('field')
-        # if(key == "操作员"):    key = 'user.name'
-        # elif(key == "时间"):    key = 'user.time' 
-        # else:                  key = 'data.' + key
-        # order = (-1) if(request.args.get('order') == 'desc') else (1)
-        # sort  = (key, order)
-        # app.logger.debug(f"\t\t重新获得信息")
-        # app.logger.debug(f"\t\t排序信息:{sort}")
-
-        # ======================================================================
-        # TODO: IMPLMENT METHOD THAT TRANSFORMS SORTING REUQEST TO SEARCH QUERY
-        # ======================================================================
+        key   =  request.args.get('field')
+        order = (-1) if(request.args.get('order') == 'desc') else (1)
+        sort  = (key, order)
+        app.logger.debug(f"\t\t重新获得信息")
+        app.logger.debug(f"\t\t排序信息:{sort}")
         pass 
 
     
@@ -305,11 +298,11 @@ def apiData_dataMain():
         app.logger.warn(table_meta)
         cur_table_data = {i:table_meta[i] for i in meta_preserveKey}
         completion_state      = Database_Utils.stat.completion(tb_name=tb_name)
-        cur_table_data['count_row_total']       = completion_state['total']       # 完成度 - 完成行数
-        cur_table_data['count_row_completed']   = completion_state['completed']   # 完成度 - 未完成行数
-        cur_table_data['count_row_uncompleted'] = completion_state['uncompleted'] # 完成度 - 全部行数
-        cur_table_data['completion_percent']    = completion_state['percentage']  # 完成度 - 百分比
-        # cur_table_data['url_edit']              = url_for('YET-TO-BE-ENSURED ',tb_name=tb_name)
+        cur_table_data['count_total']       = completion_state['total']             # 完成度 - 完成行数
+        cur_table_data['count_completed']   = completion_state['completed']         # 完成度 - 未完成行数
+        cur_table_data['count_uncompleted'] = completion_state['uncompleted']       # 完成度 - 全部行数
+        cur_table_data['percentage']    = completion_state['percentage']            # 完成度 - 百分比
+        cur_table_data['url_edit']              = url_for('edit_specified_table',table_name=tb_name)
         cur_table_data['url_edit_mustFill']     = url_for('select_RequredAttribute', tb_name=tb_name, return_aftFinish=True)
         cur_table_data['url_edit_dueNComment']  = url_for('fill_dueDate_n_comment', tb_name=tb_name)
         cur_table_data['url_delete']            = url_for('table_clear', table_name=tb_name)
@@ -321,7 +314,10 @@ def apiData_dataMain():
 # 自动渲染表格 - 展示表格/提交变更 
 
 # 主界面
-# @app.route('')
+@app.route('/demo')
+def show_all_tables_mainPage():
+
+    return render_template('table_show_main_new.html')
 
 # 编辑界面
 @app.route('/edit/<string:table_name>')
