@@ -113,28 +113,35 @@
             // ----------------------------------------
             //表头设置 （渲染的时候会根据这里设置的field为单元格设置样式）     
                 ,cols: [[    
+                    // {% if is_admin %}
                     {field: 'tb_name',              title: '任务名',   width:300, sort: true, unresize:false, align:'center', fixed: 'left'}, 
                     {field: 'upload_operator',      title: '上传用户', width:150, sort: true, unresize:true, align:'center',}, 
                     {field: 'upload_time',          title: '上传时间', width:250, sort: true, unresize:true, align:'center',}, 
                     {field: 'due',                  title: '截止日期', width:250, sort: true, unresize:true, align:'center',}, 
-                    // {field: 'count_uncompleted',    title: '未完成行数'}, 
-                    {field: 'count_completed',      title: '完成行数', width:150, unresize:true, align:'center',}, 
-                    {field: 'count_total',          title: '总计行数', width:150, unresize:true, align:'center',}, 
-                    {field: 'percentage',           title: '完成度'  , width:150, unresize:true, align:'center',}, 
-                    // {field: 'url_edit',             title: '', width:100, unresize:true, align:'center', fixed:'right',}, 
-                    // {field: 'url_edit_mustFill',    title: '', width:100, unresize:true, align:'center', fixed:'right',}, 
-                    // {field: 'url_edit_dueNComment', title: '', width:100, unresize:true, align:'center', fixed:'right',}, 
-                    // {field: 'url_delete',           title: '', width:100, unresize:true, align:'center', fixed:'right',}, 
+                    {field: 'count_uncompleted',    title: '未完成行数', width:160, unresize:true, align:'center',}, 
+                    {field: 'count_completed',      title: '完成行数', width:160, unresize:true, align:'center',}, 
+                    {field: 'count_total',          title: '总计行数', width:160, unresize:true, align:'center',}, 
+                    {field: 'percentage',           title: '完成度'  , width:160, unresize:true, align:'center',}, 
+                    // {% else %}
+                    {field: 'tb_name',              title: '任务名',   width:300, sort: true, unresize:false, align:'center', fixed: 'left'}, 
+                    {field: 'upload_operator',      title: '上传用户', width:150, sort: true, unresize:true, align:'center',}, 
+                    {field: 'upload_time',          title: '上传时间', width:300, sort: true, unresize:true, align:'center',}, 
+                    {field: 'due',                  title: '截止日期', width:300, sort: true, unresize:true, align:'center',}, 
+                    {field: 'count_uncompleted',    title: '未完成行数', width:160, unresize:true, align:'center',}, 
+                    {field: 'count_completed',      title: '完成行数', width:160, unresize:true, align:'center',}, 
+                    {field: 'count_total',          title: '总计行数', width:160, unresize:true, align:'center',}, 
+                    {field: 'percentage',           title: '完成度'  , width:160, unresize:true, align:'center',}, 
 
+                    // {% endif %}
 
                     // 每行中每个表格的右侧工具栏
-                    // {% if not is_admin %}
-                    {title: '编辑', fixed:'right', width:100, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT'},
+                    // {% if is_admin %}
                     // {title: '编辑', fixed:'right', width:70, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT'},
                     // {title: '设置', fixed:'right', width:200, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_SETTING'},
-                    // {% else %}
                     {title: '编辑/设置', fixed:'right', width:240, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT_N_SETTING'},
                     {title: '操作', fixed:'right', width:120, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_ACTION'},
+                    // {% else %}
+                    {title: '编辑', fixed:'right', width:100, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT'},
                     // {% endif %}
                 ]]
                 
@@ -202,7 +209,7 @@
     </script>
     <script type="text/html" id="LAYTUI_ROW_TOOLBAR_EDIT">
         <!-- 每行最右侧toolbar对应的模版: 其中的编辑按钮 -->
-        <a href="{{'{{d.url_edit}}'}}" class="layui-btn layui-btn-xs" lay-event="">编辑</a>
+        <a href="{{'{{d.url_edit}}'}}" class="layui-btn layui-btn-xs" lay-event="">&nbsp;&nbsp;&nbsp;编辑&nbsp;&nbsp;&nbsp;</a>
     </script>
     <script type="text/html" id="LAYTUI_ROW_TOOLBAR_SETTING">
         <!-- 每行最右侧toolbar对应的模版: 其中的设置相关按钮 -->
