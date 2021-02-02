@@ -370,9 +370,9 @@ def edit_specified_table(table_name):
         )
 
 # =============================================
-# 提交变更 
 # 自动渲染表格 - 提交普通单元格
 
+# 提交变更 
 @app.route('/api/submit_row',methods=["POST"])
 def submit_specified_tableRow():
     """
@@ -431,7 +431,7 @@ def edit_multiChoice(tb_name,title, _id):
     )
 
 # 提交多选单元格选项
-@app.route('/submit_multiChoice')
+@app.route('/submit_multiChoice', methods=['GET'])
 def submit_mulitiChoise():
     op_name = session['operator_name']
     op_time = gen_dateTime_str()
@@ -451,4 +451,44 @@ def submit_mulitiChoise():
     Database_Utils.row.set_table_row(table_name=table_name, row_id=_id, data=modif_document)
 
     return redirect(url_for('edit_specified_table', table_name=table_name))
+
+
+# 删除表格
+@app.route('/api/delete_table', methods=['GET'])
+def delete_specified_table_api():
+    table_name = request.args.get('tb_name') 
+    app.logger.debug(f'\t\t正在删除表单：{table_name}')
+    config=DB_Config()
+    db = MongoDatabase()
+    db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
+    db.drop(collection = table_name)
+    db.close()
+    Database_Utils.meta.del_tablemMeta(tb_name=table_name)
+    app.logger.debug(f'\t\t表单：{table_name} 删除成功')
+    return "Delete Successful !"
+
+
+# 归档表格（标记其元数据为已经归档）
+@app.route('/api/archive_table', methods=['GET'])
+def archive_specified_table_api():
+    tb_name = request.args.get('tb_name')
+    app.logger.debug(f'\t\t正在标记表单：{tb_name} 为归档文件')
+    meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
+    meta['archived'] = ""
+    Database_Utils.meta.save_tablemMeta(tb_name=tb_name, meta=meta)
+    app.logger.debug(f'\t\归档表单：{tb_name} 标记成功')
+    return "Archive Successful"
+
+# 去除归档标记
+@app.route('/api/unarchive_table', methods=['GET'])
+def unarchive_specified_table_api():
+    tb_name = request.args.get('tb_name')
+    app.logger.debug(f'\t\t正在标记表单：{tb_name} 为非归档文件')
+    meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
+    if('archived' in meta.keys()): del meta['archived']
+    Database_Utils.meta.save_tablemMeta(tb_name=tb_name, meta=meta)
+    app.logger.debug(f'\t\非归档表单：{tb_name} 标记成功')
+    return "Unarchive Successful"
+
+
 

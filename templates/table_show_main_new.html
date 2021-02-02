@@ -167,8 +167,32 @@
                 var event = obj.event;      // 获取事件名称
                 var row = obj.tr;           // 获取当前行
 
-                if(event == 'DELETE_TABLE_EVENT'){ //删除表格
-                    layer.confirm('确定删除表单：' + data['tb_name'] + '?', function(index){obj.del(); layer.close(index);})
+                //删除表格
+                if(event == 'DELETE_TABLE_EVENT'){ 
+                    layer.confirm('确定删除任务：' + data['tb_name'], function(index){
+                        obj.del(); 
+                        $.ajax({
+                            url : "{{url_for('delete_specified_table_api')}}" ,
+                            method : 'GET',
+                            data : {'tb_name':data['tb_name']},
+                            dataType : 'json'
+                        })
+                        layer.close(index);
+                    })
+                }
+
+                //归档表格
+                if(event == 'ARCHIVE_TABLE_EVENT'){ 
+                    layer.confirm('确定归档任务：' + data['tb_name'], function(index){
+                        obj.del(); 
+                        $.ajax({
+                            url : "{{url_for('archive_specified_table_api')}}" ,
+                            method : 'GET',
+                            data : {'tb_name':data['tb_name']},
+                            dataType : 'json'
+                        })
+                        layer.close(index);
+                    })
                 }
 
             });
@@ -195,8 +219,9 @@
     </script>
     <script type="text/html" id="LAYTUI_ROW_TOOLBAR_ACTION">
         <!-- 每行最右侧toolbar对应的模版: 其中的归档删除按钮 -->
-        <a href="{{'{{d.XXXXXXXXX}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="">归档</a>
-        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="DELETE_TABLE_EVENT">删除</a>
+        <!-- <a href="{{'{{d.XXXXXXXXX}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="">归档</a> -->
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="ARCHIVE_TABLE_EVENT">归档</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger"  lay-event="DELETE_TABLE_EVENT"> 删除</a>
         <!-- <a href="{{'{{d.url_delete}}'}}" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="">删除</a> -->
     </script>
 
