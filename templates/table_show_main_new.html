@@ -122,6 +122,8 @@
                     {field: 'count_completed',      title: '完成行数', width:160, unresize:true, align:'center',}, 
                     {field: 'count_total',          title: '总计行数', width:160, unresize:true, align:'center',}, 
                     {field: 'percentage',           title: '完成度'  , width:160, unresize:true, align:'center',}, 
+                    {title: '编辑/设置', fixed:'right', width:240, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT_N_SETTING'},
+                    {title: '操作', fixed:'right', width:120, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_ACTION'},
                     // {% else %}
                     {field: 'tb_name',              title: '任务名',   width:300, sort: true, unresize:false, align:'center', fixed: 'left'}, 
                     {field: 'upload_operator',      title: '上传用户', width:150, sort: true, unresize:true, align:'center',}, 
@@ -131,16 +133,6 @@
                     {field: 'count_completed',      title: '完成行数', width:160, unresize:true, align:'center',}, 
                     {field: 'count_total',          title: '总计行数', width:160, unresize:true, align:'center',}, 
                     {field: 'percentage',           title: '完成度'  , width:160, unresize:true, align:'center',}, 
-
-                    // {% endif %}
-
-                    // 每行中每个表格的右侧工具栏
-                    // {% if is_admin %}
-                    // {title: '编辑', fixed:'right', width:70, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT'},
-                    // {title: '设置', fixed:'right', width:200, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_SETTING'},
-                    {title: '编辑/设置', fixed:'right', width:240, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT_N_SETTING'},
-                    {title: '操作', fixed:'right', width:120, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_ACTION'},
-                    // {% else %}
                     {title: '编辑', fixed:'right', width:100, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT'},
                     // {% endif %}
                 ]]

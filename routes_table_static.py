@@ -132,7 +132,9 @@ def table_main(cur, limit, user):
             # 统计完成度
             timer = debugTimer(f"主界面-开始统计表格: {config.tb_name}  (第{calculated_table_count-1}/{sheet_indexEnd}表格)", f"完成统计表格 (总计处理了: { tb_meta['count'] } 行 { len(tb_meta['titles']) } 列)")
             timer.start()
-            completion_state      = Database_Utils.stat.completion(tb_name=config.collection_name)
+            completion_state      = Database_Utils.stat.completion(tb_name=config.collection_name,
+                is_admin=Database_Utils.user.check_admin(session['operator_name']), 
+                authorized_banknos=Database_Utils.user.get_rows(session['operator_name']))
             count_row_total       = completion_state['total']
             count_row_completed   = completion_state['completed']
             count_row_uncompleted = completion_state['uncompleted']
@@ -172,7 +174,9 @@ def table_main(cur, limit, user):
             else:temp_dict[due_date_title]=""
 
             # 获取列表完成状态信息
-            completion_state      = Database_Utils.stat.completion(tb_name=config.collection_name)
+            completion_state      = Database_Utils.stat.completion(tb_name=config.collection_name,
+                is_admin=Database_Utils.user.check_admin(session['operator_name']), 
+                authorized_banknos=Database_Utils.user.get_rows(session['operator_name']))
             count_row_total       = completion_state['total']
             count_row_completed   = completion_state['completed']
             count_row_uncompleted = completion_state['uncompleted']

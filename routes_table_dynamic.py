@@ -300,7 +300,9 @@ def apiData_dataMain():
             ,'due'              # 指示 - 截止日期
         ]
         cur_table_data = {i:table_meta[i] for i in meta_preserveKey}
-        completion_state      = Database_Utils.stat.completion(tb_name=tb_name)
+        completion_state      = Database_Utils.stat.completion(tb_name=tb_name, 
+            is_admin=Database_Utils.user.check_admin(session['operator_name']), 
+            authorized_banknos=Database_Utils.user.get_rows(session['operator_name']))
         cur_table_data['count_total']       = completion_state['total']             # 完成度 - 完成行数
         cur_table_data['count_completed']   = completion_state['completed']         # 完成度 - 未完成行数
         cur_table_data['count_uncompleted'] = completion_state['uncompleted']       # 完成度 - 全部行数
