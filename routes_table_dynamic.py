@@ -252,7 +252,6 @@ def apiData_dataMain():
     page  = int(request.args['page'])
     limit = int(request.args['limit'])
     start = (page - 1) * limit
-    print(start)
 
     # 返回的数据
     rtn_data = {
@@ -300,7 +299,6 @@ def apiData_dataMain():
             ,'upload_time'      # 指示 - 提交时间
             ,'due'              # 指示 - 截止日期
         ]
-        app.logger.warn(table_meta)
         cur_table_data = {i:table_meta[i] for i in meta_preserveKey}
         completion_state      = Database_Utils.stat.completion(tb_name=tb_name)
         cur_table_data['count_total']       = completion_state['total']             # 完成度 - 完成行数
@@ -321,8 +319,13 @@ def apiData_dataMain():
 # 主界面
 @app.route('/demo')
 def show_all_tables_mainPage():
+    print('=====')
+    print(session['operator_name'])
+    print(Database_Utils.user.check_admin(session['operator_name']))
 
-    return render_template('table_show_main_new.html')
+    return render_template('table_show_main_new.html'
+        ,is_admin = Database_Utils.user.check_admin(session['operator_name'])
+    )
 
 # 编辑界面
 @app.route('/edit/<string:table_name>')
@@ -365,9 +368,6 @@ def edit_specified_table(table_name):
         comment             = comment,
         first_entry         = first_entry
         )
-
-
-
 
 # =============================================
 # 提交变更 

@@ -415,6 +415,7 @@ def table(option):
 
     # 如果option为all: 跳转到用户选择表格界面
     if(option=='all'):
+        return redirect(url_for('show_all_tables_mainPage'))
         cur=request.args.get('curr')                # 提取现在的页数
         limit=request.args.get('limit')             # 提取最大显示行数
         user=session["operator_name"]               # 提取表格名称

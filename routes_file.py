@@ -117,9 +117,6 @@ def route_upload_file_idMissing():
     tableData_Json = tableData.toJson()   
     os.remove(f'./src/temp/{tb_name}.xlsx')
 
-    # app.logger.warn('-' * 66)
-    # app.logger.warn(tableData_Json)
-
     if(save_json): JSON.save(tableData_Json, JSON.PATH+f"{tb_name}.json")   
     Database_Utils.table.upload_table(tb_name.split('.')[0],tableData_Json) 
     return redirect(url_for('select_RequredAttribute', tb_name=tb_name, return_aftFinish='False'))
