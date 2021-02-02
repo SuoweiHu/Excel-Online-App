@@ -80,6 +80,7 @@
                         </span>
                     </div>
                     <!-- 是否显示归档按钮 -->
+                    <!-- {% if is_admin %} -->
                     <form class="layui-form" action="" lay-filter="requiredTitles-form" style="display: inline; float: right; margin-top: 0;">
                         <div class="layui-form-item" >
                             <div class="layui-input-block">
@@ -87,6 +88,7 @@
                             </div>
                         </div>
                     </form>
+                    <!-- {% endif %} -->
                 </div>
                 <!-- 以下为居中设置 -->
             </div>
@@ -193,7 +195,7 @@
 
                 //删除表格
                 if(event == 'DELETE_TABLE_EVENT'){ 
-                    layer.confirm('确定 “删除” 任务：' + data['tb_name'], function(index){
+                    layer.confirm('确定删除任务：' + data['tb_name'], function(index){
                         obj.del(); 
                         $.ajax({
                             url : "{{url_for('delete_specified_table_api')}}" ,
@@ -207,13 +209,15 @@
 
                 //归档/正常展示 表格
                 if(event == 'ARCHIVE_TABLE_EVENT'){ 
-                    layer.confirm('确定 “归档 / 正常展示” 任务：' + data['tb_name'], function(index){
+                    if(!show_archive){  var message_show='确定归档任务：'    + data['tb_name'];    }   
+                    else{               var message_show='确定正常展示任务：' + data['tb_name'];    }
+                    layer.confirm(message_show, function(index){
                         obj.del(); 
                         $.ajax({
-                            url : "{{url_for('toggle_archive_specified_table_api')}}" ,
+                            url : "{{url_for('toggle_archive_specified_table_api')}}",
                             method : 'GET',
-
-
+                            data : {'tb_name':data['tb_name']},
+                            dataType : 'json'
                         })
                         layer.close(index);
                     });

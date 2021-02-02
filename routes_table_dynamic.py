@@ -456,16 +456,19 @@ def unarchive_specified_table_api():
 @app.route('/api/toggle_archive', methods=['GET'])
 def toggle_archive_specified_table_api():
     tb_name = request.args.get('tb_name')
-    meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
-    if('archived' in meta.keys()): 
+    temp_meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
+
+    if('archived' in temp_meta.keys()): 
         app.logger.debug(f'\t\t正在取消表单：{tb_name} 的归档标记')
-        del meta['archived']
-        app.logger.debug(f'\t\归档表单：{tb_name} 已被取消归档')
+        del temp_meta['archived']
+        app.logger.debug(f'\t\t归档表单：{tb_name} 已被取消归档')
     else:
         app.logger.debug(f'\t\t正在给未归档表单：{tb_name} 添加标记')
-        meta['archived'] = ""
-        app.logger.debug(f'\t\未归档表单：{tb_name} 已被归档')
-    Database_Utils.meta.save_tablemMeta(tb_name=tb_name, meta=meta)
+        temp_meta['archived'] = ""
+        app.logger.debug(f'\t\t未归档表单：{tb_name} 已被归档')
+
+    Database_Utils.meta.del_tablemMeta(tb_name=tb_name)
+    Database_Utils.meta.save_tablemMeta(tb_name=tb_name, meta=temp_meta)
     return "Toggle Successful !"
 
 # =============================================
