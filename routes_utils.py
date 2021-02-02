@@ -39,10 +39,12 @@ def redirect_to_index():
     """
     跳转到主页面, 或者指定页面
     """
-    if(session['previous_page'] is None):
-        return redirect(url_for('index'))
-    else:
-        prev_page = session['previous_page']
-        session['previous_page'] = None
-        return redirect(prev_page)
+    return redirect(url_for('index'))
+
+    # if(session['previous_page'] is None):
+    #     return redirect(url_for('index'))
+    # else:
+    #     prev_page = session['previous_page']
+    #     session['previous_page'] = None
+    #     return redirect(prev_page)
 

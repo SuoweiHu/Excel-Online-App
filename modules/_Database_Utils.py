@@ -344,18 +344,18 @@ class Database_Utils:
             db.close()
 
         # 获取表格的数量
-        def get_tableMeta_count():
+        def get_tableMeta_count(search_query={}):
             db = MongoDatabase()
             db.start()
-            count = db.count_documents(collection=Database_Utils.tableMeta_collection_name, search_query={})
+            count = db.count_documents(collection=Database_Utils.tableMeta_collection_name, search_query=search_query)
             db.close()
             return count
         # 获取特定排序顺序的表格元数据
-        def pull_tableMeta_s(sort=(None,None), limit=None, skip=0):
+        def pull_tableMeta_s(sort=(None,None), limit=None, skip=0, search_query={}):
             db = MongoDatabase()
             db.start()
-            if(limit is None):docs = db.get_documents(collection=Database_Utils.tableMeta_collection_name, search_query={}, sort=sort, skip=skip)
-            else:docs = db.get_documents(collection=Database_Utils.tableMeta_collection_name, search_query={}, sort=sort, limit=limit, skip=skip)
+            if(limit is None):docs = db.get_documents(collection=Database_Utils.tableMeta_collection_name, search_query=search_query, sort=sort, skip=skip)
+            else:docs = db.get_documents(collection=Database_Utils.tableMeta_collection_name, search_query=search_query, sort=sort, limit=limit, skip=skip)
             db.close()
             return docs
 

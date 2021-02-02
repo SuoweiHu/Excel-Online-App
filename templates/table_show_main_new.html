@@ -36,6 +36,10 @@
             width: 1920px;
             height: 82vh;
         }
+        .layui-table-cell{
+            height:      32px;
+            line-height: 32px;
+        }
         /* .layui-table-cell{overflow: visible !important;} */
         /* td .layui-form-select{ margin-top: -10px; margin-left: -15px; margin-right: -15px;}    */
     </style>
@@ -53,11 +57,19 @@
         <fieldset class="layui-elem-field " style="margin-top: 30px; ">
             <legend>中信银行填报系统</legend>
             <div class="table_mask">
+                
                 <!-- 以上为居中设置 -->
                 <div class="table_center" style="width:95%;">
-
-                    <table id="_MAIN_TABLE_RENDER_ID_" lay-filter="_MAIN_TABLE_RENDER_FILTER_" ></table>
-                    <br>
+                    <!-- 搜索栏 -->
+                    <div class="search-input-box">
+                        &nbsp;
+                        <div class="layui-inline">
+                            <input class="layui-input" name="id" id="INPUT_SEARCH_FOR_TABLE" placeholder="输入任务名以搜索" autocomplete="off">
+                        </div>
+                        <button class="layui-btn" data-type="reload">搜索</button>
+                    </div><br>
+                    <!-- 自动渲染的表格 -->
+                    <table id="_MAIN_TABLE_RENDER_ID_" lay-filter="_MAIN_TABLE_RENDER_FILTER_" ></table><br>
                     <div>
                         <span>
                             <div id="page_component" style="display: inline; float: right; margin-right: 30px;"></div>
@@ -67,6 +79,14 @@
                             </form>
                         </span>
                     </div>
+                    <!-- 是否显示归档按钮 -->
+                    <form class="layui-form" action="" lay-filter="requiredTitles-form" style="display: inline; float: right; margin-top: 0;">
+                        <div class="layui-form-item" >
+                            <div class="layui-input-block">
+                                <input type="checkbox" lay-skin="switch" lay-text="仅显示归档|不显示归档" lay-filter="TOGGLE_ARHIVE_BUTTON_" name="archive_status">
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <!-- 以下为居中设置 -->
             </div>
@@ -81,11 +101,16 @@
     <!-- <script id="_demo_" type="text/html"> -->
     <script>String.prototype.format =function () {var args = arguments;return this.replace(/\{(\d+)\}/g, function(m, i){return args[i];});};</script>
 
-    <!-- Html表格的自动渲染设置 -->
+    <!-- 表格的自动渲染设置 -->
     <script>
-        layui.use(['table', 'laytpl','layer'], function(){
+        layui.use(['table', 'laytpl','layer', 'form'], function(){
             var laytpl= layui.laytpl;
             var table = layui.table;
+            var form = layui.form;
+            form.render
+            form.render('select');
+            
+            var show_archive = true;
             
             //更改Layui模版组件的的分隔符
                 // laytpl.config({          // 经过测试不可使用 （和Jinja2渲染分隔符冲突）
@@ -94,21 +119,22 @@
                 // });                      // \{\{" \{\{<div> Hello World ! </div>\}\} "\}\}
             //选择被渲染的表格元素
             table.render({
+                // id : '_MAIN_TABLE_RENDER_ID_'
                 title: "中信银行填报系统"
                 ,elem: '#_MAIN_TABLE_RENDER_ID_'
             //高宽设置
                 // ,width:  1920                    //1080p
                 // ,height: 950                     //1080p
-                ,height : window.innerHeight*0.75    //自适应-1
+                ,height : window.innerHeight*0.7    //自适应-1
                 // ,height :85vh                    //自适应-2
             //分页
                 ,page: true                         //开启分页
-                ,limit: 20                          //每页条数
+                ,limit: 15                          //每页条数
                 // ,page: {theme: '#c00'}           //开启分页主题
-                ,limits:[5,10,15,20]           //分页选项
+                ,limits:[5,10,15,20,25,30]           //分页选项
 
             //数据接口
-                ,url: '/api/dataMain'               //数据接口
+                ,url: '/api/dataMain/normal'               //数据接口
             
             // ----------------------------------------
             //表头设置 （渲染的时候会根据这里设置的field为单元格设置样式）     
@@ -117,21 +143,21 @@
                     {field: 'tb_name',              title: '任务名',   width:300, sort: true, unresize:false, align:'center', fixed: 'left'}, 
                     {field: 'upload_operator',      title: '上传用户', width:150, sort: true, unresize:true, align:'center',}, 
                     {field: 'upload_time',          title: '上传时间', width:250, sort: true, unresize:true, align:'center',}, 
-                    {field: 'due',                  title: '截止日期', width:250, sort: true, unresize:true, align:'center',}, 
-                    {field: 'count_uncompleted',    title: '未完成行数', width:160, unresize:true, align:'center',}, 
-                    {field: 'count_completed',      title: '完成行数', width:160, unresize:true, align:'center',}, 
-                    {field: 'count_total',          title: '总计行数', width:160, unresize:true, align:'center',}, 
+                    {field: 'due',                  title: '截止时间', width:250, sort: true, unresize:true, align:'center',}, 
+                    {field: 'count_uncompleted',    title: '未完成', width:160, unresize:true, align:'center',}, 
+                    {field: 'count_completed',      title: '已完成', width:160, unresize:true, align:'center',}, 
+                    {field: 'count_total',          title: '总计', width:160, unresize:true, align:'center',}, 
                     {field: 'percentage',           title: '完成度'  , width:160, unresize:true, align:'center',}, 
                     {title: '编辑/设置', fixed:'right', width:240, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT_N_SETTING'},
-                    {title: '操作', fixed:'right', width:120, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_ACTION'},
+                    {title: '操作', fixed:'right', width:180, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_ACTION'},
                     // {% else %}
                     {field: 'tb_name',              title: '任务名',   width:300, sort: true, unresize:false, align:'center', fixed: 'left'}, 
                     {field: 'upload_operator',      title: '上传用户', width:150, sort: true, unresize:true, align:'center',}, 
                     {field: 'upload_time',          title: '上传时间', width:300, sort: true, unresize:true, align:'center',}, 
-                    {field: 'due',                  title: '截止日期', width:300, sort: true, unresize:true, align:'center',}, 
-                    {field: 'count_uncompleted',    title: '未完成行数', width:160, unresize:true, align:'center',}, 
-                    {field: 'count_completed',      title: '完成行数', width:160, unresize:true, align:'center',}, 
-                    {field: 'count_total',          title: '总计行数', width:160, unresize:true, align:'center',}, 
+                    {field: 'due',                  title: '截止时间', width:300, sort: true, unresize:true, align:'center',}, 
+                    {field: 'count_uncompleted',    title: '未完成', width:160, unresize:true, align:'center',}, 
+                    {field: 'count_completed',      title: '已完成', width:160, unresize:true, align:'center',}, 
+                    {field: 'count_total',          title: '总计', width:160, unresize:true, align:'center',}, 
                     {field: 'percentage',           title: '完成度'  , width:160, unresize:true, align:'center',}, 
                     {title: '编辑', fixed:'right', width:100, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT'},
                     // {% endif %}
@@ -149,7 +175,6 @@
                 //根据当前排序的字段，重新向服务端发送请求
                 table.reload('_MAIN_TABLE_RENDER_ID_', {
                     initSort: obj                   //记录初始排序，如果不设的话，将无法标记表头的排序状态。
-                    ,url: '/api/dataMain'           //服务端的异步数据接口
                     ,where: {                       //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
                         field: obj.field            //排序字段
                         ,order: obj.type            //排序方式
@@ -168,7 +193,7 @@
 
                 //删除表格
                 if(event == 'DELETE_TABLE_EVENT'){ 
-                    layer.confirm('确定删除任务：' + data['tb_name'], function(index){
+                    layer.confirm('确定 “删除” 任务：' + data['tb_name'], function(index){
                         obj.del(); 
                         $.ajax({
                             url : "{{url_for('delete_specified_table_api')}}" ,
@@ -180,25 +205,77 @@
                     })
                 }
 
-                //归档表格
+                //归档/正常展示 表格
                 if(event == 'ARCHIVE_TABLE_EVENT'){ 
-                    layer.confirm('确定归档任务：' + data['tb_name'], function(index){
+                    layer.confirm('确定 “归档 / 正常展示” 任务：' + data['tb_name'], function(index){
                         obj.del(); 
                         $.ajax({
-                            url : "{{url_for('archive_specified_table_api')}}" ,
+                            url : "{{url_for('toggle_archive_specified_table_api')}}" ,
                             method : 'GET',
-                            data : {'tb_name':data['tb_name']},
-                            dataType : 'json'
+
+
                         })
                         layer.close(index);
-                    })
+                    });
+                    // layer.msg('表格已被设为 归档 / 正常显示', {time:1000});
                 }
 
             });
+            // 查询水执行重载（加上 paritial_tb_name 作为查询条件查询）
+            var $ = layui.$, active = {
+                reload: function(){
+                var input_box = $('#INPUT_SEARCH_FOR_TABLE');
+                var partial_tb_name = input_box.val()
+                //执行重载
+                table.reload('_MAIN_TABLE_RENDER_ID_', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                        //limit: xx //分页设置不变
+                    }
+                    ,url:'/api/dataMain/archived'
+                    ,where: {
+                        'partial_tb_name': partial_tb_name
+                    }
+                }, 'data');
+                }
+            };
+            $('.search-input-box .layui-btn').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+
+            //监听 不显示归档/显示归档 开关
+            form.on('switch(TOGGLE_ARHIVE_BUTTON_)', function(data){
+                check_state = data.elem.checked;
+                archicve_state = !check_state;
+                if(archicve_state){
+                    table.reload('_MAIN_TABLE_RENDER_ID_', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                            //limit: xx //分页设置不变
+                        }
+                        ,url:'/api/dataMain/normal'
+                    }, 'data');
+                    show_archive = false;
+                }
+                else{
+                    table.reload('_MAIN_TABLE_RENDER_ID_', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                            //limit: xx //分页设置不变
+                        }
+                        ,url:'/api/dataMain/archived'
+                    }, 'data');
+                    show_archive = true;
+                }
+            });
+
         });
 
-
+       
     </script>
+    
+    <!-- 每行工具栏的渲染模版 -->
     <script type="text/html" id="LAYTUI_ROW_TOOLBAR_EDIT">
         <!-- 每行最右侧toolbar对应的模版: 其中的编辑按钮 -->
         <a href="{{'{{d.url_edit}}'}}" class="layui-btn layui-btn-xs" lay-event="">&nbsp;&nbsp;&nbsp;编辑&nbsp;&nbsp;&nbsp;</a>
@@ -219,7 +296,7 @@
     <script type="text/html" id="LAYTUI_ROW_TOOLBAR_ACTION">
         <!-- 每行最右侧toolbar对应的模版: 其中的归档删除按钮 -->
         <!-- <a href="{{'{{d.XXXXXXXXX}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="">归档</a> -->
-        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="ARCHIVE_TABLE_EVENT">归档</a>
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="ARCHIVE_TABLE_EVENT">归档/正常展示</a>
         <a class="layui-btn layui-btn-xs layui-btn-danger"  lay-event="DELETE_TABLE_EVENT"> 删除</a>
         <!-- <a href="{{'{{d.url_delete}}'}}" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="">删除</a> -->
     </script>

@@ -3,10 +3,11 @@ import json
 from logging import log
 import logging
 import os
-from re import L, split
+from re import L, search, split
 import sys
 import pprint
 from datetime import datetime
+from typing import Optional
 # import random
 # from threading import ExceptHookArgs
 # import time
@@ -220,10 +221,12 @@ def apiData_dataEdit():
     return {"code":code, "msg":msg, "count":count, "data":data}
 
 # 主界面
-@app.route('/api/dataMain')
-def apiData_dataMain():
+@app.route('/api/dataMain/<string:option>')
+def apiData_dataMain(option):
 
     """
+    option: normal 或 archived 
+
     主界面表格的数据接口，返回数据包括了
     {
         code = xx,                          # 0 means success 
@@ -248,16 +251,25 @@ def apiData_dataMain():
         ]
     }
     """
+    # 获取 请求类型
+    if(option == 'archived'):archive_query = {'archived':''}
+    else:archive_query = {'archived':None}
+
     # 获取 分页请求
     page  = int(request.args['page'])
     limit = int(request.args['limit'])
     start = (page - 1) * limit
 
+    # 获取 查询请求
+    partial_tb_name = request.args.get('partial_tb_name')
+    if(partial_tb_name is not None): tb_query = {'tb_name':{"$regex":partial_tb_name}}
+    else: tb_query = {}
+
     # 返回的数据
     rtn_data = {
         'code'  : 0,
         'msg'   : "",
-        'count' : Database_Utils.meta.get_tableMeta_count(),
+        'count' : 0,
         'data'  : []
     }
 
@@ -277,12 +289,16 @@ def apiData_dataMain():
     # 通过meta确认，仅在当前页显示的表单（通过XX排序）
     # 尝试获取数据（如果不存在数据则会抛出RuntimeError错误）
     try: 
-        table_data = Database_Utils.meta.pull_tableMeta_s(sort=sort)
 
         # ======================================================================
         # TODO: IMPLMENT METHOD SUCH THAT THIS LIMIT AND SKIP WORKS AS YOU EXPECTED
         # ======================================================================
-        table_data = Database_Utils.meta.pull_tableMeta_s(sort=sort, limit=limit, skip=start)
+        # table_data = Database_Utils.meta.pull_tableMeta_s(sort=sort)
+        search_query = {}
+        search_query.update(tb_query)
+        search_query.update(archive_query)
+        table_data = Database_Utils.meta.pull_tableMeta_s(sort=sort, limit=limit, skip=start, search_query=search_query)
+        rtn_data['count'] = Database_Utils.meta.get_tableMeta_count(search_query=search_query)
 
         tb_names = [table_i['tb_name'] for table_i in table_data]
     except RuntimeError as e: 
@@ -313,68 +329,14 @@ def apiData_dataMain():
         cur_table_data['url_delete']            = url_for('table_clear', table_name=tb_name)
         rtn_data['data'].append(cur_table_data)
 
+
     return rtn_data
 
-# =============================================
-# 自动渲染表格 - 展示表格/提交变更 
-
-# 主界面
-@app.route('/demo')
-def show_all_tables_mainPage():
-    print('=====')
-    print(session['operator_name'])
-    print(Database_Utils.user.check_admin(session['operator_name']))
-
-    return render_template('table_show_main_new.html'
-        ,is_admin = Database_Utils.user.check_admin(session['operator_name'])
-    )
-
-# 编辑界面
-@app.route('/edit/<string:table_name>')
-def edit_specified_table(table_name):
-
-    show_operator        = True   # 是否展示操作员信息
-    authorization_inedx  = 0      # 用于确认用户权限的列的序号 (这里 0 指的是 ‘行号’ 在标题的第一个位置)
-
-    # ========================================
-    # 设置行属性 
-    column_titles = Database_Utils.table.get_tableTitles(table_name) 
-    is_admin       = Database_Utils.user.check_admin(session['operator_name'])
-    auth_rows      = Database_Utils.user.get_rows(session['operator_name'])
-    count_authRows = Database_Utils.stat.count_allRows(tb_name=table_name, is_admin=is_admin, authorized_banknos=auth_rows)
-
-    if(show_operator): column_titles += TableData.operator_titles
-    # (这里的id:title映射将被Jinja2赋值到 layui数据表单中的 每行的field上)
-    column_ids    = [i for i in column_titles]
-    column_dict   = {column_ids[i]:column_titles[i] for i in range(len(column_titles))}
-
-    # 使用模版渲染表格
-    table_meta = Database_Utils.meta.load_tablemMeta(tb_name=table_name)
-    if('comment' in table_meta.keys()): comment = table_meta['comment']
-    else:                               comment = "提交人暂时还未填写说明"
-    if(comment==""):                    comment = "提交人暂时还未填写说明"
-
-    # ========================================
-    # 如果是第一次打开
-    if(request.args.get('entry') == "main_page"): first_entry = True
-    else: first_entry = False
-
-    return render_template(
-        'table_show_edit.html',\
-        column_dict         = column_dict,\
-        table_name          = table_name, \
-        authorization_title = column_titles[authorization_inedx], \
-        operator_title      = TableData.operator_titles,\
-        table_meta          = table_meta,\
-        number_of_rows      = count_authRows,\
-        comment             = comment,
-        first_entry         = first_entry
-        )
 
 # =============================================
-# 自动渲染表格 - 提交普通单元格
+# 自动渲染表格 - AJAX提交请求
 
-# 提交变更 
+# 提交普通单元格
 @app.route('/api/submit_row',methods=["POST"])
 def submit_specified_tableRow():
     """
@@ -454,7 +416,6 @@ def submit_mulitiChoise():
 
     return redirect(url_for('edit_specified_table', table_name=table_name))
 
-
 # 删除表格
 @app.route('/api/delete_table', methods=['GET'])
 def delete_specified_table_api():
@@ -469,8 +430,7 @@ def delete_specified_table_api():
     app.logger.debug(f'\t\t表单：{table_name} 删除成功')
     return "Delete Successful !"
 
-
-# 归档表格（标记其元数据为已经归档）
+# (DEPRECATED) 归档表格（标记其元数据为已经归档）
 @app.route('/api/archive_table', methods=['GET'])
 def archive_specified_table_api():
     tb_name = request.args.get('tb_name')
@@ -481,7 +441,7 @@ def archive_specified_table_api():
     app.logger.debug(f'\t\归档表单：{tb_name} 标记成功')
     return "Archive Successful"
 
-# 去除归档标记
+# (DEPRECATED) 去除归档标记
 @app.route('/api/unarchive_table', methods=['GET'])
 def unarchive_specified_table_api():
     tb_name = request.args.get('tb_name')
@@ -492,5 +452,70 @@ def unarchive_specified_table_api():
     app.logger.debug(f'\t\非归档表单：{tb_name} 标记成功')
     return "Unarchive Successful"
 
+# 切换归档（如果已经归档标记为未归档，反之亦然）
+@app.route('/api/toggle_archive', methods=['GET'])
+def toggle_archive_specified_table_api():
+    tb_name = request.args.get('tb_name')
+    meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
+    if('archived' in meta.keys()): 
+        app.logger.debug(f'\t\t正在取消表单：{tb_name} 的归档标记')
+        del meta['archived']
+        app.logger.debug(f'\t\归档表单：{tb_name} 已被取消归档')
+    else:
+        app.logger.debug(f'\t\t正在给未归档表单：{tb_name} 添加标记')
+        meta['archived'] = ""
+        app.logger.debug(f'\t\未归档表单：{tb_name} 已被归档')
+    Database_Utils.meta.save_tablemMeta(tb_name=tb_name, meta=meta)
+    return "Toggle Successful !"
 
+# =============================================
+# 自动渲染表格 - 模版页面渲染 
+
+# 主界面
+@app.route('/main')
+def show_all_tables_mainPage():
+    return render_template('table_show_main_new.html'
+        ,is_admin = Database_Utils.user.check_admin(session['operator_name']))
+
+# 编辑界面
+@app.route('/edit/<string:table_name>')
+def edit_specified_table(table_name):
+
+    show_operator        = True   # 是否展示操作员信息
+    authorization_inedx  = 0      # 用于确认用户权限的列的序号 (这里 0 指的是 ‘行号’ 在标题的第一个位置)
+
+    # ========================================
+    # 设置行属性 
+    column_titles = Database_Utils.table.get_tableTitles(table_name) 
+    is_admin       = Database_Utils.user.check_admin(session['operator_name'])
+    auth_rows      = Database_Utils.user.get_rows(session['operator_name'])
+    count_authRows = Database_Utils.stat.count_allRows(tb_name=table_name, is_admin=is_admin, authorized_banknos=auth_rows)
+
+    if(show_operator): column_titles += TableData.operator_titles
+    # (这里的id:title映射将被Jinja2赋值到 layui数据表单中的 每行的field上)
+    column_ids    = [i for i in column_titles]
+    column_dict   = {column_ids[i]:column_titles[i] for i in range(len(column_titles))}
+
+    # 使用模版渲染表格
+    table_meta = Database_Utils.meta.load_tablemMeta(tb_name=table_name)
+    if('comment' in table_meta.keys()): comment = table_meta['comment']
+    else:                               comment = "提交人暂时还未填写说明"
+    if(comment==""):                    comment = "提交人暂时还未填写说明"
+
+    # ========================================
+    # 如果是第一次打开
+    if(request.args.get('entry') == "main_page"): first_entry = True
+    else: first_entry = False
+
+    return render_template(
+        'table_show_edit.html',\
+        column_dict         = column_dict,\
+        table_name          = table_name, \
+        authorization_title = column_titles[authorization_inedx], \
+        operator_title      = TableData.operator_titles,\
+        table_meta          = table_meta,\
+        number_of_rows      = count_authRows,\
+        comment             = comment,
+        first_entry         = first_entry
+        )
 
