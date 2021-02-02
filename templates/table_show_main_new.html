@@ -121,7 +121,13 @@
                     {field: 'count_completed',      title: '完成行数', width:150, unresize:true, align:'center',}, 
                     {field: 'count_total',          title: '总计行数', width:150, unresize:true, align:'center',}, 
                     {field: 'percentage',           title: '完成度'  , width:150, unresize:true, align:'center',}, 
+                    // {field: 'url_edit',             title: '', width:100, unresize:true, align:'center', fixed:'right',}, 
+                    // {field: 'url_edit_mustFill',    title: '', width:100, unresize:true, align:'center', fixed:'right',}, 
+                    // {field: 'url_edit_dueNComment', title: '', width:100, unresize:true, align:'center', fixed:'right',}, 
+                    // {field: 'url_delete',           title: '', width:100, unresize:true, align:'center', fixed:'right',}, 
 
+
+                    // 每行中每个表格的右侧工具栏
                     // {% if not is_admin %}
                     {title: '编辑', fixed:'right', width:100, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT'},
                     // {title: '编辑', fixed:'right', width:70, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT'},
@@ -130,12 +136,6 @@
                     {title: '编辑/设置', fixed:'right', width:240, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_EDIT_N_SETTING'},
                     {title: '操作', fixed:'right', width:120, align:'center',toolbar:'#LAYTUI_ROW_TOOLBAR_ACTION'},
                     // {% endif %}
-
-
-                    // {field: 'url_edit',             title: '', width:100, unresize:true, align:'center', fixed:'right',}, 
-                    // {field: 'url_edit_mustFill',    title: '', width:100, unresize:true, align:'center', fixed:'right',}, 
-                    // {field: 'url_edit_dueNComment', title: '', width:100, unresize:true, align:'center', fixed:'right',}, 
-                    // {field: 'url_delete',           title: '', width:100, unresize:true, align:'center', fixed:'right',}, 
                 ]]
                 
             });
@@ -161,31 +161,43 @@
                 // layer.msg('服务端排序。<br> 排序列:'+ obj.field + '， 排序方式:' + obj.type, {time:1000});
             });
 
+            //监听行工具栏事件
+            table.on('tool(_MAIN_TABLE_RENDER_FILTER_)', function(obj){
+                var data = obj.data;        // 获取当前行的数据
+                var event = obj.event;      // 获取事件名称
+                var row = obj.tr;           // 获取当前行
+
+                if(event == 'DELETE_TABLE_EVENT'){ //删除表格
+                    layer.confirm('确定删除表单：' + data['tb_name'] + '?', function(index){obj.del(); layer.close(index);})
+                }
+
+            });
         });
 
 
     </script>
     <script type="text/html" id="LAYTUI_ROW_TOOLBAR_EDIT">
         <!-- 每行最右侧toolbar对应的模版: 其中的编辑按钮 -->
-        <a href="{{'{{d.url_edit}}'}}" class="layui-btn layui-btn-xs" lay-event="detail">编辑</a>
+        <a href="{{'{{d.url_edit}}'}}" class="layui-btn layui-btn-xs" lay-event="">编辑</a>
     </script>
     <script type="text/html" id="LAYTUI_ROW_TOOLBAR_SETTING">
         <!-- 每行最右侧toolbar对应的模版: 其中的设置相关按钮 -->
-        <a href="{{'{{d.url_edit_mustFill}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">必填列</a>
-        <a href="{{'{{d.url_edit_dueNComment}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">说明/截止日期</a>
+        <a href="{{'{{d.url_edit_mustFill}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="">必填列</a>
+        <a href="{{'{{d.url_edit_dueNComment}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="">说明/截止日期</a>
     </script>
     <script type="text/html" id="LAYTUI_ROW_TOOLBAR_EDIT_N_SETTING">
         <!-- 每行最右侧toolbar对应的模版: 其中的编辑按钮 -->
         <!-- + -->
         <!-- 每行最右侧toolbar对应的模版: 其中的设置相关按钮 -->
-        <a href="{{'{{d.url_edit}}'}}" class="layui-btn layui-btn-xs" lay-event="detail">编辑</a>
-        <a href="{{'{{d.url_edit_mustFill}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">必填列</a>
-        <a href="{{'{{d.url_edit_dueNComment}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">说明/截止日期</a>
+        <a href="{{'{{d.url_edit}}'}}" class="layui-btn layui-btn-xs" lay-event="">编辑</a>
+        <a href="{{'{{d.url_edit_mustFill}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="">必填列</a>
+        <a href="{{'{{d.url_edit_dueNComment}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="">说明/截止日期</a>
     </script>
     <script type="text/html" id="LAYTUI_ROW_TOOLBAR_ACTION">
         <!-- 每行最右侧toolbar对应的模版: 其中的归档删除按钮 -->
-        <a href="{{'{{d.XXXXXXXXX}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">归档</a>
-        <a href="{{'{{d.url_delete}}'}}" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="detail">删除</a>
+        <a href="{{'{{d.XXXXXXXXX}}'}}" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="">归档</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="DELETE_TABLE_EVENT">删除</a>
+        <!-- <a href="{{'{{d.url_delete}}'}}" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="">删除</a> -->
     </script>
 
 
