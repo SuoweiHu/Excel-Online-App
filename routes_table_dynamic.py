@@ -126,8 +126,10 @@ def apiData_dataEdit():
     """
     获取”编辑页面“的表格的数据接口
     """
+
     # 获取 表格信息
     table_name = request.args['tb_name']
+    app.logger.info('正在访问编辑界面数据接口, 表格名:'+table_name)
 
     # 获取 操作员信息
     show_operator           = True   # 是否展示操作员信息
@@ -240,6 +242,8 @@ def apiData_dataMain(option):
         ]
     }
     """
+    app.logger.info('正在访问主界面数据接口')
+
     # 获取 请求类型
     if(option == 'archived'):archive_query = {'archived':''}
     else:archive_query = {'archived':None}
@@ -334,18 +338,20 @@ def submit_specified_tableRow():
     op_name = session['operator_name']
     op_time = gen_dateTime_str()
 
-    # DEBUG LOGGGING 
-    debug_string = f""" 
-    Saving changes for
-      table  = {table_name}
-      row_id = {_id}
-      data   = {req_data}
+    app.logger.info('提交普通单元格, _id:' + _id)
 
-    Action performed by
-      user = {op_name}
-      time = {op_time}
-    """
-    app.logger.debug(debug_string)
+    # DEBUG LOGGGING 
+    # debug_string = f""" 
+    # Saving changes for
+    #   table  = {table_name}
+    #   row_id = {_id}
+    #   data   = {req_data}
+
+    # Action performed by
+    #   user = {op_name}
+    #   time = {op_time}
+    # """
+    # app.logger.debug(debug_string)
     origi_document = Database_Utils.row.get_table_row(table_name=table_name, row_id=_id)
     modif_document = origi_document.copy()
     for title,cell_data in origi_document['data'].items():
@@ -370,7 +376,7 @@ def submit_specified_tableRow():
 def edit_multiChoice(tb_name,title, _id):
     meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
     options = meta['option_optionDict'][title]
-
+    app.logger.info(f"正在编辑预设单元格, table:{tb_name}, title:{title}, _id:{_id}, ")
     return render_template('table_show_multiChoice.html',
         tb_name     = tb_name,
         title       = title,
@@ -389,8 +395,6 @@ def submit_mulitiChoise():
     choice_title= request.args.get("title")
     _id         = request.args.get("_id")
     choice      = request.args.get("choice")
-    print('=' * 80)
-    print(_id, table_name, choice_title, choice)
 
     modif_document = Database_Utils.row.get_table_row(table_name=table_name, row_id=_id)
     print(modif_document)
@@ -399,6 +403,7 @@ def submit_mulitiChoise():
     modif_document['user']['time'] = op_time
     Database_Utils.row.set_table_row(table_name=table_name, row_id=_id, data=modif_document)
 
+    app.logger.info(f"提交预设单元格, table:{table_name}, title:{choice_title}, choice:{choice}, _id:{_id}")
     return redirect(url_for('edit_specified_table', table_name=table_name))
 
 # 删除表格
@@ -413,6 +418,8 @@ def delete_specified_table_api():
     db.close()
     Database_Utils.meta.del_tablemMeta(tb_name=table_name)
     app.logger.debug(f'\t\t表单：{table_name} 删除成功')
+
+    app.logger.info(f"删除表单, table:{table_name}")
     return "Delete Successful !"
 
 # (DEPRECATED) 归档表格（标记其元数据为已经归档）
@@ -459,12 +466,14 @@ def toggle_archive_specified_table_api():
 # 模版页面渲染 - 主界面
 @app.route('/main')
 def show_all_tables_mainPage():
+    app.logger.info('进入渲染主界面')
     return render_template('table_show_main_new.html'
         ,is_admin = Database_Utils.user.check_admin(session['operator_name']))
 
 # 模版页面渲染  - 编辑界面
 @app.route('/edit/<string:table_name>')
 def edit_specified_table(table_name):
+    app.logger.info(f'进入编辑主界面, table:{table_name}')
 
     show_operator        = True   # 是否展示操作员信息
     authorization_inedx  = 0      # 用于确认用户权限的列的序号 (这里 0 指的是 ‘行号’ 在标题的第一个位置)
