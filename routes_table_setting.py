@@ -1,3 +1,16 @@
+"""
+处理表格设置的路由，包括了：
+- /select_RequredAttribute/<string:tb_name>/<string:return_aftFinish>
+  选择表格列的 “必填”, “预设可改” 的设置页面
+- /update_requiredTitles/<string:tb_name>
+  上传更新的 “必填”, “预设可改” 的设置
+- /dueNComment/<string:tb_name>
+  截止日期/填表说明设置页面
+- /dueNComment_data_save/<string:tb_name>
+  截止日期/填表说明设置上传
+"""
+
+
 # Some built-int modules
 import json
 # from logging import log
@@ -14,24 +27,21 @@ from datetime import datetime
 # from pymongo.message import query
 # from pymongo.periodic_executor import _on_executor_deleted
 
-from modules._Database  import MongoDatabase, DB_Config
-from modules._TableData import TableData
-from modules._ExcelVisitor import ExcelVisitor
-from modules._JsonVisitor  import JSON
+# from modules._Database  import MongoDatabase, DB_Config
+# from modules._TableData import TableData
+# from modules._ExcelVisitor import ExcelVisitor
+# from modules._JsonVisitor  import JSON
 # from modules._Redis import RedisCache
 from modules._Database_Utils import Database_Utils
-from modules._Hash_Utils import hash_id
+# from modules._Hash_Utils import hash_id
 
 # from werkzeug             import utils
+# from json2html              import json2html
 from app                    import app
-from json2html              import json2html
 from flask                  import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
 from routes_utils           import *
 from routes_file            import *
 from debugTimer             import *
-
-
-# =============================================
 
 # 选择表格列的 “必填”, “预设可改” 的设置页面
 @app.route('/select_RequredAttribute/<string:tb_name>/<string:return_aftFinish>', methods=['GET'])
@@ -72,8 +82,6 @@ def route_upload_requiredTitles(tb_name):
     # return "Successful !"
     return redirect(url_for('edit_specified_table', table_name=tb_name))
 
-
-# =============================================
 # 截止日期/填表说明设置页面
 @app.route('/dueNComment/<string:tb_name>')
 def fill_dueDate_n_comment(tb_name):

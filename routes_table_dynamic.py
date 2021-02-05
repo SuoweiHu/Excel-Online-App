@@ -1,3 +1,18 @@
+"""
+使用layui动态数据表格的路由，包括了：
+- /api/dataEdit :       编辑页面的数据接口
+- /api/dataMain/<string:option>： 
+                        主界面的数据接口
+- /api/submit_row :     提交行的提交接口
+- /multiChoice/<string:tb_name>/<string:title>/<string:_id>
+                        当点击预设单元格的显示函数
+- /submit_multiChoice
+                        提交预设单元格
+- /api/toggle_archive： 切换表格归档状态
+- /api/delete_table：   删除表格的请求路由
+
+"""
+
 # Some built-int modules
 import json
 from logging import log
@@ -6,8 +21,8 @@ import os
 from re import L, search, split
 import sys
 import pprint
-from datetime import datetime
-from typing import Optional
+# from datetime import datetime
+# from typing import Optional
 # import random
 # from threading import ExceptHookArgs
 # import time
@@ -17,40 +32,20 @@ from pymongo.message import query
 
 from modules._Database  import MongoDatabase, DB_Config
 from modules._TableData import TableData
-from modules._ExcelVisitor import ExcelVisitor
-from modules._JsonVisitor  import JSON
+# from modules._ExcelVisitor import ExcelVisitor
+# from modules._JsonVisitor  import JSON
 # from modules._Redis import RedisCache
 from modules._Database_Utils import Database_Utils
 from modules._Hash_Utils import hash_id
 
 # from werkzeug             import utils
+# from json2html              import json2html
 from app                    import app
-from json2html              import json2html
 from flask                  import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
 from routes_utils           import *
 from routes_file            import *
 from debugTimer             import *
 from routes_table_static    import *
-
-
-# =============================================
-# 自动渲染表格 - 上传文件
-
-@app.route('/file', methods=["POST"])
-def upload_file():
-    """
-    上传文件, 跳转到中介页面显示 “上传成功/失败”, 然后进入该表格的展示页面/ 回到主界面
-    """
-
-    if request.method == "POST":
-        f = request.files.get("stuff_file")         # 提取文件
-        f_name = f.filename                         # 提取文件名, 若在后面需要使用 save() 方法保存文件 
-        f_name = f_name.replace(" ", "_")           # 去除空格字符 (因为后面对于空格的识别会出现问题)
-        return route_upload_file(f=f, f_name=f_name)
-
-    else:                                                    
-        return render_template("redirect_fileUploaded.html",\
-            message=f"上传文件失败, 错误: 位置上传方法 (需要为POST)")
 
 
 # =============================================

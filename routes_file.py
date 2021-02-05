@@ -33,7 +33,22 @@ from flask      import Flask, config, render_template, flash, make_response, sen
 save_json = False # 读取后是否保存为 JSON 文件
 save_xlsx = False # 读取后是否保留临时的 Excel 文件
 
-# ------------------------------------------------------------------------------------------------------------------------------------
+# 上传文件
+@app.route('/file', methods=["POST"])
+def upload_file():
+    """
+    上传文件, 跳转到中介页面显示 “上传成功/失败”, 然后进入该表格的展示页面/ 回到主界面
+    """
+
+    if request.method == "POST":
+        f = request.files.get("stuff_file")         # 提取文件
+        f_name = f.filename                         # 提取文件名, 若在后面需要使用 save() 方法保存文件 
+        f_name = f_name.replace(" ", "_")           # 去除空格字符 (因为后面对于空格的识别会出现问题)
+        return route_upload_file(f=f, f_name=f_name)
+
+    else:                                                    
+        return render_template("redirect_fileUploaded.html",\
+            message=f"上传文件失败, 错误: 位置上传方法 (需要为POST)")
 
 # 路由将会使用这个函数上传 “模版表格” 文件 
 def route_upload_file(f, f_name):
@@ -209,8 +224,6 @@ def generate_tableMeta(tableData):
     timer.stop()
 
     return tableData
-
-# ------------------------------------------------------------------------------------------------------------------------------------
 
 # 上传成功跳转
 @app.route('/upload_success/<string:tb_name>')

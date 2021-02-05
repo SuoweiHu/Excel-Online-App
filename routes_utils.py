@@ -1,10 +1,18 @@
+"""
+路由实用工具，包括了:
+- 生成日期信息（用作提交时间）
+- 生成操作员信息
+- 跳转页面路由
+"""
+
 import datetime
 from app import app
 from flask import session, redirect, url_for
 
-# =============================================
-# 生成日期信息
 def gen_dateTime_str():
+    """
+    生成日期信息
+    """
     now = datetime.datetime.now()
 
     # Day - transformation
@@ -19,8 +27,11 @@ def gen_dateTime_str():
 
     return f"{day_str} {time_str}"
 
-# 生成操作员信息
 def gen_operInfo_tup():
+    """
+    生成操作员信息
+    """
+
     # Add form info into string 
     now = datetime.datetime.now()
     day = now.date()
@@ -32,8 +43,6 @@ def gen_operInfo_tup():
     operator_str = session["operator_name"]
     return (operator_str, datetime_str)
 
-# =============================================
-# 跳转页面
 @app.route('/redirect', methods=["POST","GET"])
 def redirect_to_index():
     """

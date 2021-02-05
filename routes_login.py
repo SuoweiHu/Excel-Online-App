@@ -1,3 +1,11 @@
+"""
+用户登陆时所用的路由， 包括了：
+- '/'       初始化session（登出），然后跳转到登陆页面
+- '/index'  若已经登陆跳转至主界面，否则跳转到登陆页面 '/'
+- '/login'  登陆界面
+- '/api/login' 处理登陆请求
+"""
+
 # Some built-int modules
 # import json
 # import logging
@@ -12,10 +20,10 @@
 # from modules._ExcelVisitor import ExcelVisitor
 # from modules._JsonVisitor  import JSON
 # from modules._Redis import RedisCache
-from logging import debug
-import flask
+# from logging import debug
+# import flask
 from modules._Database_Utils import Database_Utils
-from modules._Hash_Utils import hash_id
+# from modules._Hash_Utils import hash_id
 
 # from pymongo.periodic_executor import _on_executor_deleted
 # from werkzeug   import utils
