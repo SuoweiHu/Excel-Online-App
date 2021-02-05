@@ -1,13 +1,9 @@
 """
 处理表格设置的路由，包括了：
-- /select_RequredAttribute/<string:tb_name>/<string:return_aftFinish>
-  选择表格列的 “必填”, “预设可改” 的设置页面
-- /update_requiredTitles/<string:tb_name>
-  上传更新的 “必填”, “预设可改” 的设置
-- /dueNComment/<string:tb_name>
-  截止日期/填表说明设置页面
-- /dueNComment_data_save/<string:tb_name>
-  截止日期/填表说明设置上传
+- /select_RequredAttribute/<string:tb_name>/<string:return_aftFinish> 选择表格列的 “必填”, “预设可改” 的设置页面
+- /update_requiredTitles/<string:tb_name>                             上传更新的 “必填”, “预设可改” 的设置
+- /dueNComment/<string:tb_name>                                       截止日期/填表说明设置页面
+- /dueNComment_data_save/<string:tb_name>                             截止日期/填表说明设置上传
 """
 
 

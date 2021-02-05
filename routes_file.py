@@ -1,3 +1,10 @@
+"""
+与文件相关的路由，其中包括
+- '/file'                               上传文件
+- '/file/select_IdReplAttribute'        上传没有行号栏的文件
+- generate_tableMeta                    生成表格元数据
+- '/update_success/<string:tb_name>'    表格上传成功之后的跳转
+"""
 # Some built-int modules
 # import json
 # from logging import log

@@ -1,8 +1,8 @@
 """
 路由实用工具，包括了:
-- 生成日期信息（用作提交时间）
-- 生成操作员信息
-- 跳转页面路由
+- gen_dateTime_str  生成日期信息（用作提交时间）
+- gen_operInfo_tup  生成操作员信息
+- '/redirect'       跳转页面路由
 """
 
 import datetime

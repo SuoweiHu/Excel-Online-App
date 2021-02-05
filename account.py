@@ -1,3 +1,7 @@
+"""
+添加/删除(假)账号
+"""
+
 from modules._Database_Utils import Database_Utils
 from modules._Hash_Utils import hash_id
 

@@ -1,26 +1,24 @@
 """
 使用layui动态数据表格的路由，包括了：
-- /api/dataEdit :       编辑页面的数据接口
-- /api/dataMain/<string:option>： 
-                        主界面的数据接口
-- /api/submit_row :     提交行的提交接口
-- /multiChoice/<string:tb_name>/<string:title>/<string:_id>
-                        当点击预设单元格的显示函数
-- /submit_multiChoice
-                        提交预设单元格
-- /api/toggle_archive： 切换表格归档状态
-- /api/delete_table：   删除表格的请求路由
-
+- /api/dataEdit :                   编辑页面的数据接口
+- /api/dataMain/<string:option>：   主界面的数据接口
+- /api/submit_row :                 提交行的提交接口
+- /multiChoice/<string:tb_name>/<string:title>/<string:_id> 当点击预设单元格的显示函数
+- /submit_multiChoice               提交预设单元格
+- /api/toggle_archive：             切换表格归档状态
+- /api/delete_table：               删除表格的请求路由
+- /main                             模版页面渲染 - 主界面
+- /edit/<string:table_name>         模版页面渲染  - 编辑界面
 """
 
 # Some built-int modules
-import json
+# import json
 from logging import log
-import logging
-import os
-from re import L, search, split
-import sys
-import pprint
+# import logging
+# import os
+# from re import L, search, split
+# import sys
+# import pprint
 # from datetime import datetime
 # from typing import Optional
 # import random
@@ -47,15 +45,11 @@ from routes_file            import *
 from debugTimer             import *
 from routes_table_static    import *
 
-
-# =============================================
-# 自动渲染表格 - 数据接口
-
 # DEPRECATED
 # @app.route('/data_all/<string:table_name>')
 # def export_table_data_all(table_name):
     # """
-    # 数据接口
+    # 自动渲染表格 - 数据接口
     # """
     # show_operator        = True   # 是否展示操作员信息
     # # authorization_inedx  = 0    # 用于确认用户权限的列的序号 (这里 0 指的是 ‘行号’ 在标题的第一个位置)
@@ -126,7 +120,7 @@ from routes_table_static    import *
     # count = len(data)
     # return {"code":code, "msg":msg, "count":count, "data":data}
 
-# 编辑页面
+# 编辑页面 - 数据接口
 @app.route('/api/dataEdit')
 def apiData_dataEdit(): 
     """
@@ -215,7 +209,7 @@ def apiData_dataEdit():
     data = data[start:end]
     return {"code":code, "msg":msg, "count":count, "data":data}
 
-# 主界面
+# 主界面 - 数据接口
 @app.route('/api/dataMain/<string:option>')
 def apiData_dataMain(option):
 
@@ -327,11 +321,7 @@ def apiData_dataMain(option):
 
     return rtn_data
 
-
-# =============================================
-# 自动渲染表格 - AJAX提交请求
-
-# 提交普通单元格
+# AJAX提交请求 - 提交普通单元格
 @app.route('/api/submit_row',methods=["POST"])
 def submit_specified_tableRow():
     """
@@ -389,7 +379,7 @@ def edit_multiChoice(tb_name,title, _id):
         submit_url  = url_for('submit_mulitiChoise')
     )
 
-# 提交多选单元格选项
+# AJAX提交请求 - 提交多选单元格选项
 @app.route('/submit_multiChoice', methods=['GET'])
 def submit_mulitiChoise():
     op_name = session['operator_name']
@@ -466,16 +456,13 @@ def toggle_archive_specified_table_api():
     Database_Utils.meta.save_tablemMeta(tb_name=tb_name, meta=temp_meta)
     return "Toggle Successful !"
 
-# =============================================
-# 自动渲染表格 - 模版页面渲染 
-
-# 主界面
+# 模版页面渲染 - 主界面
 @app.route('/main')
 def show_all_tables_mainPage():
     return render_template('table_show_main_new.html'
         ,is_admin = Database_Utils.user.check_admin(session['operator_name']))
 
-# 编辑界面
+# 模版页面渲染  - 编辑界面
 @app.route('/edit/<string:table_name>')
 def edit_specified_table(table_name):
 

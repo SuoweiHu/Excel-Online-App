@@ -1,12 +1,11 @@
 """
 (PARTIAL DEPRECATED)
 使用layui动态数据表格的路由，包括了：
-- /table/<string:option> ： 所有表格显示函数的Facade （作跳转到动态渲染的路由，不能删除）
-- table_main：              展示所有表格统计数据（主界面）
-- table_show:               编辑表格（编辑页面）
-- table_edit(_all) / table_submit：            
-                            提交行更改
-- table_clear               删除表格 （不能删除）
+- /table/<string:option> ：         所有表格显示函数的Facade （作跳转到动态渲染的路由，不能删除）
+- table_main：                      展示所有表格统计数据（主界面）
+- table_show:                       编辑表格（编辑页面）
+- table_edit(_all) / table_submit： 提交行更改
+- table_clear                       删除表格 （不能删除）
 
 """
 
