@@ -1,153 +1,193 @@
-# Excel-Online-App
- 
-解决业务人员在没有下载工具的情况下通过移动端上传模版对账文件，或者填写其负责行的信息。
+# 项目结构
+`src...` 临时文件存储的文件夹
+
+`static` 网页使用资源的保存的位置，其中包括了lay-ui框架和jQuery
+
+`templates` flask自动渲染的html模版文件，若需要新增模版可以放在此目录下
+
+`modules`  内含所有和flask非相关的模组，其中包括数据库启动及其CURD操作，读取Excel/Json文件，临时存储表格数据的自定义类TableData等。
+
+`routes` 包含了所有的flask路由的模组。如果需要新增路由，请在该文件夹中新增文件，导入顶部目录的app.py作为应用实例，并在该文件夹中的\_\_init\_\_标示文件中import这个文件。如果需要更改访问路由的地址，请更改相关模组下对应的函数中@routes修饰器的路径。
+
+`app.py`全局的flask web app单例，被所有的路由模块所依赖
+
+`main.py` 应用的启动文件，包括了应用地址端口等设置
 
 
+# “Modules” 包
+`__init__.py` 标识文件
 
-## 数据格式
-传入xlxs格式的excel文件如下，
+`_ExcelVisitor.py`用于读取Excel文件为字典的模组
 
-2020第一季度.xlsx
+`_JsonVisitor.py`用于读取Json文件的为字典的模组
+
+`_Hash_Utils.py`用于生成用户密码的哈希，表格的唯一文件\_ID使用
+
+`_TableData.py`包含表格类TableData，用与临时存放从数据库获得的数据/从excel文件获得的数据，其中：
 ```
-{
-"行号": 3217863, 
-"项目名": "总计",
-…, 
-"操作员":胡所未,
-"更改时间":2020.02.11 00:00:00 
+__init__:     从Json字典类型导入表格数据
+toJson:       导出表格数据为Json字典，为入库作准备
+get_row_id:   获得特定行在数据库中的ID
+clear_column： 删除特定标题的某一列
+```
+注意其中的一些方法已被弃用，包括：
+```
+tableShow_toJson()
+tableEdit_toJson()
+tableShow_toHtml()
+tableEdit_toHtml()
+```
+均为为被静态表格使用
+
+`account.py` 用于添加模拟用户从而通过登陆界面执行登陆测试使用，现已改成通过数据接口登陆，所以不再使用该模组
+
+`_Database.py`直接通过`PyMongo`模组操作数据库的模组，其中包含了两个类
+1. `DB_Config`设置类，存储了一些静态变量为连接数据库时的默认设置
+```
+db_host           MongoDB 地址
+db_port           MongoDB 端口
+db_name           表格数据数据库
+auth_db_name      认证数据库
+auth_usr          用户名
+auth_pass         密码
+```
+2. `MongoDatabase`类 创建`MongoClient`实例， 开启，关闭连接，上传，获取数据
+```
+start             开启连接
+close             关闭连接
+（以下为已连接后的操作）
+insert            特定数据库特定集合添加文档
+extract           ...获取文档
+delete            ...删除文档
+get_ids           获取集合中所有文档id
+count_documents   ...文档数量
+drop              删除集合
+```
+
+`_Database_Utils.py`所有数据库操作的Facade，对外向路由提供数据/接受变更，对内操作PyClient实例连接/关闭连接数据库/进行CRUD操作。其中`Database_Utils`类，根据功能分为了几个子类。相关的新的代码，请在其对应的业务逻辑的子类下添加。
+1. `user`用户类
+```
+add... 新增
+get... 获取
+del... 删除
+check_pass.... 检查密码是否正确
+check_admin... 检查权限
+gey_rows...    获得有权限的行号
+```
+2. `stat`统计类
+```
+completion  完成度
+get...count 获取表格数量
+```
+3. `meta`表格元数据类
+```
+save... 新增
+load... 获取
+del.... 删除
+pull... 获取（特定排序，特定数量）
+```
+4. `table`表格全量数据类
+```
+upload...     上传表格
+load_table... 加载表格
+save_table... 上传表格
+get_tableTitles... 获取表格列标题 (DEPRECATED)
+list_tableData_collections... 获取所有表格 (PARTIAL DEPRECATED)
+```
+5. `row`表格特定行数据类
+```
+get_table_row 获取特定行
+set_table_row 更改特定行
+count_table_row 返回符合条件的表格数量
+```
+
+
+# “routes” 包
+`__init__` 模块标示文件
+
+`debugTimer.py` 使用flask自带`logger`在CLI中打印出带时间戳的DEBUG等级日志，仅为开发调试的时候使用。可以在`main.py`里更改日志等级，以过滤由此模组打印的日志。
+
+`routes_login.py` 与用户登陆相关的路由，包括:
+```
+用户登陆时所用的路由， 包括了：
+/               初始化session（登出），然后跳转到登陆页面
+/index          若已经登陆跳转至主界面，否则跳转到登陆页面 '/'
+/login          登陆界面
+/api/login      处理登陆请求
+```
+
+`routes_file.py`  与上传文件相关的路由，包括:
+```
+/file                               上传文件
+/file/select_IdReplAttribute        上传没有行号栏的文件
+/update_success/<string:tb_name>    表格上传成功之后的跳转
+```
+
+`routes_utils.py` 路由实用工具，包括:
+```
+gen_dateTime_str  生成日期信息（用作提交时间）
+gen_operInfo_tup  生成操作员信息
+/redirect         跳转页面路由
+```
+
+`routes_table_setting` 用于设置表格元数据的路由，包括:
+```
+/select_RequredAttribute/<string:tb_name>/<string:return_aftFinish> 选择表格列的 “必填”, “预设可改” 的设置页面
+/update_requiredTitles/<string:tb_name>                             上传更新的 “必填”, “预设可改” 的设置
+/dueNComment/<string:tb_name>                                       截止日期/填表说明设置页面
+/dueNComment_data_save/<string:tb_name>                             截止日期/填表说明设置上传
+```
+
+`routes_table_static.py` 使用layui静态数据表格（渲染普通html标签的表格为layui数据表格）的路由，包括：
+```
+/table/<string:option> ：         所有表格显示函数的Facade （作跳转到动态渲染的路由，不能删除）
+table_main：                      展示所有表格统计数据（主界面）
+table_show:                       编辑表格（编辑页面）
+table_edit(_all) / table_submit： 提交行更改
+table_clear                       删除表格 （不能删除）
+```
+
+`routes_table_dynamic.py` 使用layui动态数据表格（通过异步接口获得数据）的路由，包括:
+```
+/api/dataEdit                     编辑页面的数据接口
+/api/dataMain/<string:option>     主界面的数据接口
+/api/submit_row                   提交行的提交接口
+/multiChoice/<string:tb_name>/<string:title>/<string:_id> 当点击预设单元格的显示函数
+/submit_multiChoice               提交预设单元格
+/api/toggle_archive               切换表格归档状态
+/api/delete_table                 删除表格的请求路由
+/main                             模版页面渲染 - 主界面
+/edit/<string:table_name>         模版页面渲染  - 编辑界面
+```
+
+
+# 环境变更
+**数据库：**
+如果需要更改MongoDB数据库的地址和端口，请在MongoDB新建一个库用于存储表格数据，并为该库加上用户认证（可省，也可用其他库做认证，如启动时默认存在的admin库），接着在文件`modeules/_Database.py`里面更改`DB_Config`类中的默认设置，如下所示。
+
+```python
+db_host                    = 'mongodb'      # 地址
+db_port        			   = 27017         	# 端口
+db_name                    = 'TableData'    # 存表格数据的MongoDB数据库名称
+auth_db_name               = 'TableData'    # 用于认证的数据库名称
+auth_usr                   = 'yonghumin'    # 认证用户名
+auth_pass                  = 'mima'   		# 认证密码
+```
+
+**Web应用：**
+如果想更改Flask web app提供服务的地址，使得路由装饰器下的视图函数可以从另一个不同主机名的URL被访问（默认为 `0.0.0.0:5000`）；或者更改日志的等级/开启debug。那么你可以更改启动文件`main.py`下相关的全局变量，如下所示。
+
+```python
+WEB_APP_PORT = '0.0.0.0'	# Web 应用访问的地址
+WEB_ALL_HOST = 5000			# Web 应用访问的端口
+DEBUG_MODE   = False 		# 如果想开启自动重启功能 + 日志设置为DEBUG等级 / 如果仅想看见INFO等级的日志
+```
+
+**脚本：**
+因为所有的框架用的都是本地的脚本，因此部署到线下的的时候不需要更改html文件里的`<script>`标签，如果需要更改重写框架原本的代码，也可以直接更改 static 下的相关文件。（例如想更改layui数据表格的行高可以在`static/layui/layui.css`中作如下更改）
+```css
+.layui-table-cell{
+    height:      32px;
+    line-height: 32px;
 }
 ```
-
-读取后保存到Mongo数据库，每一个表格都会单独得被作为一个集合保存到同一个数据库中
-```
-2020第一季度：
-{_id:123djksaldjskal, "行号":..., "操作员":...}，
-{_id:234djksaldjskal, "行号":..., "操作员":...}
-{_id:345djksaldjskal, "行号":..., "操作员":...}
-
-2020第二季度：
-{_id:456djksaldjskal, "行号":..., "操作员":...}，
-{_id:567djksaldjskal, "行号":..., "操作员":...}
-{_id:789djksaldjskal, "行号":..., "操作员":...}
-
-...:
-    ...
-    ...
-    ...
-```
-
-
-
-## 笔记
-
-**2020.12.28 已经做好的功能**
-
-文件读写
-1. 从Excel文件中读取数据存为自定义类TableData, 内含方法可一转为Dict/Json格式 (TableData包含了: 表格名, 表格属性, 内容, 操作员)
-2. 待完成 导出为Excel的功能
-
-数据库
-1. 从Excel文件中读取后, 将Json/ Dict格式的变量直接作为文档保存, 该文档的 _id 为文件名(包括后缀)的哈希值(预置加密方法可选SHA1, MD5等)
-2. 从数据库中通过刚刚的 _id 读取文档, 并转回自定义类TableData类型 (现在的)
-
-前端
-1. 使用Json2Html库在DataTable类里面写了将数据转化成Html table的方法, 现存问题
-    - 怎么将None值替换成可输入的文本框
-    - 怎么在通过文本框的name定位输入数据的位置
-    - 强制用户完成一行的数据, 且只能完成一行, 并只提交这一行(可不可以每一行单独用一个form)
-    - json2html transformer 怎么使用
-2. 上传文件功能(_id如上所述通过hash生成)
-
-Web 应用
-1. 登陆功能 - 登陆之后可以增删改, 上传文件模版
-
-
-几种方法解决只 "一个用户一次只上传一行"
-1. 每一行做一个form, 有单独的提交按钮
-2. 使用javascript当用户点击某一行的时候, 自动将提交的parameter改成该行对应的(例如upload/3 表示上传第三行)
-
-
-**2020.12.28 需求更改**
-
-
-1. 数据库存储的数据结构改成 {行号: {数据}}
-	例如: 
-	{3217863: 
-		{"行号": 3217863, 
-		"项目名": "总计",
-		…, 
-		"操作员":胡所未,
-		"更改时间":2020.02.11 00:00:00 },
-	3217864: {…},
-	3217865: {…},
-	3217866: {…}
-	}
-
-2. 一个用户只有一行要填 !!!!!! (所以只管加required 和 submit 好了) 二级页面：地址。/table_main 三级页面 /row_all 最终更改页面 /row_edit
-
-- 一级页面：展示所有表单
-- 二级页面：展示表单所有（允许更改的）行，每一行有编辑按钮，点击进入三级页面（admin可以有权限浏览所有表单）
-- 三级页面：使用二级页面的模版做，只展示某一行并可以更改（在TableData里加入参选项将空缺值替换为input：text）
-
-
-3. 选择表格的下拉框做成 季度表格 的形式(每行是一个表格加上完成度)
-
-4. 季度表格 加上 完成度选项 (每个表哥的完成度由已经填写的行数 VS 总行数) 并且用完成度排序 (从高到低, 从低到高)
-
-5. 判断行是否完成可以通过最后两个属性（操作员+时间）是否填写完成
-
-6. 静态网页模版(需要的功能有: form, input text, table, h2, )最后再做这个
-
-
-问题
-1. 一个用户只有权限填写一行（特定行号）的内容，那么就得有个前台把用户名和数据库中的（用户，允许更改的行号）对比以只展示有权限的行号的功能/机制
-2. 需要在原表中包含这个用户vs行号的子表吗，还是暂时先默认每个用户只能读哪一行/展示所有行然后只给更改某一行
-
-如果已经更改就不能删除 的功能?????
-
-
-2021.01.12
-更新需求
-1.预设内容不可编辑
-2.子用户如733101，也显示其完成数，全部数，完成度
-3.日期格式后面多了00:00:00，这个能不能去掉？
-4.上传的表格，目前是根据空白单位格来判断是否需要填报，这个能不能优化，比如某列设置成必填，某列设置成选填？也可以考虑上传成功后，由上传用户去设置，也可以上传之前在表格中预设
-
-
-## 交流
-我昨天做了个selenium爬用浏览器渲染好的网易云音乐的用户和其歌单，然后保存到本地的MongoDB数据库的爬虫
-
-我现在想做个统计的功能，在网页端用户点击一个按钮发送表单数据（比如说前100首最常听的歌）， 后段访问数据库得到结果返给网页端展示
-
-但我现在还不知道后端是怎么接收前端用POST或GET发送的数据，也不知道后端怎么返数据给网页。我查了下看接受部分有些是用Flask框架实现的，可以问一下我从哪里开始好呢
-
-----------
-
-我昨天把官方中文文档的快速上手过了一遍，基本上得到我想要的功能了。但是有一些实现上的东西我可能还是不太明白，例如说服务器是怎么通过WSGI调用对应的web应用处理请求返回（我路上看的一些网上的视频教程基本上开头几篇讲的都是这些）
-
-请问这些内容在现阶段是需要了解的吗，然后我还需要继续看官网上教程部分里的其他内容吗（包括了：项目布局，应用设置，SQLite数据库，蓝图，视图等更加细节的使用方法）
-
-
-----------
-
-刚刚那个全局的我查了一圈好像相关的例子比较少,stackoverflow上的很多相关问题也都没有人答
-
-都是说为了线程安全, Flask不允许在不同request之前传变量,在同一次request里有方法可以用ApplicationContextGlobal (flask.g + @app.before_request)来存变量,不同request之间也可以通过session (flask.session) 传一些简单的JsonSerializable的类. 
-
-但是像database这种复杂类都是每次请求都开启关闭一次(看的官方的sqlite例子里好像是这么用的)
-
-网上推荐的一些解决方案有: 在用户端存一个user/session id,在服务器端session cache存储这个用户的线程实例, global dict(试了好像不行,跟其他全局变量就没区别)
-
-要不我先就简化下逻辑做一个每次登陆只能爬一次的这种先,做完了帮您看有需求的先
-
-----------
-
-我昨天想把之前做的数据库，获取网页和解析部分分别封装成几个个类（可能是没有必要，但是我还是想尝试下...）然后因为原来做的都是全局函数变量这种，有很多互相依赖的关系导致模组分离很困难，可以的话我能不能中午来请教下您
-
-然后还有这个网页的样式，现阶段我暂时还没有做任何样式表，暂时放着不管您看可以吗
-
-可不可以跟您确认下, 程哥你给我这个内网的redis,是用来存上次说的做不来的"全局变量",例如 一次浏览器和服务器的交互的会话中想保存的一个自定义类的实例 (我在网上找到一个用pickle模组来在python里serialize/deserialize对象的, 这是链接 https://stackoverflow.com/questions/43283469/storing-a-custom-python-object-in-redis)
----------- 
-
-程哥问一下上次您说的每个用户只有权限更改一行, 这个权限相关的功能是怎么传进来的呢, 是跟空excel表的一起作为一个文件呢还是什么另外的方法
-

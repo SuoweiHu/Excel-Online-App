@@ -1,12 +1,12 @@
 """
 使用layui动态数据表格的路由，包括了：
-- /api/dataEdit :                   编辑页面的数据接口
-- /api/dataMain/<string:option>：   主界面的数据接口
-- /api/submit_row :                 提交行的提交接口
+- /api/dataEdit                     编辑页面的数据接口
+- /api/dataMain/<string:option>     主界面的数据接口
+- /api/submit_row                   提交行的提交接口
 - /multiChoice/<string:tb_name>/<string:title>/<string:_id> 当点击预设单元格的显示函数
 - /submit_multiChoice               提交预设单元格
-- /api/toggle_archive：             切换表格归档状态
-- /api/delete_table：               删除表格的请求路由
+- /api/toggle_archive               切换表格归档状态
+- /api/delete_table                 删除表格的请求路由
 - /main                             模版页面渲染 - 主界面
 - /edit/<string:table_name>         模版页面渲染  - 编辑界面
 """

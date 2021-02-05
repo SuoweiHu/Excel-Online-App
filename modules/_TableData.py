@@ -11,7 +11,7 @@
 - tableEdit_toJson
 - tableShow_toHtml
 - tableEdit_toHtml
-    均为为静态表格使用（Which is DEPRECATED）
+    均为为静态表格使用（DEPRECATED）
 
 """
 from json2html import *
