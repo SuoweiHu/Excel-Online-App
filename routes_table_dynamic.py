@@ -287,7 +287,7 @@ def apiData_dataMain(option):
         search_query.update(tb_query)
         search_query.update(archive_query)
         table_data = Database_Utils.meta.pull_tableMeta_s(sort=sort, limit=limit, skip=start, search_query=search_query)
-        rtn_data['count'] = Database_Utils.meta.get_tableMeta_count(search_query=search_query)
+        rtn_data['count'] = Database_Utils.stat.get_table_count(search_query=search_query)
 
         tb_names = [table_i['tb_name'] for table_i in table_data]
     except RuntimeError as e: 

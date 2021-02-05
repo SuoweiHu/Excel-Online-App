@@ -1,11 +1,36 @@
+"""
+所有数据库操作的Facade，包括了
+- user用户类
+    - add... 新增
+    - get... 获取
+    - del... 删除
+    - check_pass.... 检查密码是否正确
+    - check_admin... 检查权限
+    - gey_rows...    获得有权限的行号
 
-import sys
-import pprint
-from flask import config
-from flask.config import Config
-from pymongo import cursor
-from pymongo.database import Database
-from pymongo.mongo_client import MongoClient
+- stat统计类
+    - completion  完成度
+    - get...count 获取表格数量
+
+- meta表格元数据类
+    - save... 新增
+    - load... 获取
+    - del.... 删除
+    - pull... 获取（特定排序，特定数量）
+
+- table表格全量数据类
+    - upload...     上传表格
+    - load_table... 加载表格
+    - save_table... 上传表格
+    - get_tableTitles... 获取表格列标题 (DEPRECATED)
+    - list_tableData_collections... 获取所有表格 (PARTIAL DEPRECATED)
+
+- row表格行数据类
+    - get_table_row 获取特定行
+    - set_table_row 更改特定行
+    - count_table_row 返回符合条件的表格数量
+"""
+
 from ._Database import MongoDatabase, DB_Config
 from ._TableData import TableData
 from ._Hash_Utils import hash_id
@@ -15,8 +40,6 @@ class Database_Utils:
     account_collection_name   = DB_Config.account_collection_name
     tableMeta_collection_name = DB_Config.tableMeta_collection_name
     noneData_collection_names = DB_Config.noneData_collection_names
-
-    # ================================
 
     class user:
         # 获取用户信息 (全量返回)
@@ -28,6 +51,7 @@ class Database_Utils:
             user_dict = db.database[Database_Utils.account_collection_name].find_one({'_id':_id})
             db.close()
             return user_dict
+
         # 新增用户
         def add_user(name, password, rows, privilege='generic'):
             config = DB_Config()
@@ -47,6 +71,7 @@ class Database_Utils:
 
             db.close()
             return
+        
         # 删除用户
         def del_user(name, password):
             config = DB_Config()
@@ -70,6 +95,7 @@ class Database_Utils:
 
             db.close()
             return
+        
         # 强制删除用户
         def del_user_brutal(name):
             config = DB_Config()
@@ -91,6 +117,7 @@ class Database_Utils:
 
             db.close()
             return
+        
         # 检查密码是否正确 
         def check_password(name, password):
             """
@@ -98,21 +125,20 @@ class Database_Utils:
             """
             if((Database_Utils.user.get_user(name)) is None): return False
             return (Database_Utils.user.get_user(name))['password'] == hash_id(password)
+        
         # 检查权限是否为admin
         def check_admin(name):
             """
             返回true如果用户的privilege字段为admin
             """
             return (Database_Utils.user.get_user(name))['privilege'] == 'admin'
+        
         # 获得允许访问的行号列表
         def get_rows(name):
             """
             返回用户有权限访问的行
             """
             return (Database_Utils.user.get_user(name)['rows'])
-
-
-    # ================================
 
     class stat:
         # HELPER: 得到必填列标题
@@ -124,6 +150,7 @@ class Database_Utils:
             fixed_titles    = table_meta['fixed_titles']
             mustfill_titles = [title for title in mustfill_titles if title not in fixed_titles]
             return mustfill_titles
+        
         # HELPER: 得到表格总行数
         def count_allRows(tb_name, is_admin=True, authorized_banknos=None):
             if(is_admin):
@@ -134,6 +161,7 @@ class Database_Utils:
                 bankno_list = [str(no) for no in authorized_banknos]
                 query = {'data.行号':{'$in':bankno_list}}
                 return Database_Utils.row.count_table_row(table_name=tb_name,query=query)
+        
         # HELPER: 得到完成的表格行数
         def count_completedRows(tb_name, is_admin=True, authorized_banknos=None):
             mustFill_titles = Database_Utils.stat.get_mustFill_titles(tb_name=tb_name)  # 获取必填列标题
@@ -196,6 +224,7 @@ class Database_Utils:
                 if(cell_all_complted): count += 1
 
             return count 
+        
         # (DEPRECATED) HELPER: 得到表格完成百分比  (admin) 
         def deprecated_get_completionPercentage(tb_name=None, config=None):
             if(tb_name is not None) and (config is None):
@@ -213,6 +242,7 @@ class Database_Utils:
             c_allRow = Database_Utils.stat.count_allRows(tb_name=tb_name)
 
             return round(c_comRow/c_allRow * 100, 1)
+        
         # (DEPRECATED) HELPER: 得到表格完成信息   (普通用户)
         def deprecated_get_completionState(config, authorized_banknos, key="行号"):
             """
@@ -288,6 +318,14 @@ class Database_Utils:
             if(rtn_completion['total'] != 0): rtn_completion['percentage']  = round(rtn_completion['completed']/rtn_completion['total'], 3) # 完成百分比（2位小数点）
             else: rtn_completion['percentage'] = 1.00
             return rtn_completion
+        
+        # 获取表格的数量
+        def get_table_count(search_query={}):
+            db = MongoDatabase()
+            db.start()
+            count = db.count_documents(collection=Database_Utils.tableMeta_collection_name, search_query=search_query)
+            db.close()
+            return count
 
     class meta:
         # 存储特定表格的元数据
@@ -311,6 +349,8 @@ class Database_Utils:
             db.insert(collection=Database_Utils.tableMeta_collection_name,\
                 data=meta, _id=str(hash_id(tb_name)))
             db.close()
+            return
+
         # 读取特定表格的元数据
         def load_tablemMeta(tb_name):
             """
@@ -332,9 +372,9 @@ class Database_Utils:
                 search_query={'tb_name':tb_name})
             rtn = rtn[0]
             db.close()
-
             return rtn
-        #  删除特定表格的元数据
+
+        # 删除特定表格的元数据
         def del_tablemMeta(tb_name):
             tb_name = tb_name.split('.')[0]
             tb_name = tb_name.replace(' ','')
@@ -343,13 +383,6 @@ class Database_Utils:
             db.delete(collection=Database_Utils.tableMeta_collection_name,query={'tb_name' : tb_name})
             db.close()
 
-        # 获取表格的数量
-        def get_tableMeta_count(search_query={}):
-            db = MongoDatabase()
-            db.start()
-            count = db.count_documents(collection=Database_Utils.tableMeta_collection_name, search_query=search_query)
-            db.close()
-            return count
         # 获取特定排序顺序的表格元数据
         def pull_tableMeta_s(sort=(None,None), limit=None, skip=0, search_query={}):
             db = MongoDatabase()
@@ -358,10 +391,6 @@ class Database_Utils:
             else:docs = db.get_documents(collection=Database_Utils.tableMeta_collection_name, search_query=search_query, sort=sort, limit=limit, skip=skip)
             db.close()
             return docs
-
-
-
-    # ================================
 
     class table:
         # 提交模版 
@@ -373,6 +402,7 @@ class Database_Utils:
                 db.insert(collection=name, data=row[1], _id=row[0])
             db.close()
             return
+
         # 读取表格
         def load_table(tb_name, search_query=None, sort=(None,None)):
             # if(tb_name is not None) and (config is None):
@@ -420,6 +450,7 @@ class Database_Utils:
                 db.insert(collection=tb_name, data=row[1], _id=row[0])
             db.close()
             return 
+        
         # 读取特定表格的列标题
         def get_tableTitles(tb_name):
             # config = None
@@ -440,6 +471,7 @@ class Database_Utils:
             table = TableData(json=temp_mongoLoad, tb_name=table_name)
             titles = table.titles
             return titles
+        
         # 读取所有的表格名字
         def list_tableData_collections():
             db = MongoDatabase()
@@ -463,6 +495,7 @@ class Database_Utils:
             rtn = db.database[table_name].find_one({'_id':row_id})
             db.close()
             return rtn
+
         # 更改表格行 (通过行在collection中的document id)
         def set_table_row(table_name, row_id, data):
             """
@@ -478,6 +511,7 @@ class Database_Utils:
             db.database[table_name].update_one({'_id':row_id}, {'$set': data})
             db.close()
             return 
+
         # 返回符合条件的表格数量
         def count_table_row(table_name, query={}):
             """
@@ -492,9 +526,6 @@ class Database_Utils:
             rtn = db.database[table_name].count_documents(query)
             db.close()
             return rtn
-
-    # ================================
-    
 
 
 
