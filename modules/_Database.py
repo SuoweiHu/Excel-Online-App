@@ -1,3 +1,29 @@
+"""
+数据库相关模组:
+
+DB_Config类 存储了一些静态变量为连接数据库时候的默认设置， 包括了：
+- db_host           MongoDB 地址
+- db_port           MongoDB 端口
+- db_name           表格数据数据库
+- auth_db_name      认证数据库
+- auth_usr          用户名
+- auth_pass         密码
+
+MongoDatabase类 创建MongoClient实例， 开启，关闭连接，上传，获取数据
+- start             开启连接
+- close             关闭连接
+（以下为已连接后的操作）
+- insert            特定数据库特定集合添加文档
+- extract           ...获取文档
+- delete            ...删除文档
+- get_ids           获取集合中所有文档id
+- count_documents   ...文档数量
+- drop              删除集合
+
+
+"""
+
+
 from os import name
 import pymongo
 import logging
@@ -8,23 +34,23 @@ class DB_Config:
     account_collection_name    = "#account"
     tableMeta_collection_name  = "#tableMeta"
     noneData_collection_names  = [account_collection_name, tableMeta_collection_name]
-    tb_name                    = ''             # 
-    db_host        = 'mongodb'      # 配置在/etc/hosts路径下的mongodb的服务地址（e.g.mongodb 10.0.0.98）
-    # self.db_host = '10.0.0.98'    # 如果上面的配置不管用可以尝试手动配置连接地址
-    # self.db_host = 'localhost'    # 本地默认连接地址（等同于127.0.0.1）
-    db_port        = 27017          # 连接接口
-    db_name                    = 'TableData'
-    auth_db_name               = 'TableData'
-    auth_usr                   = 'yefeng'
-    auth_pass                  = 'yeFeng@123'
+    tb_name                    = ''             # 表格名称（集合名称）需要时替换
+    db_host                    = 'mongodb'      # 配置在/etc/hosts路径下的mongodb的服务地址（e.g.mongodb 10.0.0.98）
+    # self.db_host = '10.0.0.98'                # 如果上面的配置不管用可以尝试手动配置连接地址
+    # self.db_host = 'localhost'                # 本地默认连接地址（等同于127.0.0.1）
+    db_port        = 27017                      # 连接接口
+    db_name                    = 'TableData'    # 存表格数据的MongoDB数据库名称
+    auth_db_name               = 'TableData'    # 用于认证的数据库名称
+    auth_usr                   = 'yefeng'       # 认证用户名
+    auth_pass                  = 'yeFeng@123'   # 认证密码
 
     def __init__(self, tb_name=None, db_host=None, db_port=None, db_name=None, collection_name=None):
         # If require custom Valus for config then pass via params
-        if(tb_name is not None): self.tb_name = tb_name                 # 注意这里的文件名是带后缀的: 2020第一季度.xlsx     
+        if(tb_name is not None): self.tb_name = tb_name                         # 注意这里的文件名是带后缀的: 2020第一季度.xlsx     
+        if(collection_name is not None): self.collection_name = collection_name # 这里的文件名是不带后缀的: 2020第一季度
         if(db_host is not None): self.db_host = db_host 
         if(db_port is not None): self.db_port = db_port
         if(db_name is not None): self.db_name = db_name
-        if(collection_name is not None): self.collection_name = collection_name # 这里的文件名是不带后缀的: 2020第一季度
         return
 
 class MongoDatabase:
@@ -119,7 +145,7 @@ class MongoDatabase:
 
     def drop(self, collection):
         """
-        打开已经打开的数据库中的特定集合(Collection)
+        删除已经打开的数据库中的特定集合(Collection)
         """
         self.database.drop_collection(collection)
         return 
