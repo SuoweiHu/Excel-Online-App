@@ -242,7 +242,7 @@ def apiData_dataMain(option):
         ]
     }
     """
-    app.logger.info('访问主界面数据接口')
+    app.logger.info('正在访问主界面数据接口')
 
     # 获取 请求类型
     if(option == 'archived'):archive_query = {'archived':''}
@@ -376,7 +376,7 @@ def submit_specified_tableRow():
 def edit_multiChoice(tb_name,title, _id):
     meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
     options = meta['option_optionDict'][title]
-    app.logger.info(f"编辑预设单元格, table:{tb_name}, title:{title}, _id:{_id}, ")
+    app.logger.info(f"正在编辑预设单元格, table:{tb_name}, title:{title}, _id:{_id}, ")
     return render_template('table_show_multiChoice.html',
         tb_name     = tb_name,
         title       = title,
