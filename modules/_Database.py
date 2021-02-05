@@ -1,7 +1,5 @@
 from os import name
 import pymongo
-import json
-import sys
 import logging
 logging.basicConfig(level=logging.INFO)
 

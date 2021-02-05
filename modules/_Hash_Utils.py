@@ -1,4 +1,8 @@
-import uuid
+"""
+生成唯一表格hash/密码hash等
+"""
+
+# import uuid
 import hashlib
 
 def hash_id(filename, hash_method=None):

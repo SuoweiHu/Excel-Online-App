@@ -1,3 +1,6 @@
+"""
+读取Json文件
+"""
 import json
 
 class JSON: 
