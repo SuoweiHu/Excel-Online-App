@@ -6,7 +6,6 @@
 - table_show:                       编辑表格（编辑页面）
 - table_edit(_all) / table_submit： 提交行更改
 - table_clear                       删除表格 （不能删除）
-
 """
 
 
@@ -38,10 +37,10 @@ from modules._Hash_Utils import hash_id
 from app                    import app
 from json2html              import json2html
 from flask                  import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request, abort
-from routes_utils           import *
-from routes_file            import *
-from debugTimer             import *
-from routes_table_dynamic   import *
+from .routes_utils           import *
+from .routes_file            import *
+from .debugTimer             import *
+from .routes_table_dynamic   import *
 
 def helper_getDateTime(dateTime_string):
     # 静态表格通过截止时间排序的时候需要使用的列

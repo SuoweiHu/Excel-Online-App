@@ -8,9 +8,9 @@
 from modules._Database_Utils import Database_Utils
 from app                    import app
 from flask                  import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
-from routes_utils           import *
-from routes_file            import *
-from debugTimer             import *
+from .routes_utils           import *
+from .routes_file            import *
+from .debugTimer             import *
 
 # 选择表格列的 “必填”, “预设可改” 的设置页面
 @app.route('/select_RequredAttribute/<string:tb_name>/<string:return_aftFinish>', methods=['GET'])

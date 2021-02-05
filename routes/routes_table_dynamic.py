@@ -11,39 +11,19 @@
 - /edit/<string:table_name>         模版页面渲染  - 编辑界面
 """
 
-# Some built-int modules
-# import json
 from logging import log
-# import logging
-# import os
-# from re import L, search, split
-# import sys
-# import pprint
-# from datetime import datetime
-# from typing import Optional
-# import random
-# from threading import ExceptHookArgs
-# import time
-
 from pymongo.message import query
-# from pymongo.periodic_executor import _on_executor_deleted
-
 from modules._Database  import MongoDatabase, DB_Config
 from modules._TableData import TableData
-# from modules._ExcelVisitor import ExcelVisitor
-# from modules._JsonVisitor  import JSON
-# from modules._Redis import RedisCache
 from modules._Database_Utils import Database_Utils
 from modules._Hash_Utils import hash_id
 
-# from werkzeug             import utils
-# from json2html              import json2html
 from app                    import app
 from flask                  import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
-from routes_utils           import *
-from routes_file            import *
-from debugTimer             import *
-from routes_table_static    import *
+from .routes_utils           import *
+from .routes_file            import *
+from .debugTimer             import *
+from .routes_table_static    import *
 
 # DEPRECATED
 # @app.route('/data_all/<string:table_name>')

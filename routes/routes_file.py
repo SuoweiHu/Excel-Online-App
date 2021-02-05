@@ -17,24 +17,18 @@ import random
 import pprint
 from sys import meta_path
 
-# from modules._Database  import MongoDatabase, DB_Config
-# from modules._Redis import RedisCache
 from modules._TableData import TableData
 from modules._ExcelVisitor import ExcelVisitor
 from modules._JsonVisitor  import JSON
 from modules._Database_Utils import Database_Utils
 from modules._Hash_Utils import hash_id
 
-from routes_table_static  import *
-from routes_table_static  import *
-from routes_table_setting import *
-
-from debugTimer import *
+from .routes_table_static  import *
+from .routes_table_static  import *
+from .routes_table_setting import *
+from .debugTimer import *
 
 from app import app
-# from pymongo.periodic_executor import _on_executor_deleted
-# from werkzeug   import utils
-# from json2html  import json2html
 from flask      import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
 
 save_json = False # 读取后是否保存为 JSON 文件

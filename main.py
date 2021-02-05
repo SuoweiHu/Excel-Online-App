@@ -1,13 +1,11 @@
-from account import add_mockUsers
+from modules 		import add_mockUsers
+from app			import *
+from routes 		import *          
 
-from app					import *
-from routes_utils           import *
-from routes_table_static    import *
-from routes_table_dynamic   import *
-from routes_table_setting   import *
-from routes_file            import *
-from routes_login           import *
 
+WEB_APP_PORT = '0.0.0.0'
+WEB_ALL_HOST = 5000
+DEBUG_MODE   = False
 
 def main():
 	add_mockUsers() 								 # 添加示范用户
