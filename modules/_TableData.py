@@ -1,13 +1,20 @@
-from os import replace
-from pprint import pprint
+"""
+表格类，用与临时存放从数据库获得的数据/从excel文件获得的数据：
+
+- __init__:     从Json字典类型导入表格数据
+- toJson:       导出表格数据为Json字典，为入库作准备
+- get_row_id:   获得特定行在数据库中的ID
+- clear_column： 删除特定标题的某一列
+
+其中的：
+- tableShow_toJson
+- tableEdit_toJson
+- tableShow_toHtml
+- tableEdit_toHtml
+    均为为静态表格使用（Which is DEPRECATED）
+
+"""
 from json2html import *
-from werkzeug.utils import html
-import datetime
-from ._Hash_Utils import hash_id
-import random
-import pprint
-
-
 class TableData:
     operator_titles = ["操作员","时间"]
     # operators = []      # 预设内容(列标题)
@@ -16,9 +23,6 @@ class TableData:
     ids       = []      # 表格列标题
     rows      = []      # 表格行数据
     fixed_titles = []   # 操作员
-
-    # ==============================
-    # Store/ Restore from json format (For database)
 
     # def DEPRECATED__init__(self, tb_name=None, titles=None, rows=None, operators=None, json=None):
         #     """
@@ -316,7 +320,6 @@ class TableData:
         #     table_dict["data"][row_dict[key]] = row_dict
 
         # return table_dict   
-    
     def toJson(self):
         """
         将该类转化为字段, 为入库/存储为JSON文件作准备, 转化后的数据类似如下
@@ -350,9 +353,8 @@ class TableData:
 
         return rtn_dict   
     
-    # ==============================
-    # Transform to html form (For flask application)
     def tableShow_toJson(self, rows_of_keys, key="行号", show_operator=False):
+        # Transform to html form (For flask application)
         tb_name     = self.tb_name
         tb_name     = tb_name.replace(".xlsx", "") 
         titles      = self.titles
@@ -677,7 +679,6 @@ class TableData:
         html_string = """<form action="/table/submit" method="post">""" + html_string
         html_string = html_string + """</form>"""
         return html_string
-
     # def tableEdit_toHtml_s(self, row_of_keys=None, show_operator = True):
         # json_dict = self.tableEdit_toJson_s(row_of_keys=row_of_keys,show_operator=show_operator)
         # html_string = json2html.convert(json = json_dict)
@@ -698,7 +699,6 @@ class TableData:
         # html_string = html_string + """</form>"""
         # return html_string
 
-    # ================================
     def get_row_id(self,bank_nos, key="行号"):
         """
         Get input param of a list of bank numbers and return a list of rows 
