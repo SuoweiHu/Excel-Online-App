@@ -5,34 +5,7 @@
 - /dueNComment/<string:tb_name>                                       截止日期/填表说明设置页面
 - /dueNComment_data_save/<string:tb_name>                             截止日期/填表说明设置上传
 """
-
-
-# Some built-int modules
-import json
-# from logging import log
-import logging
-import os
-# from re import L, split
-import sys
-import pprint
-from datetime import datetime
-# import random
-# from threading import ExceptHookArgs
-# import time
-
-# from pymongo.message import query
-# from pymongo.periodic_executor import _on_executor_deleted
-
-# from modules._Database  import MongoDatabase, DB_Config
-# from modules._TableData import TableData
-# from modules._ExcelVisitor import ExcelVisitor
-# from modules._JsonVisitor  import JSON
-# from modules._Redis import RedisCache
 from modules._Database_Utils import Database_Utils
-# from modules._Hash_Utils import hash_id
-
-# from werkzeug             import utils
-# from json2html              import json2html
 from app                    import app
 from flask                  import Flask, config, render_template, flash, make_response, send_from_directory, redirect, url_for, session, request
 from routes_utils           import *
@@ -42,6 +15,7 @@ from debugTimer             import *
 # 选择表格列的 “必填”, “预设可改” 的设置页面
 @app.route('/select_RequredAttribute/<string:tb_name>/<string:return_aftFinish>', methods=['GET'])
 def select_RequredAttribute(tb_name, return_aftFinish):
+    app.logger.info(f'访问表格必填预设可改的设置页面, table:{tb_name}')
     titles = Database_Utils.table.get_tableTitles(tb_name=tb_name)
     meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
     return render_template("table_option_selectRequiredAttribute.html",\
@@ -58,7 +32,7 @@ def select_RequredAttribute(tb_name, return_aftFinish):
 # 上传更新的 “必填”, “预设可改” 的设置
 @app.route('/update_requiredTitles/<string:tb_name>', methods=['POST'])
 def route_upload_requiredTitles(tb_name):
-
+    app.logger.info(f'提交表格必填预设可改的设置, table:{tb_name}')
     meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
     meta['mustFill_titles'] = [item_key for item_key,_ in dict(request.form).items()]
 
@@ -81,6 +55,7 @@ def route_upload_requiredTitles(tb_name):
 # 截止日期/填表说明设置页面
 @app.route('/dueNComment/<string:tb_name>')
 def fill_dueDate_n_comment(tb_name):
+    app.logger.info(f'访问表格 截止日期/填表说明设置页面, table:{tb_name}')
     meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
     if('comment' in meta.keys()): comment = meta['comment']
     else: comment = ""
@@ -98,6 +73,7 @@ def fill_dueDate_n_comment(tb_name):
 # 截止日期/填表说明设置上传
 @app.route('/dueNComment_data_save/<string:tb_name>',methods=["POST","GET"])
 def save_dueDate_n_comment(tb_name):
+    app.logger.info(f'提交表格 截止日期/填表说明设置, table:{tb_name}')
     meta = Database_Utils.meta.load_tablemMeta(tb_name=tb_name)
     # meta['comment']= request.form.get('comment')
     # meta['due']    = request.form.get('due')

@@ -18,10 +18,10 @@ import pprint
 from sys import meta_path
 
 # from modules._Database  import MongoDatabase, DB_Config
+# from modules._Redis import RedisCache
 from modules._TableData import TableData
 from modules._ExcelVisitor import ExcelVisitor
 from modules._JsonVisitor  import JSON
-# from modules._Redis import RedisCache
 from modules._Database_Utils import Database_Utils
 from modules._Hash_Utils import hash_id
 
@@ -47,6 +47,8 @@ def upload_file():
     上传文件, 跳转到中介页面显示 “上传成功/失败”, 然后进入该表格的展示页面/ 回到主界面
     """
 
+    app.logger.info('上传文件')
+
     if request.method == "POST":
         f = request.files.get("stuff_file")         # 提取文件
         f_name = f.filename                         # 提取文件名, 若在后面需要使用 save() 方法保存文件 
@@ -62,6 +64,7 @@ def route_upload_file(f, f_name):
     """
     上传文件路由的帮助函数
     """
+    app.logger.info(f'已上传文件, table:{f_name}')
     # 检查文件类型是否正确
     if('xlsx' not in f_name):
         return render_template("redirect_fileUploaded.html", message=f"上传文件失败, 错误: 文件名为{f_name} (需要为后缀是xlsx的文件)")
@@ -123,6 +126,9 @@ def route_upload_file(f, f_name):
 
 @app.route('/file/select_IdReplAttribute',methods=['GET'])
 def route_upload_file_idMissing():
+
+    app.logger.info('用户选择行号的替代')
+
     tb_name = request.args.get("tb_name")
     repl_attribute = request.args.get("choice")
     # 以下内容与route_upload_file中的上传大致类似
@@ -151,6 +157,7 @@ def generate_tableMeta(tableData):
         tableData : TableData 类的数据 
         (注意其中的带 "\{", "\}" 字符的单元格将被识别成需要配置成预设值的单元格)
     """
+    app.logger.info('生成表格元数据')
 
     # -----配置列-------------------------------------------------
     option_titles     = []
