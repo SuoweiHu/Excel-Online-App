@@ -1,20 +1,49 @@
 # 项目结构
-`src...` 临时文件存储的文件夹
+```
+./
+	src/
+		json/
+		excel/
+		temp/
+	static/
+		jQuery/
+			...
+		layui/
+			...
+	templates/
+		...
+	modules/
+		__init__.py
+		_Database_Utils.py
+		_Database.py
+		_ExcelVisitor.py
+		_JsonVisitor.py
+		_Hash_Utils.py
+		account.py
+	routes/
+		__init__.py
+		routes_utils.py
+		routes_file.py
+		routes_login.py
+		routes_table_setting.py
+		routes_table_static.py
+		routes_table_dynamic.py
+		debugTimer.py
+	app.py
+	main.py
+```
 
-`static` 网页使用资源的保存的位置，其中包括了lay-ui框架和jQuery
-
-`templates` flask自动渲染的html模版文件，若需要新增模版可以放在此目录下
-
-`modules`  内含所有和flask非相关的模组，其中包括数据库启动及其CURD操作，读取Excel/Json文件，临时存储表格数据的自定义类TableData等。
-
-`routes` 包含了所有的flask路由的模组。如果需要新增路由，请在该文件夹中新增文件，导入顶部目录的app.py作为应用实例，并在该文件夹中的\_\_init\_\_标示文件中import这个文件。如果需要更改访问路由的地址，请更改相关模组下对应的函数中@routes修饰器的路径。
-
-`app.py`全局的flask web app单例，被所有的路由模块所依赖
-
-`main.py` 应用的启动文件，包括了应用地址端口等设置
+部分目录/文件说明：
+- `src...` 临时文件存储的文件夹
+- `static` 网页使用资源的保存的位置，其中包括了lay-ui框架和jQuery
+- `templates` flask自动渲染的html模版文件，若需要新增模版可以放在此目录下
+- `modules`  内含所有和flask非相关的模组，其中包括数据库启动及其CURD操作，读取Excel/Json文件，临时存储表格数据的自定义类TableData等。
+- `routes` 包含了所有的flask路由的模组。如果需要新增路由，请在该文件夹中新增文件，导入顶部目录的app.py作为应用实例，并在该文件夹中的\_\_init\_\_标示文件中import这个文件。如果需要更改访问路由的地址，请更改相关模组下对应的函数中@routes修饰器的路径。
+- `app.py`全局的flask web app单例，被所有的路由模块所依赖
+- `main.py` 应用的启动文件，包括了应用地址端口等设置
 
 
-# “Modules” 包
+# “Modules” 目录/包
 `__init__.py` 标识文件
 
 `_ExcelVisitor.py`用于读取Excel文件为字典的模组
@@ -102,7 +131,7 @@ count_table_row 返回符合条件的表格数量
 ```
 
 
-# “routes” 包
+# “routes” 目录/包
 `__init__` 模块标示文件
 
 `debugTimer.py` 使用flask自带`logger`在CLI中打印出带时间戳的DEBUG等级日志，仅为开发调试的时候使用。可以在`main.py`里更改日志等级，以过滤由此模组打印的日志。
