@@ -53,7 +53,7 @@ class Database_Utils:
             return user_dict
 
         # 新增用户
-        def add_user(name, password, rows, privilege='generic'):
+        def add_user(name, nickname, password, rows, privilege='generic'):
             config = DB_Config()
             db = MongoDatabase()
             db.start(host=config.db_host, port=config.db_port, name=config.db_name,clear=False)
@@ -61,7 +61,7 @@ class Database_Utils:
             # 生成用户唯一的ID
             _id      = hash_id(name)
             hash_password = hash_id(password)
-            usr_dict = {'name':name, 'password':hash_password, 'privilege':privilege, 'rows':rows}
+            usr_dict = {'name':name, 'password':hash_password, 'nickname':nickname, 'privilege':privilege, 'rows':rows}
 
             # 如果已经存在用户则抛出错误 (可以后面改) 否则添加用户字典数据
             if(db.database[Database_Utils.account_collection_name].count_documents({'_id':_id}) == 1): 

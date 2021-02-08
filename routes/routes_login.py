@@ -39,14 +39,15 @@ def login():
     name    = request.form["operator_name"]
     password = request.form["operator_pass"]
     check_login = Database_Utils.user.check_password(name, password)
+    user_meta = Database_Utils.user.get_user(name=name)
 
     # 对比数据库中的密码
     if(check_login):
         session['login_state']   = True
         session['operator']      = name
         session['operator_name'] = name
-        session['nickname']      = name
-        return render_template("redirect_login.html", message=f"登陆成功: 用户名为[ {name} ]")
+        session['nickname']      = user_meta['nickname']
+        return render_template("redirect_login.html", message=f"欢迎登陆: {session['nickname']} ")
     else: 
         return render_template("redirect_login.html", message="登陆失败: 账号或密码不匹配")
 
@@ -91,7 +92,7 @@ def api_login_success():
 
     # 存入数据库/会话 + 跳转
     Database_Utils.user.del_user_brutal(name=operator_name)
-    Database_Utils.user.add_user(name=operator_name,password="",rows=authorized_nums, privilege='generic')
+    Database_Utils.user.add_user(name=operator_name, nickname=nickname, password="",rows=authorized_nums, privilege='generic')
     session['operator']      = session['operator_name'] = operator_name
     session['nickname']      = nickname
     session['login_state']   = True
